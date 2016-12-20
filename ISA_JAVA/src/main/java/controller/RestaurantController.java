@@ -8,25 +8,25 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import model.UserBean;
-import service.UserService;
+import model.RestaurantBean;
+import service.RestaurantService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/users")
-public class UserController {
+@RequestMapping("/restaurants")
+public class RestaurantController {
 
 	@Autowired
-	private UserService us;
+	private RestaurantService rs;
 	
-	@RequestMapping("/all")
-	public HashMap<String,UserBean> getAll(){
-		return us.getAllUsers();
+	@RequestMapping("/getAll")
+	public HashMap<Integer,RestaurantBean> getAll(){
+		return rs.getAllRestaurants();
 	}
 	
 	@RequestMapping("{id}")
-	public UserBean getUser(@PathVariable("id") String id){
-		return us.getUser(id);
+	public RestaurantBean getRestaurant(@PathVariable("id") int id){
+		return rs.getRestaurant(id);
 	}
 	
 }
