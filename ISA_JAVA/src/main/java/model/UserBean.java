@@ -1,12 +1,38 @@
 package model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class UserBean {
 	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	@Id
+	@Column(nullable = false)
+	private int id;
+	
+	@Column(nullable = true)
 	private String firstName;
+	
+	@Column(nullable = true)
 	private String lastName;
-	private String username;	//pk
+	
+	@Column(nullable = true)
+	private String username;
+	
+	@Column(nullable = true)
 	private String password;
+	
+	@Column(nullable = true)
 	private String email;
+	
+	@Column(nullable = true)
 	private String profilePicture;	//putanja do...
 	
 	public String getFirstName() {
