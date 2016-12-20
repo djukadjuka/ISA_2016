@@ -14,10 +14,15 @@ public class UserService {
 	public UserService(){
 		for(int i=0;	i<10;	i++){
 			UserBean u = new UserBean();
-			u.setEmail("user_"+i+"@gmail.com");
-			u.setPassword("password"+i);
+			
+			u.setEmail("email"+i+"@gmail.com");
+			u.setFirstName("First"+i);
+			u.setLastName("Last"+i);
+			u.setPassword("pass"+i);
+			u.setProfilePicture("NA");
 			u.setUsername("user"+i);
-			users.put(u.getID(), u);
+			
+			users.put(u.getUsername(), u);
 		}
 	}
 	

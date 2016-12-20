@@ -2,15 +2,24 @@ package model;
 
 public class UserBean {
 	
-	private String email;
-	private String username;	//PK
+	private String firstName;
+	private String lastName;
+	private String username;	//pk
 	private String password;
+	private String email;
+	private String profilePicture;	//putanja do...
 	
-	public String getEmail() {
-		return email;
+	public String getFirstName() {
+		return firstName;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 	public String getUsername() {
 		return username;
@@ -24,11 +33,17 @@ public class UserBean {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getID(){
-		return this.username;
+	public String getEmail() {
+		return email;
 	}
-	public void setID(String username){
-		this.username = username;
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getProfilePicture() {
+		return profilePicture;
+	}
+	public void setProfilePicture(String profilePicture) {
+		this.profilePicture = profilePicture;
 	}
 	
 }
