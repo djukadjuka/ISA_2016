@@ -1,4 +1,4 @@
-DROP TABLE `users`;
+
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,

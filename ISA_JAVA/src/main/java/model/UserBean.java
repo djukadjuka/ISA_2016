@@ -2,13 +2,14 @@ package model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
+
+import org.springframework.data.annotation.Id;
 
 @Entity
 public class UserBean {
 	
 	public int getId() {
-		return id;
+		return id;	
 	}
 	public void setId(int id) {
 		this.id = id;
