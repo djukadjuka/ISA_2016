@@ -1,5 +1,6 @@
 package com.example.domain;
 
+import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -11,7 +12,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 @Entity
-public class RestaurantBean {
+public class RestaurantBean implements Serializable{
 
 	@Id
 	@GeneratedValue

@@ -87,5 +87,17 @@ public class UserBean {
 		this.profilePicture = profilePicture;
 	}
 	
+	protected UserBean(){
+		
+	}
 	
+	public UserBean(long id){
+		super();
+		this.id = id;
+	}
+	
+	public UserBean(String username){
+		super();
+		this.username = username;
+	}
 }

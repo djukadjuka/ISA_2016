@@ -28,6 +28,5 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Hibernate"/>
-	<classpathentry kind="lib" path="C:/Users/Stevan/Downloads/javax.persistence.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
