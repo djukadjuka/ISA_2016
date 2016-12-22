@@ -16,12 +16,14 @@ export class ViewRestaurantsService {
             .map(res => res.json());
     }
 
-  updateRestaurant2(data){
-      return this._http.put(this._baseURL+"/updateRestaurant",JSON.stringify(data))
-      .map(res=>res.json());
+  updateRestaurant(data){
+      var headers = new Headers({'Content-Type':'application/json'});
+      var options = new RequestOptions({headers:headers});
+      return this._http.put(this._baseURL+"/updateRestaurant",JSON.stringify(data),options)
+      .map(res=>res.json().data);
   }
 
-  updateRestaurant(data){
+  updateRestaurant2(data){
       var headers = new Headers(), authtoken = localStorage.getItem('authtoken');
       headers.append("Content-Type",'application/json');
 
@@ -30,10 +32,10 @@ export class ViewRestaurantsService {
       }
       headers.append("Accept",'application/json');
       var requestOptions = new RequestOptions({
-          method: RequestMethod.Post,
+          method: RequestMethod.Put,
           url:this._baseURL + "/updateRestaurant/",
           headers: headers,
-          body: data
+          body: JSON.stringify(data)
       })
 
       return this._http.request(new Request(requestOptions))

@@ -19,6 +19,7 @@ export class ViewRestaurantsComponent{
       viewRestaurantsService.getRestaurants().subscribe(
         res =>{
           this.restaurants = res;
+          //this.restaurants = res;
           console.log(this.restaurants);
         }
       );
@@ -37,12 +38,18 @@ export class ViewRestaurantsComponent{
 
    saveChanges(event,name,type,id){
      event.preventDefault();
-     var data = {name:name, type:type,id:id};
-     console.log(data);
-     this.viewRestaurantsService.updateRestaurant2(data).subscribe(
-       res=>{
-         console.log(res);
+     var data = {id:parseInt(id),name:name, type:type};
+     
+     for(var i = 0;  i < this.restaurants.length;  i++){
+       if(this.restaurants[i].id == data["id"]){
+         this.restaurants[i] = data;
+         console.log("Found same.");
+         break;
        }
+     }
+     console.log(this.restaurants);
+     this.viewRestaurantsService.updateRestaurant(data).subscribe(
+       res=>{}
      )
    }
 
