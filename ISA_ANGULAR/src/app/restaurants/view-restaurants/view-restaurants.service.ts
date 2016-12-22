@@ -23,27 +23,6 @@ export class ViewRestaurantsService {
       .map(res=>res.json().data);
   }
 
-  updateRestaurant2(data){
-      var headers = new Headers(), authtoken = localStorage.getItem('authtoken');
-      headers.append("Content-Type",'application/json');
-
-      if(authtoken){
-          headers.append("Authorization",'Token '+authtoken);
-      }
-      headers.append("Accept",'application/json');
-      var requestOptions = new RequestOptions({
-          method: RequestMethod.Put,
-          url:this._baseURL + "/updateRestaurant/",
-          headers: headers,
-          body: JSON.stringify(data)
-      })
-
-      return this._http.request(new Request(requestOptions))
-      .map((res: Response)=>{
-          if(res){
-              return {status: res.status, json: res.json()}
-          }
-      })
-  }
+  
 
 }
