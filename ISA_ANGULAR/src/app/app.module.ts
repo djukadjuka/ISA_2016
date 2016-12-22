@@ -14,11 +14,13 @@ import { TestComponent } from './test/test.component';
 
 //Service imports
 
+import {ViewRestaurantsService} from './restaurants/view-restaurants/view-restaurants.service';
 import { TestService } from './test/test.service';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { HomeComponent } from './home/home.component';
-import { EditUserComponent } from './edit-user/edit-user.component'
+import { EditUserComponent } from './edit-user/edit-user.component';
+import { ViewRestaurantsComponent } from './restaurants/view-restaurants/view-restaurants.component'
 
 @NgModule({
   declarations: [
@@ -27,7 +29,8 @@ import { EditUserComponent } from './edit-user/edit-user.component'
     NotFoundComponent,
     NavbarComponent,
     HomeComponent,
-    EditUserComponent
+    EditUserComponent,
+    ViewRestaurantsComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +40,8 @@ import { EditUserComponent } from './edit-user/edit-user.component'
     routing
   ],
   providers: [
-    TestService
+    TestService,
+    ViewRestaurantsService
   ],
   bootstrap: [AppComponent]
 })
