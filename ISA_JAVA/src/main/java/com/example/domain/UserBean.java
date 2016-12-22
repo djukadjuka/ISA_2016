@@ -18,7 +18,7 @@ public class UserBean implements Serializable{
 
 	@Id
 	@GeneratedValue
-	private long id;
+	private Long id;
 	
 	@Column(nullable = false)
 	private String firstName;
@@ -38,11 +38,11 @@ public class UserBean implements Serializable{
 	@Column(nullable = false)
 	private String profilePicture;
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
