@@ -6,7 +6,7 @@ import {NgForm} from '@angular/forms';
   templateUrl: './view-restaurants.component.html',
   styleUrls: ['./view-restaurants.component.css']
 })
-export class ViewRestaurantsComponent{
+export class ViewRestaurantsComponent implements OnInit{
 
   restaurants;
   showEdit = false;
@@ -16,15 +16,17 @@ export class ViewRestaurantsComponent{
 
 
   constructor(private viewRestaurantsService : ViewRestaurantsService) {
-      viewRestaurantsService.getRestaurants().subscribe(
+      
+   }
+
+   ngOnInit(){
+     this.viewRestaurantsService.getRestaurants().subscribe(
         res =>{
           this.restaurants = res;
-          //this.restaurants = res;
           console.log(this.restaurants);
         }
       );
    }
-
 
    changeRestaurantProfile(event,restaurant){
      event.preventDefault();
@@ -33,7 +35,7 @@ export class ViewRestaurantsComponent{
      this.selectedName = restaurant.name;
      this.selectedType = restaurant.type;
 
-     this.showEdit = true;
+     this.showEdit = !this.showEdit;
    }
 
    saveChanges(event,name,type,id){
@@ -51,6 +53,8 @@ export class ViewRestaurantsComponent{
      this.viewRestaurantsService.updateRestaurant(data).subscribe(
        res=>{}
      )
+
+     this.showEdit = !this.showEdit;
    }
 
 }
