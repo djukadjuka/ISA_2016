@@ -1,9 +1,16 @@
 package com.example.domain;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class ProductBean {
@@ -20,6 +27,12 @@ public class ProductBean {
 	
 	@Column(nullable = false)
 	private String name;
+	
+	@ManyToMany(mappedBy = "foodMenu")
+	private Set<RestaurantBean> restaurantsFood;
+	
+	@ManyToMany(mappedBy = "drinksMenu")
+	private Set<RestaurantBean> restaurantsDrinks;
 	
 	public long getId() {
 		return id;

@@ -49,6 +49,13 @@ public class RestaurantController {
 		return new ResponseEntity<ArrayList<RestaurantBean>>(allRestaurants,HttpStatus.OK);
 	}
 	
+	/*
+	 * 	Hibernate: update restaurant_bean set name=?, type=? where id=?
+	 *	Hibernate: delete from isa_database.restaurant_bean_drinks_menu where rest_id=?
+	 *	Hibernate: delete from isa_database.restaurant_bean_food_menu where rest_id=?
+	 * 
+	 */
+	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(
 			value = "/updateRestaurant",

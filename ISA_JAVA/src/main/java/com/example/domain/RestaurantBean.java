@@ -3,11 +3,14 @@ package com.example.domain;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
@@ -32,10 +35,28 @@ public class RestaurantBean implements Serializable{
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
 	private Set<ReviewBean> reviews;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(	name = "restaurant_bean_food_menu",
+				catalog = "isa_database",
+				joinColumns = {
+						@JoinColumn(name = "rest_id", nullable = false, updatable = false)
+				},
+				inverseJoinColumns = {
+						@JoinColumn(name = "food_id", nullable = false, updatable = false)
+				}
+			)
 	private Set<ProductBean> foodMenu;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(	name = "restaurant_bean_drinks_menu",
+				catalog = "isa_database",
+				joinColumns = {
+						@JoinColumn(name = "rest_id", nullable = false, updatable = false)
+				},
+				inverseJoinColumns = {
+						@JoinColumn(name = "drink_id", nullable = false, updatable = false)
+				}
+			)
 	private Set<ProductBean> drinksMenu;
 	
 	public Long getId() {
