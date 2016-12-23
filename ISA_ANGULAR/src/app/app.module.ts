@@ -15,7 +15,10 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { HomeComponent } from './home/home.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
-import { ViewRestaurantsComponent } from './restaurants/view-restaurants/view-restaurants.component'
+import { ViewRestaurantsComponent } from './restaurants/view-restaurants/view-restaurants.component';
+import { EditChefComponent } from './edit-chef/edit-chef.component';
+import { EditBarmanComponent} from './edit-barman/edit-barman.component';
+import { EditWaiterComponent} from './edit-waiter/edit-waiter.component';
 
 //Service imports
 
@@ -30,7 +33,10 @@ import { EditUserService } from './edit-user/edit-user.service'
     NotFoundComponent,
     NavbarComponent,
     HomeComponent,
+    EditChefComponent,
+    EditBarmanComponent,
     EditUserComponent,
+    EditWaiterComponent,
     ViewRestaurantsComponent
   ],
   imports: [
