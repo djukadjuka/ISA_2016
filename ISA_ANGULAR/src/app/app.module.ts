@@ -24,7 +24,9 @@ import { EditWaiterComponent} from './edit-waiter/edit-waiter.component';
 
 import {ViewRestaurantsService} from './restaurants/view-restaurants/view-restaurants.service';
 import { TestService } from './test/test.service';
-import { EditUserService } from './edit-user/edit-user.service'
+import { EditUserService } from './edit-user/edit-user.service';
+import { EditUserHelpService } from './edit-barman/edit-userhelp.service';
+  
 
 @NgModule({
   declarations: [
@@ -50,7 +52,8 @@ import { EditUserService } from './edit-user/edit-user.service'
   providers: [
     TestService,
     ViewRestaurantsService,
-    EditUserService
+    EditUserService,
+    EditUserHelpService
   ],
   bootstrap: [AppComponent]
 })
