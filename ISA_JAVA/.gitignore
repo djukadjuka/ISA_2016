@@ -1,1 +1,5 @@
 /target/
+
+#Ako neko opet gurne ovo i moram da postavljam sifru za bazu
+#ubicu ga! MENJAJ SVOJ I TO JE TO
+/src/main.resources/application.properties
