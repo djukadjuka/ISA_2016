@@ -27,18 +27,14 @@ public class RestaurantServiceBean implements RestaurantService{
 
 	@Override
 	public RestaurantBean create(RestaurantBean restaurant) {
-		if(restaurant.getId() != null){
-			//ne moze da sacuva sa postojecim id
-			//mora automatski da se generise
-			return null;
-		}
+		
 		RestaurantBean r = repository.save(restaurant);
 		return r;
 	}
 
 	@Override
 	public RestaurantBean update(RestaurantBean restaurant) {
-		RestaurantBean existing = repository.getOne(restaurant.getId());
+		RestaurantBean existing = repository.getOne((long) restaurant.getId());
 		if(existing == null){
 			//ne postoji taj koji zelis da updateujes
 			return null;

@@ -6,8 +6,10 @@ import javax.persistence.Id;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="Barman_Schedule")
 public class BarmanScheduleBean {
 	
 	@Id

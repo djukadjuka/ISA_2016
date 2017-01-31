@@ -16,12 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.domain.RestaurantBean;
 import com.example.service.RestaurantService;
+import com.example.service.RestaurantServiceBean;
 
 @RestController
 public class RestaurantController {
 
 	@Autowired
-	private RestaurantService restaurantService;
+	private RestaurantService restaurantService = new RestaurantServiceBean();
 	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(
@@ -65,14 +66,18 @@ public class RestaurantController {
 			)
 	@ResponseBody
 	public ResponseEntity<RestaurantBean> updateRestaurant(@RequestBody RestaurantBean restaurant){
-		
-		RestaurantBean r = restaurantService.findOne(restaurant.getId());
+		System.out.println(restaurant);
+		RestaurantBean r = restaurantService.findOne((long) restaurant.getId());
+		System.out.println(r);
 		if(r == null){
 			return new ResponseEntity<RestaurantBean>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		restaurantService.update(restaurant);
+		r.setName(restaurant.getName());
+		r.setType(restaurant.getType());
+		restaurantService.update(r);
 		
-		return new ResponseEntity<RestaurantBean>(restaurant,HttpStatus.OK);
+		
+		return new ResponseEntity<RestaurantBean>(r,HttpStatus.OK);
 	}
 	
 	

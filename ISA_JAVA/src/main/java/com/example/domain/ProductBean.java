@@ -2,17 +2,15 @@ package com.example.domain;
 
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="Product")
 public class ProductBean {
 
 	@Id
@@ -33,6 +31,20 @@ public class ProductBean {
 	
 	@ManyToMany(mappedBy = "drinksMenu")
 	private Set<RestaurantBean> restaurantsDrinks;
+	
+	@Override
+	public boolean equals(Object obj) {
+		ProductBean prod = (ProductBean)obj;
+		if(this.id == prod.getId())
+			return true;
+		else
+			return false;
+	};
+	
+	@Override
+	public int hashCode() {
+		return (int) this.id;
+	};
 	
 	public long getId() {
 		return id;
