@@ -5,7 +5,7 @@ import { DebugElement } from '@angular/core';
 
 import { EditBarmanComponent } from './edit-barman.component';
 
-describe('EditUserComponent', () => {
+describe('EditBarmanComponent', () => {
   let component: EditBarmanComponent;
   let fixture: ComponentFixture<EditBarmanComponent>;
 
