@@ -20,6 +20,10 @@ import { EditChefComponent } from './edit-chef/edit-chef.component';
 import { EditBarmanComponent} from './edit-barman/edit-barman.component';
 import { EditWaiterComponent} from './edit-waiter/edit-waiter.component';
 
+//PrimeNG imports
+
+import {CalendarModule} from 'primeng/primeng';
+
 //Service imports
 
 import {ViewRestaurantsService} from './restaurants/view-restaurants/view-restaurants.service';
@@ -47,6 +51,7 @@ import { EditUserHelpService } from './edit-barman/edit-userhelp.service';
     HttpModule,
     RouterModule,
     ReactiveFormsModule,
+    CalendarModule,
     routing
   ],
   providers: [

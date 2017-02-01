@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {CalendarModule} from 'primeng/primeng';
 
 @Component({
   selector: 'app-not-found',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./not-found.component.css']
 })
 export class NotFoundComponent implements OnInit {
+
+  value: Date;
 
   constructor() { }
 
