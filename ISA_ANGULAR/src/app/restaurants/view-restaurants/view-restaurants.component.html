@@ -1,4 +1,5 @@
-<ul>
+<!--
+    <ul>
     <ul class="thumbnails" *ngFor="let restaurant of restaurants; let i = index">
             <div class="col-sm-6 col-md-4">
                 <img src="http://lorempixel.com/150/150/food" alt="image_not_found">
@@ -11,7 +12,6 @@
                 </div>
             </div>
     </ul>
-<!--*ngIf="showEdit"-->
     <div [hidden]="!showEdit">
         <br/>
         <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
@@ -46,3 +46,43 @@
         </div>
     </div>
 </ul>
+-->
+<p-dataGrid [value]="restaurants" [paginator]="true" [rows]="5">
+    <header>
+        List of Restaurants
+    </header>
+    <template let-restaurant pTemplate="item">
+        <div style="padding:3px" class="ui-g-12 ui-md-3">
+            <p-panel [header]="restaurant.name" [style]="{'text-align':'center'}">
+                <img src="http://lorempixel.com/150/150/food">
+                <div class="restaurant-detail">{{restaurant.type}} - {{restaurant.id}}</div>
+                <hr class="ui-widget-content" style="border-top:0">
+                <!--<i class="fa fa-search" (click)="selectCar(car)" style="cursor:pointer"></i>-->
+            </p-panel>
+        </div>
+    </template>
+</p-dataGrid>
+<!--[paginator]="true" 
+<p-dialog header="Car Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" width="225" (onAfterHide)="onDialogHide()">
+    <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="selectedCar" style="font-size:16px;text-align:center;padding:20px">
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-12" style="text-align:center"><img src="showcase/resources/demo/images/car/{{selectedCar.brand}}-big.gif"></div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4">Vin: </div>
+            <div class="ui-grid-col-8">{{selectedCar.vin}}</div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4">Year: </div>
+            <div class="ui-grid-col-8">{{selectedCar.year}}</div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4">Brand: </div>
+            <div class="ui-grid-col-8">{{selectedCar.brand}}</div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4">Color: </div>
+            <div class="ui-grid-col-8">{{selectedCar.color}}</div>
+        </div>
+    </div>
+</p-dialog>-->

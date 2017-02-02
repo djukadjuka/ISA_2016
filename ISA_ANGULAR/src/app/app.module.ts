@@ -23,6 +23,10 @@ import { EditWaiterComponent} from './edit-waiter/edit-waiter.component';
 //PrimeNG imports
 
 import {CalendarModule} from 'primeng/primeng';
+import {DataGridModule} from 'primeng/primeng';
+import {PanelModule} from 'primeng/primeng';
+import {Header} from 'primeng/primeng';
+import {Footer} from 'primeng/primeng';
 
 //Service imports
 
@@ -52,6 +56,8 @@ import { EditUserHelpService } from './edit-barman/edit-userhelp.service';
     RouterModule,
     ReactiveFormsModule,
     CalendarModule,
+    DataGridModule,
+    PanelModule,
     routing
   ],
   providers: [

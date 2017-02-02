@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {ViewRestaurantsService} from './view-restaurants.service';
 import {NgForm} from '@angular/forms';
+import {Restaurant} from '../view-restaurants/restaurant-interface';
+
+
 @Component({
   selector: 'app-view-restaurants',
   templateUrl: './view-restaurants.component.html',
@@ -8,12 +11,11 @@ import {NgForm} from '@angular/forms';
 })
 export class ViewRestaurantsComponent implements OnInit{
 
-  restaurants;
+  restaurants : Restaurant[] ;
   showEdit = false;
   selectedName = "";
   selectedType = "";
   selectedId = 0;
-
 
   constructor(private viewRestaurantsService : ViewRestaurantsService) {
       
