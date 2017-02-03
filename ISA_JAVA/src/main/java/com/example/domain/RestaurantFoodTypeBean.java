@@ -11,8 +11,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="restaurant_type")
-public class RestaurantTypeBean {
+@Table(name="restaurant_food_type")
+public class RestaurantFoodTypeBean {
 
 	@Id
 	@GeneratedValue
@@ -21,7 +21,7 @@ public class RestaurantTypeBean {
 	@Column(nullable = false)
 	private String name;
 	
-	@ManyToMany(mappedBy = "restaurantTypes")
+	@ManyToMany(mappedBy = "restaurantFoodTypes")
 	private Set<RestaurantBean> restaurantsOfThisType = new HashSet<RestaurantBean>();
 
 	@Override
@@ -34,10 +34,10 @@ public class RestaurantTypeBean {
 	
 	@Override
 	public boolean equals(Object obj){
-		if(!(obj instanceof RestaurantTypeBean))
+		if(!(obj instanceof RestaurantFoodTypeBean))
 			return false;
 		
-		RestaurantTypeBean type = (RestaurantTypeBean) obj;
+		RestaurantFoodTypeBean type = (RestaurantFoodTypeBean) obj;
 		if(type.getId() == this.getId())
 			return true;
 		return false;
