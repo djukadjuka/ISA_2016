@@ -1,6 +1,8 @@
+--========================================
+--USERS
 --insert into user(id, email, first_name, last_name, password, profile_picture, username) 
 --values (, '', '', '', '', '', '');
-
+--========================================
 insert into user(id, email, first_name, last_name, password, profile_picture, username)
 values (1, 'john.doe@gmail.com', 'John', 'Doe', 'test', 'NA', 'test1');
 
@@ -43,9 +45,12 @@ values (13, 'nukes_shitao@cc_zero_hour.com', 'Shi', 'Tao', 'test', 'NA', 'test13
 insert into user(id, email, first_name, last_name, password, profile_picture, username) 
 values (14, 'tanks_rock@cc_zero_hour.com', 'Gen', 'Kwai', 'test', 'NA', 'test14');
 
+--=============================================
+--RESTAURANTS
+
 --insert into restaurant(id, name, type) 
 --values (, '', '');
-
+--=============================================
 insert into restaurant(id, name, type) 
 values (1, 'Burger King', 'Fast Food');
 
@@ -124,8 +129,45 @@ values (25, 'Crown & Anchor', 'Sports Bar');
 insert into restaurant(id, name, type) 
 values (26, 'Lagasses Stadium', 'Sports Bar');
 
+--=========================================================
+--FOOD TYPES
+--insert into restaurant_food_type(id, name)
+--values(, '');
+--=========================================================
+insert into restaurant_food_type(id, name)
+values(1, 'Serbian');
+insert into restaurant_food_type(id, name)
+values(2, 'Spanish');
+insert into restaurant_food_type(id, name)
+values(3, 'Mexian');
+insert into restaurant_food_type(id, name)
+values(4, 'Jamaican');
+insert into restaurant_food_type(id, name)
+values(5, 'Italian');
+insert into restaurant_food_type(id, name)
+values(6, 'Chinese');
+insert into restaurant_food_type(id, name)
+values(7, 'Japanese');
+insert into restaurant_food_type(id, name)
+values(8, 'Indian');
+insert into restaurant_food_type(id, name)
+values(9, 'US');
+insert into restaurant_food_type(id, name)
+values(10, 'British');
+insert into restaurant_food_type(id, name)
+values(11, 'Vietnamese');
+insert into restaurant_food_type(id, name)
+values(12, 'All Seafood');
+insert into restaurant_food_type(id, name)
+values(13, 'All Oriental');
+
+--=========================================================
+--PRODUCTS
+--FOOD FROM 10001 TO 50000
+--DRINKS FROM 50001
 --insert into product(id, description, name, price)
 --values (, '', '', );
+--=========================================================
 insert into product(id, description, name, price)
 values (100001, 'Capricciosa, Italy', 'Most popular, standard pizza.', 5);
 
@@ -148,7 +190,7 @@ insert into product(id, description, name, price)
 values (100007, 'Tacos, Mexico', 'A fresh, handmade tortilla stuffed with small chunks of grilled beef.', 3);
 
 insert into product(id, description, name, price)
-values (100008, ' Buttered toast with Marmite, Britain', 'Marmelade and toast soaked in butter.', 4);
+values (100008, 'Buttered toast with Marmite, Britain', 'Marmelade and toast soaked in butter.', 4);
 
 insert into product(id, description, name, price)
 values (100009, 'Marzipan, Germany', 'Ground almonds with sugar.', 10);
@@ -315,4 +357,130 @@ values(10, 500008);
 insert into restaurant_drinks_menu(rest_id, drink_id)
 values(10, 500009);
 
---insert into restaurant_food_menu(rest_id,food_id) values (, );
+--=================================================
+--RESTAURANT FOOD MENU
+--insert into restaurant_food_menu(rest_id,food_id)
+--values (, );
+--=================================================
+
+--TWIN PEAKS FOOD - SPORTS BAR
+insert into restaurant_food_menu(rest_id,food_id)
+values (22, 100001);
+insert into restaurant_food_menu(rest_id,food_id)
+values (22, 100002);
+insert into restaurant_food_menu(rest_id,food_id)
+values (22, 100010);
+insert into restaurant_food_menu(rest_id,food_id)
+values (22, 100023);
+insert into restaurant_food_menu(rest_id,food_id)
+values (22, 100018);
+insert into restaurant_food_menu(rest_id,food_id)
+values (22, 100008);
+
+--HORSESHOE CAFE FOOD - DINER
+insert into restaurant_food_menu(rest_id,food_id)
+values (15, 100001);
+insert into restaurant_food_menu(rest_id,food_id)
+values (15, 100010);
+insert into restaurant_food_menu(rest_id,food_id)
+values (15, 100023);
+insert into restaurant_food_menu(rest_id,food_id)
+values (15, 100018);
+insert into restaurant_food_menu(rest_id,food_id)
+values (15, 100008);
+insert into restaurant_food_menu(rest_id,food_id)
+values (15, 100006);
+insert into restaurant_food_menu(rest_id,food_id)
+values (15, 100015);
+
+--AFARIA FOOD - BISTRO
+insert into restaurant_food_menu(rest_id,food_id)
+values (14, 100002);
+insert into restaurant_food_menu(rest_id,food_id)
+values (14, 100018);
+insert into restaurant_food_menu(rest_id,food_id)
+values (14, 100008);
+insert into restaurant_food_menu(rest_id,food_id)
+values (14, 100006);
+insert into restaurant_food_menu(rest_id,food_id)
+values (14, 100015);
+
+--BURGER KING FOOD - FAST FOOD
+insert into restaurant_food_menu(rest_id,food_id)
+values (1, 100001);
+insert into restaurant_food_menu(rest_id,food_id)
+values (1, 100002);
+insert into restaurant_food_menu(rest_id,food_id)
+values (1, 100010);
+insert into restaurant_food_menu(rest_id,food_id)
+values (1, 100023);
+insert into restaurant_food_menu(rest_id,food_id)
+values (1, 100018);
+
+--NOMA FOOD - FINE DINING
+insert into restaurant_food_menu(rest_id,food_id)
+values (10, 100001);
+insert into restaurant_food_menu(rest_id,food_id)
+values (10, 100002);
+insert into restaurant_food_menu(rest_id,food_id)
+values (10, 100018);
+insert into restaurant_food_menu(rest_id,food_id)
+values (10, 100008);
+insert into restaurant_food_menu(rest_id,food_id)
+values (10, 100006);
+
+--==============================================
+--RESTAURANT SERVES FOOD TYPES
+--insert into restaurant_serves_types(rest_id,type_id)
+--values(,);
+--==============================================
+
+--TWIN PEAKS FOOD TYPES - SPORTS BAR
+insert into restaurant_serves_types(rest_id,type_id)
+values (22, 5);
+insert into restaurant_serves_types(rest_id,type_id)
+values (22, 6);
+insert into restaurant_serves_types(rest_id,type_id)
+values (22, 9);
+insert into restaurant_serves_types(rest_id,type_id)
+values (22, 10);
+
+--HORSESHOE CAFE FOOD TYPES - DINER
+insert into restaurant_serves_types(rest_id,type_id)
+values (15, 5);
+insert into restaurant_serves_types(rest_id,type_id)
+values (15, 6);
+insert into restaurant_serves_types(rest_id,type_id)
+values (15, 9);
+insert into restaurant_serves_types(rest_id,type_id)
+values (15, 10);
+
+--AFARIA FOOD TYPES- BISTRO
+insert into restaurant_serves_types(rest_id,type_id)
+values (14, 5);
+insert into restaurant_serves_types(rest_id,type_id)
+values (14, 6);
+insert into restaurant_serves_types(rest_id,type_id)
+values (14, 9);
+insert into restaurant_serves_types(rest_id,type_id)
+values (14, 10);
+
+--BURGER KING FOOD TYPES - FAST FOOD
+insert into restaurant_serves_types(rest_id,type_id)
+values (1, 5);
+insert into restaurant_serves_types(rest_id,type_id)
+values (1, 6);
+insert into restaurant_serves_types(rest_id,type_id)
+values (1, 3);
+
+--NOMA FOOD TYPES- FINE DINING
+insert into restaurant_serves_types(rest_id,type_id)
+values (10, 5);
+insert into restaurant_serves_types(rest_id,type_id)
+values (10, 6);
+insert into restaurant_serves_types(rest_id,type_id)
+values (10, 9);
+insert into restaurant_serves_types(rest_id,type_id)
+values (10, 3);
+insert into restaurant_serves_types(rest_id,type_id)
+values (10, 10);
