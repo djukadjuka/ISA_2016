@@ -27,6 +27,10 @@ import {DataGridModule} from 'primeng/primeng';
 import {PanelModule} from 'primeng/primeng';
 import {Header} from 'primeng/primeng';
 import {Footer} from 'primeng/primeng';
+import {ToolbarModule} from 'primeng/primeng';
+import {ButtonModule} from 'primeng/primeng';
+import {InputTextModule} from 'primeng/primeng';
+import {SelectButtonModule} from 'primeng/primeng';
 
 //Service imports
 
@@ -58,6 +62,10 @@ import { EditUserHelpService } from './edit-barman/edit-userhelp.service';
     CalendarModule,
     DataGridModule,
     PanelModule,
+    ToolbarModule,
+    ButtonModule,
+    InputTextModule,
+    SelectButtonModule,
     routing
   ],
   providers: [
