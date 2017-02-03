@@ -47,7 +47,7 @@
     </div>
 </ul>
 -->
-<p-dataGrid [value]="restaurants" [paginator]="true" [rows]="5">
+<p-dataGrid [value]="restaurants" [paginator]="true" [rows]="8">
     <header>
         List of Restaurants
     </header>
@@ -55,9 +55,9 @@
         <div style="padding:3px" class="ui-g-12 ui-md-3">
             <p-panel [header]="restaurant.name" [style]="{'text-align':'center'}">
                 <img src="http://lorempixel.com/150/150/food">
-                <div class="restaurant-detail">{{restaurant.type}} - {{restaurant.id}}</div>
+                <div class="restaurant-detail">Restaurant Type : {{restaurant.type}}</div>
                 <hr class="ui-widget-content" style="border-top:0">
-                <!--<i class="fa fa-search" (click)="selectCar(car)" style="cursor:pointer"></i>-->
+                <i class="fa fa-search" style="cursor:pointer"></i>
             </p-panel>
         </div>
     </template>
