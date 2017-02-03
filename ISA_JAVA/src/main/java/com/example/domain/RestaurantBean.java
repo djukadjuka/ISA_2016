@@ -39,6 +39,17 @@ public class RestaurantBean implements Serializable{
 	private Set<ReviewBean> reviews = new HashSet<ReviewBean>();
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@JoinTable( name="restaurant_is_types",
+				catalog = "isa_database",
+				joinColumns=
+						@JoinColumn(name = "rest_id", nullable = false, updatable = false)
+				,
+				inverseJoinColumns = 
+						@JoinColumn(name = "type_id", nullable = false, updatable = false)
+				)
+	private Set<RestaurantTypeBean> restaurantTypes = new HashSet<RestaurantTypeBean>();
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinTable(	name = "restaurant_food_menu",
 				catalog = "isa_database",
 				joinColumns = 
