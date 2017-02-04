@@ -27,6 +27,9 @@ import {DataGridModule} from 'primeng/primeng';
 import {PanelModule} from 'primeng/primeng';
 import {Header} from 'primeng/primeng';
 import {Footer} from 'primeng/primeng';
+import {TabViewModule} from 'primeng/primeng';
+import {DialogModule} from 'primeng/primeng';
+import {PasswordModule} from 'primeng/primeng';
 
 //Service imports
 
@@ -58,6 +61,9 @@ import { EditUserHelpService } from './edit-barman/edit-userhelp.service';
     CalendarModule,
     DataGridModule,
     PanelModule,
+    TabViewModule,
+    DialogModule,
+    PasswordModule,
     routing
   ],
   providers: [

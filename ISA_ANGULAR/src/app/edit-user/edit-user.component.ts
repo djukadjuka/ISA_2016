@@ -7,13 +7,16 @@ import { EditUserService } from './edit-user.service';
   templateUrl: './edit-user.component.html',
   styleUrls: ['./edit-user.component.css']
 })
-export class EditUserComponent implements OnInit, OnChanges {
+export class EditUserComponent implements OnInit {
 
   private form: FormGroup;
   private title = "";
-  private isEdit = false;
   private user = {};
   private userUpdate = {};
+
+  //modal dialog for editing profile
+  private displayEditProfile: boolean = false;
+
 
   constructor(
     private _editUserService : EditUserService,
@@ -39,23 +42,10 @@ export class EditUserComponent implements OnInit, OnChanges {
     console.log(this.form);
   }
 
-  ngOnChanges()
+  fillForm()
   {
-    alert("changes");
-       if(this.isEdit)
-          this.title = "Edit Profile";
-       else
-          this.title = "";
-  }
-
-  fillForm(event)
-  {
-      this.isEdit = true;
+      this.displayEditProfile = true;
       //this.userUpdate = this.user;
-      //kako kopirati objekte u js a ne dodeliti referencu ?????
-      //event.class = "active";
-      //event.srcElement.setAttribute("class", "active");
-
       this._editUserService.getUserById(1)
                          .subscribe(
                            res => this.userUpdate = res
@@ -69,15 +59,14 @@ export class EditUserComponent implements OnInit, OnChanges {
                                 res => 
                                   {
                                     alert("update");
-                                    this.isEdit = false;
+                                    this.displayEditProfile = false;
                                     this.user = this.userUpdate;
                                   }
                             );             
   }
 
-  editProfile()
-  {
-      this.isEdit = true;
-  }
-
+  showEditProfileDialog() {
+        this.fillForm();
+        this.displayEditProfile = true;
+    }
 }
