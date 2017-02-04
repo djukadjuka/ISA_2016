@@ -30,6 +30,10 @@ import {Footer} from 'primeng/primeng';
 import {TabViewModule} from 'primeng/primeng';
 import {DialogModule} from 'primeng/primeng';
 import {PasswordModule} from 'primeng/primeng';
+import {ToolbarModule} from 'primeng/primeng';
+import {ButtonModule} from 'primeng/primeng';
+import {InputTextModule} from 'primeng/primeng';
+import {SelectButtonModule} from 'primeng/primeng';
 
 //Service imports
 
@@ -64,6 +68,10 @@ import { EditUserHelpService } from './edit-barman/edit-userhelp.service';
     TabViewModule,
     DialogModule,
     PasswordModule,
+    ToolbarModule,
+    ButtonModule,
+    InputTextModule,
+    SelectButtonModule,
     routing
   ],
   providers: [

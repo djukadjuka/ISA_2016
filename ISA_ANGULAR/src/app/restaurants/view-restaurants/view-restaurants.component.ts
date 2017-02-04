@@ -11,33 +11,39 @@ import {Restaurant} from '../view-restaurants/restaurant-interface';
 })
 export class ViewRestaurantsComponent implements OnInit{
 
+  restaurantTypes;// String[] = ["Fine Dining","Fast Food","Bistro","Sports Bar","Diner"];
   restaurants : Restaurant[] ;
-  showEdit = false;
-  selectedName = "";
-  selectedType = "";
-  selectedId = 0;
+  editing = false;
+  editingName : String;
+  editingType : String;
+  editingId;
 
   constructor(private viewRestaurantsService : ViewRestaurantsService) {
-      
-   }
+      this.restaurantTypes = [];
+      this.restaurantTypes.push({label:'Fine Dining', value: 'Fine Dining'});
+      this.restaurantTypes.push({label:'Fast Food', value: 'Fast Food'});
+      this.restaurantTypes.push({label:'Bistro', value: 'Bistro'});
+      this.restaurantTypes.push({label:'Sports Bar', value: 'Sports Bar'});
+      this.restaurantTypes.push({label:'Diner', value: 'Diner'});
+  }
 
    ngOnInit(){
+     
      this.viewRestaurantsService.getRestaurants().subscribe(
         res =>{
+          //console.log(res);
           this.restaurants = res;
           console.log(this.restaurants);
         }
       );
    }
 
-   changeRestaurantProfile(event,restaurant){
-     event.preventDefault();
-     
-     this.selectedId = restaurant.id;
-     this.selectedName = restaurant.name;
-     this.selectedType = restaurant.type;
+   editRestaurant(restaurant){
+    this.editingName = restaurant.name;
+    this.editingType = restaurant.type;
+    this.editingId = restaurant.id;
+    this.editing = true;
 
-     this.showEdit = !this.showEdit;
    }
 
    saveChanges(event,name,type,id){
@@ -46,7 +52,7 @@ export class ViewRestaurantsComponent implements OnInit{
      
      for(var i = 0;  i < this.restaurants.length;  i++){
        if(this.restaurants[i].id == data["id"]){
-         this.restaurants[i] = data;
+         //this.restaurants[i] = data;
          console.log("Found same.");
          break;
        }
@@ -56,7 +62,6 @@ export class ViewRestaurantsComponent implements OnInit{
        res=>{}
      )
 
-     this.showEdit = !this.showEdit;
    }
 
 }

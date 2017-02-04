@@ -1,5 +1,6 @@
 package com.example.domain;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -27,10 +28,10 @@ public class ProductBean {
 	private String name;
 	
 	@ManyToMany(mappedBy = "foodMenu")
-	private Set<RestaurantBean> restaurantsFood;
+	private Set<RestaurantBean> restaurantsFood = new HashSet<RestaurantBean>();
 	
 	@ManyToMany(mappedBy = "drinksMenu")
-	private Set<RestaurantBean> restaurantsDrinks;
+	private Set<RestaurantBean> restaurantsDrinks = new HashSet<RestaurantBean>();
 	
 	@Override
 	public boolean equals(Object obj) {

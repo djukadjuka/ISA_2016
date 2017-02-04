@@ -1,53 +1,4 @@
-<!--
-    <ul>
-    <ul class="thumbnails" *ngFor="let restaurant of restaurants; let i = index">
-            <div class="col-sm-6 col-md-4">
-                <img src="http://lorempixel.com/150/150/food" alt="image_not_found">
-                <div class="caption">
-                    <h3>{{restaurant.name}}</h3>
-                    <p>{{restaurant.type}}</p>
-                    <p>
-                        <a href="#" class="btn btn-primary" role="button" (click)="changeRestaurantProfile($event,restaurant)">Edit Restaurant Profile</a>
-                    </p>
-                </div>
-            </div>
-    </ul>
-    <div [hidden]="!showEdit">
-        <br/>
-        <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
-
-            <h3>Restaurant Information</h3>
-            
-            <form class="form-horizontal">
-                <div class="form-group">
-                    <label class="col-lg-3 control-label">Restaurant Name:</label>
-                    <div class="col-lg-8">
-                    <input class="form-control" #name id="restaurantName" value="{{selectedName}}" type="text">
-                    </div>
-                </div>
-
-                <input type="hidden" #rId value="{{selectedId}}">
-
-                <div class="form-group">
-                    <label class="col-lg-3 control-label">Restaurant Type:</label>
-                    <div class="col-lg-8">
-                    <input class="form-control" #type id="restaurantType" value="{{selectedType}}" type="text">
-                    </div>
-                </div>
-            
-                <div class="form-group">
-                    <label class="col-md-3 control-label"></label>
-                    <div class="col-md-8">
-                    <input class="btn btn-primary" value="Save Changes" type="button" (click)="saveChanges($event,name.value,type.value,rId.value)">
-                    </div>
-                </div>
-            </form>
-
-        </div>
-    </div>
-</ul>
--->
-<p-dataGrid [value]="restaurants" [paginator]="true" [rows]="5">
+<p-dataGrid [value]="restaurants" [paginator]="true" [rows]="8">
     <header>
         List of Restaurants
     </header>
@@ -55,34 +6,30 @@
         <div style="padding:3px" class="ui-g-12 ui-md-3">
             <p-panel [header]="restaurant.name" [style]="{'text-align':'center'}">
                 <img src="http://lorempixel.com/150/150/food">
-                <div class="restaurant-detail">{{restaurant.type}} - {{restaurant.id}}</div>
+                <div class="restaurant-detail">Restaurant Type : {{restaurant.type}}</div>
                 <hr class="ui-widget-content" style="border-top:0">
-                <!--<i class="fa fa-search" (click)="selectCar(car)" style="cursor:pointer"></i>-->
+                <i class="fa fa-edit" (click)="editRestaurant(restaurant)" style="cursor:pointer"></i>
             </p-panel>
         </div>
     </template>
 </p-dataGrid>
-<!--[paginator]="true" 
-<p-dialog header="Car Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" width="225" (onAfterHide)="onDialogHide()">
-    <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="selectedCar" style="font-size:16px;text-align:center;padding:20px">
-        <div class="ui-grid-row">
-            <div class="ui-grid-col-12" style="text-align:center"><img src="showcase/resources/demo/images/car/{{selectedCar.brand}}-big.gif"></div>
-        </div>
-        <div class="ui-grid-row">
-            <div class="ui-grid-col-4">Vin: </div>
-            <div class="ui-grid-col-8">{{selectedCar.vin}}</div>
-        </div>
-        <div class="ui-grid-row">
-            <div class="ui-grid-col-4">Year: </div>
-            <div class="ui-grid-col-8">{{selectedCar.year}}</div>
-        </div>
-        <div class="ui-grid-row">
-            <div class="ui-grid-col-4">Brand: </div>
-            <div class="ui-grid-col-8">{{selectedCar.brand}}</div>
-        </div>
-        <div class="ui-grid-row">
-            <div class="ui-grid-col-4">Color: </div>
-            <div class="ui-grid-col-8">{{selectedCar.color}}</div>
-        </div>
-    </div>
-</p-dialog>-->
+
+<div [hidden]="!editing">
+    <br/>
+    <p-panel header="RESTAURANT EDITING" [toggleable]="false">
+        <p-toolbar>
+            <div class="ui-toolbar-group-left">
+                <button pButton type="button" label="Save Changes" icon="fa-check"></button>
+            </div>
+            <div class="ui-toolbar-group-right">
+                <button pButton type="button" label="Quit Editing" icon="fa-close"></button>
+            </div>
+        </p-toolbar>
+
+        Restaurant Name : <input type="text" pInputText [(ngModel)]="editingName"/>
+        {{editingName}}<br/>
+        Restaurant Type : <p-selectButton [options]="restaurantTypes" [(ngModel)]="editingType"></p-selectButton>
+        {{editingType}}
+        <br/>
+    </p-panel>
+</div>
