@@ -14,6 +14,43 @@
     </template>
 </p-dataGrid>
 
+<!--Dialog to display information about the curent restaurant you are editing-->
+<p-dialog header="{{editingDialogHeader}}" [(visible)]="editing" modal="modal" responsive="true">
+    
+    <!--HEADER toolbar with save and close buttons-->
+    <p-toolbar>
+        <!--Save button-->
+        <div class="ui-toolbar-group-left">
+            <button pButton type="button" label="Save Changes" icon="fa-check"></button>
+        </div>
+        <!--Cance Button-->
+        <div class="ui-toolbar-group-right">
+            <button pButton type="button" label="Quit Editing" icon="fa-close"></button>
+        </div>
+    </p-toolbar>
+
+    <!--CONTENT -->
+    Restaurant Name : <input type="text" pInputText [(ngModel)]="editingRestaurant.name"/><br/>
+    Edited name : {{editingRestaurant?.name}}<br/>
+    Restaurant Type : <p-selectButton [options]="restaurantTypes" [(ngModel)]="editingRestaurant.type"></p-selectButton><br/>
+    Edited type : {{editingRestaurant?.type}}
+
+
+    <!--FOOTER toolbar with save and close buttons - if it's too much of a hassle to scroll up
+        Free to toss if it's a bad idea.-->
+    <p-toolbar>
+        <!--Save button-->
+        <div class="ui-toolbar-group-left">
+            <button pButton type="button" label="Save Changes" icon="fa-check"></button>
+        </div>
+        <!--Cance Button-->
+        <div class="ui-toolbar-group-right">
+            <button pButton type="button" label="Quit Editing" icon="fa-close"></button>
+        </div>
+    </p-toolbar>
+</p-dialog>
+
+<!--
 <div [hidden]="!editing">
     <br/>
     <p-panel header="RESTAURANT EDITING" [toggleable]="false">
@@ -33,3 +70,4 @@
         <br/>
     </p-panel>
 </div>
+-->
