@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ViewRestaurantsService} from './view-restaurants.service';
 import {NgForm} from '@angular/forms';
-import {Restaurant} from '../view-restaurants/restaurant-interface';
+import {RestaurantClass} from '../view-restaurants/restaurant-class';
 
 
 @Component({
@@ -12,11 +12,10 @@ import {Restaurant} from '../view-restaurants/restaurant-interface';
 export class ViewRestaurantsComponent implements OnInit{
 
   restaurantTypes;// String[] = ["Fine Dining","Fast Food","Bistro","Sports Bar","Diner"];
-  restaurants : Restaurant[] ;
+  restaurants : RestaurantClass[] ;
   editing = false;
-  editingName : String;
-  editingType : String;
-  editingId;
+  editingRestaurant : RestaurantClass = new RestaurantClass();
+  editingDialogHeader : String;
 
   constructor(private viewRestaurantsService : ViewRestaurantsService) {
       this.restaurantTypes = [];
@@ -27,25 +26,30 @@ export class ViewRestaurantsComponent implements OnInit{
       this.restaurantTypes.push({label:'Diner', value: 'Diner'});
   }
 
+
+   //get all restaurants from the database
    ngOnInit(){
-     
      this.viewRestaurantsService.getRestaurants().subscribe(
         res =>{
-          //console.log(res);
           this.restaurants = res;
-          console.log(this.restaurants);
         }
       );
    }
 
+   //show dialog to edit a single restaurant
    editRestaurant(restaurant){
-    this.editingName = restaurant.name;
-    this.editingType = restaurant.type;
-    this.editingId = restaurant.id;
+    this.editingRestaurant.name = restaurant.name;
+    this.editingRestaurant.type = restaurant.type;
+    this.editingRestaurant.id = restaurant.id;
+    this.editingRestaurant.drinksMenu = restaurant.drinksMenu;
+    this.editingRestaurant.foodMenu = restaurant.foodMenu;
+    
+    this.editingDialogHeader = restaurant.name;
     this.editing = true;
-
    }
 
+   //primed for deletion/edition
+   /*
    saveChanges(event,name,type,id){
      event.preventDefault();
      var data = {id:parseInt(id),name:name, type:type};
@@ -63,5 +67,5 @@ export class ViewRestaurantsComponent implements OnInit{
      )
 
    }
-
+   */
 }
