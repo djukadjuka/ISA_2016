@@ -71,6 +71,8 @@ public class RestaurantController {
 		}
 		r.setName(restaurant.getName());
 		r.setType(restaurant.getType());
+		r.setDrinksMenu(restaurant.getDrinksMenu());
+		r.setFoodMenu(restaurant.getFoodMenu());
 		restaurantService.update(r);
 		
 		

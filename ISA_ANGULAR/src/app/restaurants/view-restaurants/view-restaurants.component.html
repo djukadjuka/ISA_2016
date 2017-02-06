@@ -21,11 +21,11 @@
     <p-toolbar>
         <!--Save button-->
         <div class="ui-toolbar-group-left">
-            <button pButton type="button" label="Save Changes" icon="fa-check"></button>
+            <button pButton type="button" (click)="saveUpdate()" label="Save Changes" icon="fa-check"></button>
         </div>
         <!--Cance Button-->
         <div class="ui-toolbar-group-right">
-            <button pButton type="button" label="Quit Editing" icon="fa-close"></button>
+            <button pButton type="button" (click)="cancelUpdate()" label="Quit Editing" icon="fa-close"></button>
         </div>
     </p-toolbar>
 
@@ -53,18 +53,6 @@
         </template>
     </p-pickList>
 
-    <!--FOOTER toolbar with save and close buttons - if it's too much of a hassle to scroll up
-        Free to toss if it's a bad idea.-->
-    <p-toolbar>
-        <!--Save button-->
-        <div class="ui-toolbar-group-left">
-            <button pButton type="button" label="Save Changes" icon="fa-check"></button>
-        </div>
-        <!--Cance Button-->
-        <div class="ui-toolbar-group-right">
-            <button pButton type="button" label="Quit Editing" icon="fa-close"></button>
-        </div>
-    </p-toolbar>
 </p-dialog>
 
 <!--

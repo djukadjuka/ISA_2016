@@ -18,18 +18,11 @@ export class ViewRestaurantsService {
             .map(res => <RestaurantClass[]> res.json());
     }
 
-  getRestaurantInformation(){
-    let nesto = this._http.get(this._baseURL+"/getAllRestaurants").map(res => res.json());
-    return nesto;
-  }
-
   updateRestaurant(data){
       var headers = new Headers({'Content-Type':'application/json'});
       var options = new RequestOptions({headers:headers});
       return this._http.put(this._baseURL+"/updateRestaurant",JSON.stringify(data),options)
       .map(res=>res.json().data);
   }
-
-  
 
 }
