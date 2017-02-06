@@ -26,6 +26,12 @@ export class EditUserService {
       .map(res=>res.json().data);
   }
 
+  checkUsername(username, id)
+  {
+      return this._http.get(this._baseURL + "/checkUsername/" + username + "/" + id)
+            .map(res => res.json());
+  }
+
    updateUserPassword()
   {
     //TO-DO     

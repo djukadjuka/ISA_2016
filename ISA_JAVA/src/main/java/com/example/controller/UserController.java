@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,17 +41,32 @@ public class UserController {
 	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(
-			value = "/getUsersFriends/{id}",
+			value = "/checkUsername/{username}/{id}",
 			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE
 			)
-	public ResponseEntity<Set<UserBean>> getUsersFriends(@PathVariable("id") Long id){
-		UserBean userBean = userService.findOne(id);
-		if(userBean == null){
-			return new ResponseEntity<Set<UserBean>>(HttpStatus.NOT_FOUND);
-		}
-		return new ResponseEntity<Set<UserBean>>(userBean.getUsersFriends(),HttpStatus.OK);
+	public boolean checkUsername(@PathVariable("username") String username, @PathVariable("id") Long id){
+		Collection<UserBean> users = userService.findAll();
+		
+		for(UserBean user : users)
+			if(user.getUsername().equals(username) && !user.getId().equals(id))
+				return true;
+		return false;
 	}
+	
+//	@CrossOrigin(origins = "http://localhost:4200")
+//	@RequestMapping(
+//			value = "/getUsersFriends/{id}",
+//			method = RequestMethod.GET,
+//			produces = MediaType.APPLICATION_JSON_VALUE
+//			)
+//	public ResponseEntity<Set<UserBean>> getUsersFriends(@PathVariable("id") Long id){
+//		UserBean userBean = userService.findOne(id);
+//		if(userBean == null){
+//			return new ResponseEntity<Set<UserBean>>(HttpStatus.NOT_FOUND);
+//		}
+//		return new ResponseEntity<Set<UserBean>>(userBean.getUsersFriends(),HttpStatus.OK);
+//	}
 	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(

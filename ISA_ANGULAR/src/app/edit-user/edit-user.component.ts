@@ -14,7 +14,7 @@ export class EditUserComponent implements OnInit {
 
   private formEditUser: FormGroup;
   private user = {};
-  private userUpdate = {};
+  private userUpdate = {username: "", id: ""};
   private msgs: Message[] = [];
 
   //modal dialog for editing profile
@@ -56,15 +56,25 @@ export class EditUserComponent implements OnInit {
   {
     //TO-DO
     //Prvo proveriti da li postoji taj username - ako postoji ne sme proci promena
-    
-      this._editUserService.updateUser(this.userUpdate)
+      this._editUserService.checkUsername(this.userUpdate.username, this.userUpdate.id)
                             .subscribe(
-                                res => 
-                                  {
-                                    this.displayEditProfile = false;
-                                    this.user = this.userUpdate;
+                              res => 
+                              {
+                                if(res) {
+                                  this.msgs = [];
+                                  this.msgs.push({severity:'error', summary:'That username is taken!', detail:'Choose another username.'});
                                   }
-                            );             
+                                else
+                                  this._editUserService.updateUser(this.userUpdate)
+                                                        .subscribe(
+                                                                 res => 
+                                                                  {
+                                                                    this.displayEditProfile = false;
+                                                                    this.user = this.userUpdate;
+                                                                  }
+                                                                );  
+                                }
+                            )           
   }
 
   showEditProfileDialog() {
