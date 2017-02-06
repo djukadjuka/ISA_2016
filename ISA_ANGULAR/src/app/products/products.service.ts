@@ -14,16 +14,16 @@ export class ProductService {
     getAllProducts()
     {
         return this._http.get(this._baseURL + "/getAllProducts")
-        .map(res => res.json());
+        .map(res => <ProductClass[]> res.json());
     }
 
     getAllFood(){
         return this._http.get(this._baseURL + "/getAllFood")
-        .map(res => <ProductClass[]> res.json());
+        .map(res => res.json());
     }
 
     getAllDrinks(){
         return this._http.get(this._baseURL + "/getAllDrinks")
-        .map(res => <ProductClass[]> res.json());
+        .map(res =>  res.json());
     }
 }

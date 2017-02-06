@@ -63,17 +63,17 @@ public class RestaurantController {
 			)
 	@ResponseBody
 	public ResponseEntity<RestaurantBean> updateRestaurant(@RequestBody RestaurantBean restaurant){
-		System.out.println(restaurant);
 		RestaurantBean r = restaurantService.findOne((long) restaurant.getId());
-		System.out.println(r);
 		if(r == null){
 			return new ResponseEntity<RestaurantBean>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+		System.out.println("BEFORE CHANGE : \n" + r);
 		r.setName(restaurant.getName());
 		r.setType(restaurant.getType());
 		r.setDrinksMenu(restaurant.getDrinksMenu());
 		r.setFoodMenu(restaurant.getFoodMenu());
 		restaurantService.update(r);
+		System.out.println("AFTER CHANGE : \n"+r);
 		
 		
 		return new ResponseEntity<RestaurantBean>(r,HttpStatus.OK);

@@ -15,7 +15,7 @@ export class ViewRestaurantsService {
   getRestaurants()
     {
         return this._http.get(this._baseURL + "/getAllRestaurants")
-            .map(res => <RestaurantClass[]> res.json());
+            .map(res =><RestaurantClass[]> res.json());
     }
 
   updateRestaurant(data){

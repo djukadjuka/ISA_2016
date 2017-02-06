@@ -116,27 +116,32 @@ export class ViewRestaurantsComponent implements OnInit{
    saveUpdate(){
      this.editingRestaurant.drinksMenu = this.selectedDrinks;
      this.editingRestaurant.foodMenu = this.selectedFood;
+    
+     let k;
 
-     console.log(this.editingRestaurant);
      for(let i=0; i<this.restaurants.length;  i++){
        if(this.restaurants[i].id == this.editingRestaurant.id){
+         k = i;
          this.restaurants[i].name = this.editingRestaurant.name;
          this.restaurants[i].type = this.editingRestaurant.type;
-           
+
          this.restaurants[i].drinksMenu = [];
-         for(let j=0; j<this.editingRestaurant.drinksMenu.length; j++){
-          this.restaurants[i].drinksMenu.push(this.editingRestaurant.drinksMenu[j]);  
+         this.restaurants[i].foodMenu =[];
+         for(let j=0; j<this.editingRestaurant.drinksMenu.length;  j++){
+           this.restaurants[i].drinksMenu.push(this.editingRestaurant.drinksMenu[j]);
          }
 
-         this.restaurants[i].foodMenu = [];
-         for(let j=0; j< this.editingRestaurant.foodMenu.length;  j++){
+         for(let j=0; j<this.editingRestaurant.foodMenu.length;  j++){
            this.restaurants[i].foodMenu.push(this.editingRestaurant.foodMenu[j]);
          }
-         
+         break;
        }
      }
 
-     console.log(this.restaurants);
+     this.viewRestaurantsService.updateRestaurant(this.restaurants[k]).subscribe(
+       res=>{}
+     );
+
      this.editing = false;
    }
 
@@ -146,24 +151,4 @@ export class ViewRestaurantsComponent implements OnInit{
      this.editing = false;
    }
 
-   //primed for deletion/edition
-   /*
-   saveChanges(event,name,type,id){
-     event.preventDefault();
-     var data = {id:parseInt(id),name:name, type:type};
-     
-     for(var i = 0;  i < this.restaurants.length;  i++){
-       if(this.restaurants[i].id == data["id"]){
-         //this.restaurants[i] = data;
-         console.log("Found same.");
-         break;
-       }
-     }
-     console.log(this.restaurants);
-     this.viewRestaurantsService.updateRestaurant(data).subscribe(
-       res=>{}
-     )
-
-   }
-   */
 }
