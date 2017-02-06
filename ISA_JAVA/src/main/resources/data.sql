@@ -1,7 +1,7 @@
 --========================================
 --USERS
---insert into user(id, email, first_name, last_name, password, profile_picture, username) 
---values (, '', '', '', '', '', '');
+--insert into user(id, email, first_name, last_name, password, profile_picture, username, friends_of_user_id) 
+--values (, '', '', '', '', '', '', '');
 --========================================
 insert into user(id, email, first_name, last_name, password, profile_picture, username)
 values (1, 'john.doe@gmail.com', 'John', 'Doe', 'test', 'NA', 'test1');

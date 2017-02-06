@@ -1,5 +1,8 @@
 package com.example.controller;
 
+import java.util.ArrayList;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,6 +36,20 @@ public class UserController {
 			return new ResponseEntity<UserBean>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<UserBean>(userBean,HttpStatus.OK);
+	}
+	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value = "/getUsersFriends/{id}",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE
+			)
+	public ResponseEntity<Set<UserBean>> getUsersFriends(@PathVariable("id") Long id){
+		UserBean userBean = userService.findOne(id);
+		if(userBean == null){
+			return new ResponseEntity<Set<UserBean>>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<Set<UserBean>>(userBean.getUsersFriends(),HttpStatus.OK);
 	}
 	
 	@CrossOrigin(origins = "http://localhost:4200")

@@ -1,11 +1,20 @@
 package com.example.domain;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -39,6 +48,28 @@ public class UserBean implements Serializable{
 	
 	@Column(nullable = false)
 	private String profilePicture;
+	
+	//@OneToMany(fetch = FetchType.LAZY, mappedBy = "friendsOfUser")
+	//private Set<UserBean> usersFriends = new HashSet<UserBean>();
+	
+	//@ManyToOne(optional = false)
+	//private RestaurantBean friendsOfUser;
+
+//	public Set<UserBean> getUsersFriends() {
+//		return usersFriends;
+//	}
+//
+//	public void setUsersFriends(Set<UserBean> usersFriends) {
+//		this.usersFriends = usersFriends;
+//	}
+//
+//	public RestaurantBean getFriendsOfUser() {
+//		return friendsOfUser;
+//	}
+//
+//	public void setFriendsOfUser(RestaurantBean friendsOfUser) {
+//		this.friendsOfUser = friendsOfUser;
+//	}
 
 	public Long getId() {
 		return id;
