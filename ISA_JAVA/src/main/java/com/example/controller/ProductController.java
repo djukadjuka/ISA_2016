@@ -40,7 +40,14 @@ public class ProductController {
 			produces=MediaType.APPLICATION_JSON_VALUE
 			)
 	public ResponseEntity<ArrayList<ProductBean>> getAllFood(){
-		ArrayList<ProductBean> allFood = (ArrayList<ProductBean>) ((ProductServiceBean)productService).getFood();
+		ArrayList<ProductBean> allProds = (ArrayList<ProductBean>) productService.findAll();
+		
+		ArrayList<ProductBean> allFood = new ArrayList<>();
+		
+		for(ProductBean p : allProds){
+			if(p.isFood())
+				allFood.add(p);
+		}
 		
 		return new ResponseEntity<ArrayList<ProductBean>>(allFood,HttpStatus.OK);
 	}
@@ -52,8 +59,13 @@ public class ProductController {
 			produces=MediaType.APPLICATION_JSON_VALUE
 			)
 	public ResponseEntity<ArrayList<ProductBean>> getAllDrinks(){
-		ArrayList<ProductBean> allDrinks = (ArrayList<ProductBean>) ((ProductServiceBean)productService).getDrinks();
-		
+		ArrayList<ProductBean> allProds= (ArrayList<ProductBean>) productService.findAll();
+		ArrayList<ProductBean> allDrinks = new ArrayList<>();
+				
+		for(ProductBean p : allProds){
+			if(!p.isFood())
+				allDrinks.add(p);
+		}
 		return new ResponseEntity<ArrayList<ProductBean>>(allDrinks,HttpStatus.OK);
 	}
 	

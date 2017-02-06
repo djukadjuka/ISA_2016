@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {ViewRestaurantsService} from './view-restaurants.service';
 import {NgForm} from '@angular/forms';
 import {RestaurantClass} from '../view-restaurants/restaurant-class';
-
+import {ProductService} from '../../products/products.service';
+import {ProductClass} from '../../products/product-class';
 
 @Component({
   selector: 'app-view-restaurants',
@@ -17,7 +18,15 @@ export class ViewRestaurantsComponent implements OnInit{
   editingRestaurant : RestaurantClass = new RestaurantClass();
   editingDialogHeader : String;
 
-  constructor(private viewRestaurantsService : ViewRestaurantsService) {
+  foodProducts : ProductClass[] = [];
+  drinkProducts : ProductClass[] = [];
+
+  availableFood : ProductClass[] = [];
+  availableDrinks : ProductClass[] = [];
+  selectedFood : ProductClass[] = [];
+  selectedDrinks : ProductClass[] = [];
+
+  constructor(private viewRestaurantsService : ViewRestaurantsService, private productService : ProductService) {
       this.restaurantTypes = [];
       this.restaurantTypes.push({label:'Fine Dining', value: 'Fine Dining'});
       this.restaurantTypes.push({label:'Fast Food', value: 'Fast Food'});
@@ -34,6 +43,20 @@ export class ViewRestaurantsComponent implements OnInit{
           this.restaurants = res;
         }
       );
+      this.productService.getAllProducts().subscribe(
+        res =>{
+          let allProducts = res;
+          for(let i = 0;  i<allProducts.length; i++){
+
+            if(allProducts[i].food) {
+              this.foodProducts.push(allProducts[i]);
+            }else{
+              this.drinkProducts.push(allProducts[i]);
+            }
+          
+          }
+        }
+      );
    }
 
    //show dialog to edit a single restaurant
@@ -45,6 +68,41 @@ export class ViewRestaurantsComponent implements OnInit{
     this.editingRestaurant.foodMenu = restaurant.foodMenu;
     
     this.editingDialogHeader = restaurant.name;
+
+    let selectedFoodMap = {};
+    let selectedDrinksMap = {};
+
+    this.availableFood = [];
+    this.availableDrinks = [];
+    this.selectedDrinks = [];
+    this.selectedFood = [];
+
+    //add food to selected food array and map
+    for(let selectedFoodItem of this.editingRestaurant.foodMenu){
+      selectedFoodMap[selectedFoodItem.id] = selectedFoodItem;
+      this.selectedFood.push(selectedFoodItem);
+    }
+
+    //add drinks to selected drinks array and map
+    for(let selectedDrinkItem of this.editingRestaurant.drinksMenu){
+      selectedDrinksMap[selectedDrinkItem.id] = selectedDrinkItem;
+      this.selectedDrinks.push(selectedDrinkItem);
+    }
+
+    //add all food to available food
+    for(let availableFoodItem of this.foodProducts){
+      if(!selectedFoodMap.hasOwnProperty(availableFoodItem.id)){
+        this.availableFood.push(availableFoodItem);
+      }
+    } 
+
+    //add all drinks to available drinks
+    for(let availableDrinkItem of this.drinkProducts){
+      if(!selectedDrinksMap.hasOwnProperty(availableDrinkItem.id)){
+        this.availableDrinks.push(availableDrinkItem);
+      }
+    }
+
     this.editing = true;
    }
 

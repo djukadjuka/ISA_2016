@@ -11,11 +11,11 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="Product")
-public class ProductBean implements Serializable{
-
-	private static final long serialVersionUID = 1L;
+public class ProductBean{
 
 	@Id
 	@GeneratedValue
@@ -54,22 +54,6 @@ public class ProductBean implements Serializable{
 
 	public void setFood(boolean isFood) {
 		this.isFood = isFood;
-	}
-
-	public Set<RestaurantBean> getRestaurantsFood() {
-		return restaurantsFood;
-	}
-
-	public void setRestaurantsFood(Set<RestaurantBean> restaurantsFood) {
-		this.restaurantsFood = restaurantsFood;
-	}
-
-	public Set<RestaurantBean> getRestaurantsDrinks() {
-		return restaurantsDrinks;
-	}
-
-	public void setRestaurantsDrinks(Set<RestaurantBean> restaurantsDrinks) {
-		this.restaurantsDrinks = restaurantsDrinks;
 	}
 	
 	@Override

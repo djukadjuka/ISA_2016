@@ -1,37 +1,18 @@
 package com.example.service;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.example.domain.ProductBean;
 import com.example.repository.ProductRepository;
 
+@Service
 public class ProductServiceBean implements ProductService{
 
 	@Autowired
 	private ProductRepository productRepository;
-	
-	public Collection<ProductBean> getFood(){
-		Collection<ProductBean> all = productRepository.findAll();
-		Collection<ProductBean> food = new ArrayList<ProductBean>();
-		for(ProductBean p : all){
-			if(p.isFood())
-				food.add(p);
-		}
-		return food;
-	}
-	
-	public Collection<ProductBean> getDrinks(){
-		Collection<ProductBean> all = productRepository.findAll();
-		Collection<ProductBean> drinks = new ArrayList<ProductBean>();
-		for(ProductBean p : all){
-			if(!p.isFood())
-				drinks.add(p);
-		}
-		return drinks;
-	}
 	
 	@Override
 	public Collection<ProductBean> findAll() {
