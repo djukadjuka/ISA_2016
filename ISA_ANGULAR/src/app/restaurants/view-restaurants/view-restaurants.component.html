@@ -21,33 +21,38 @@
     <p-toolbar>
         <!--Save button-->
         <div class="ui-toolbar-group-left">
-            <button pButton type="button" label="Save Changes" icon="fa-check"></button>
+            <button pButton type="button" (click)="saveUpdate()" label="Save Changes" icon="fa-check"></button>
         </div>
         <!--Cance Button-->
         <div class="ui-toolbar-group-right">
-            <button pButton type="button" label="Quit Editing" icon="fa-close"></button>
+            <button pButton type="button" (click)="cancelUpdate()" label="Quit Editing" icon="fa-close"></button>
         </div>
     </p-toolbar>
 
     <!--CONTENT -->
-    Restaurant Name : <input type="text" pInputText [(ngModel)]="editingRestaurant.name"/><br/>
-    Edited name : {{editingRestaurant?.name}}<br/>
-    Restaurant Type : <p-selectButton [options]="restaurantTypes" [(ngModel)]="editingRestaurant.type"></p-selectButton><br/>
-    Edited type : {{editingRestaurant?.type}}
+    Restaurant Name : <input type="text" pInputText [(ngModel)]="editingRestaurant.name"/><br/><br/>
+    Restaurant Type : <p-selectButton [options]="restaurantTypes" [(ngModel)]="editingRestaurant.type"></p-selectButton><br/><br/>
+    
+    <!--FOOD PICKLIST-->
+    <p-pickList [source]="availableFood" [showSourceControls]="false" [showTargetControls]="false" sourceHeader="Available Food" targetHeader="Selected Food" [target]="selectedFood">
+        <template let-product pTemplate="item">
+            <div class="ui-helper-clearfix">
+                <img src="http://lorempixel.com/50/50/food" style="display:inline-block;margin:2px 0 2px 2px"/>
+                <div style="font-size:14px;float:right;margin:15px 5px 0 0">{{product.name}} - {{product.price}} <br/> {{product.description}}</div>
+            </div>
+        </template>
+    </p-pickList>
 
+    <!--DRINK PICKLIST-->
+    <p-pickList [source]="availableDrinks" [showSourceControls]="false" [showTargetControls]="false" sourceHeader="Available Drinks" targetHeader="Selected Drinks" [target]="selectedDrinks">
+        <template let-product pTemplate="item">
+            <div class="ui-helper-clearfix">
+                <img src="http://lorempixel.com/50/50/food" style="display:inline-block;margin:2px 0 2px 2px"/>
+                <div style="font-size:14px;float:right;margin:15px 5px 0 0">{{product.name}} - {{product.price}} <br/> {{product.description}}</div>
+            </div>
+        </template>
+    </p-pickList>
 
-    <!--FOOTER toolbar with save and close buttons - if it's too much of a hassle to scroll up
-        Free to toss if it's a bad idea.-->
-    <p-toolbar>
-        <!--Save button-->
-        <div class="ui-toolbar-group-left">
-            <button pButton type="button" label="Save Changes" icon="fa-check"></button>
-        </div>
-        <!--Cance Button-->
-        <div class="ui-toolbar-group-right">
-            <button pButton type="button" label="Quit Editing" icon="fa-close"></button>
-        </div>
-    </p-toolbar>
 </p-dialog>
 
 <!--

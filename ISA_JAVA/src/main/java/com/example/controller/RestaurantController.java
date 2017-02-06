@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.domain.ProductBean;
 import com.example.domain.RestaurantBean;
+import com.example.service.ProductService;
+import com.example.service.ProductServiceBean;
 import com.example.service.RestaurantService;
 import com.example.service.RestaurantServiceBean;
 
@@ -50,13 +54,6 @@ public class RestaurantController {
 		return new ResponseEntity<ArrayList<RestaurantBean>>(allRestaurants,HttpStatus.OK);
 	}
 	
-	/*
-	 * 	Hibernate: update restaurant_bean set name=?, type=? where id=?
-	 *	Hibernate: delete from isa_database.restaurant_bean_drinks_menu where rest_id=?
-	 *	Hibernate: delete from isa_database.restaurant_bean_food_menu where rest_id=?
-	 * 
-	 */
-	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(
 			value = "/updateRestaurant",
@@ -74,6 +71,8 @@ public class RestaurantController {
 		}
 		r.setName(restaurant.getName());
 		r.setType(restaurant.getType());
+		r.setDrinksMenu(restaurant.getDrinksMenu());
+		r.setFoodMenu(restaurant.getFoodMenu());
 		restaurantService.update(r);
 		
 		

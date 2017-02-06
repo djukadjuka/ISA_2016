@@ -34,6 +34,7 @@ import {ToolbarModule} from 'primeng/primeng';
 import {ButtonModule} from 'primeng/primeng';
 import {InputTextModule} from 'primeng/primeng';
 import {SelectButtonModule} from 'primeng/primeng';
+import {PickListModule} from 'primeng/primeng';
 import {ConfirmDialogModule, ConfirmationService} from 'primeng/primeng';
 import {GrowlModule} from 'primeng/primeng';
 import {Message} from 'primeng/primeng';
@@ -44,6 +45,7 @@ import {ViewRestaurantsService} from './restaurants/view-restaurants/view-restau
 import { TestService } from './test/test.service';
 import { EditUserService } from './edit-user/edit-user.service';
 import { EditUserHelpService } from './edit-barman/edit-userhelp.service';
+import { ProductService} from './products/products.service';
 import { SharedService } from './shared/shared.service';  
 
 @NgModule({
@@ -75,6 +77,7 @@ import { SharedService } from './shared/shared.service';
     ButtonModule,
     InputTextModule,
     SelectButtonModule,
+    PickListModule,
     ConfirmDialogModule,
     GrowlModule,
     routing
@@ -84,6 +87,7 @@ import { SharedService } from './shared/shared.service';
     ViewRestaurantsService,
     EditUserService,
     EditUserHelpService,
+    ProductService,
     ConfirmationService,
     SharedService
   ],

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import {Http,Headers,RequestOptions,RequestMethod,Request,Response} from '@angular/http';
 import 'rxjs/Rx';
-import {Restaurant} from '../view-restaurants/restaurant-interface';
+import {RestaurantClass} from '../view-restaurants/restaurant-class';
+import {RestaurantsProductsClass} from '../restaurants-products-class';
 
 
 @Injectable()
@@ -14,7 +15,7 @@ export class ViewRestaurantsService {
   getRestaurants()
     {
         return this._http.get(this._baseURL + "/getAllRestaurants")
-            .map(res => <Restaurant[]> res.json());
+            .map(res => <RestaurantClass[]> res.json());
     }
 
   updateRestaurant(data){
@@ -23,7 +24,5 @@ export class ViewRestaurantsService {
       return this._http.put(this._baseURL+"/updateRestaurant",JSON.stringify(data),options)
       .map(res=>res.json().data);
   }
-
-  
 
 }
