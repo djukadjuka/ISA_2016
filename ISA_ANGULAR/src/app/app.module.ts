@@ -38,6 +38,9 @@ import {PickListModule} from 'primeng/primeng';
 import {ConfirmDialogModule, ConfirmationService} from 'primeng/primeng';
 import {GrowlModule} from 'primeng/primeng';
 import {Message} from 'primeng/primeng';
+import {AccordionModule} from 'primeng/primeng';
+import {SharedModule} from 'primeng/primeng';
+import {DataTableModule} from 'primeng/primeng';
 
 //Service imports
 
@@ -80,6 +83,9 @@ import { SharedService } from './shared/shared.service';
     PickListModule,
     ConfirmDialogModule,
     GrowlModule,
+    AccordionModule,
+    SharedModule,
+    DataTableModule,
     routing
   ],
   providers: [

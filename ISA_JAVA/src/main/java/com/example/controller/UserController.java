@@ -1,5 +1,7 @@
 package com.example.controller;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
@@ -54,19 +56,29 @@ public class UserController {
 		return false;
 	}
 	
-//	@CrossOrigin(origins = "http://localhost:4200")
-//	@RequestMapping(
-//			value = "/getUsersFriends/{id}",
-//			method = RequestMethod.GET,
-//			produces = MediaType.APPLICATION_JSON_VALUE
-//			)
-//	public ResponseEntity<Set<UserBean>> getUsersFriends(@PathVariable("id") Long id){
-//		UserBean userBean = userService.findOne(id);
-//		if(userBean == null){
-//			return new ResponseEntity<Set<UserBean>>(HttpStatus.NOT_FOUND);
-//		}
-//		return new ResponseEntity<Set<UserBean>>(userBean.getUsersFriends(),HttpStatus.OK);
-//	}
+	//vraca sve usere sem trenutno ulogovanog
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value = "/getAllUsers/{id}",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE
+			)
+	public ResponseEntity<Collection<UserBean>> getUsersFriends(@PathVariable("id") Long id){
+		Collection<UserBean> users = userService.findAll();
+		
+		if(users == null){
+			return new ResponseEntity<Collection<UserBean>>(HttpStatus.NOT_FOUND);
+		}
+		for(UserBean user : users)
+		{
+			if(user.getId().equals(id))
+			{
+				users.remove(user);
+				break;
+			}
+		}
+		return new ResponseEntity<Collection<UserBean>>(users,HttpStatus.OK);
+	}
 	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(

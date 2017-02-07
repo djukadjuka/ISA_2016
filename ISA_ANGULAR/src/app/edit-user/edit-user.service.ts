@@ -13,10 +13,16 @@ export class EditUserService {
         private _sharedService : SharedService ) { }
 
   getUserById(id)
-    {
+  {
         return this._http.get(this._baseURL + "/getUser/" + id)
             .map(res => res.json());
-    }
+  }
+
+  getUsers(id)
+  {
+      return this._http.get(this._baseURL + "/getAllUsers/" + id)
+            .map(res => res.json());
+  }
 
   updateUser(data)
   {
