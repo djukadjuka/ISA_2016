@@ -16,6 +16,7 @@ public class RestaurantServiceBean implements RestaurantService{
 	
 	@Override
 	public Collection<RestaurantBean> findAll() {
+		
 		return repository.findAll();
 	}
 

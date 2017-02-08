@@ -1,1 +1,3 @@
+.gitignore
 ISA_JAVA/src/main/resources/application.properties
+ISA_ANGULAR/package.json

@@ -1,8 +1,17 @@
-<p-dataGrid [value]="restaurants" [paginator]="true" [rows]="8">
+<!--DATA GRID OF ALL RESTAURANTS-->
+<!--Shown if the user is not editing a restaurant-->
+<!--8 Items per page-->
+<p-dataGrid *ngIf="!editing" [value]="restaurants" [paginator]="true" [rows]="8">
+    
+    <!--Datagrid header-->
     <header>
         List of Restaurants
     </header>
+    
+    <!--Datagrid data template-->
     <template let-restaurant pTemplate="item">
+
+        <!--Style of one cell in the datagrid-->
         <div style="padding:3px" class="ui-g-12 ui-md-3">
             <p-panel [header]="restaurant.name" [style]="{'text-align':'center'}">
                 <img src="http://lorempixel.com/150/150/food">
@@ -12,67 +21,89 @@
             </p-panel>
         </div>
     </template>
-</p-dataGrid>
+</p-dataGrid><br/>
 
 <!--Dialog to display information about the curent restaurant you are editing-->
-<p-dialog header="{{editingDialogHeader}}" [(visible)]="editing" modal="modal" responsive="true">
-    
-    <!--HEADER toolbar with save and close buttons-->
-    <p-toolbar>
-        <!--Save button-->
-        <div class="ui-toolbar-group-left">
-            <button pButton type="button" (click)="saveUpdate()" label="Save Changes" icon="fa-check"></button>
+<!--<p-dialog header="{{editingDialogHeader}}" [(visible)]="editing" modal="modal" responsive="true">
+    <button pButton [style]="{'float':'left'}" type="button" (click)="saveUpdate()" label="Save Changes" icon="fa-check"></button>
+    <button pButton [style]="{'float':'right'}" type="button" (click)="cancelUpdate()" label="Quit Editing" icon="fa-close"></button><br/>
+-->
+<p-panel *ngIf="editing">
+
+    <!--PANEL HEADER-->
+    <p-header [style]="{'text-align':'center'}">
+        <!--PANEL TOOLBAR WITH SAVE CANCEL BUTTONS -->
+        <div class="ui-helper-clearfix">
+            <span class="ui-panel-title">{{editingDialogHeader}}</span>
+            <p-splitButton [style]="{'float':'right'}" label='Save Changes' icon='fa-check' (onClick)="saveUpdate()" [model]="splitButtonCommands"></p-splitButton>
         </div>
-        <!--Cance Button-->
-        <div class="ui-toolbar-group-right">
-            <button pButton type="button" (click)="cancelUpdate()" label="Quit Editing" icon="fa-close"></button>
-        </div>
-    </p-toolbar>
+    </p-header>
+    <!--TABS DEFINITION AND CONTENT FOR EDITING RESTAURANT-->
+    <p-tabView>
+        <!--BASIC RESTAURANT INFORMATION-->
+            <!--name of restaurant and type of restaurant-->
+        <p-tabPanel header="Basic Information">
+            <b>Restaurant Name :</b> <input type="text" pInputText [(ngModel)]="editingRestaurant.name"/><br/><br/>
+            <b>Restaurant Type :</b> <p-selectButton [options]="restaurantTypes" [(ngModel)]="editingRestaurant.type"></p-selectButton><br/><br/>
+        </p-tabPanel>
 
-    <!--CONTENT -->
-    Restaurant Name : <input type="text" pInputText [(ngModel)]="editingRestaurant.name"/><br/><br/>
-    Restaurant Type : <p-selectButton [options]="restaurantTypes" [(ngModel)]="editingRestaurant.type"></p-selectButton><br/><br/>
-    
-    <!--FOOD PICKLIST-->
-    <p-pickList [source]="availableFood" [showSourceControls]="false" [showTargetControls]="false" sourceHeader="Available Food" targetHeader="Selected Food" [target]="selectedFood">
-        <template let-product pTemplate="item">
-            <div class="ui-helper-clearfix">
-                <img src="http://lorempixel.com/50/50/food" style="display:inline-block;margin:2px 0 2px 2px"/>
-                <div style="font-size:14px;float:right;margin:15px 5px 0 0">{{product.name}} - {{product.price}} <br/> {{product.description}}</div>
-            </div>
-        </template>
-    </p-pickList>
+        <!--PRODUCT INFORMATION-->
+            <!--List of all available food and drink items that the restaurant can serve-->
+            <!--And a list of currently selected food and drink items-->
+        <p-tabPanel header="Food and Drinks">
 
-    <!--DRINK PICKLIST-->
-    <p-pickList [source]="availableDrinks" [showSourceControls]="false" [showTargetControls]="false" sourceHeader="Available Drinks" targetHeader="Selected Drinks" [target]="selectedDrinks">
-        <template let-product pTemplate="item">
-            <div class="ui-helper-clearfix">
-                <img src="http://lorempixel.com/50/50/food" style="display:inline-block;margin:2px 0 2px 2px"/>
-                <div style="font-size:14px;float:right;margin:15px 5px 0 0">{{product.name}} - {{product.price}} <br/> {{product.description}}</div>
-            </div>
-        </template>
-    </p-pickList>
+            <!--FOOD PICKLIST-->
+            <p-pickList [source]="availableFood" [target]="selectedFood"
+                        [showSourceControls]="false" [showTargetControls]="false"
+                        [sourceStyle]="{'height':'300px'}" [targetStyle]="{'height':'300px'}" 
+                        [responsive]="true"
+                        sourceHeader="Available Food" targetHeader="Selected Food">
+                <template let-product pTemplate="item">
+                    <div class="media">
+                        <div class="media-left">
+                            <img class="media-object" src="http://lorempixel.com/100/100/food">
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">{{product.name}}</h4>
+                            <b>Price :</b> <i>{{product.price}} &#36;</i><br/>
+                            <b>Description :</b> <i>{{product.description}}</i>
+                        </div>
+                    </div><hr/>
+                </template>
+            </p-pickList><br/>
 
-</p-dialog>
+            <!--DRINK PICKLIST-->
+            <p-pickList [source]="availableDrinks" [target]="selectedDrinks" 
+                        [showSourceControls]="false" [showTargetControls]="false" 
+                        [sourceStyle]="{'height':'300px'}" [targetStyle]="{'height':'300px'}" 
+                        [responsive]="true"
+                        sourceHeader="Available Drinks" targetHeader="Selected Drinks">
+                <template let-product pTemplate="item">
+                    <div class="media">
+                        <div class="media-left">
+                           <img class="media-object" src="http://lorempixel.com/100/100/food">
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">{{product.name}}</h4>
+                            <b>Price :</b> {{product.price}} &#36;<br/>
+                            <b>Description :</b> {{product.description}}
+                        </div>
+                    </div><hr/>
+                </template>
+            </p-pickList><br/>
+        </p-tabPanel>
 
+        <!--SEATING ARRANGEMENTS-->
+            <!--Data table of the restaurants seating arrangements-->
+            <!--Zone name, tables for x, number of tables-->
+            <!--As well as the controls for adding, removing, or editing the configuration-->
+        <p-tabPanel header="Seating Arrangements">
+            To be implemented.
+        </p-tabPanel>
+
+    </p-tabView>
+
+</p-panel>
 <!--
-<div [hidden]="!editing">
-    <br/>
-    <p-panel header="RESTAURANT EDITING" [toggleable]="false">
-        <p-toolbar>
-            <div class="ui-toolbar-group-left">
-                <button pButton type="button" label="Save Changes" icon="fa-check"></button>
-            </div>
-            <div class="ui-toolbar-group-right">
-                <button pButton type="button" label="Quit Editing" icon="fa-close"></button>
-            </div>
-        </p-toolbar>
-
-        Restaurant Name : <input type="text" pInputText [(ngModel)]="editingName"/>
-        {{editingName}}<br/>
-        Restaurant Type : <p-selectButton [options]="restaurantTypes" [(ngModel)]="editingType"></p-selectButton>
-        {{editingType}}
-        <br/>
-    </p-panel>
-</div>
+</p-dialog>
 -->

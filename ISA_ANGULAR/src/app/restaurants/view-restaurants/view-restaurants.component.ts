@@ -13,6 +13,7 @@ import {ProductClass} from '../../products/product-class';
 export class ViewRestaurantsComponent implements OnInit{
 
   //things for presentation
+  splitButtonCommands;
   restaurantTypes;
   editing = false;
   editingDialogHeader : String;
@@ -34,6 +35,12 @@ export class ViewRestaurantsComponent implements OnInit{
   drinkProducts : ProductClass[] = [];
 
   constructor(private viewRestaurantsService : ViewRestaurantsService, private productService : ProductService) {
+      this.splitButtonCommands = [
+        {label:'Cancel Update',icon:'fa-close',command:()=>{
+          this.cancelUpdate();
+        }}
+      ];
+
       this.restaurantTypes = [];
       this.restaurantTypes.push({label:'Fine Dining', value: 'Fine Dining'});
       this.restaurantTypes.push({label:'Fast Food', value: 'Fast Food'});
@@ -146,8 +153,6 @@ export class ViewRestaurantsComponent implements OnInit{
    }
 
    cancelUpdate(){
-     console.log(this.restaurants);
-
      this.editing = false;
    }
 

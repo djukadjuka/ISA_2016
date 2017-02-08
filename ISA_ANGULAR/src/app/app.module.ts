@@ -32,6 +32,7 @@ import {DialogModule} from 'primeng/primeng';
 import {PasswordModule} from 'primeng/primeng';
 import {ToolbarModule} from 'primeng/primeng';
 import {ButtonModule} from 'primeng/primeng';
+import {SplitButtonModule} from 'primeng/primeng';
 import {InputTextModule} from 'primeng/primeng';
 import {SelectButtonModule} from 'primeng/primeng';
 import {PickListModule} from 'primeng/primeng';
@@ -86,6 +87,7 @@ import { SharedService } from './shared/shared.service';
     AccordionModule,
     SharedModule,
     DataTableModule,
+    SplitButtonModule,
     routing
   ],
   providers: [

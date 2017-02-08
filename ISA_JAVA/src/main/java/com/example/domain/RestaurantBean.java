@@ -68,6 +68,16 @@ public class RestaurantBean{
 			)
 	private Set<ProductBean> drinksMenu = new HashSet<ProductBean>();
 	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@JoinTable( name = "restaurant_serves_cuisines",
+				catalog = "isa_database",
+				joinColumns = 
+					@JoinColumn(name = "rest_id", nullable=false,updatable=false),
+				inverseJoinColumns = 
+					@JoinColumn(name = "food_type_id", nullable=false,updatable=false)
+	)
+	private Set<RestaurantFoodTypeBean> foodTypes = new HashSet<RestaurantFoodTypeBean>();
+	
 	public Set<ProductBean> getFoodMenu(){
 		return this.foodMenu;
 	}
