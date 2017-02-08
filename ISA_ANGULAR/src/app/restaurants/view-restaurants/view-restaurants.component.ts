@@ -4,6 +4,7 @@ import {NgForm} from '@angular/forms';
 import {RestaurantClass} from '../view-restaurants/restaurant-class';
 import {ProductService} from '../../products/products.service';
 import {ProductClass} from '../../products/product-class';
+import {SelectItem} from 'primeng/primeng';
 
 @Component({
   selector: 'app-view-restaurants',
@@ -13,6 +14,8 @@ import {ProductClass} from '../../products/product-class';
 export class ViewRestaurantsComponent implements OnInit{
 
   //things for presentation
+  selectedCuisines = [];
+  availableCuisines : SelectItem[];
   splitButtonCommands;
   restaurantTypes;
   editing = false;
@@ -34,7 +37,39 @@ export class ViewRestaurantsComponent implements OnInit{
   foodProducts : ProductClass[] = [];
   drinkProducts : ProductClass[] = [];
 
+  allFoodTypes : {};
+
   constructor(private viewRestaurantsService : ViewRestaurantsService, private productService : ProductService) {
+      this.allFoodTypes = {
+        "Serbian":{"id":1,"name":"Serbian"},
+        "Spanish":{"id":2,"name":"Spanish"},
+        "Mexian":{"id":3,"name":"Mexian"},
+        "Jamaican":{"id":4,"name":"Jamaican"},
+        "Italian":{"id":5,"name":"Italian"},
+        "Chinese":{"id":6,"name":"Chinese"},
+        "Japanese":{"id":7,"name":"Japanese"},
+        "Indian":{"id":8,"name":"Indian"},
+        "US":{"id":9,"name":"US"},
+        "British":{"id":10,"name":"British"},
+        "Vietnamese":{"id":11,"name":"Vietnamese"},
+        "All Seafood":{"id":12,"name":"All Seafood"},
+        "All Oriental":{"id":13,"name":"All Oriental"},
+      }
+      this.availableCuisines = [];
+      this.availableCuisines.push({label:'Serbian',value:'Serbian'});
+      this.availableCuisines.push({label:'Spanish',value:'Spanish'});
+      this.availableCuisines.push({label:'Mexian',value:'Mexian'});
+      this.availableCuisines.push({label:'Jamaican',value:'Jamaican'});
+      this.availableCuisines.push({label:'Italian',value:'Italian'});
+      this.availableCuisines.push({label:'Chinese',value:'Chinese'});
+      this.availableCuisines.push({label:'Japanese',value:'Japanese'});
+      this.availableCuisines.push({label:'Indian',value:'Indian'});
+      this.availableCuisines.push({label:'US',value:'US'});
+      this.availableCuisines.push({label:'British',value:'British'});
+      this.availableCuisines.push({label:'Vietnamese',value:'Vietnamese'});
+      this.availableCuisines.push({label:'All Seafood',value:'All Seafood'});
+      this.availableCuisines.push({label:'All Oriental',value:'All Oriental'});
+
       this.splitButtonCommands = [
         {label:'Cancel Update',icon:'fa-close',command:()=>{
           this.cancelUpdate();
@@ -81,6 +116,11 @@ export class ViewRestaurantsComponent implements OnInit{
      this.editingDialogHeader = restaurant.name;
      this.editingRestaurant.id = restaurant.id;
      this.editingRestaurant.type = restaurant.type;
+     this.editingRestaurant.foodTypes = restaurant.foodTypes;
+
+     for(let item of this.editingRestaurant.foodTypes){
+       this.selectedCuisines.push(item.name);
+     }
 
      let foodMap = {};
      let drinksMap = {};
@@ -134,8 +174,13 @@ export class ViewRestaurantsComponent implements OnInit{
 
          this.restaurants[i].drinksMenu = [];
          this.restaurants[i].foodMenu =[];
+         this.restaurants[i].foodTypes = [];
          for(let j=0; j<this.editingRestaurant.drinksMenu.length;  j++){
            this.restaurants[i].drinksMenu.push(this.editingRestaurant.drinksMenu[j]);
+         }
+
+         for(let j=0; j<this.selectedCuisines.length; j++){
+           this.restaurants[i].foodTypes.push(this.allFoodTypes[this.selectedCuisines[j]]);
          }
 
          for(let j=0; j<this.editingRestaurant.foodMenu.length;  j++){
@@ -154,6 +199,10 @@ export class ViewRestaurantsComponent implements OnInit{
 
    cancelUpdate(){
      this.editing = false;
+   }
+
+   showChange(){
+     console.log(this.selectedCuisines);
    }
 
 }

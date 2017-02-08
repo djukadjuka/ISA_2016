@@ -1,6 +1,5 @@
 package com.example.domain;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -48,6 +47,26 @@ public class ProductBean{
 			return false;
 	};
 	
+	@JsonIgnore
+	public Set<RestaurantBean> getRestaurantsFood() {
+		return restaurantsFood;
+	}
+
+	@JsonIgnore
+	public void setRestaurantsFood(Set<RestaurantBean> restaurantsFood) {
+		this.restaurantsFood = restaurantsFood;
+	}
+
+	@JsonIgnore
+	public Set<RestaurantBean> getRestaurantsDrinks() {
+		return restaurantsDrinks;
+	}
+
+	@JsonIgnore
+	public void setRestaurantsDrinks(Set<RestaurantBean> restaurantsDrinks) {
+		this.restaurantsDrinks = restaurantsDrinks;
+	}
+
 	public boolean isFood() {
 		return isFood;
 	}

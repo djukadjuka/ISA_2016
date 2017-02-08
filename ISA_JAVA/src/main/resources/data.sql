@@ -431,56 +431,56 @@ values (10, 100006);
 
 --==============================================
 --RESTAURANT SERVES FOOD TYPES
---insert into restaurant_serves_types(rest_id,type_id)
+--insert into restaurant_serves_cuisines(rest_id,type_id)
 --values(,);
 --==============================================
 
 --TWIN PEAKS FOOD TYPES - SPORTS BAR
-insert into restaurant_serves_types(rest_id,type_id)
+insert into restaurant_serves_cuisines(rest_id,type_id)
 values (22, 5);
-insert into restaurant_serves_types(rest_id,type_id)
+insert into restaurant_serves_cuisines(rest_id,type_id)
 values (22, 6);
-insert into restaurant_serves_types(rest_id,type_id)
+insert into restaurant_serves_cuisines(rest_id,type_id)
 values (22, 9);
-insert into restaurant_serves_types(rest_id,type_id)
+insert into restaurant_serves_cuisines(rest_id,type_id)
 values (22, 10);
 
 --HORSESHOE CAFE FOOD TYPES - DINER
-insert into restaurant_serves_types(rest_id,type_id)
+insert into restaurant_serves_cuisines(rest_id,type_id)
 values (15, 5);
-insert into restaurant_serves_types(rest_id,type_id)
+insert into restaurant_serves_cuisines(rest_id,type_id)
 values (15, 6);
-insert into restaurant_serves_types(rest_id,type_id)
+insert into restaurant_serves_cuisines(rest_id,type_id)
 values (15, 9);
-insert into restaurant_serves_types(rest_id,type_id)
+insert into restaurant_serves_cuisines(rest_id,type_id)
 values (15, 10);
 
 --AFARIA FOOD TYPES- BISTRO
-insert into restaurant_serves_types(rest_id,type_id)
+insert into restaurant_serves_cuisines(rest_id,type_id)
 values (14, 5);
-insert into restaurant_serves_types(rest_id,type_id)
+insert into restaurant_serves_cuisines(rest_id,type_id)
 values (14, 6);
-insert into restaurant_serves_types(rest_id,type_id)
+insert into restaurant_serves_cuisines(rest_id,type_id)
 values (14, 9);
-insert into restaurant_serves_types(rest_id,type_id)
+insert into restaurant_serves_cuisines(rest_id,type_id)
 values (14, 10);
 
 --BURGER KING FOOD TYPES - FAST FOOD
-insert into restaurant_serves_types(rest_id,type_id)
+insert into restaurant_serves_cuisines(rest_id,type_id)
 values (1, 5);
-insert into restaurant_serves_types(rest_id,type_id)
+insert into restaurant_serves_cuisines(rest_id,type_id)
 values (1, 6);
-insert into restaurant_serves_types(rest_id,type_id)
+insert into restaurant_serves_cuisines(rest_id,type_id)
 values (1, 3);
 
 --NOMA FOOD TYPES- FINE DINING
-insert into restaurant_serves_types(rest_id,type_id)
+insert into restaurant_serves_cuisines(rest_id,type_id)
 values (10, 5);
-insert into restaurant_serves_types(rest_id,type_id)
+insert into restaurant_serves_cuisines(rest_id,type_id)
 values (10, 6);
-insert into restaurant_serves_types(rest_id,type_id)
+insert into restaurant_serves_cuisines(rest_id,type_id)
 values (10, 9);
-insert into restaurant_serves_types(rest_id,type_id)
+insert into restaurant_serves_cuisines(rest_id,type_id)
 values (10, 3);
-insert into restaurant_serves_types(rest_id,type_id)
+insert into restaurant_serves_cuisines(rest_id,type_id)
 values (10, 10);

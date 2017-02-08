@@ -67,13 +67,12 @@ public class RestaurantController {
 		if(r == null){
 			return new ResponseEntity<RestaurantBean>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		System.out.println("BEFORE CHANGE : \n" + r);
 		r.setName(restaurant.getName());
 		r.setType(restaurant.getType());
 		r.setDrinksMenu(restaurant.getDrinksMenu());
 		r.setFoodMenu(restaurant.getFoodMenu());
+		r.setFoodTypes(restaurant.getFoodTypes());
 		restaurantService.update(r);
-		System.out.println("AFTER CHANGE : \n"+r);
 		
 		
 		return new ResponseEntity<RestaurantBean>(r,HttpStatus.OK);

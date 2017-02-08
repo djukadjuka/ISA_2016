@@ -42,6 +42,7 @@ import {Message} from 'primeng/primeng';
 import {AccordionModule} from 'primeng/primeng';
 import {SharedModule} from 'primeng/primeng';
 import {DataTableModule} from 'primeng/primeng';
+import {ListboxModule} from 'primeng/primeng';
 
 //Service imports
 
@@ -88,6 +89,7 @@ import { SharedService } from './shared/shared.service';
     SharedModule,
     DataTableModule,
     SplitButtonModule,
+    ListboxModule,
     routing
   ],
   providers: [

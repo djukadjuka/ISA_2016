@@ -23,28 +23,31 @@
     </template>
 </p-dataGrid><br/>
 
-<!--Dialog to display information about the curent restaurant you are editing-->
-<!--<p-dialog header="{{editingDialogHeader}}" [(visible)]="editing" modal="modal" responsive="true">
-    <button pButton [style]="{'float':'left'}" type="button" (click)="saveUpdate()" label="Save Changes" icon="fa-check"></button>
-    <button pButton [style]="{'float':'right'}" type="button" (click)="cancelUpdate()" label="Quit Editing" icon="fa-close"></button><br/>
--->
+<!--EDITING RESTUAURANT PANEL-->
 <p-panel *ngIf="editing">
 
     <!--PANEL HEADER-->
     <p-header [style]="{'text-align':'center'}">
+
         <!--PANEL TOOLBAR WITH SAVE CANCEL BUTTONS -->
         <div class="ui-helper-clearfix">
-            <span class="ui-panel-title">{{editingDialogHeader}}</span>
+            <span class="ui-panel-title"><h4>{{editingDialogHeader}}</h4></span>
             <p-splitButton [style]="{'float':'right'}" label='Save Changes' icon='fa-check' (onClick)="saveUpdate()" [model]="splitButtonCommands"></p-splitButton>
         </div>
     </p-header>
+
     <!--TABS DEFINITION AND CONTENT FOR EDITING RESTAURANT-->
     <p-tabView>
+
         <!--BASIC RESTAURANT INFORMATION-->
             <!--name of restaurant and type of restaurant-->
         <p-tabPanel header="Basic Information">
-            <b>Restaurant Name :</b> <input type="text" pInputText [(ngModel)]="editingRestaurant.name"/><br/><br/>
-            <b>Restaurant Type :</b> <p-selectButton [options]="restaurantTypes" [(ngModel)]="editingRestaurant.type"></p-selectButton><br/><br/>
+            <b>Name :</b> <input type="text" pInputText [(ngModel)]="editingRestaurant.name"/><br/><br/>
+            <b>Type :</b> <p-selectButton [options]="restaurantTypes" [(ngModel)]="editingRestaurant.type"></p-selectButton><br/><br/>
+            <b>Available Cuisines:</b>
+                <p-listbox  [options]="availableCuisines" [(ngModel)]="selectedCuisines"
+                            (onChange)="showChange()" 
+                            multiple="multiple" checkbox="checkbox"></p-listbox>
         </p-tabPanel>
 
         <!--PRODUCT INFORMATION-->

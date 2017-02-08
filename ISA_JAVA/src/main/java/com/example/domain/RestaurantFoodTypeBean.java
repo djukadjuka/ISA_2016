@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="restaurant_food_type")
 public class RestaurantFoodTypeBean {
@@ -21,7 +23,7 @@ public class RestaurantFoodTypeBean {
 	@Column(nullable = false)
 	private String name;
 	
-	@ManyToMany(mappedBy = "restaurantFoodTypes")
+	@ManyToMany(mappedBy = "foodTypes")
 	private Set<RestaurantBean> restaurantsOfThisType = new HashSet<RestaurantBean>();
 
 	@Override
@@ -58,13 +60,15 @@ public class RestaurantFoodTypeBean {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	
+	@JsonIgnore
 	public Set<RestaurantBean> getRestaurantsOfThisType() {
 		return restaurantsOfThisType;
 	}
 
+	@JsonIgnore
 	public void setRestaurantsOfThisType(Set<RestaurantBean> restaurantsOfThisType) {
 		this.restaurantsOfThisType = restaurantsOfThisType;
 	}
-	
+
 }

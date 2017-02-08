@@ -32,18 +32,7 @@ public class RestaurantBean{
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
 	private Set<ReviewBean> reviews = new HashSet<ReviewBean>();
-	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-	@JoinTable( name="restaurant_serves_types",
-				catalog = "isa_database",
-				joinColumns=
-						@JoinColumn(name = "rest_id", nullable = false, updatable = false)
-				,
-				inverseJoinColumns = 
-						@JoinColumn(name = "type_id", nullable = false, updatable = false)
-				)
-	private Set<RestaurantFoodTypeBean> restaurantFoodTypes = new HashSet<RestaurantFoodTypeBean>();
-	
+
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinTable(	name = "restaurant_food_menu",
 				catalog = "isa_database",
@@ -74,9 +63,25 @@ public class RestaurantBean{
 				joinColumns = 
 					@JoinColumn(name = "rest_id", nullable=false,updatable=false),
 				inverseJoinColumns = 
-					@JoinColumn(name = "food_type_id", nullable=false,updatable=false)
+					@JoinColumn(name = "type_id", nullable=false,updatable=false)
 	)
 	private Set<RestaurantFoodTypeBean> foodTypes = new HashSet<RestaurantFoodTypeBean>();
+	
+	public Set<ReviewBean> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(Set<ReviewBean> reviews) {
+		this.reviews = reviews;
+	}
+
+	public Set<RestaurantFoodTypeBean> getFoodTypes() {
+		return foodTypes;
+	}
+
+	public void setFoodTypes(Set<RestaurantFoodTypeBean> foodTypes) {
+		this.foodTypes = foodTypes;
+	}
 	
 	public Set<ProductBean> getFoodMenu(){
 		return this.foodMenu;
