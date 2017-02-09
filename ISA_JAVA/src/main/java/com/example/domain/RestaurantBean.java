@@ -1,6 +1,5 @@
 package com.example.domain;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,6 +28,9 @@ public class RestaurantBean{
 	
 	@Column(nullable = false)
 	private String type;
+	
+	@Column(nullable = true)
+	private String image;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
 	private Set<ReviewBean> reviews = new HashSet<ReviewBean>();
@@ -113,6 +115,14 @@ public class RestaurantBean{
 			return false;
 	};
 	
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 17;

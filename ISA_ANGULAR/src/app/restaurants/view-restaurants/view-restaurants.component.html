@@ -14,7 +14,7 @@
         <!--Style of one cell in the datagrid-->
         <div style="padding:3px" class="ui-g-12 ui-md-3">
             <p-panel [header]="restaurant.name" [style]="{'text-align':'center'}">
-                <img src="http://lorempixel.com/150/150/food">
+                <img [src]="restaurant.image" (error)="restaurant.image = '/assets/pictures/no_image_found.jpg'" width="150" height="150">
                 <div class="restaurant-detail">Restaurant Type : {{restaurant.type}}</div>
                 <hr class="ui-widget-content" style="border-top:0">
                 <i class="fa fa-edit" (click)="editRestaurant(restaurant)" style="cursor:pointer"></i>

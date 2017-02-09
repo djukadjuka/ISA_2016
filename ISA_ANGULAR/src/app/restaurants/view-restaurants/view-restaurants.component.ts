@@ -14,14 +14,25 @@ import {SelectItem} from 'primeng/primeng';
 export class ViewRestaurantsComponent implements OnInit{
 
   //things for presentation
-  selectedCuisines = [];
-  availableCuisines : SelectItem[];
-  splitButtonCommands;
-  restaurantTypes;
-  editing = false;
-  editingDialogHeader : String;
-  editingDialogName : String;
-  editingDialogType : String;
+    noImageFound : string = "/assets/pictures/no_image_found.jpg";
+
+    //food types - cuisines
+    selectedCuisines = [];
+    availableCuisines : SelectItem[];
+  
+    //save update buttons
+    splitButtonCommands;
+    
+    //restaurant types [fine dining,sports bar ...]
+    restaurantTypes;
+
+    //show editing panel
+    editing = false;
+
+    //editing panel constants
+    editingDialogHeader : String;
+    editingDialogName : String;
+    editingDialogType : String;
 
   //all restaurants
   restaurants : RestaurantClass[];

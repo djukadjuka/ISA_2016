@@ -1,3 +1,4 @@
+--D:\Suckhead\Fakultet\ISA\ISA_2016\IMAGES\no_image_found.jpg
 --========================================
 --USERS
 --insert into user(id, email, first_name, last_name, password, profile_picture, username, friends_of_user_id) 
@@ -48,86 +49,86 @@ values (14, 'tanks_rock@cc_zero_hour.com', 'Gen', 'Kwai', 'test', 'NA', 'test14'
 --=============================================
 --RESTAURANTS
 
---insert into restaurant(id, name, type) 
---values (, '', '');
+--insert into restaurant(id, name, type,image) 
+--values (, '', '',null);
 --=============================================
-insert into restaurant(id, name, type) 
-values (1, 'Burger King', 'Fast Food');
+insert into restaurant(id, name, type, image) 
+values (1, 'Burger King', 'Fast Food','/assets/pictures/restaurant_pictures/1.jpg');
 
-insert into restaurant(id, name, type) 
-values (2, 'Jack-in-the-Box', 'Fast Food');
+insert into restaurant(id, name, type, image) 
+values (2, 'Jack-in-the-Box', 'Fast Food',null);
 
-insert into restaurant(id, name, type) 
-values (3, 'Big Pizza', 'Fast Food');
+insert into restaurant(id, name, type, image) 
+values (3, 'Big Pizza', 'Fast Food',null);
 
-insert into restaurant(id, name, type) 
-values (4, 'Pizza Hut', 'Fast Food');
+insert into restaurant(id, name, type, image) 
+values (4, 'Pizza Hut', 'Fast Food',null);
 
-insert into restaurant(id, name, type) 
-values (5, 'Gordon Ramsay London', 'Fine Dining');
+insert into restaurant(id, name, type, image) 
+values (5, 'Gordon Ramsay London', 'Fine Dining',null);
 
-insert into restaurant(id, name, type) 
-values (6, 'Lanterna', 'Fine Dining');
+insert into restaurant(id, name, type, image) 
+values (6, 'Lanterna', 'Fine Dining',null);
 
-insert into restaurant(id, name, type) 
-values (7, 'Wine Cellar', 'Fine Dining');
+insert into restaurant(id, name, type, image) 
+values (7, 'Wine Cellar', 'Fine Dining',null);
 
-insert into restaurant(id, name, type) 
-values (8, 'Afaria', 'Bistro');
+insert into restaurant(id, name, type, image) 
+values (8, 'Afaria', 'Bistro','/assets/pictures/restaurant_pictures/8.jpg');
 
-insert into restaurant(id, name, type) 
-values (9, 'Allard', 'Bistro');
+insert into restaurant(id, name, type, image) 
+values (9, 'Allard', 'Bistro',null);
 
-insert into restaurant(id, name, type) 
-values (10, 'Noma', 'Fine Dining');
+insert into restaurant(id, name, type, image) 
+values (10, 'Noma', 'Fine Dining','/assets/pictures/restaurant_pictures/10.jpg');
 
-insert into restaurant(id, name, type) 
-values (11, 'Celler de Can Roca', 'Fine Dining');
+insert into restaurant(id, name, type, image) 
+values (11, 'Celler de Can Roca', 'Fine Dining',null);
 
-insert into restaurant(id, name, type) 
-values (12, 'Eleven Madison Park', 'Fine Dining');
+insert into restaurant(id, name, type, image) 
+values (12, 'Eleven Madison Park', 'Fine Dining',null);
 
-insert into restaurant(id, name, type) 
-values (13, 'Auberge Pyrenees Cevennes', 'Bistro');
+insert into restaurant(id, name, type, image) 
+values (13, 'Auberge Pyrenees Cevennes', 'Bistro',null);
 
-insert into restaurant(id, name, type) 
-values (14, 'Aux Lyonnais', 'Bistro');
+insert into restaurant(id, name, type, image) 
+values (14, 'Aux Lyonnais', 'Bistro',null);
 
-insert into restaurant(id, name, type) 
-values (15, 'Horseshoe Cafe', 'Diner');
+insert into restaurant(id, name, type, image) 
+values (15, 'Horseshoe Cafe', 'Diner','/assets/pictures/restaurant_pictures/15.jpg');
 
-insert into restaurant(id, name, type) 
-values (16, 'Palace Diner', 'Diner');
+insert into restaurant(id, name, type, image) 
+values (16, 'Palace Diner', 'Diner',null);
 
-insert into restaurant(id, name, type) 
-values (17, 'White Light Diner', 'Diner');
+insert into restaurant(id, name, type, image) 
+values (17, 'White Light Diner', 'Diner',null);
 
-insert into restaurant(id, name, type) 
-values (18, 'Ruths Diner', 'Diner');
+insert into restaurant(id, name, type, image) 
+values (18, 'Ruths Diner', 'Diner',null);
 
-insert into restaurant(id, name, type) 
-values (19, 'Blue Benn', 'Diner');
+insert into restaurant(id, name, type, image) 
+values (19, 'Blue Benn', 'Diner',null);
 
-insert into restaurant(id, name, type) 
-values (20, 'Fremont Diner', 'Diner');
+insert into restaurant(id, name, type, image) 
+values (20, 'Fremont Diner', 'Diner',null);
 
-insert into restaurant(id, name, type) 
-values (21, 'JC Irish', 'Sports Bar');
+insert into restaurant(id, name, type, image) 
+values (21, 'JC Irish', 'Sports Bar',null);
 
-insert into restaurant(id, name, type) 
-values (22, 'Twin Peaks', 'Sports Bar');
+insert into restaurant(id, name, type, image) 
+values (22, 'Twin Peaks', 'Sports Bar','/assets/pictures/restaurant_pictures/22.jpg');
 
-insert into restaurant(id, name, type) 
-values (23, 'The Pub at Monte Carlo', 'Sports Bar');
+insert into restaurant(id, name, type, image) 
+values (23, 'The Pub at Monte Carlo', 'Sports Bar',null);
 
-insert into restaurant(id, name, type) 
-values (24, 'TAP', 'Sports Bar');
+insert into restaurant(id, name, type, image) 
+values (24, 'TAP', 'Sports Bar',null);
 
-insert into restaurant(id, name, type) 
-values (25, 'Crown & Anchor', 'Sports Bar');
+insert into restaurant(id, name, type, image) 
+values (25, 'Crown & Anchor', 'Sports Bar',null);
 
-insert into restaurant(id, name, type) 
-values (26, 'Lagasses Stadium', 'Sports Bar');
+insert into restaurant(id, name, type, image) 
+values (26, 'Lagasses Stadium', 'Sports Bar',null);
 
 --=========================================================
 --FOOD TYPES
@@ -321,13 +322,13 @@ values(15, 500010);
 
 --AFARIA DRINKS - BISTRO
 insert into restaurant_drinks_menu(rest_id, drink_id)
-values(14, 500003);
+values(8, 500003);
 insert into restaurant_drinks_menu(rest_id, drink_id)
-values(14, 500007);
+values(8, 500007);
 insert into restaurant_drinks_menu(rest_id, drink_id)
-values(14, 500015);
+values(8, 500015);
 insert into restaurant_drinks_menu(rest_id, drink_id)
-values(14, 500014);
+values(8, 500014);
 
 --BURGER KING DRINKS - FAST FOOD
 insert into restaurant_drinks_menu(rest_id, drink_id)
@@ -395,15 +396,15 @@ values (15, 100015);
 
 --AFARIA FOOD - BISTRO
 insert into restaurant_food_menu(rest_id,food_id)
-values (14, 100002);
+values (8, 100002);
 insert into restaurant_food_menu(rest_id,food_id)
-values (14, 100018);
+values (8, 100018);
 insert into restaurant_food_menu(rest_id,food_id)
-values (14, 100008);
+values (8, 100008);
 insert into restaurant_food_menu(rest_id,food_id)
-values (14, 100006);
+values (8, 100006);
 insert into restaurant_food_menu(rest_id,food_id)
-values (14, 100015);
+values (8, 100015);
 
 --BURGER KING FOOD - FAST FOOD
 insert into restaurant_food_menu(rest_id,food_id)
@@ -457,13 +458,13 @@ values (15, 10);
 
 --AFARIA FOOD TYPES- BISTRO
 insert into restaurant_serves_cuisines(rest_id,type_id)
-values (14, 5);
+values (8, 5);
 insert into restaurant_serves_cuisines(rest_id,type_id)
-values (14, 6);
+values (8, 6);
 insert into restaurant_serves_cuisines(rest_id,type_id)
-values (14, 9);
+values (8, 9);
 insert into restaurant_serves_cuisines(rest_id,type_id)
-values (14, 10);
+values (8, 10);
 
 --BURGER KING FOOD TYPES - FAST FOOD
 insert into restaurant_serves_cuisines(rest_id,type_id)
