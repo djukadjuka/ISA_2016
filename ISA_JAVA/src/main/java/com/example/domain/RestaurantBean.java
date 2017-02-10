@@ -35,6 +35,17 @@ public class RestaurantBean{
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
 	private Set<ReviewBean> reviews = new HashSet<ReviewBean>();
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
+	private Set<RestaurantZonesRelation> zones;
+	
+	public Set<RestaurantZonesRelation> getZones() {
+		return zones;
+	}
+
+	public void setZones(Set<RestaurantZonesRelation> zones) {
+		this.zones = zones;
+	}
+
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinTable(	name = "restaurant_food_menu",
 				catalog = "isa_database",

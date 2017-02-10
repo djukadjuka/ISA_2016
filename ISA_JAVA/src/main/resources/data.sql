@@ -46,6 +46,27 @@ values (13, 'nukes_shitao@cc_zero_hour.com', 'Shi', 'Tao', 'test', 'NA', 'test13
 insert into user(id, email, first_name, last_name, password, profile_picture, username) 
 values (14, 'tanks_rock@cc_zero_hour.com', 'Gen', 'Kwai', 'test', 'NA', 'test14');
 
+
+--=============================================
+--RESTAURANT ZONES
+--insert into restaurant_zone(id,name)
+--values (, '', ,);
+--=============================================
+insert into restaurant_zone(id,name)
+values (1, 'Garden');
+insert into restaurant_zone(id,name)
+values (2, 'Garden (Closed)');
+insert into restaurant_zone(id,name)
+values (3, 'Smoking');
+insert into restaurant_zone(id,name)
+values (4, 'No Smoking');
+insert into restaurant_zone(id,name)
+values (5, 'Patio');
+insert into restaurant_zone(id,name)
+values (6, 'Kids');
+insert into restaurant_zone(id,name)
+values (7, 'Main Hall');
+
 --=============================================
 --RESTAURANTS
 
@@ -129,6 +150,60 @@ values (25, 'Crown & Anchor', 'Sports Bar',null);
 
 insert into restaurant(id, name, type, image) 
 values (26, 'Lagasses Stadium', 'Sports Bar',null);
+
+--============================================
+--RESTAURANT ZONE RELATION
+--insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
+--values (, , , );
+--============================================
+--=BURGER KING ZONES
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
+values (1, 1, 4, 2, 5);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
+values (2, 1, 4, 4, 2);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
+values (3, 1, 3, 4, 1);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
+values (4, 1, 3, 2, 5);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
+values (5, 1, 3, 3, 2);
+
+--=NOMA ZONES
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
+values (6, 10, 4, 2, 5);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
+values (7, 10, 4, 4, 5);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
+values (8, 10, 3, 3, 5);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
+values (9, 10, 3, 2, 5);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
+values (10, 10, 2, 2, 5);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
+values (11, 10, 2, 3, 2);
+
+--=HORSESHOE CAFFE ZONES
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
+values (12, 15, 4, 2, 5);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
+values (13, 15, 4, 3, 3);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
+values (14 ,15, 3, 4, 10);
+
+--=TWIN PEAKS ZONES
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
+values (15, 22, 4, 2, 12);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
+values (16, 22, 4, 4, 8);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
+values (17, 22, 3, 2, 10);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
+values (18, 22, 7, 4, 10);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
+values (19, 22, 7, 2, 10);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
+values (20, 22, 7, 8, 2);
+
 
 --=========================================================
 --FOOD TYPES

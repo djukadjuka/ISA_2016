@@ -42,12 +42,37 @@
         <!--BASIC RESTAURANT INFORMATION-->
             <!--name of restaurant and type of restaurant-->
         <p-tabPanel header="Basic Information">
-            <b>Name :</b> <input type="text" pInputText [(ngModel)]="editingRestaurant.name"/><br/><br/>
-            <b>Type :</b> <p-selectButton [options]="restaurantTypes" [(ngModel)]="editingRestaurant.type"></p-selectButton><br/><br/>
-            <b>Available Cuisines:</b>
-                <p-listbox  [options]="availableCuisines" [(ngModel)]="selectedCuisines"
-                            (onChange)="showChange()" 
-                            multiple="multiple" checkbox="checkbox"></p-listbox>
+            <div class="container-fluid">
+
+                <!--ROW FOR NAME AND RESTAURANT TYPE-->
+                <hr/>
+                <div class="row">
+                    <div class="col-md-6">
+                        <b>Name :</b> <input type="text" pInputText [(ngModel)]="editingRestaurant.name"/><br/>
+                    </div>
+                    <div class="col-md-6">
+                        <b>Type :</b> <p-selectButton [options]="restaurantTypes" [(ngModel)]="editingRestaurant.type"></p-selectButton><br/>
+                    </div>
+                </div><hr/>
+
+                <!--ROW FOR FOOD TYPES AND IMAGE -->
+                <div class="row">
+                    <div class= col-md-6>
+                        <b>Available Cuisines:</b>
+                            <p-listbox  [options]="availableCuisines" [(ngModel)]="selectedCuisines"
+                                        (onChange)="showChange()" 
+                                        multiple="multiple" checkbox="checkbox"></p-listbox>
+                    </div>
+                    <div class= col-md-6>
+                        <b>Restaurant picture:</b><br/>
+                        <img [src]="editingRestaurant.image" (error)="editingRestaurant.image = '/assets/pictures/no_image_found.jpg'" alt="..." height="150" width="150"/><br/>
+                        <b>Upload new:</b><br/>
+                        <!-- url="http://localhost:4400/restaurantPictureUpload"-->
+                        <i>Work in progress....</i>
+                    </div>
+                </div>
+
+            </div>
         </p-tabPanel>
 
         <!--PRODUCT INFORMATION-->
@@ -64,7 +89,7 @@
                 <template let-product pTemplate="item">
                     <div class="media">
                         <div class="media-left">
-                            <img class="media-object" src="http://lorempixel.com/100/100/food">
+                            <img class="media-object" src="http://lorempixel.com/100/100/food/?">
                         </div>
                         <div class="media-body">
                             <h4 class="media-heading">{{product.name}}</h4>
@@ -84,7 +109,7 @@
                 <template let-product pTemplate="item">
                     <div class="media">
                         <div class="media-left">
-                           <img class="media-object" src="http://lorempixel.com/100/100/food">
+                           <img class="media-object" src="http://lorempixel.com/100/100/food/?">
                         </div>
                         <div class="media-body">
                             <h4 class="media-heading">{{product.name}}</h4>
@@ -101,12 +126,61 @@
             <!--Zone name, tables for x, number of tables-->
             <!--As well as the controls for adding, removing, or editing the configuration-->
         <p-tabPanel header="Seating Arrangements">
-            To be implemented.
+
+            <!--DATA TABLE To show all zones of this restaurant-->
+            <p-dataTable    [value]="editingRestaurant.zones" selectionMode="single" 
+                            [paginator]="true" rows="10" [responsive]="true">
+                <p-column field="zone_id.name" header="Zone Name" [sortable]="false"></p-column>
+                <p-column field="tableForX" header="Table For" [sortable]="false"></p-column>
+                <p-column field="amountOfTables" header="Amount Of tables" [sortable]="false"></p-column>
+                <p-footer>
+                    <div class="ui-helper-clearfix" style="width:100%">
+                        <button type="button" pButton icon="fa-plus" 
+                                style="float:left" (click)="newZoneDialog()" 
+                                label="Add New Zone">
+                        </button>
+                    </div>
+                </p-footer>
+            </p-dataTable>
+
+            <!--DIALOG for adding new zone / editing existing zone ,'min-width':'500px'-->
+            <p-dialog   header="Zone Details" [(visible)]="zoneDialogVisible" [responsive]="false"
+                        showEffect="fade" [modal]="true">
+                    
+                <div class="ui-g">
+                    <!--SELECT for the zone name-->
+                    <div class="ui-g-6">
+                        <label for=""><b>Zone Name : </b></label>
+                    </div>
+                    <div class="ui-g-6">
+                        <p-dropdown [style]="{'width':'150px'}" [options]="zoneNames" [(ngModel)]="newZone.zone_id"></p-dropdown>
+                    </div>
+
+                    <!--INPUT for table for X -->
+                    <div class="ui-g-6">
+                        <label for=""><b>Table for : </b></label>
+                    </div>
+                    <div class="ui-g-6">
+                        <input type="text" pInputText [(ngModel)]="newZone.tableForX"/>
+                    </div>
+
+                    <!--INPUT for amount of tables -->
+                    <div class="ui-g-6">
+                        <label for=""><b>Amount of tables : </b></label>
+                    </div>
+                    <div class="ui-g-6">
+                        <input type="text" pInputText [(ngModel)]="newZone.amountOfTables"/>
+                    </div>
+                    <br/><br/><br/>
+                </div>
+                <p-footer>
+                    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                        <button type="button" pButton icon="fa-check" (click)="newZoneDialog()" label="Add"></button>
+                    </div>
+                </p-footer>
+            </p-dialog>
         </p-tabPanel>
 
     </p-tabView>
 
 </p-panel>
-<!--
-</p-dialog>
--->

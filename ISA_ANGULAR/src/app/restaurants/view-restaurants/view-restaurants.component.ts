@@ -5,6 +5,8 @@ import {RestaurantClass} from '../view-restaurants/restaurant-class';
 import {ProductService} from '../../products/products.service';
 import {ProductClass} from '../../products/product-class';
 import {SelectItem} from 'primeng/primeng';
+import {Message} from 'primeng/primeng';
+import {Http,Headers,RequestOptions,RequestMethod,Request,Response} from '@angular/http';
 
 @Component({
   selector: 'app-view-restaurants',
@@ -14,12 +16,28 @@ import {SelectItem} from 'primeng/primeng';
 export class ViewRestaurantsComponent implements OnInit{
 
   //things for presentation
-    noImageFound : string = "/assets/pictures/no_image_found.jpg";
+    
+    //zone editing
+      //dialog visibity
+      zoneDialogVisible = false;
 
+      //new zone
+      newZone : RestaurantZone = new RestaurantZone();
+      
+      //seating zones
+      zoneNames : SelectItem[];
+
+      //all zones
+      availableZones : {};
+
+    //images
+    noImageFound : string = "/assets/pictures/no_image_found.jpg";
+    uploadedPicture;
+    
     //food types - cuisines
     selectedCuisines = [];
     availableCuisines : SelectItem[];
-  
+
     //save update buttons
     splitButtonCommands;
     
@@ -51,8 +69,22 @@ export class ViewRestaurantsComponent implements OnInit{
   allFoodTypes : {};
 
   constructor(private viewRestaurantsService : ViewRestaurantsService, private productService : ProductService) {
-      this.allFoodTypes = {
-        "Serbian":{"id":1,"name":"Serbian"},
+      this.availableZones = {"Garden":{"id":1,"name":"Garden"},
+        "Garden (Closed)":{"id":2,"name":"Garden (Closed)"},
+        "Smoking":{"id":3,"name":"Smoking"},
+        "No Smoking":{"id":4,"name":"No Smoking"},
+        "Patio":{"id":5,"name":"Patio"},
+        "Kids":{"id":6,"name":"Kids"},
+        "Main Hall":{"id":7,"name":"Main Hall"}};
+      this.zoneNames = [{label:"Garden",value:this.availableZones["Garden"]},
+        {label:"Garden (Closed)",value:this.availableZones["Garden (Closed)"]},
+        {label:"Smoking",value:this.availableZones["Smoking"]},
+        {label:"No Smoking",value:this.availableZones["No Smoking"]},
+        {label:"Patio",value:this.availableZones["Patio"]},
+        {label:"Kids",value:this.availableZones["Kids"]},
+        {label:"Main Hall",value:this.availableZones["Main Hall"]}];
+      
+      this.allFoodTypes = {"Serbian":{"id":1,"name":"Serbian"},
         "Spanish":{"id":2,"name":"Spanish"},
         "Mexian":{"id":3,"name":"Mexian"},
         "Jamaican":{"id":4,"name":"Jamaican"},
@@ -64,35 +96,31 @@ export class ViewRestaurantsComponent implements OnInit{
         "British":{"id":10,"name":"British"},
         "Vietnamese":{"id":11,"name":"Vietnamese"},
         "All Seafood":{"id":12,"name":"All Seafood"},
-        "All Oriental":{"id":13,"name":"All Oriental"},
-      }
-      this.availableCuisines = [];
-      this.availableCuisines.push({label:'Serbian',value:'Serbian'});
-      this.availableCuisines.push({label:'Spanish',value:'Spanish'});
-      this.availableCuisines.push({label:'Mexian',value:'Mexian'});
-      this.availableCuisines.push({label:'Jamaican',value:'Jamaican'});
-      this.availableCuisines.push({label:'Italian',value:'Italian'});
-      this.availableCuisines.push({label:'Chinese',value:'Chinese'});
-      this.availableCuisines.push({label:'Japanese',value:'Japanese'});
-      this.availableCuisines.push({label:'Indian',value:'Indian'});
-      this.availableCuisines.push({label:'US',value:'US'});
-      this.availableCuisines.push({label:'British',value:'British'});
-      this.availableCuisines.push({label:'Vietnamese',value:'Vietnamese'});
-      this.availableCuisines.push({label:'All Seafood',value:'All Seafood'});
-      this.availableCuisines.push({label:'All Oriental',value:'All Oriental'});
+        "All Oriental":{"id":13,"name":"All Oriental"}}
+      this.availableCuisines = [  {label:'Serbian',value:'Serbian'},
+                                  {label:'Spanish',value:'Spanish'},
+                                  {label:'Mexian',value:'Mexian'},
+                                  {label:'Mexian',value:'Mexian'},
+                                  {label:'Jamaican',value:'Jamaican'},
+                                  {label:'Italian',value:'Italian'},
+                                  {label:'Chinese',value:'Chinese'},
+                                  {label:'Japanese',value:'Japanese'},
+                                  {label:'Indian',value:'Indian'},
+                                  {label:'US',value:'US'},
+                                  {label:'British',value:'British'},
+                                  {label:'Vietnamese',value:'Vietnamese'},
+                                  {label:'All Seafood',value:'All Seafood'},
+                                  {label:'All Oriental',value:'All Oriental'}];
 
-      this.splitButtonCommands = [
-        {label:'Cancel Update',icon:'fa-close',command:()=>{
+      this.splitButtonCommands = [{label:'Cancel Update',icon:'fa-close',command:()=>{
           this.cancelUpdate();
-        }}
-      ];
+        }}];
 
-      this.restaurantTypes = [];
-      this.restaurantTypes.push({label:'Fine Dining', value: 'Fine Dining'});
-      this.restaurantTypes.push({label:'Fast Food', value: 'Fast Food'});
-      this.restaurantTypes.push({label:'Bistro', value: 'Bistro'});
-      this.restaurantTypes.push({label:'Sports Bar', value: 'Sports Bar'});
-      this.restaurantTypes.push({label:'Diner', value: 'Diner'});
+      this.restaurantTypes = [{label:'Fine Dining', value: 'Fine Dining'},
+                              {label:'Fast Food', value: 'Fast Food'},
+                              {label:'Bistro', value: 'Bistro'},
+                              {label:'Sports Bar', value: 'Sports Bar'},
+                              {label:'Diner', value: 'Diner'}];
   }
 
 
@@ -128,6 +156,8 @@ export class ViewRestaurantsComponent implements OnInit{
      this.editingRestaurant.id = restaurant.id;
      this.editingRestaurant.type = restaurant.type;
      this.editingRestaurant.foodTypes = restaurant.foodTypes;
+     this.editingRestaurant.image = restaurant.image;
+     this.editingRestaurant.zones = restaurant.zones;
 
      for(let item of this.editingRestaurant.foodTypes){
        this.selectedCuisines.push(item.name);
@@ -216,4 +246,25 @@ export class ViewRestaurantsComponent implements OnInit{
      console.log(this.selectedCuisines);
    }
 
+   newZoneDialog(){
+     this.zoneDialogVisible =true;
+   }
+
+   addNewZoneOK(){
+
+   }
+}
+
+
+class ZoneId{
+  id;name;
+}
+class RestaurantZone{
+  id;
+  zone_id:ZoneId;
+  tableForX;
+  amountOfTables;
+  constructor(){
+    this.zone_id = new ZoneId();
+  }
 }

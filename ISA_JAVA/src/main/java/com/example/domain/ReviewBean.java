@@ -13,6 +13,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="Review")
 public class ReviewBean {
@@ -67,10 +69,12 @@ public class ReviewBean {
 		this.dateOfReview = dateOfReview;
 	}
 
+	@JsonIgnore
 	public RestaurantBean getRestaurant() {
 		return restaurant;
 	}
 
+	@JsonIgnore
 	public void setRestaurant(RestaurantBean restaurant) {
 		this.restaurant = restaurant;
 	}

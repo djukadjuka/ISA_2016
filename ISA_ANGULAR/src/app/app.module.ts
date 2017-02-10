@@ -43,6 +43,8 @@ import {AccordionModule} from 'primeng/primeng';
 import {SharedModule} from 'primeng/primeng';
 import {DataTableModule} from 'primeng/primeng';
 import {ListboxModule} from 'primeng/primeng';
+import {FileUploadModule} from 'primeng/primeng';
+import {DropdownModule} from 'primeng/primeng';
 
 //Service imports
 
@@ -90,6 +92,8 @@ import { SharedService } from './shared/shared.service';
     DataTableModule,
     SplitButtonModule,
     ListboxModule,
+    FileUploadModule,
+    DropdownModule,
     routing
   ],
   providers: [
