@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.domain.UserBean;
+import com.example.service.FriendshipService;
 import com.example.service.UserService;
 
 @RestController
@@ -56,7 +57,7 @@ public class UserController {
 		return false;
 	}
 	
-	//vraca sve usere sem trenutno ulogovanog
+	//vraca sve ljude koji nisu prijatelji, sve ljude kojima potencijalno moze da posalje request
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(
 			value = "/getAllUsers/{id}",

@@ -50,4 +50,10 @@ public class FriendshipServiceBean implements FriendshipService{
 		friendshipRepository.delete(id);
 	}
 
+	@Override
+	public Collection<FriendshipBean> findByRecipient_id(Long recipient_id) {
+		// TODO Auto-generated method stub
+		return friendshipRepository.findByRecipient_id(recipient_id);
+	}
+
 }
