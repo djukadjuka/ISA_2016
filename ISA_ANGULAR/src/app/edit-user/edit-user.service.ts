@@ -28,9 +28,38 @@ export class EditUserService {
   {
       var headers = new Headers({'Content-Type':'application/json'});
       var options = new RequestOptions({headers:headers});
+
       return this._http.put(this._baseURL+"/updateUser",JSON.stringify(data),options)
-      .map(res=>res.json().data);
+                        .map(res=>res.json().data);
   }
+
+  //////////////// Notifications and friend requests /////////////////////////
+
+  sendFriendRequest(originator, recipient)
+  {
+       var headers = new Headers({'Content-Type':'application/json'});
+       var options = new RequestOptions({headers:headers});
+
+       return this._http.post(this._baseURL+"/sendFriendRequest",JSON.stringify({"originator": originator,"recipient" : recipient}),options)
+                        .map(res=>res.json().data);
+  }
+
+  getFriendRequests(id)
+  {
+       return this._http.get(this._baseURL + "/getFriendRequests/" + id)
+            .map(res => res.json());
+  }
+
+  respondFriendRequest(friendship)
+  {
+      var headers = new Headers({'Content-Type':'application/json'});
+      var options = new RequestOptions({headers:headers});
+
+      return this._http.put(this._baseURL+"/respondFriendRequest",JSON.stringify(friendship),options)
+                        .map(res=>res.json().data);
+  }
+
+  ///////////////////////////////////////////////////////////////////////////////
 
   checkUsername(username, id)
   {

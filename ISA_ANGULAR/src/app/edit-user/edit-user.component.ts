@@ -4,6 +4,7 @@ import { EditUserService } from './edit-user.service';
 import { ConfirmationService } from 'primeng/primeng';
 import { Message } from 'primeng/primeng';
 import { SharedService } from '../shared/shared.service';
+import { Observable } from 'rxjs/Rx';
 
 @Component({
   selector: 'app-edit-user',
@@ -15,6 +16,10 @@ export class EditUserComponent implements OnInit {
   //variables for user's friends
   private allUsers = [];
   private allUsersCols = [];
+
+  //variables for user's notifications
+  private allFriendRequests = [];
+  private allFriendRequestsCols = [];
 
   //variables for editing user profile information
   private formEditUser: FormGroup;
@@ -52,12 +57,23 @@ export class EditUserComponent implements OnInit {
                               .subscribe(
                                 res => this.allUsers = res
                               );
+
+    this._editUserService.getFriendRequests(this._sharedService.userId)
+                              .subscribe(
+                                res => this.allFriendRequests = res
+                              );
     
     this.allUsersCols = [
             {field: 'firstName', header: 'First name'},
             {field: 'lastName', header: 'Last name'},
             {field: 'username', header: 'Username'},
             {field: 'email', header: 'Email'}
+        ];
+    
+    this.allFriendRequestsCols = [
+            {field: 'originator.firstName', header: 'First name'},
+            {field: 'originator.lastName', header: 'Last name'},
+            {field: 'originator.username', header: 'Username'}
         ];
   }
 
@@ -99,15 +115,45 @@ export class EditUserComponent implements OnInit {
         this.displayEditProfile = true;
   }
 
-  sendRequest(user)
+  sendFriendRequest(user)
   {
       this._confirmationService.confirm({
               header: 'Add a friend',
               message: 'Send a friend request to '+user.firstName + ' ' + user.lastName + ' ?',
               accept: () => {
-                  //this._editUserService.updateUserPassword();
-                  this.msgs = [];
-                  this.msgs.push({severity:'success', summary:'Friend request sent.', detail:'Please wait for '+user.firstName + ' ' + user.lastName + ' to respond.'});  
+                  
+                  this._editUserService.sendFriendRequest(this.user,user)
+                                      .subscribe(
+                                          res => {
+                                             this.msgs = [];
+                                             this.msgs.push({severity:'success', summary:'Friend request sent.', detail:'Please wait for '+user.firstName + ' ' + user.lastName + ' to respond.'});  
+                                          }
+                                      );
+              }
+          });
+  }
+
+  respondFriendRequest(friendship, status)
+  {
+      console.log(friendship);
+      
+
+      let statusMessage = status==1 ? "accept" : "decline";
+      
+      friendship.status = status==1 ? "ACCEPTED" : "DECLINED";
+
+      this._confirmationService.confirm({
+              header: 'Respond to friend request',
+              message: 'Are you sure you want to '+ statusMessage + " friendship from " + friendship.originator.firstName + ' ' + friendship.originator.lastName + ' ?',
+              accept: () => {
+                  
+                  this._editUserService.respondFriendRequest(friendship)
+                                      .subscribe(
+                                          res => {
+                                             this.msgs = [];
+                                             this.msgs.push({severity:'success', summary:'Friend request '+ statusMessage});  
+                                          }
+                                      );
               }
           });
   }
