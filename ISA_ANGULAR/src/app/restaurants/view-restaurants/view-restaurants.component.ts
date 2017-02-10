@@ -20,6 +20,7 @@ export class ViewRestaurantsComponent implements OnInit{
     //zone editing
       //dialog visibity
       zoneDialogVisible = false;
+      addingNewZone = false;
 
       //new zone
       newZone : RestaurantZone = new RestaurantZone();
@@ -246,12 +247,75 @@ export class ViewRestaurantsComponent implements OnInit{
      console.log(this.selectedCuisines);
    }
 
-   newZoneDialog(){
-     this.zoneDialogVisible =true;
+   //opening dialog houskeeping
+    //new zone
+    newZoneDialog(){
+      this.newZone = new RestaurantZone();
+      this.addingNewZone = true;
+      this.zoneDialogVisible = true;
+    }
+
+    //existing zone
+    editZone(event){
+      this.addingNewZone = false;
+      this.newZone = this.cloneZone(event.data);
+
+      this.zoneDialogVisible = true;
+    }
+
+    addZone(){
+      this.editingRestaurant.zones.push(this.newZone);
+      this.printZones();
+      this.zoneDialogVisible=false;
+    }
+
+    saveZone(){
+      for(let i = 0;  i<this.editingRestaurant.zones.length;  i++){
+        if(this.newZone.id == this.editingRestaurant.zones[i].id){
+          this.editingRestaurant.zones[i].zone_id.id = this.newZone.zone_id.id;
+          this.editingRestaurant.zones[i].zone_id.name = this.newZone.zone_id.name;
+          this.editingRestaurant.zones[i].tableForX = this.newZone.tableForX;
+          this.editingRestaurant.zones[i].amountOfTables = this.newZone.amountOfTables;
+          break;
+        }
+      }
+      this.printZones();
+      this.zoneDialogVisible=false;
+    }
+
+    deleteZone(){
+      for(let i = 0;  i<this.editingRestaurant.zones.length;  i++){
+        if(this.newZone.id == this.editingRestaurant.zones[i].id){
+          this.editingRestaurant.zones.splice(i,1);
+        }
+      }
+      this.printZones();
+      this.zoneDialogVisible=false;
+    }
+
+   //print helper
+   printZones(){
+     for(let item of this.editingRestaurant.zones){
+       console.log("-------------------");
+       console.log("Entity id : " + item.id);
+       console.log("Zone id : " + item.zone_id.id);
+       console.log("\tZone name : " + item.zone_id.name);
+       console.log("\tZone table for : " + item.tableForX);
+       console.log("\tAmount of tables : " + item.amountOfTables);
+     }
    }
 
-   addNewZoneOK(){
+   //clone helper
+   cloneZone(zone : RestaurantZone){
+     let clone = new RestaurantZone();
+     clone.amountOfTables = zone.amountOfTables;
+     clone.id = zone.id;
+     clone.tableForX = zone.tableForX;
 
+     clone.zone_id.name = zone.zone_id.name;
+     clone.zone_id.id = zone.zone_id.id;
+
+     return clone;
    }
 }
 

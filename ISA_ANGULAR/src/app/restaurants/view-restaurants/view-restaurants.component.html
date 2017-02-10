@@ -129,7 +129,8 @@
 
             <!--DATA TABLE To show all zones of this restaurant-->
             <p-dataTable    [value]="editingRestaurant.zones" selectionMode="single" 
-                            [paginator]="true" rows="10" [responsive]="true">
+                            [paginator]="true" rows="10" [responsive]="true"
+                            (onRowSelect)="editZone($event)">
                 <p-column field="zone_id.name" header="Zone Name" [sortable]="false"></p-column>
                 <p-column field="tableForX" header="Table For" [sortable]="false"></p-column>
                 <p-column field="amountOfTables" header="Amount Of tables" [sortable]="false"></p-column>
@@ -172,10 +173,19 @@
                         <input type="text" pInputText [(ngModel)]="newZone.amountOfTables"/>
                     </div>
                     <br/><br/><br/>
+
+                    The new zone looks like : <br/>
+                    id : {{newZone.id}}<br/>
+                    name : {{newZone.zone_id.name}}<br/>
+                    name_id : {{newZone.zone_id.id}}<br/>
+                    tableForX : {{newZone.tableForX}}<br/>
+                    amountOfTables : {{newZone.amountOfTables}}<br/>
                 </div>
                 <p-footer>
                     <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-                        <button type="button" pButton icon="fa-check" (click)="newZoneDialog()" label="Add"></button>
+                        <button *ngIf="addingNewZone" type="button" pButton icon="fa-check" label="Add" (click)="addZone()"></button>
+                        <button *ngIf="!addingNewZone" type="button" pButton icon="fa-check" label="Save" (click)="saveZone()"></button>
+                        <button *ngIf="!addingNewZone" type="button" pButton icon="fa-close" label="Delete" (click)="deleteZone()"></button>
                     </div>
                 </p-footer>
             </p-dialog>
