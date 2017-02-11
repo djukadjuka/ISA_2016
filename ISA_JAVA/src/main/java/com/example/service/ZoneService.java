@@ -2,16 +2,20 @@ package com.example.service;
 
 import java.util.Collection;
 
-import com.example.domain.RestaurantZonesRelation;
+import com.example.domain.RestaurantZoneBean;
 
 public interface ZoneService {
-	Collection<RestaurantZonesRelation> findAll();
+
+	RestaurantZoneBean findOne(Long id);
 	
-	RestaurantZonesRelation findOne(Long id);
+	Collection<RestaurantZoneBean> findByRestaurant_id(Long restaurant_id);
 	
-	RestaurantZonesRelation create(RestaurantZonesRelation zoneRelation);
+	Collection<RestaurantZoneBean> findAll();
 	
-	RestaurantZonesRelation update(RestaurantZonesRelation zoneRelation);
+	RestaurantZoneBean update(RestaurantZoneBean zone);
+	
+	RestaurantZoneBean create(RestaurantZoneBean zone);
 	
 	void delete(Long id);
+	
 }

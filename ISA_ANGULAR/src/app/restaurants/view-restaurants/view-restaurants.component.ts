@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ViewRestaurantsService} from './view-restaurants.service';
 import {NgForm} from '@angular/forms';
 import {RestaurantClass} from '../view-restaurants/restaurant-class';
+import {RestaurantZone} from '../view-restaurants/zone-class';
 import {ProductService} from '../../products/products.service';
 import {ProductClass} from '../../products/product-class';
 import {SelectItem} from 'primeng/primeng';
@@ -17,24 +18,6 @@ export class ViewRestaurantsComponent implements OnInit{
 
   //things for presentation
     
-    //zone editing
-      //dialog visibity
-      zoneDialogVisible = false;
-      addingNewZone = false;
-      showingZones : RestaurantZone[];
-
-      //new zone
-      newZone : RestaurantZone = new RestaurantZone();
-      
-      //seating zones
-      zoneNames : SelectItem[];
-
-      //all zones
-      availableZones : {};
-
-      //validation things
-      amountOfTablesValid = false;
-      tableForXValid = false;
     //images
     noImageFound : string = "/assets/pictures/no_image_found.jpg";
     uploadedPicture;
@@ -74,21 +57,6 @@ export class ViewRestaurantsComponent implements OnInit{
   allFoodTypes : {};
 
   constructor(private viewRestaurantsService : ViewRestaurantsService, private productService : ProductService) {
-      this.availableZones = {"Garden":{"id":1,"name":"Garden"},
-        "Garden (Closed)":{"id":2,"name":"Garden (Closed)"},
-        "Smoking":{"id":3,"name":"Smoking"},
-        "No Smoking":{"id":4,"name":"No Smoking"},
-        "Patio":{"id":5,"name":"Patio"},
-        "Kids":{"id":6,"name":"Kids"},
-        "Main Hall":{"id":7,"name":"Main Hall"}};
-      this.zoneNames = [{label:"Garden",value:this.availableZones["Garden"]},
-        {label:"Garden (Closed)",value:this.availableZones["Garden (Closed)"]},
-        {label:"Smoking",value:this.availableZones["Smoking"]},
-        {label:"No Smoking",value:this.availableZones["No Smoking"]},
-        {label:"Patio",value:this.availableZones["Patio"]},
-        {label:"Kids",value:this.availableZones["Kids"]},
-        {label:"Main Hall",value:this.availableZones["Main Hall"]}];
-      
       this.allFoodTypes = {"Serbian":{"id":1,"name":"Serbian"},
         "Spanish":{"id":2,"name":"Spanish"},
         "Mexian":{"id":3,"name":"Mexian"},
@@ -161,14 +129,6 @@ export class ViewRestaurantsComponent implements OnInit{
      this.editingRestaurant.type = restaurant.type;
      this.editingRestaurant.foodTypes = restaurant.foodTypes;
      this.editingRestaurant.image = restaurant.image;
-     this.editingRestaurant.zones = restaurant.zones;
-
-     this.showingZones = [];
-     for(let i =0;  i<this.editingRestaurant.zones.length;  i++){
-       if(this.editingRestaurant.zones[i].deleted == 0){
-         this.showingZones.push(this.editingRestaurant.zones[i]);
-       }
-     }
 
      for(let item of this.editingRestaurant.foodTypes){
        this.selectedCuisines.push(item.name);
@@ -271,142 +231,155 @@ export class ViewRestaurantsComponent implements OnInit{
      console.log(this.selectedCuisines);
    }
 
-   //opening dialog houskeeping
-    //new zone
-    newZoneDialog(){
-      this.newZone = new RestaurantZone();
-      this.newZone.zone_id.name = "Garden";
-      this.newZone.zone_id.id = 1;
-      this.amountOfTablesValid = false;
-      this.tableForXValid = false;
-      this.newZone.deleted = 0;
+   //zone functions and params
+   editingZones = false;
+   restaurantZones : RestaurantZone[];
+   zonesRestaurant : RestaurantClass;
 
-      this.addingNewZone = true;
-      this.zoneDialogVisible = true;
-    }
+   zoneCrud = false;
+   zoneCrudModel : RestaurantZone;
 
-    //existing zone
-    editZone(event){
-      this.newZone = this.cloneZone(event.data);
-      this.amountOfTablesValid = true;
-      this.tableForXValid = true;
+   zoneNames : SelectItem[];
+   selectedZoneName : string;
+   numberOfTables;
+   tablesForX;
 
-      this.addingNewZone = false;
-      this.zoneDialogVisible = true;
-    }
+   editingZone = false;
+   addingZone = false;
 
-    //save newly created zone.
-    addZone(){
-      this.editingRestaurant.zones.push(this.newZone);
-      this.showingZones = [];
-      for(let i =0;  i<this.editingRestaurant.zones.length;  i++){
-        if(this.editingRestaurant.zones[i].deleted == 0){
-          this.showingZones.push(this.editingRestaurant.zones[i]);
-        }
-      }
-      this.zoneDialogVisible=false;
-    }
+   tablesForXValid = false;
+   numberOfTablesValid = false;
 
-    //save exisiting edited zone
-    saveZone(){
-      for(let i = 0;  i<this.editingRestaurant.zones.length;  i++){
-        if(this.newZone.id == this.editingRestaurant.zones[i].id){
-          this.editingRestaurant.zones[i].zone_id.id = +this.newZone.zone_id.id;
-          this.editingRestaurant.zones[i].zone_id.name = this.newZone.zone_id.name;
-          this.editingRestaurant.zones[i].tableForX = +this.newZone.tableForX;
-          this.editingRestaurant.zones[i].amountOfTables = +this.newZone.amountOfTables;
-          break;
-        }
-      }
-      this.showingZones = [];
-      for(let i =0;  i<this.editingRestaurant.zones.length;  i++){
-        if(this.editingRestaurant.zones[i].deleted == 0){
-          this.showingZones.push(this.editingRestaurant.zones[i]);
-        }
-      }
-      this.printZones();
-      this.zoneDialogVisible=false;
-    }
-    //delete exisiting zone
-    deleteZone(){
-      for(let i = 0;  i<this.editingRestaurant.zones.length;  i++){
-        
-        if(this.newZone.id == null && this.editingRestaurant.zones[i].id == null){
-          if( this.newZone.amountOfTables == this.editingRestaurant.zones[i].amountOfTables &&
-              this.newZone.deleted == this.editingRestaurant.zones[i].deleted && 
-              this.newZone.tableForX == this.editingRestaurant.zones[i].tableForX &&
-              this.newZone.zone_id.id == this.editingRestaurant.zones[i].zone_id.id &&
-              this.newZone.zone_id.name == this.editingRestaurant.zones[i].zone_id.id){
-                this.editingRestaurant.zones[i].deleted = 1;
-                break;
-              }
-        }
-        
-        if(this.newZone.id == this.editingRestaurant.zones[i].id){
-          this.editingRestaurant.zones[i].deleted = 1;
-          break;
-        }
-      }
-      this.showingZones = [];
-      for(let i =0;  i<this.editingRestaurant.zones.length;  i++){
-        if(this.editingRestaurant.zones[i].deleted == 0){
-          this.showingZones.push(this.editingRestaurant.zones[i]);
-        }
-      }
-      this.printZones();
-      this.zoneDialogVisible=false;
-    }
+   growl: Message[] = [];
 
-   //validations
-   tableForXChanged(){
-     let reg = new RegExp('^[0-9]+$');
-     this.tableForXValid = reg.test(this.newZone.tableForX);
+   editZones(restaurant : RestaurantClass){
+     this.zoneNames = [{label:'Garden',value:'Garden'},{label:'Garden (Closed)',value:'Garden (Closed)'},
+                       {label:'Smoking',value:'Smoking'},{label:'No Smoking',value:'No Smoking'},
+                       {label:'Main Hall',value:'Main Hall'},{label:'Kids',value:'Kids'}];
+     this.viewRestaurantsService.getZonesForRestaurant(restaurant).subscribe(res=>{
+       this.restaurantZones = [];
+       for(let item of res){
+         if(item.deleted == 0){
+           this.restaurantZones.push(item);
+         }
+       }
+       
+       this.editingDialogHeader = restaurant.name;
+       this.zonesRestaurant = restaurant;
+
+       this.editingZones = true;
+     });
    }
 
-   amountOfTablesChanged(){
-     let reg = new RegExp('^[0-9]+$');
-     this.amountOfTablesValid = reg.test(this.newZone.amountOfTables);
-   }
+   zoneSelected(event){
+     if(this.addingZone==true){
+       this.growl = [];
+       this.growl.push({severity:'error',
+                        summary:'Finish Adding',
+                        detail:'You must first finish adding a new zone or cancel adding a new zone if you wish to edit an existing zone.'});
+     }else if(this.editingZone==true){
+       this.growl = [];
+        this.growl.push({severity:'error',
+                          summary:'Finish Editing',
+                          detail:'You must first finish editing an existing zone or cancel editing if you wish to edit a different zone.'});
+     
+     }else{
+      this.zoneCrudModel = event.data;
+      this.selectedZoneName = this.zoneCrudModel.name;
+      this.numberOfTables = this.zoneCrudModel.number_of_tables;
+      this.tablesForX = this.zoneCrudModel.tables_for_x;
 
-   //print helper
-   printZones(){
-     for(let item of this.editingRestaurant.zones){
-       console.log("-------------------");
-       console.log("Entity id : " + item.id);
-       console.log("Zone id : " + item.zone_id.id);
-       console.log("\tZone name : " + item.zone_id.name);
-       console.log("\tZone table for : " + item.tableForX);
-       console.log("\tAmount of tables : " + item.amountOfTables);
-       console.log("\tTO DELETE : " + item.deleted);
+      this.numberOfTablesValid = true;
+      this.tablesForXValid = true;
+      this.editingZone = true;
+      this.zoneCrud = true;
      }
    }
-
-   //clone helper
-   cloneZone(zone : RestaurantZone){
-     let clone = new RestaurantZone();
-     clone.amountOfTables = zone.amountOfTables;
-     clone.id = zone.id;
-     clone.tableForX = zone.tableForX;
-
-     clone.zone_id.name = zone.zone_id.name;
-     clone.zone_id.id = zone.zone_id.id;
-     clone.deleted = zone.deleted;
-
-     return clone;
+   confirmEdit(){
+     this.zoneCrudModel.name = this.selectedZoneName;
+     this.zoneCrudModel.number_of_tables = this.numberOfTables;
+     this.zoneCrudModel.tables_for_x = this.tablesForX;
+     this.viewRestaurantsService.updateZone(this.zoneCrudModel).subscribe(
+       res=>{
+          this.editingZone = false;
+          this.zoneCrud = false;
+       }
+     )
    }
-}
+
+   addNewZone(){
+     if(this.editingZone ==true){
+        this.growl = [];
+        this.growl.push({severity:'error',
+                          summary:'Finish Editing',
+                          detail:'You must first finish editing an existing zone or cancel editing if you wish to add a new zone.'});
+     }else{
+      let newZone = new RestaurantZone();
+
+      newZone.restaurant = this.zonesRestaurant;
+      this.zoneCrudModel = newZone;
+      this.selectedZoneName = this.zoneNames[0].value;
+      this.zoneCrudModel.name =this.zoneNames[0].value;
+      this.numberOfTables = "";
+      this.tablesForX = "";
 
 
-class ZoneId{
-  id;name;
-}
-class RestaurantZone{
-  id;
-  zone_id:ZoneId;
-  tableForX;
-  amountOfTables;
-  deleted;
-  constructor(){
-    this.zone_id = new ZoneId();
-  }
+      this.numberOfTablesValid=false;
+      this.tablesForXValid=false;
+      this.addingZone = true;
+      this.zoneCrud = true;
+     }
+   }
+   confirmAdd(){
+     this.zoneCrudModel.name = this.selectedZoneName;
+     this.zoneCrudModel.number_of_tables = this.numberOfTables;
+     this.zoneCrudModel.tables_for_x = this.tablesForX;
+     this.viewRestaurantsService.createZone(this.zoneCrudModel).subscribe(
+       res=>{
+          this.restaurantZones = [];
+          for(let item of res){
+            if(item.deleted == 0){
+              this.restaurantZones.push(item);
+            }
+          }
+          this.addingZone = false;
+          this.zoneCrud = false;
+       }
+     );
+   }
+
+   deleteZone(){
+     this.zoneCrudModel.deleted = 1;
+     this.viewRestaurantsService.deleteZone(this.zoneCrudModel).subscribe(
+       res=>{
+          console.log(res);
+          this.restaurantZones = [];
+          for(let item of res){
+            if(item.deleted == 0){
+              this.restaurantZones.push(item);
+            }
+          }
+          this.editingZone = false;
+          this.zoneCrud = false;
+       }
+     )
+   }
+
+   cancelCrud(){
+     this.addingZone = false;
+     this.editingZone = false;
+     this.zoneCrud = false;
+   }
+
+   numberRegex : RegExp = RegExp('^[0-9]+$');
+   enteredNumberOfTables(){
+     this.numberOfTablesValid = this.numberRegex.test(this.numberOfTables);
+   }
+
+   enteredTablesForX(){
+     this.tablesForXValid = this.numberRegex.test(this.tablesForX);
+   }
+   closeZonePanel(){
+     this.editingZones = false;
+   }
 }

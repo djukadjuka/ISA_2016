@@ -5,7 +5,7 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.domain.RestaurantZonesRelation;
+import com.example.domain.RestaurantZoneBean;
 import com.example.repository.ZoneRepository;
 
 @Service
@@ -15,29 +15,28 @@ public class ZoneServiceBean implements ZoneService{
 	private ZoneRepository repository;
 	
 	@Override
-	public Collection<RestaurantZonesRelation> findAll() {
-		return repository.findAll();
-	}
-
-	@Override
-	public RestaurantZonesRelation findOne(Long id) {
+	public RestaurantZoneBean findOne(Long id) {
 		return repository.findOne(id);
 	}
 
 	@Override
-	public RestaurantZonesRelation create(RestaurantZonesRelation zoneRelation) {
-		RestaurantZonesRelation relation = repository.save(zoneRelation);
-		return relation;
+	public Collection<RestaurantZoneBean> findByRestaurant_id(Long restaurant_id) {
+		return repository.findByRestaurant_id(restaurant_id);
 	}
 
 	@Override
-	public RestaurantZonesRelation update(RestaurantZonesRelation zoneRelation) {
-		RestaurantZonesRelation relation = repository.findOne(zoneRelation.getId());
-		if(relation == null){
-			return null;
-		}
-		relation = repository.save(zoneRelation);
-		return relation;
+	public Collection<RestaurantZoneBean> findAll() {
+		return repository.findAll();
+	}
+
+	@Override
+	public RestaurantZoneBean update(RestaurantZoneBean zone) {
+		return repository.save(zone);
+	}
+
+	@Override
+	public RestaurantZoneBean create(RestaurantZoneBean zone) {
+		return repository.save(zone);
 	}
 
 	@Override

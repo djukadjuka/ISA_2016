@@ -1,7 +1,7 @@
 <!--DATA GRID OF ALL RESTAURANTS-->
 <!--Shown if the user is not editing a restaurant-->
 <!--8 Items per page-->
-<p-dataGrid *ngIf="!editing" [value]="restaurants" [paginator]="true" [rows]="8">
+<p-dataGrid *ngIf="!editing && !editingZones" [value]="restaurants" [paginator]="true" [rows]="8">
     
     <!--Datagrid header-->
     <header>
@@ -17,11 +17,114 @@
                 <img [src]="restaurant.image" (error)="restaurant.image = '/assets/pictures/no_image_found.jpg'" width="150" height="150">
                 <div class="restaurant-detail">Restaurant Type : {{restaurant.type}}</div>
                 <hr class="ui-widget-content" style="border-top:0">
-                <i class="fa fa-edit" (click)="editRestaurant(restaurant)" style="cursor:pointer"></i>
+                <button pButton type="button" label="Edit Restaurant" icon="fa-edit" (click)="editRestaurant(restaurant)"></button>
+                <button pButton type="button" label="Edit Zones" icon="fa-edit" (click)="editZones(restaurant)"></button>
             </p-panel>
         </div>
     </template>
 </p-dataGrid><br/>
+
+<!--EDIT RESTAURANT ZONES PANEL -->
+<p-panel *ngIf="editingZones">
+    <p-header >
+
+        <!--PANEL TOOLBAR WITH SAVE CANCEL BUTTONS -->
+        <div class="ui-helper-clearfix">
+            <span class="ui-panel-title"><h4>{{editingDialogHeader}}</h4></span>
+            <button pButton type="button" label='Close' icon='fa-close' (click)="closeZonePanel()"></button>
+        </div>
+    </p-header>
+
+    <p-dataTable    [value]="restaurantZones" selectionMode="single" 
+                    [(selection)]="selectedZone" (onRowSelect)="zoneSelected($event)" 
+                    [paginator]="true" rows="15" [responsive]="true">
+        <p-header>Zones</p-header>
+        <p-column field="name" header="Name"></p-column>
+        <p-column field="tables_for_x" header="Tables For"></p-column>
+        <p-column field="number_of_tables" header="Number of Tables"></p-column>
+        <p-footer *ngIf="!addingZone && !editingZone">
+            <div class="ui-helper-clearfix" style="width:100%">
+                <button  type="button" pButton icon="fa-plus" 
+                        style="float:left" (click)="addNewZone()" 
+                        label="Add Zone"></button>
+            </div>
+        </p-footer>
+    </p-dataTable><br/>
+
+    <p-growl [value]="growl" sticky="sticky"></p-growl>
+    <!--PANEL FOR CRUD INITIATION-->
+    <p-panel *ngIf="zoneCrud">
+        <div class="ui-g">
+
+            <!--ZONE NAME-->
+            <div class="ui-g-4">
+                <b>Zone name : </b>
+            </div>
+            <div class="ui-g-8">
+                <p-selectButton [options]="zoneNames" [(ngModel)]="selectedZoneName"></p-selectButton>
+            </div>
+
+            <!--ZONE TABLES FOR X-->
+            <div class="ui-g-4">
+                <b>Tables for : </b>
+            </div>
+            <div class="ui-g-4">
+                <!--INPUT-->
+                <input type="text" pInputText [(ngModel)]="tablesForX" (keyup)="enteredTablesForX()"/>
+            </div>
+            <div class="ui-g-4">
+                <!--ERROR-->
+                <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!tablesForXValid">
+                    <i class="fa fa-close"></i>
+                    <span>Invalid input!</span>
+                </div>
+            </div>
+
+            <!--ZONE NUMBER OF TABLES-->
+            <div class="ui-g-4">
+                <b>Number of tables : </b>
+            </div>
+            <div class="ui-g-4">
+                <!--INPUT-->
+                <input type="text" pInputText [(ngModel)]="numberOfTables" (keyup)="enteredNumberOfTables()"/>
+            </div>
+            <div class="ui-g-4">
+                <!--ERROR-->
+                <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!numberOfTablesValid">
+                    <i class="fa fa-close"></i>
+                    <span>Invalid input!</span>
+                </div>
+            </div>
+        </div>
+        <hr/>
+        Zone id : {{zoneCrudModel.id}}<br/>
+        Zone name : {{zoneCrudModel.name}}<br/>
+        number of tables : {{zoneCrudModel.number_of_tables}}<br/>
+        tables for : {{zoneCrudModel.tables_for_x}}<br/>
+        restaurant id : {{zoneCrudModel.restaurant?.id}}<br/>
+        <!--BUTTONS FOOTER-->
+        <p-footer>
+            <div *ngIf="addingZone" class="ui-helper-clearfix" style="width:100%">
+                    <button pButton type="button" icon="fa-plus" 
+                            (click)="confirmAdd()" 
+                            label="Add Zone" [disabled]="!numberOfTablesValid && !tablesForXValid"></button>
+                    <button pButton type="button"
+                            (click)="cancelCrud()" label="Cancel"></button> 
+            </div>
+            <div *ngIf="editingZone" class="ui-helper-clearfix" style="width:100%">
+                    <button pButton type="button" icon="fa-check"
+                             (click)="confirmEdit()" [disabled]="!numberOfTablesValid && !tablesForXValid"
+                            label="Save"></button>
+                    <button pButton type="button" icon="fa-trash"
+                            (click)="deleteZone()" label="Delete Zone"></button>
+                    <button pButton type="button"
+                            (click)="cancelCrud()" label="Cancel"></button> 
+            </div>
+        </p-footer>
+
+    </p-panel>
+</p-panel>
+
 
 <!--EDITING RESTUAURANT PANEL-->
 <p-panel *ngIf="editing">
@@ -120,89 +223,6 @@
                 </template>
             </p-pickList><br/>
         </p-tabPanel>
-
-        <!--SEATING ARRANGEMENTS-->
-            <!--Data table of the restaurants seating arrangements-->
-            <!--Zone name, tables for x, number of tables-->
-            <!--As well as the controls for adding, removing, or editing the configuration-->
-        <p-tabPanel header="Seating Arrangements">
-
-            <!--DATA TABLE To show all zones of this restaurant-->
-            <p-dataTable    [value]="showingZones" selectionMode="single" 
-                            [paginator]="true" rows="10" [responsive]="true"
-                            (onRowSelect)="editZone($event)">
-                <p-column field="zone_id.name" header="Zone Name" [sortable]="false"></p-column>
-                <p-column field="tableForX" header="Table For" [sortable]="false"></p-column>
-                <p-column field="amountOfTables" header="Amount Of tables" [sortable]="false"></p-column>
-                <p-footer>
-                    <div class="ui-helper-clearfix" style="width:100%">
-                        <button type="button" pButton icon="fa-plus" 
-                                style="float:left" (click)="newZoneDialog()" 
-                                label="Add New Zone">
-                        </button>
-                    </div>
-                </p-footer>
-            </p-dataTable>
-
-            <!--DIALOG for adding new zone / editing existing zone ,'min-width':'500px'-->
-            <p-dialog   header="Zone Details" [(visible)]="zoneDialogVisible" [responsive]="false"
-                        showEffect="fade" [modal]="true">
-                    
-                <div class="ui-g">
-                    <!--SELECT for the zone name-->
-                    <div class="ui-g-4">
-                        <label ><b>Zone Name : </b></label>
-                    </div>
-                    <div class="ui-g-8">
-                        <p-dropdown [style]="{'width':'150px'}" [options]="zoneNames" [(ngModel)]="newZone.zone_id"></p-dropdown>
-                    </div>
-
-                    <!--INPUT for table for X -->
-                    <div class="ui-g-4">
-                        <label ><b>Table for : </b></label>
-                    </div>
-                    <div class="ui-g-4">
-                        <input type="text" pInputText [(ngModel)]="newZone.tableForX" (keyup)="tableForXChanged()"/>
-                    </div>
-                    <div class="ui-g-4">
-                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!tableForXValid">
-                            <i class="fa fa-close"></i>
-                            Must be a number!
-                        </div>
-                    </div><br/>
-
-                    <!--INPUT for amount of tables -->
-                    <div class="ui-g-4">
-                        <label ><b>Amount of tables : </b></label>
-                    </div>
-                    <div class="ui-g-4">
-                        <input type="text" pInputText [(ngModel)]="newZone.amountOfTables" (keyup)="amountOfTablesChanged()"/>
-                    </div>
-                    <div class="ui-g-4">
-                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!amountOfTablesValid">
-                            <i class="fa fa-close"></i>
-                            Must be a number!
-                        </div>
-                    </div>
-                    <br/><br/><br/>
-
-                    The new zone looks like : <br/>
-                    id : {{newZone.id}}<br/>
-                    name : {{newZone.zone_id.name}}<br/>
-                    name_id : {{newZone.zone_id.id}}<br/>
-                    tableForX : {{newZone.tableForX}}<br/>
-                    amountOfTables : {{newZone.amountOfTables}}<br/>
-                </div>
-                <p-footer>
-                    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-                        <button *ngIf="addingNewZone" type="button" pButton icon="fa-check" label="Add" (click)="addZone()" [disabled]="!amountOfTablesValid && !tableForXValid"></button>
-                        <button *ngIf="!addingNewZone" type="button" pButton icon="fa-check" label="Save" (click)="saveZone()" [disabled]="!amountOfTablesValid && !tableForXValid"></button>
-                        <button *ngIf="!addingNewZone" type="button" pButton icon="fa-close" label="Delete" (click)="deleteZone()" [disabled]="!amountOfTablesValid && !tableForXValid"></button>
-                    </div>
-                </p-footer>
-            </p-dialog>
-        </p-tabPanel>
-
     </p-tabView>
 
 </p-panel>

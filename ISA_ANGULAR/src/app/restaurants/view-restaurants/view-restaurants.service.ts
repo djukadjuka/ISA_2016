@@ -4,6 +4,7 @@ import 'rxjs/Rx';
 import {RestaurantClass} from '../view-restaurants/restaurant-class';
 import {RestaurantsProductsClass} from '../restaurants-products-class';
 import {Observable} from 'rxjs/Rx';
+import {RestaurantZone} from '../view-restaurants/zone-class';
 
 
 @Injectable()
@@ -24,6 +25,34 @@ export class ViewRestaurantsService {
       var options = new RequestOptions({headers:headers});
       return this._http.put(this._baseURL+"/updateRestaurant",JSON.stringify(data),options)
       .map(res=>res.json().data);
+  }
+
+  getZonesForRestaurant(restaurant){
+      return this._http.get(this._baseURL+"/getZoneByRestaurantId/"+restaurant.id).map(res => <RestaurantZone[]>res.json());
+  }
+
+  updateZone(zone){
+    var headers = new Headers({'Content-Type':'application/json'});
+    var options = new RequestOptions({headers:headers});
+    return this._http.put(this._baseURL+"/editZone",JSON.stringify(zone),options).map(
+      res=>res.json()
+    );
+  }
+
+  deleteZone(zone){
+    var headers = new Headers({'Content-Type':'application/json'});
+    var options = new RequestOptions({headers:headers});
+    return this._http.delete(this._baseURL+"/deleteZone/"+zone.id).map(
+      res=>res.json()
+    );
+  }
+
+  createZone(zone){
+    var headers = new Headers({'Content-Type':'application/json'});
+    var options = new RequestOptions({headers:headers});
+    return this._http.put(this._baseURL+"/addZone",JSON.stringify(zone),options).map(
+      res=>res.json()
+    );
   }
 
   uploadPicture(event){

@@ -31,20 +31,6 @@ public class RestaurantBean{
 	
 	@Column(nullable = true)
 	private String image;
-	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
-	private Set<ReviewBean> reviews = new HashSet<ReviewBean>();
-
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
-	private Set<RestaurantZonesRelation> zones;
-	
-	public Set<RestaurantZonesRelation> getZones() {
-		return zones;
-	}
-
-	public void setZones(Set<RestaurantZonesRelation> zones) {
-		this.zones = zones;
-	}
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(	name = "restaurant_food_menu",
@@ -79,14 +65,6 @@ public class RestaurantBean{
 					@JoinColumn(name = "type_id", nullable=false,updatable=false)
 	)
 	private Set<RestaurantFoodTypeBean> foodTypes = new HashSet<RestaurantFoodTypeBean>();
-	
-	public Set<ReviewBean> getReviews() {
-		return reviews;
-	}
-
-	public void setReviews(Set<ReviewBean> reviews) {
-		this.reviews = reviews;
-	}
 
 	public Set<RestaurantFoodTypeBean> getFoodTypes() {
 		return foodTypes;
