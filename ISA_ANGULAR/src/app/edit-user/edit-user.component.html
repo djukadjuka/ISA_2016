@@ -44,6 +44,14 @@
                         <p-dropdown [options]="statusFilters" [style]="{'width':'100%'}" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-dropdown>
                     </template>
                 </p-column> -->
+                <p-column styleClass="col-button">
+                      <template pTemplate="header">
+                          <header>Remove from friends</header>
+                      </template>
+                      <template let-friendship="rowData" pTemplate="body">
+                          <button type="button"  label="Unfriend" class="ui-button-warning" (click)="removeFromFriends(friendship)" pButton style="float:center" icon="fa-times" iconPos="left"></button>
+                      </template>
+                </p-column>
               </p-dataTable>
           </p-accordionTab>
           <p-accordionTab header="Notifications">

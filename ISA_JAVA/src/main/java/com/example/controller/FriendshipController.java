@@ -97,4 +97,21 @@ public class FriendshipController {
 		friendshipService.update(fs);
 		return true;
 	}
+	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value = "/removeFromFriends/{id}",
+			method = RequestMethod.DELETE,
+			produces = MediaType.APPLICATION_JSON_VALUE
+			)
+	public boolean removeFromFriends(@PathVariable("id") Long id){
+		
+		friendshipService.delete(id);
+		FriendshipBean fs = friendshipService.findOne(id);
+		
+		if(fs == null)
+			return true;
+		else
+			return false;
+	}
 }

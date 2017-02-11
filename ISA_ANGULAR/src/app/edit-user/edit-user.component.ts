@@ -213,6 +213,29 @@ export class EditUserComponent implements OnInit {
           });
   }
 
+  removeFromFriends(friendship)
+  {
+      this._confirmationService.confirm({
+              header: 'Remove from friends',
+              message: 'Are you sure about this?',
+              accept: () => {
+
+                    this._editUserService.removeFromFriends(friendship.id)
+                                        .subscribe(
+                                            res => {
+                                                this.myFriendsData();
+
+                                                this.msgs = [];
+                                                if(res)
+                                                    this.msgs.push({severity:'success', summary:'Successfully unfriended!'});
+                                                else
+                                                    this.msgs.push({severity:'error', summary:'Can\'t unfriend now! Sorry.'});
+                                            }
+                                        );
+              }
+      });
+  }
+
   showChangePasswordDialog()
   {
      //TO-DO

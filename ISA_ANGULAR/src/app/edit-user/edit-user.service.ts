@@ -44,6 +44,12 @@ export class EditUserService {
                         .map(res=>res.json().data);
   }
 
+  removeFromFriends(id)
+  {
+      return this._http.delete(this._baseURL+"/removeFromFriends/" + id)
+                        .map(res => res.json());
+  }
+
   getFriendRequests(id)
   {
        return this._http.get(this._baseURL + "/getFriendRequests/" + id)
