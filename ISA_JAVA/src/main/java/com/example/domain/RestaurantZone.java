@@ -23,8 +23,23 @@ public class RestaurantZone {
 	@Column(nullable = false)
 	private String name;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "zone_id")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "zone_id")
 	private Set<RestaurantZonesRelation> relation;
+	
+	@Override
+	public int hashCode(){
+		int prime = 13;
+		return (int) (prime+prime*(1+this.getId()));
+	}
+	
+	@Override
+	public boolean equals(Object zone){
+		if(!(zone instanceof RestaurantZone))
+			return false;
+		if(this.getId() == ((RestaurantZone)zone).getId())
+			return true;
+		return false;
+	}
 	
 	@JsonIgnore
 	public Set<RestaurantZonesRelation> getRelation() {

@@ -153,56 +153,56 @@ values (26, 'Lagasses Stadium', 'Sports Bar',null);
 
 --============================================
 --RESTAURANT ZONE RELATION
---insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
+--insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables, deleted)
 --values (, , , );
 --============================================
 --=BURGER KING ZONES
-insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
-values (1, 1, 4, 2, 5);
-insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
-values (2, 1, 4, 4, 2);
-insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
-values (3, 1, 3, 4, 1);
-insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
-values (4, 1, 3, 2, 5);
-insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
-values (5, 1, 3, 3, 2);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables, deleted)
+values (1, 1, 4, 2, 5, 0);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables, deleted)
+values (2, 1, 4, 4, 2, 0);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables, deleted)
+values (3, 1, 3, 4, 1, 1);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables, deleted)
+values (4, 1, 3, 2, 5, 0);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables, deleted)
+values (5, 1, 3, 3, 2, 1);
 
 --=NOMA ZONES
-insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
-values (6, 10, 4, 2, 5);
-insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
-values (7, 10, 4, 4, 5);
-insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
-values (8, 10, 3, 3, 5);
-insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
-values (9, 10, 3, 2, 5);
-insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
-values (10, 10, 2, 2, 5);
-insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
-values (11, 10, 2, 3, 2);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables, deleted)
+values (6, 10, 4, 2, 5, 0);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables, deleted)
+values (7, 10, 4, 4, 5, 0);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables, deleted)
+values (8, 10, 3, 3, 5, 0);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables, deleted)
+values (9, 10, 3, 2, 5, 0);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables, deleted)
+values (10, 10, 2, 2, 5, 0);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables, deleted)
+values (11, 10, 2, 3, 2, 0);
 
 --=HORSESHOE CAFFE ZONES
-insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
-values (12, 15, 4, 2, 5);
-insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
-values (13, 15, 4, 3, 3);
-insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
-values (14 ,15, 3, 4, 10);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables, deleted)
+values (12, 15, 4, 2, 5, 0);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables, deleted)
+values (13, 15, 4, 3, 3, 0);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables, deleted)
+values (14 ,15, 3, 4, 10, 0);
 
 --=TWIN PEAKS ZONES
-insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
-values (15, 22, 4, 2, 12);
-insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
-values (16, 22, 4, 4, 8);
-insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
-values (17, 22, 3, 2, 10);
-insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
-values (18, 22, 7, 4, 10);
-insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
-values (19, 22, 7, 2, 10);
-insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables)
-values (20, 22, 7, 8, 2);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables, deleted)
+values (15, 22, 4, 2, 12, 0);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables, deleted)
+values (16, 22, 4, 4, 8, 0);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables, deleted)
+values (17, 22, 3, 2, 10, 0);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables, deleted)
+values (18, 22, 7, 4, 10, 0);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables, deleted)
+values (19, 22, 7, 2, 10, 0);
+insert into restaurant_has_zones(id, rest_id, zone_id, table_for_x, amoun_of_tables, deleted)
+values (20, 22, 7, 8, 2, 0);
 
 
 --=========================================================

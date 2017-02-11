@@ -128,7 +128,7 @@
         <p-tabPanel header="Seating Arrangements">
 
             <!--DATA TABLE To show all zones of this restaurant-->
-            <p-dataTable    [value]="editingRestaurant.zones" selectionMode="single" 
+            <p-dataTable    [value]="showingZones" selectionMode="single" 
                             [paginator]="true" rows="10" [responsive]="true"
                             (onRowSelect)="editZone($event)">
                 <p-column field="zone_id.name" header="Zone Name" [sortable]="false"></p-column>
@@ -150,27 +150,39 @@
                     
                 <div class="ui-g">
                     <!--SELECT for the zone name-->
-                    <div class="ui-g-6">
-                        <label for=""><b>Zone Name : </b></label>
+                    <div class="ui-g-4">
+                        <label ><b>Zone Name : </b></label>
                     </div>
-                    <div class="ui-g-6">
+                    <div class="ui-g-8">
                         <p-dropdown [style]="{'width':'150px'}" [options]="zoneNames" [(ngModel)]="newZone.zone_id"></p-dropdown>
                     </div>
 
                     <!--INPUT for table for X -->
-                    <div class="ui-g-6">
-                        <label for=""><b>Table for : </b></label>
+                    <div class="ui-g-4">
+                        <label ><b>Table for : </b></label>
                     </div>
-                    <div class="ui-g-6">
-                        <input type="text" pInputText [(ngModel)]="newZone.tableForX"/>
+                    <div class="ui-g-4">
+                        <input type="text" pInputText [(ngModel)]="newZone.tableForX" (keyup)="tableForXChanged()"/>
                     </div>
+                    <div class="ui-g-4">
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!tableForXValid">
+                            <i class="fa fa-close"></i>
+                            Must be a number!
+                        </div>
+                    </div><br/>
 
                     <!--INPUT for amount of tables -->
-                    <div class="ui-g-6">
-                        <label for=""><b>Amount of tables : </b></label>
+                    <div class="ui-g-4">
+                        <label ><b>Amount of tables : </b></label>
                     </div>
-                    <div class="ui-g-6">
-                        <input type="text" pInputText [(ngModel)]="newZone.amountOfTables"/>
+                    <div class="ui-g-4">
+                        <input type="text" pInputText [(ngModel)]="newZone.amountOfTables" (keyup)="amountOfTablesChanged()"/>
+                    </div>
+                    <div class="ui-g-4">
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!amountOfTablesValid">
+                            <i class="fa fa-close"></i>
+                            Must be a number!
+                        </div>
                     </div>
                     <br/><br/><br/>
 
@@ -183,9 +195,9 @@
                 </div>
                 <p-footer>
                     <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-                        <button *ngIf="addingNewZone" type="button" pButton icon="fa-check" label="Add" (click)="addZone()"></button>
-                        <button *ngIf="!addingNewZone" type="button" pButton icon="fa-check" label="Save" (click)="saveZone()"></button>
-                        <button *ngIf="!addingNewZone" type="button" pButton icon="fa-close" label="Delete" (click)="deleteZone()"></button>
+                        <button *ngIf="addingNewZone" type="button" pButton icon="fa-check" label="Add" (click)="addZone()" [disabled]="!amountOfTablesValid && !tableForXValid"></button>
+                        <button *ngIf="!addingNewZone" type="button" pButton icon="fa-check" label="Save" (click)="saveZone()" [disabled]="!amountOfTablesValid && !tableForXValid"></button>
+                        <button *ngIf="!addingNewZone" type="button" pButton icon="fa-close" label="Delete" (click)="deleteZone()" [disabled]="!amountOfTablesValid && !tableForXValid"></button>
                     </div>
                 </p-footer>
             </p-dialog>

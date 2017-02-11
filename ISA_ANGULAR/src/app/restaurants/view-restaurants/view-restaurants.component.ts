@@ -21,6 +21,7 @@ export class ViewRestaurantsComponent implements OnInit{
       //dialog visibity
       zoneDialogVisible = false;
       addingNewZone = false;
+      showingZones : RestaurantZone[];
 
       //new zone
       newZone : RestaurantZone = new RestaurantZone();
@@ -31,6 +32,9 @@ export class ViewRestaurantsComponent implements OnInit{
       //all zones
       availableZones : {};
 
+      //validation things
+      amountOfTablesValid = false;
+      tableForXValid = false;
     //images
     noImageFound : string = "/assets/pictures/no_image_found.jpg";
     uploadedPicture;
@@ -101,7 +105,6 @@ export class ViewRestaurantsComponent implements OnInit{
       this.availableCuisines = [  {label:'Serbian',value:'Serbian'},
                                   {label:'Spanish',value:'Spanish'},
                                   {label:'Mexian',value:'Mexian'},
-                                  {label:'Mexian',value:'Mexian'},
                                   {label:'Jamaican',value:'Jamaican'},
                                   {label:'Italian',value:'Italian'},
                                   {label:'Chinese',value:'Chinese'},
@@ -160,6 +163,13 @@ export class ViewRestaurantsComponent implements OnInit{
      this.editingRestaurant.image = restaurant.image;
      this.editingRestaurant.zones = restaurant.zones;
 
+     this.showingZones = [];
+     for(let i =0;  i<this.editingRestaurant.zones.length;  i++){
+       if(this.editingRestaurant.zones[i].deleted == 0){
+         this.showingZones.push(this.editingRestaurant.zones[i]);
+       }
+     }
+
      for(let item of this.editingRestaurant.foodTypes){
        this.selectedCuisines.push(item.name);
      }
@@ -217,6 +227,8 @@ export class ViewRestaurantsComponent implements OnInit{
          this.restaurants[i].drinksMenu = [];
          this.restaurants[i].foodMenu =[];
          this.restaurants[i].foodTypes = [];
+         this.restaurants[i].zones = [];
+
          for(let j=0; j<this.editingRestaurant.drinksMenu.length;  j++){
            this.restaurants[i].drinksMenu.push(this.editingRestaurant.drinksMenu[j]);
          }
@@ -228,6 +240,18 @@ export class ViewRestaurantsComponent implements OnInit{
          for(let j=0; j<this.editingRestaurant.foodMenu.length;  j++){
            this.restaurants[i].foodMenu.push(this.editingRestaurant.foodMenu[j]);
          }
+
+         for(let j=0; j<this.editingRestaurant.zones.length;  j++){
+           if(this.editingRestaurant.zones[j].hasOwnProperty("_$visited")){
+             console.log("has visited property.");
+             delete this.editingRestaurant.zones[j]['_$visited'];
+             console.log(this.editingRestaurant.zones[j]);
+           }else{
+             console.log(this.editingRestaurant.zones[j]);
+           }
+           this.restaurants[i].zones.push(this.editingRestaurant.zones[j]);
+         }
+
          break;
        }
      }
@@ -251,47 +275,98 @@ export class ViewRestaurantsComponent implements OnInit{
     //new zone
     newZoneDialog(){
       this.newZone = new RestaurantZone();
+      this.newZone.zone_id.name = "Garden";
+      this.newZone.zone_id.id = 1;
+      this.amountOfTablesValid = false;
+      this.tableForXValid = false;
+      this.newZone.deleted = 0;
+
       this.addingNewZone = true;
       this.zoneDialogVisible = true;
     }
 
     //existing zone
     editZone(event){
-      this.addingNewZone = false;
       this.newZone = this.cloneZone(event.data);
+      this.amountOfTablesValid = true;
+      this.tableForXValid = true;
 
+      this.addingNewZone = false;
       this.zoneDialogVisible = true;
     }
 
+    //save newly created zone.
     addZone(){
       this.editingRestaurant.zones.push(this.newZone);
-      this.printZones();
+      this.showingZones = [];
+      for(let i =0;  i<this.editingRestaurant.zones.length;  i++){
+        if(this.editingRestaurant.zones[i].deleted == 0){
+          this.showingZones.push(this.editingRestaurant.zones[i]);
+        }
+      }
       this.zoneDialogVisible=false;
     }
 
+    //save exisiting edited zone
     saveZone(){
       for(let i = 0;  i<this.editingRestaurant.zones.length;  i++){
         if(this.newZone.id == this.editingRestaurant.zones[i].id){
-          this.editingRestaurant.zones[i].zone_id.id = this.newZone.zone_id.id;
+          this.editingRestaurant.zones[i].zone_id.id = +this.newZone.zone_id.id;
           this.editingRestaurant.zones[i].zone_id.name = this.newZone.zone_id.name;
-          this.editingRestaurant.zones[i].tableForX = this.newZone.tableForX;
-          this.editingRestaurant.zones[i].amountOfTables = this.newZone.amountOfTables;
+          this.editingRestaurant.zones[i].tableForX = +this.newZone.tableForX;
+          this.editingRestaurant.zones[i].amountOfTables = +this.newZone.amountOfTables;
           break;
+        }
+      }
+      this.showingZones = [];
+      for(let i =0;  i<this.editingRestaurant.zones.length;  i++){
+        if(this.editingRestaurant.zones[i].deleted == 0){
+          this.showingZones.push(this.editingRestaurant.zones[i]);
+        }
+      }
+      this.printZones();
+      this.zoneDialogVisible=false;
+    }
+    //delete exisiting zone
+    deleteZone(){
+      for(let i = 0;  i<this.editingRestaurant.zones.length;  i++){
+        
+        if(this.newZone.id == null && this.editingRestaurant.zones[i].id == null){
+          if( this.newZone.amountOfTables == this.editingRestaurant.zones[i].amountOfTables &&
+              this.newZone.deleted == this.editingRestaurant.zones[i].deleted && 
+              this.newZone.tableForX == this.editingRestaurant.zones[i].tableForX &&
+              this.newZone.zone_id.id == this.editingRestaurant.zones[i].zone_id.id &&
+              this.newZone.zone_id.name == this.editingRestaurant.zones[i].zone_id.id){
+                this.editingRestaurant.zones[i].deleted = 1;
+                break;
+              }
+        }
+        
+        if(this.newZone.id == this.editingRestaurant.zones[i].id){
+          this.editingRestaurant.zones[i].deleted = 1;
+          break;
+        }
+      }
+      this.showingZones = [];
+      for(let i =0;  i<this.editingRestaurant.zones.length;  i++){
+        if(this.editingRestaurant.zones[i].deleted == 0){
+          this.showingZones.push(this.editingRestaurant.zones[i]);
         }
       }
       this.printZones();
       this.zoneDialogVisible=false;
     }
 
-    deleteZone(){
-      for(let i = 0;  i<this.editingRestaurant.zones.length;  i++){
-        if(this.newZone.id == this.editingRestaurant.zones[i].id){
-          this.editingRestaurant.zones.splice(i,1);
-        }
-      }
-      this.printZones();
-      this.zoneDialogVisible=false;
-    }
+   //validations
+   tableForXChanged(){
+     let reg = new RegExp('^[0-9]+$');
+     this.tableForXValid = reg.test(this.newZone.tableForX);
+   }
+
+   amountOfTablesChanged(){
+     let reg = new RegExp('^[0-9]+$');
+     this.amountOfTablesValid = reg.test(this.newZone.amountOfTables);
+   }
 
    //print helper
    printZones(){
@@ -302,6 +377,7 @@ export class ViewRestaurantsComponent implements OnInit{
        console.log("\tZone name : " + item.zone_id.name);
        console.log("\tZone table for : " + item.tableForX);
        console.log("\tAmount of tables : " + item.amountOfTables);
+       console.log("\tTO DELETE : " + item.deleted);
      }
    }
 
@@ -314,6 +390,7 @@ export class ViewRestaurantsComponent implements OnInit{
 
      clone.zone_id.name = zone.zone_id.name;
      clone.zone_id.id = zone.zone_id.id;
+     clone.deleted = zone.deleted;
 
      return clone;
    }
@@ -328,6 +405,7 @@ class RestaurantZone{
   zone_id:ZoneId;
   tableForX;
   amountOfTables;
+  deleted;
   constructor(){
     this.zone_id = new ZoneId();
   }

@@ -26,6 +26,17 @@ public class RestaurantZonesRelation {
 		this.id = id;
 	}
 
+	@Column(nullable = false)
+	private int deleted;
+	
+	public int getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(int delete) {
+		this.deleted = delete;
+	}
+
 	@ManyToOne
 	@JoinColumn(name="rest_id")
 	private RestaurantBean restaurant;
@@ -48,6 +59,20 @@ public class RestaurantZonesRelation {
 	@JsonIgnore
 	public void setRestaurant(RestaurantBean restaurant) {
 		this.restaurant = restaurant;
+	}
+	
+	@Override
+	public boolean equals(Object obj){
+		if(!(obj instanceof RestaurantZonesRelation))
+			return false;
+		if(this.getId() == ((RestaurantZonesRelation)obj).getId())
+			return true;
+		return false;
+	}
+	
+	@Override
+	public int hashCode(){
+		return (int) (13*(1+13*this.getId()));
 	}
 	
 	public RestaurantZone getZone_id() {

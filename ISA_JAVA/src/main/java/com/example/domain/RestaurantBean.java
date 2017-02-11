@@ -32,10 +32,10 @@ public class RestaurantBean{
 	@Column(nullable = true)
 	private String image;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
 	private Set<ReviewBean> reviews = new HashSet<ReviewBean>();
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
 	private Set<RestaurantZonesRelation> zones;
 	
 	public Set<RestaurantZonesRelation> getZones() {
@@ -46,7 +46,7 @@ public class RestaurantBean{
 		this.zones = zones;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(	name = "restaurant_food_menu",
 				catalog = "isa_database",
 				joinColumns = 
@@ -58,7 +58,7 @@ public class RestaurantBean{
 			)
 	private Set<ProductBean> foodMenu = new HashSet<ProductBean>();
 	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(	name = "restaurant_drinks_menu",
 				catalog = "isa_database",
 				joinColumns = 
@@ -70,7 +70,7 @@ public class RestaurantBean{
 			)
 	private Set<ProductBean> drinksMenu = new HashSet<ProductBean>();
 	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable( name = "restaurant_serves_cuisines",
 				catalog = "isa_database",
 				joinColumns = 
