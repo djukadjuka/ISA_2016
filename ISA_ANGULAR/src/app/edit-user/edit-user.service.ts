@@ -50,6 +50,12 @@ export class EditUserService {
             .map(res => res.json());
   }
 
+  getFriendships(id)
+  {
+       return this._http.get(this._baseURL + "/getFriendships/" + id)
+            .map(res => res.json());
+  }
+
   respondFriendRequest(friendship)
   {
       var headers = new Headers({'Content-Type':'application/json'});

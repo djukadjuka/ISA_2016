@@ -53,12 +53,43 @@ public class FriendshipController {
 	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(
+			value = "/getFriendships/{id}",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE
+			)
+	public ResponseEntity<Collection<FriendshipBean>> getFriendships(@PathVariable("id") Long id){
+		Collection<FriendshipBean> friendships = friendshipService.findByRecipient_id(id);
+		friendships.addAll(friendshipService.findByOriginator_id(id));
+		
+		for(FriendshipBean fs : friendships)
+		{
+			if(!fs.getStatus().equals("ACCEPTED"))
+				friendships.remove(fs);
+		}
+		
+		if(friendships == null){
+			return new ResponseEntity<Collection<FriendshipBean>>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<Collection<FriendshipBean>>(friendships,HttpStatus.OK);
+	}
+	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
 			value = "/getFriendRequests/{id}",
 			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE
 			)
 	public ResponseEntity<Collection<FriendshipBean>> getFriendRequests(@PathVariable("id") Long id){
 		Collection<FriendshipBean> friendships = friendshipService.findByRecipient_id(id);
+		//proveri da li dobro vraca recipient
+		
+		
+		//vidi stas desava
+		for(FriendshipBean fs : friendships)
+		{
+			if(!fs.getStatus().equals("PENDING"))
+				friendships.remove(fs);
+		}
 		
 		if(friendships == null){
 			return new ResponseEntity<Collection<FriendshipBean>>(HttpStatus.NOT_FOUND);

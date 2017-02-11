@@ -11,6 +11,8 @@ public interface FriendshipService {
 	
 	Collection<FriendshipBean> findByRecipient_id(Long recipient_id);
 	
+	Collection<FriendshipBean> findByOriginator_id(Long originator_id);
+	
 	Collection<FriendshipBean> findAll();
 	
 	FriendshipBean update(FriendshipBean friendship);

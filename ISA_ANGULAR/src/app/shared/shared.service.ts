@@ -11,7 +11,7 @@ export class SharedService {
   public isWaiter : boolean = false;
   public isSocialAccount : boolean = true;
 
-  public userId : String = "4";
+  public userId : String = "1";
   public userEmail : String = "";
 
 

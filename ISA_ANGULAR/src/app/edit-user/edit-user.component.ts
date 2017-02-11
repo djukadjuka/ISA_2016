@@ -4,6 +4,7 @@ import { EditUserService } from './edit-user.service';
 import { ConfirmationService } from 'primeng/primeng';
 import { Message } from 'primeng/primeng';
 import { SharedService } from '../shared/shared.service';
+import { SelectItem } from 'primeng/primeng';
 import { Observable } from 'rxjs/Rx';
 
 @Component({
@@ -13,13 +14,20 @@ import { Observable } from 'rxjs/Rx';
 })
 export class EditUserComponent implements OnInit {
 
-  //variables for user's friends
+  //variables for new people user can add
   private allUsers = [];
   private allUsersCols = [];
+  private stackedFindNewPeople = false;
 
   //variables for user's notifications
   private allFriendRequests = [];
   private allFriendRequestsCols = [];
+
+  //variables for user's friends
+  private allUsersFriendships = [];
+  private allUsersFriendshipsCols = [];
+  private statusFilters : SelectItem[];
+  private stackedMyFriends = false;
 
   //variables for editing user profile information
   private formEditUser: FormGroup;
@@ -52,18 +60,19 @@ export class EditUserComponent implements OnInit {
                            res => this.user = res
                          );
     
-    //all users for Find new people tab
-    this._editUserService.getUsers(this._sharedService.userId)
-                              .subscribe(
-                                res => this.allUsers = res
-                              );
+    this.findNewPeopleData();
 
-    this._editUserService.getFriendRequests(this._sharedService.userId)
-                              .subscribe(
-                                res => this.allFriendRequests = res
-                              );
+    this.myFriendsData();
+
+    this.notificationsData();
     
-    this.allUsersCols = [
+    this.setColumnsForDataLists();
+    
+  }
+
+  setColumnsForDataLists()
+  {
+      this.allUsersCols = [
             {field: 'firstName', header: 'First name'},
             {field: 'lastName', header: 'Last name'},
             {field: 'username', header: 'Username'},
@@ -75,6 +84,43 @@ export class EditUserComponent implements OnInit {
             {field: 'originator.lastName', header: 'Last name'},
             {field: 'originator.username', header: 'Username'}
         ];
+
+    this.allUsersFriendshipsCols = [
+            {field: 'recipient.firstName', header: 'First name'},
+            {field: 'recipient.lastName', header: 'Last name'},
+            {field: 'recipient.username', header: 'Username'}
+        ];
+    
+    this.statusFilters = [
+        {label: 'Any Status', value: null},
+         {label: 'Friends', value: "ACCEPTED"},
+          {label: 'Pending', value: "PENDING"}
+    ];
+  }
+
+  myFriendsData()
+  {
+       this._editUserService.getFriendships(this._sharedService.userId)
+                          .subscribe(
+                            res => this.allUsersFriendships = res
+                          );
+  }
+
+  findNewPeopleData()
+  {
+      //all users for Find new people tab
+      this._editUserService.getUsers(this._sharedService.userId)
+                              .subscribe(
+                                res => this.allUsers = res
+                              );
+  }
+
+  notificationsData()
+  {
+      this._editUserService.getFriendRequests(this._sharedService.userId)
+                              .subscribe(
+                                res => this.allFriendRequests = res
+                              );
   }
 
   fillForm()
@@ -125,6 +171,8 @@ export class EditUserComponent implements OnInit {
                   this._editUserService.sendFriendRequest(this.user,user)
                                       .subscribe(
                                           res => {
+                                             this.findNewPeopleData();
+                                             
                                              this.msgs = [];
                                              this.msgs.push({severity:'success', summary:'Friend request sent.', detail:'Please wait for '+user.firstName + ' ' + user.lastName + ' to respond.'});  
                                           }
@@ -135,9 +183,6 @@ export class EditUserComponent implements OnInit {
 
   respondFriendRequest(friendship, status)
   {
-      console.log(friendship);
-      
-
       let statusMessage = status==1 ? "accept" : "decline";
       
       friendship.status = status==1 ? "ACCEPTED" : "DECLINED";
@@ -150,8 +195,13 @@ export class EditUserComponent implements OnInit {
                   this._editUserService.respondFriendRequest(friendship)
                                       .subscribe(
                                           res => {
+                                             this.notificationsData();
+
                                              this.msgs = [];
-                                             this.msgs.push({severity:'success', summary:'Friend request '+ statusMessage});  
+                                             if(statusMessage = "accept")
+                                                this.msgs.push({severity:'success', summary:'Friend request accepted!'});
+                                             else
+                                                this.msgs.push({severity:'success', summary:'Friend request declined!'});  
                                           }
                                       );
               }
