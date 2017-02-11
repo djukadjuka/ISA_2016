@@ -306,6 +306,30 @@ insert into product(id, name, description, price, is_food)
 values (500015, 'Orangina', 'Best soft drink from wherever the hell it is.', 999, FALSE);
 
 --========================================
+--Tables
+--insert into tables(table_id,max_people,segment,smoking,status_table,image)
+--values(, );
+
+--=========================================
+insert into tables(table_id, max_people, segment, smoking, status_table,image)
+values (11111, 4, 'segment', 'non-smoking','free' ,'/assets/pictures/restaurant_pictures/10.jpg');
+
+insert into tables(table_id, max_people, segment, smoking, status_table,image)
+values (11112, 4, 'segment', 'non-smoking','free' ,'/assets/pictures/restaurant_pictures/10.jpg');
+
+insert into tables(table_id, max_people, segment, smoking, status_table,image)
+values (11113, 4, 'segment', 'non-smoking','free' ,'/assets/pictures/restaurant_pictures/10.jpg');
+
+insert into tables(table_id, max_people, segment, smoking, status_table,image)
+values (11114, 4, 'segment', 'non-smoking','free' ,'/assets/pictures/restaurant_pictures/10.jpg');
+
+insert into tables(table_id, max_people, segment, smoking, status_table,image)
+values (11115, 4, 'segment', 'non-smoking','free' ,'/assets/pictures/restaurant_pictures/10.jpg');
+
+insert into tables(table_id, max_people, segment, smoking, status_table,image)
+values (11116, 4, 'segment', 'non-smoking','free' ,'/assets/pictures/restaurant_pictures/10.jpg');
+
+--========================================
 --RESTAURANT DRINKS
 
 --insert into restaurant_drinks_menu(rest_id, drink_id)

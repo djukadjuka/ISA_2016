@@ -14,6 +14,8 @@ export class EditBarmanComponent implements OnInit,OnChanges {
   private user = {};
   private userUpdate = {};
 
+  private displaySchedule: boolean = false;
+
   constructor(
      private _editUserService : EditUserHelpService,
   ) { }
@@ -64,6 +66,10 @@ export class EditBarmanComponent implements OnInit,OnChanges {
     console.log(this.user);
   }
 
-   
+   showScheduleDialog() 
+  {
+       
+        this.displaySchedule = true;
+  }
 
 }

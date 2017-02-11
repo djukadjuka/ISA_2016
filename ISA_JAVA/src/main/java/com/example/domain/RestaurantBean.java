@@ -29,7 +29,7 @@ public class RestaurantBean{
 	@Column(nullable = false)
 	private String type;
 	
-	@Column(nullable = true)
+	@Column(nullable = true,name = "image")
 	private String image;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

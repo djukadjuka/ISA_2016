@@ -12,7 +12,7 @@
   
       
       <p>
-        <a href="#" class="btn btn-primary" role="button" (click)="showSchedule($event,restaurant)">Show Schedule</a>
+        <input class ="btn btn-primary" value="Schedule" (click)="showScheduleDialog()"  type="button">
          
       </p>
   
@@ -22,22 +22,13 @@
     
   </div>
 
-<div [hidden]="!showEdit">
-        <br/>
-        <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
+<!--  schedule panel -->
+<p-dialog header="Your schedule" [responsive]=true [resizable]=false [draggable]=false width="500" [modal]=true [(visible)]="displaySchedule">
+    <h3>Personal info</h3>
+   
+      
+</p-dialog>
 
-            <h3>Your Schedule</h3>
-            
-            <form class="form-horizontal">
-                <div class="form-group">
-                    <label class="col-lg-3 control-label">Schedule:</label>
-                    <div class="col-lg-8">
-                    <input class="form-control"  value="Tables" type="text">
-                    </div>
-                </div>
-            </form>
-      </div>
-</div>
 
   <!-- edit form column -->
   <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
