@@ -200,6 +200,7 @@ export class EditUserComponent implements OnInit {
                                       .subscribe(
                                           res => {
                                              this.notificationsData();
+                                             this.myFriendsData();
 
                                              this.msgs = [];
                                              if(statusMessage = "accept")
