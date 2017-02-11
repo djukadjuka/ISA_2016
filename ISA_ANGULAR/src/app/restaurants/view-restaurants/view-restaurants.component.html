@@ -1,3 +1,32 @@
+<!-- Filtering restaurants -->
+<button pButton type="button" class="ui-button-secondary" label="Filter restaurants" style="margin-bottom: 15px" icon="fa fa-filter" (click)="showFilterDialog=true"></button>
+<button *ngIf="showFilterCancelButton" pButton type="button" class="ui-button-danger" pTooltip="Cancel filter" tooltipPosition="bottom" style="margin-bottom: 15px" icon="fa-times" (click)="cancelFilter()"></button>
+<div *ngIf="showFilterCancelButton">
+    <p> Showing results for: </p>
+    <p> Name: {{filterData.restaurantName.trim()}}</p>
+</div>
+
+<p-dialog header="Filter restaurants" [responsive]=true [resizable]=false [draggable]=false width="500" [modal]=true [(visible)]="showFilterDialog">
+    <h3>Filtering info</h3>
+    <form [formGroup]="formFilter" class="form-horizontal">
+      <div class="form-group">
+        <div class="col-md-12">
+          <label class="control-label">Restaurant name (contains):</label>
+          <input class="form-control" formControlName="restaurantName" [(ngModel)]="filterData.restaurantName" type="text">
+        </div>
+      </div>
+     
+      <div class="form-group">
+        <label class="col-md-3 control-label"></label>
+        <div class="col-md-8">
+          <button pButton [disabled]="!formFilter.valid" class="ui-button-success" type="text" (click)="filterRestaurants()" icon="fa-check" label="Apply filter"></button>
+          <span></span>
+          <button pButton class="ui-button-danger" type="text" (click)="showFilterDialog=false" icon="fa-close" label="Cancel"></button>
+        </div>
+      </div>
+    </form>
+</p-dialog>
+
 <!--DATA GRID OF ALL RESTAURANTS-->
 <!--Shown if the user is not editing a restaurant-->
 <!--8 Items per page-->
@@ -39,6 +68,7 @@
                     [(selection)]="selectedZone" (onRowSelect)="zoneSelected($event)" 
                     [paginator]="true" rows="15" [responsive]="true">
         <p-header>Zones</p-header>
+        <p-column field="id" header="Zone ID"></p-column>
         <p-column field="name" header="Name"></p-column>
         <p-column field="tables_for_x" header="Tables For"></p-column>
         <p-column field="number_of_tables" header="Number of Tables"></p-column>
@@ -96,25 +126,20 @@
                 </div>
             </div>
         </div>
-        <hr/>
-        Zone id : {{zoneCrudModel.id}}<br/>
-        Zone name : {{zoneCrudModel.name}}<br/>
-        number of tables : {{zoneCrudModel.number_of_tables}}<br/>
-        tables for : {{zoneCrudModel.tables_for_x}}<br/>
-        restaurant id : {{zoneCrudModel.restaurant?.id}}<br/>
+
         <!--BUTTONS FOOTER-->
         <p-footer>
             <div *ngIf="addingZone" class="ui-helper-clearfix" style="width:100%">
                     <button pButton type="button" icon="fa-plus" 
                             (click)="confirmAdd()" 
-                            label="Add Zone" [disabled]="!numberOfTablesValid && !tablesForXValid"></button>
+                            label="Add Zone" [disabled]="!numberOfTablesValid || !tablesForXValid"></button>
                     <button pButton type="button"
                             (click)="cancelCrud()" label="Cancel"></button> 
             </div>
             <div *ngIf="editingZone" class="ui-helper-clearfix" style="width:100%">
                     <button pButton type="button" icon="fa-check"
-                             (click)="confirmEdit()" [disabled]="!numberOfTablesValid && !tablesForXValid"
-                            label="Save"></button>
+                             (click)="confirmEdit()" label="Save" [disabled]="!numberOfTablesValid || !tablesForXValid"
+                            ></button>
                     <button pButton type="button" icon="fa-trash"
                             (click)="deleteZone()" label="Delete Zone"></button>
                     <button pButton type="button"

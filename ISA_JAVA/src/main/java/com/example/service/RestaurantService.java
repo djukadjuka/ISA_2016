@@ -8,6 +8,8 @@ public interface RestaurantService {
 
 	Collection<RestaurantBean> findAll();
 	
+	Collection<RestaurantBean> filterRestaurants(String name);
+	
 	RestaurantBean findOne(Long id);
 	
 	RestaurantBean create(RestaurantBean restaurant);

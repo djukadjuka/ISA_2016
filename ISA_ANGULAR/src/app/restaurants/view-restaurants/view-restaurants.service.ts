@@ -19,6 +19,14 @@ export class ViewRestaurantsService {
         return this._http.get(this._baseURL + "/getAllRestaurants")
             .map(res =><RestaurantClass[]> res.json());
     }
+  
+  filterRestaurants(filterData)
+  {
+      //let filterPrepare = '\'%' + filterData.restaurantName.trim() + '%\'';
+
+      return this._http.get(this._baseURL + "/filterRestaurants/"+ filterData.restaurantName.trim())
+            .map(res =><RestaurantClass[]> res.json());
+  }
 
   updateRestaurant(data){
       var headers = new Headers({'Content-Type':'application/json'});

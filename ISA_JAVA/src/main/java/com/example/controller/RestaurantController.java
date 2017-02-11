@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,6 +37,21 @@ public class RestaurantController {
 			return new ResponseEntity<RestaurantBean>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<RestaurantBean>(restaurant,HttpStatus.OK);
+	}
+	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value = "/filterRestaurants/{name}",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE
+			)
+	public ResponseEntity<Collection<RestaurantBean>> getRestaurant(@PathVariable("name") String name){
+		Collection<RestaurantBean> restaurants = restaurantService.filterRestaurants(name);
+		
+		if(restaurants == null){
+			return new ResponseEntity<Collection<RestaurantBean>>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<Collection<RestaurantBean>>(restaurants,HttpStatus.OK);
 	}
 	
 	@CrossOrigin(origins = "http://localhost:4200")

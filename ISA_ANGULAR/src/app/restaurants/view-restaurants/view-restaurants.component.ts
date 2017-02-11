@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ViewRestaurantsService} from './view-restaurants.service';
-import {NgForm} from '@angular/forms';
+import {NgForm, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {RestaurantClass} from '../view-restaurants/restaurant-class';
 import {RestaurantZone} from '../view-restaurants/zone-class';
 import {ProductService} from '../../products/products.service';
@@ -43,6 +43,13 @@ export class ViewRestaurantsComponent implements OnInit{
   //all restaurants
   restaurants : RestaurantClass[];
 
+  //filtering restaurants
+  filteredRestaurants : RestaurantClass[];
+  filterData = { restaurantName : ""};
+  showFilterDialog = false;
+  showFilterCancelButton = false;
+  formFilter : FormGroup;
+
   //Editing things
   editingRestaurant : RestaurantClass = new RestaurantClass();
   availableFood : any[] = [];
@@ -56,7 +63,12 @@ export class ViewRestaurantsComponent implements OnInit{
 
   allFoodTypes : {};
 
-  constructor(private viewRestaurantsService : ViewRestaurantsService, private productService : ProductService) {
+  constructor(
+    private viewRestaurantsService : ViewRestaurantsService, 
+    private productService : ProductService,
+    private _fb: FormBuilder) 
+    {
+
       this.allFoodTypes = {"Serbian":{"id":1,"name":"Serbian"},
         "Spanish":{"id":2,"name":"Spanish"},
         "Mexian":{"id":3,"name":"Mexian"},
@@ -117,6 +129,11 @@ export class ViewRestaurantsComponent implements OnInit{
           }
         }
       );
+
+      //filter form builder
+      this.formFilter = this._fb.group({
+        restaurantName: ['']
+        });
    }
 
    //show dialog to edit a single restaurant
@@ -381,5 +398,28 @@ export class ViewRestaurantsComponent implements OnInit{
    }
    closeZonePanel(){
      this.editingZones = false;
+   }
+
+   filterRestaurants()
+   {
+      this.viewRestaurantsService.filterRestaurants(this.filterData)
+                                .subscribe(
+                                  res => {
+                                      this.showFilterDialog = false;
+                                      this.showFilterCancelButton = true;
+                                      this.restaurants = res;
+                                  }
+                                );
+   }
+
+   cancelFilter()
+   {
+      this.viewRestaurantsService.getRestaurants()
+                                .subscribe(
+                                  res => {
+                                      this.showFilterCancelButton = false;
+                                      this.restaurants = res;
+                                  }
+                                );
    }
 }

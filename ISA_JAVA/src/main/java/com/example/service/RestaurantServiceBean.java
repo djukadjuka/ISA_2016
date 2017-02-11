@@ -49,4 +49,10 @@ public class RestaurantServiceBean implements RestaurantService{
 		repository.delete(id);
 	}
 
+	@Override
+	public Collection<RestaurantBean> filterRestaurants(String name) {
+		// TODO Auto-generated method stub
+		return repository.filterRestaurants(name);
+	}
+
 }
