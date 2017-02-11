@@ -53,13 +53,28 @@ public class FriendshipController {
 	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(
+			value = "/getFriendships/{id}",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE
+			)
+	public ResponseEntity<Collection<FriendshipBean>> getFriendships(@PathVariable("id") Long id){
+		Collection<FriendshipBean> friendships = friendshipService.findByRecipient_idOrOriginator_idAndStatusAccepted(id);
+		
+		if(friendships == null){
+			return new ResponseEntity<Collection<FriendshipBean>>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<Collection<FriendshipBean>>(friendships,HttpStatus.OK);
+	}
+	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
 			value = "/getFriendRequests/{id}",
 			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE
 			)
 	public ResponseEntity<Collection<FriendshipBean>> getFriendRequests(@PathVariable("id") Long id){
-		Collection<FriendshipBean> friendships = friendshipService.findByRecipient_id(id);
-		
+		Collection<FriendshipBean> friendships = friendshipService.findByRecipient_idAndStatusPending(id);
+	
 		if(friendships == null){
 			return new ResponseEntity<Collection<FriendshipBean>>(HttpStatus.NOT_FOUND);
 		}
@@ -81,5 +96,22 @@ public class FriendshipController {
 		
 		friendshipService.update(fs);
 		return true;
+	}
+	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value = "/removeFromFriends/{id}",
+			method = RequestMethod.DELETE,
+			produces = MediaType.APPLICATION_JSON_VALUE
+			)
+	public boolean removeFromFriends(@PathVariable("id") Long id){
+		
+		friendshipService.delete(id);
+		FriendshipBean fs = friendshipService.findOne(id);
+		
+		if(fs == null)
+			return true;
+		else
+			return false;
 	}
 }

@@ -1,10 +1,6 @@
 package com.example.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
-
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.domain.FriendshipBean;
 import com.example.domain.UserBean;
 import com.example.service.FriendshipService;
 import com.example.service.UserService;
@@ -27,6 +24,9 @@ public class UserController {
 	
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	FriendshipService friendshipService;
 	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(
@@ -57,7 +57,7 @@ public class UserController {
 		return false;
 	}
 	
-	//vraca sve ljude koji nisu prijatelji, sve ljude kojima potencijalno moze da posalje request
+	//vraca sve ljude kojima user jos nije poslao friend request
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(
 			value = "/getAllUsers/{id}",
@@ -66,10 +66,12 @@ public class UserController {
 			)
 	public ResponseEntity<Collection<UserBean>> getUsersFriends(@PathVariable("id") Long id){
 		Collection<UserBean> users = userService.findAll();
+		Collection<FriendshipBean> friendships = friendshipService.findByOriginator_id(id);
 		
 		if(users == null){
 			return new ResponseEntity<Collection<UserBean>>(HttpStatus.NOT_FOUND);
 		}
+		
 		for(UserBean user : users)
 		{
 			if(user.getId().equals(id))
@@ -78,6 +80,13 @@ public class UserController {
 				break;
 			}
 		}
+		
+		for(FriendshipBean fs : friendships)
+		{
+			if(!fs.getStatus().equals("DECLINED"))
+				users.remove(fs.getRecipient());
+		}
+		
 		return new ResponseEntity<Collection<UserBean>>(users,HttpStatus.OK);
 	}
 	
