@@ -37,12 +37,13 @@
           <p-accordionTab header="My friends">
               <button pButton type="button" (click)="stackedMyFriends = !stackedMyFriends" style="margin-bottom:10px" label="Change view" icon="fa-list"></button>
               <p-dataTable [value]="allUsersFriendships" [responsive]="true" [stacked]="stackedMyFriends" [rows]="5" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
+                  <p-header> All friends </p-header>
                   <p-column *ngFor="let col of allUsersFriendshipsCols" [field]="col.field" [filter]="true" filterPlaceholder="Search" [header]="col.header"></p-column>
-                  <p-column field="status" header="Status" [filter]="true" [sortable]=true [style]="{'overflow':'visible'}" filterMatchMode="equals">
+                  <!--<p-column field="status" header="Status" [filter]="true" [sortable]=true [style]="{'overflow':'visible'}" filterMatchMode="equals">
                     <template pTemplate="filter" let-col>
                         <p-dropdown [options]="statusFilters" [style]="{'width':'100%'}" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-dropdown>
                     </template>
-                </p-column> 
+                </p-column> -->
               </p-dataTable>
           </p-accordionTab>
           <p-accordionTab header="Notifications">

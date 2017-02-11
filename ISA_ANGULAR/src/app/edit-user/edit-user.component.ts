@@ -64,7 +64,10 @@ export class EditUserComponent implements OnInit {
 
     this.myFriendsData();
 
-    this.notificationsData();
+    //svakih 15 sekundi povlacenje notifikacija
+    Observable.timer(0, 15000).subscribe(
+               res => this.notificationsData()
+    );
     
     this.setColumnsForDataLists();
     
@@ -88,14 +91,15 @@ export class EditUserComponent implements OnInit {
     this.allUsersFriendshipsCols = [
             {field: 'recipient.firstName', header: 'First name'},
             {field: 'recipient.lastName', header: 'Last name'},
-            {field: 'recipient.username', header: 'Username'}
+            {field: 'recipient.username', header: 'Username'},
+            {field: 'recipient.email', header: 'Email'}
         ];
     
-    this.statusFilters = [
-        {label: 'Any Status', value: null},
-         {label: 'Friends', value: "ACCEPTED"},
-          {label: 'Pending', value: "PENDING"}
-    ];
+    // this.statusFilters = [
+    //     {label: 'Any Status', value: null},
+    //      {label: 'Friends', value: "ACCEPTED"},
+    //       {label: 'Pending', value: "PENDING"}
+    // ];
   }
 
   myFriendsData()
