@@ -54,7 +54,8 @@ import { TestService } from './test/test.service';
 import { EditUserService } from './edit-user/edit-user.service';
 import { EditUserHelpService } from './edit-barman/edit-userhelp.service';
 import { ProductService} from './products/products.service';
-import { SharedService } from './shared/shared.service';  
+import { SharedService } from './shared/shared.service'; 
+import { TablesService } from './tables/tables.service';
 
 @NgModule({
   declarations: [
@@ -105,7 +106,8 @@ import { SharedService } from './shared/shared.service';
     EditUserHelpService,
     ProductService,
     ConfirmationService,
-    SharedService
+    SharedService,
+    TablesService
   ],
   bootstrap: [AppComponent]
 })
