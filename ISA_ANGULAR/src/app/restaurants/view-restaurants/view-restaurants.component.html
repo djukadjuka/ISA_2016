@@ -3,8 +3,11 @@
 <button *ngIf="showFilterCancelButton" pButton type="button" class="ui-button-danger" pTooltip="Cancel filter" tooltipPosition="bottom" style="margin-bottom: 15px" icon="fa-times" (click)="cancelFilter()"></button>
 <div *ngIf="showFilterCancelButton">
     <p> Showing results for: </p>
-    <p> Name: {{filterData.restaurantName.trim()}}</p>
+    <p *ngIf="filterData.restaurantName.trim() != ''"> Name containing: <b>{{filterData.restaurantName.trim()}} </b></p>
+    <p *ngIf="filterData.restaurantType != ''"> Type of restaurant: <b>{{filterData.restaurantType}} </b></p>
 </div>
+
+<p-growl [value]="growl"></p-growl>
 
 <p-dialog header="Filter restaurants" [responsive]=true [resizable]=false [draggable]=false width="500" [modal]=true [(visible)]="showFilterDialog">
     <h3>Filtering info</h3>
@@ -15,7 +18,17 @@
           <input class="form-control" formControlName="restaurantName" [(ngModel)]="filterData.restaurantName" type="text">
         </div>
       </div>
-     
+      <div class="form-group">
+          <div class="col-md-12">
+            <label class="control-label">Type of restaurant:</label>
+            <select name="role" class="form-control" formControlName="restaurantType" [(ngModel)]="filterData.restaurantType">
+                <option [value]="" selected></option>
+                <option *ngFor="let type of restaurantTypes" [value]="type.value">  
+                {{type.label}}
+                </option>
+            </select>
+          </div>
+      </div>
       <div class="form-group">
         <label class="col-md-3 control-label"></label>
         <div class="col-md-8">
@@ -81,7 +94,6 @@
         </p-footer>
     </p-dataTable><br/>
 
-    <p-growl [value]="growl" sticky="sticky"></p-growl>
     <!--PANEL FOR CRUD INITIATION-->
     <p-panel *ngIf="zoneCrud">
         <div class="ui-g">

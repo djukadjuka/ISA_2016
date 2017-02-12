@@ -45,7 +45,7 @@ export class ViewRestaurantsComponent implements OnInit{
 
   //filtering restaurants
   filteredRestaurants : RestaurantClass[];
-  filterData = { restaurantName : ""};
+  filterData = { restaurantName : "", restaurantType: ""};
   showFilterDialog = false;
   showFilterCancelButton = false;
   formFilter : FormGroup;
@@ -132,7 +132,8 @@ export class ViewRestaurantsComponent implements OnInit{
 
       //filter form builder
       this.formFilter = this._fb.group({
-        restaurantName: ['']
+        restaurantName: [''],
+        restaurantType: ['']
         });
    }
 
@@ -402,7 +403,15 @@ export class ViewRestaurantsComponent implements OnInit{
 
    filterRestaurants()
    {
-      this.viewRestaurantsService.filterRestaurants(this.filterData)
+     if(this.formFilter.value.restaurantName.trim() == "" && this.formFilter.value.restaurantType == "")
+     {
+        this.growl = [];
+        this.growl.push({severity:'error',
+                          summary:'Can\'t apply an empty filter!',
+                          detail:'Please choose some filtering options.'});
+     }
+     else
+        this.viewRestaurantsService.filterRestaurants(this.filterData)
                                 .subscribe(
                                   res => {
                                       this.showFilterDialog = false;
