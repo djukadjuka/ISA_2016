@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -46,12 +47,23 @@ public class RestaurantController {
 	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(
-			value = "/filterRestaurants/{name}",
-			method = RequestMethod.GET,
+			value = "/filterRestaurants",
+			method = RequestMethod.POST,
 			produces = MediaType.APPLICATION_JSON_VALUE
 			)
-	public ResponseEntity<Collection<RestaurantBean>> getRestaurant(@PathVariable("name") String name){
-		Collection<RestaurantBean> restaurants = restaurantService.filterRestaurants(name);
+	public ResponseEntity<Collection<RestaurantBean>> getRestaurant(@RequestBody HashMap<String, String> filter){
+		
+		Collection<RestaurantBean> restaurants = null;
+		
+		String name = filter.get("restaurantName").trim();
+		String type = filter.get("restaurantType");
+		
+		if(!name.equals("") && !type.equals(""))
+			restaurants = restaurantService.filterRestaurantsByNameAndType(name, type);
+		else if(!name.equals(""))
+			restaurants = restaurantService.filterRestaurantsByName(name);
+		else if(!type.equals(""))
+			restaurants = restaurantService.filterRestaurantsByType(type);
 		
 		if(restaurants == null){
 			return new ResponseEntity<Collection<RestaurantBean>>(HttpStatus.NOT_FOUND);

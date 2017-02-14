@@ -50,9 +50,21 @@ public class RestaurantServiceBean implements RestaurantService{
 	}
 
 	@Override
-	public Collection<RestaurantBean> filterRestaurants(String name) {
+	public Collection<RestaurantBean> filterRestaurantsByName(String name) {
 		// TODO Auto-generated method stub
-		return repository.filterRestaurants(name);
+		return repository.filterRestaurantsByName(name);
+	}
+
+	@Override
+	public Collection<RestaurantBean> filterRestaurantsByType(String type) {
+		// TODO Auto-generated method stub
+		return repository.filterRestaurantsByType(type);
+	}
+
+	@Override
+	public Collection<RestaurantBean> filterRestaurantsByNameAndType(String name, String type) {
+		// TODO Auto-generated method stub
+		return repository.filterRestaurantsByNameAndType(name, type);
 	}
 
 }

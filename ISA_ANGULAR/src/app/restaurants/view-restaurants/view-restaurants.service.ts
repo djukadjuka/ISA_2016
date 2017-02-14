@@ -26,9 +26,9 @@ export class ViewRestaurantsService {
 
   filterRestaurants(filterData)
   {
-      //let filterPrepare = '\'%' + filterData.restaurantName.trim() + '%\'';
-
-      return this._http.get(this._baseURL + "/filterRestaurants/"+ filterData.restaurantName.trim())
+      var headers = new Headers({'Content-Type':'application/json'});
+      var options = new RequestOptions({headers:headers});
+      return this._http.post(this._baseURL + "/filterRestaurants",JSON.stringify(filterData),options)
             .map(res =><RestaurantClass[]> res.json());
   }
 
