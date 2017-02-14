@@ -1,9 +1,12 @@
 package com.example.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +15,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.domain.RestaurantBean;
 import com.example.service.RestaurantService;
@@ -93,5 +98,70 @@ public class RestaurantController {
 		
 	}
 	
+	private long restId;
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(value="/prepForUpload/{id}",method=RequestMethod.GET)
+	public ResponseEntity<String> prepForUpload(@PathVariable("id") Long id){
+		System.out.println(id);
+		restId = id;
+		return new ResponseEntity<String>("Sent",HttpStatus.OK);
+	}
 	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value = "/uploadImage",
+			headers=("content-type=multipart/*"),
+			method = RequestMethod.POST
+			)
+	@ResponseBody
+	public ResponseEntity<TESTFILEINFO> uploadImage(@RequestParam("file") MultipartFile image) throws IOException{
+		
+		System.out.println(System.getProperty("user.dir"));
+		
+		TESTFILEINFO fileInfo = new TESTFILEINFO();
+		HttpHeaders headers = new HttpHeaders();
+		
+		if (!image.isEmpty()) {
+			try {
+				String filename = image.getOriginalFilename();
+				
+				File destination = new File("C:\\Users\\Djuka\\Desktop\\FOLDER_STRUCTURE"+  File.separator + restId + ".jpg");
+				image.transferTo(destination);
+				
+				fileInfo.setFileName(destination.getPath());
+				fileInfo.setFileSize(image.getSize());
+				
+				headers.add("File Uploaded Successfully - ", filename);
+				
+				return new ResponseEntity<TESTFILEINFO>(fileInfo, headers, HttpStatus.OK);
+			}catch (Exception e){    
+				return new ResponseEntity<TESTFILEINFO>(HttpStatus.BAD_REQUEST);
+			}
+		}else{
+			return new ResponseEntity<TESTFILEINFO>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+}
+
+class TESTFILEINFO {
+
+	private String fileName;
+	private long fileSize;
+	
+	public String getFileName() {
+		return fileName;
+	}
+	
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+	
+	public long getFileSize() {
+		return fileSize;
+	}
+	
+	public void setFileSize(long fileSize) {
+		this.fileSize = fileSize;
+	}
 }

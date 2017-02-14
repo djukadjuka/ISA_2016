@@ -19,7 +19,11 @@ export class ViewRestaurantsService {
         return this._http.get(this._baseURL + "/getAllRestaurants")
             .map(res =><RestaurantClass[]> res.json());
     }
-  
+
+    prepForUpload(id){
+        return this._http.get(this._baseURL + "/prepForUpload/" + id).map(res=>console.log(res));
+    }
+
   filterRestaurants(filterData)
   {
       //let filterPrepare = '\'%' + filterData.restaurantName.trim() + '%\'';

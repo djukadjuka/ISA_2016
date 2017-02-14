@@ -44,14 +44,59 @@
         <div style="padding:3px" class="ui-g-12 ui-md-3">
             <p-panel [header]="restaurant.name" [style]="{'text-align':'center'}">
                 <img [src]="restaurant.image" (error)="restaurant.image = '/assets/pictures/no_image_found.jpg'" width="150" height="150">
-                <div class="restaurant-detail">Restaurant Type : {{restaurant.type}}</div>
+                
+                <!--QUICK DETAILS-->
                 <hr class="ui-widget-content" style="border-top:0">
-                <button pButton type="button" label="Edit Restaurant" icon="fa-edit" (click)="editRestaurant(restaurant)"></button>
-                <button pButton type="button" label="Edit Zones" icon="fa-edit" (click)="editZones(restaurant)"></button>
+                <div class="restaurant-detail">
+
+                    <!--Type of restaurant-->
+                    <b>Type : </b><i>{{restaurant.type}}</i><br/>
+                    <hr class="ui-widget-content" style="border-top:0">
+
+                    <!--Food types-->
+                    <b>Serves : </b><br/>
+                    <div *ngIf="restaurant.foodTypes.length == 0">
+                        <i>None specified ...</i><br/><br/><br/><br/>
+                    </div>
+                    <div *ngIf="restaurant.foodTypes.length > 0">
+                        <template ngFor let-foodtype="$implicit" [ngForOf]="restaurant.foodTypes" let-i="index">
+                            <template [ngIf]="i<3">
+                                <i>{{foodtype.name}}</i><br/>
+                            </template>
+                            <template [ngIf]="i==2 && restaurant.foodTypes.length > 2">
+                                <i>And Many More ...</i>
+                            </template>
+                        </template>
+                    </div>
+                    
+                </div>
+                <!-- REPLACE IF NOT A GOOD MANAGER-->
+                <hr class="ui-widget-content" style="border-top:0">
+                <button style="width:100%" pButton type="button" label="Edit Restaurant" 
+                        icon="fa-edit" (click)="editRestaurant(restaurant)">
+                        </button><br/>
+                <button style="width:100%" pButton type="button" label="Edit Zones" 
+                        icon="fa-edit" (click)="editZones(restaurant)">
+                        </button><br/>
+                <button style="width:100%" pButton type="button" label="Change Image"
+                        icon="fa-image" (click)="showUploadImageDialog(restaurant.id)"> 
+                        </button><br/>
+                
             </p-panel>
         </div>
     </template>
 </p-dataGrid><br/>
+
+<!--IMAGE UPLOAD DIALOG-->
+<p-dialog   header="Upload Picture" [responsive]=true 
+            [resizable]=false [draggable]=false width="500" height="500"
+            [modal]=true [(visible)]="uploadingPicture">
+    
+    <p-fileUpload name="file" url="http://localhost:4400/uploadImage" (onUpload)="uploadImageBaby($event)" 
+        accept="image/*" maxFileSize="1000000" (onBeforeSend)="beforeSend($event)" (onSelect)="beforeUpload($event)"> 
+    </p-fileUpload>
+
+</p-dialog>
 
 <!--EDIT RESTAURANT ZONES PANEL -->
 <p-panel *ngIf="editingZones">

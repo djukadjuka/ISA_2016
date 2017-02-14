@@ -422,4 +422,31 @@ export class ViewRestaurantsComponent implements OnInit{
                                   }
                                 );
    }
+
+   ///////////////////////////////////////
+   // IMAGE UPLOADING
+   ///////////////////////////////////////
+   uploadingPicture = false;
+   showUploadImageDialog(id){
+     this.uploadingPicture = true;
+     this.uploadingId = id;
+   }
+   uploadImageBaby(event){
+     //show the file information
+     // could do with just event.files[0] since it's only one file ....
+     //console.log(event.files);
+   }
+
+   beforeSend(event){
+     console.log(event.xhr);
+     console.log(event.formData);
+   }
+
+   uploadingId;
+
+   beforeUpload(event){
+     this.viewRestaurantsService.prepForUpload(this.uploadingId).subscribe(res=>res);
+    //READONLY //event.files[0].name = this.uploadingId + ".jpg";
+     //console.log(event.files[0].name);
+   }
 }
