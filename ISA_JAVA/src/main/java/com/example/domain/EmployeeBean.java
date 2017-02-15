@@ -1,13 +1,20 @@
 package com.example.domain;
 
 import java.util.Date;
+import java.util.Set;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -20,6 +27,7 @@ import javax.persistence.TemporalType;
 public class EmployeeBean{
 
 	@Id
+	@Access(AccessType.FIELD)
 	private long id;
 	
 	@OneToOne(cascade = CascadeType.ALL) @MapsId
@@ -27,18 +35,58 @@ public class EmployeeBean{
 	private UserBean user;
 	
 	@Column(nullable = false)
-	@Enumerated(EnumType.ORDINAL)
+	@Enumerated(EnumType.STRING)
 	private EmployeeEnum role;
 	
 	@Column(nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date dateOfBirth;
 	
-	@Column(nullable = false)
-	private float shoeSize;
+	@Column(nullable = true)
+	private Float shoeSize;
 	
-	@Column(nullable = false)
-	private float suitSize;
+	@Column(nullable = true)
+	private Float suitSize;
+
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(	name = "registering_restaurants",
+				catalog = "isa_database",
+				joinColumns = 
+						@JoinColumn(name = "manager_id", nullable = false, updatable = false)
+				,
+				inverseJoinColumns = 
+						@JoinColumn(name = "rest_id", nullable = false, updatable = false)
+				
+			)
+	private Set<RegisteringRestaurant> has_registered;
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(	name = "manages_restaurants",
+				catalog = "isa_database",
+				joinColumns = 
+						@JoinColumn(name = "manager_id", nullable = false, updatable = false)
+				,
+				inverseJoinColumns = 
+						@JoinColumn(name = "rest_id", nullable = false, updatable = false)
+				
+			)
+	private Set<RestaurantBean> manages;
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public UserBean getUser() {
+		return user;
+	}
+
+	public void setUser(UserBean user) {
+		this.user = user;
+	}
 
 	public EmployeeEnum getRole() {
 		return role;
@@ -56,20 +104,36 @@ public class EmployeeBean{
 		this.dateOfBirth = dateOfBirth;
 	}
 
-	public float getShoeSize() {
+	public Float getShoeSize() {
 		return shoeSize;
 	}
 
-	public void setShoeSize(float shoeSize) {
+	public void setShoeSize(Float shoeSize) {
 		this.shoeSize = shoeSize;
 	}
 
-	public float getSuitSize() {
+	public Float getSuitSize() {
 		return suitSize;
 	}
 
-	public void setSuitSize(float suitSize) {
+	public void setSuitSize(Float suitSize) {
 		this.suitSize = suitSize;
+	}
+
+	public Set<RegisteringRestaurant> getHas_registered() {
+		return has_registered;
+	}
+
+	public void setHas_registered(Set<RegisteringRestaurant> has_registered) {
+		this.has_registered = has_registered;
+	}
+
+	public Set<RestaurantBean> getManages() {
+		return manages;
+	}
+
+	public void setManages(Set<RestaurantBean> manages) {
+		this.manages = manages;
 	}
 	
 	

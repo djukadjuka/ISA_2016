@@ -1,8 +1,11 @@
 package com.example.domain;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -21,6 +23,7 @@ public class RestaurantBean{
 
 	@Id
 	@GeneratedValue
+	@Access(AccessType.FIELD)
 	private long id;
 	
 	@Column(nullable = false)
@@ -65,6 +68,23 @@ public class RestaurantBean{
 					@JoinColumn(name = "type_id", nullable=false,updatable=false)
 	)
 	private Set<RestaurantFoodTypeBean> foodTypes = new HashSet<RestaurantFoodTypeBean>();
+	
+	@ManyToMany(mappedBy = "manages")
+	private Set<EmployeeBean> managers;
+	
+	public Set<Long> getManagers() {
+		HashSet<Long> set = new HashSet<>();
+		for(EmployeeBean em : managers){
+			set.add(em.getId());
+			System.out.println(em.getId());
+		}
+		
+		return set;
+	}
+
+	public void setManagers(Set<EmployeeBean> managers) {
+		this.managers = managers;
+	}
 
 	public Set<RestaurantFoodTypeBean> getFoodTypes() {
 		return foodTypes;

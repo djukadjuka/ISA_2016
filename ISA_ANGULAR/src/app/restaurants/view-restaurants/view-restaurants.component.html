@@ -156,8 +156,14 @@
             [resizable]=false [draggable]=false width="500" height="500"
             [modal]=true [(visible)]="uploadingPicture">
     
+    <p-panel header="Instructions">
+        To upload an image, click the -choose- button and select an image you want for your restaurant.
+        Once you have selected an image, click the upload buton. Once the upload is finished, your
+        restaurant will have a new image representing it. If you can not see the new image, refresh the page.
+    </p-panel>
+    <br/>
     <p-fileUpload name="file" url="http://localhost:4400/uploadImage" (onUpload)="uploadImageBaby($event)" 
-        accept="image/*" maxFileSize="1000000" (onBeforeSend)="beforeSend($event)" (onSelect)="beforeUpload($event)"> 
+        accept="image/*" maxFileSize="1000000" (onBeforeSend)="beforeSend($event)" (onSelect)="beforeUpload($event)">
     </p-fileUpload>
 
 </p-dialog>

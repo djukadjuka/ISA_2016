@@ -2,6 +2,8 @@ package com.example.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -30,6 +32,15 @@ public class RestaurantController {
 
 	@Autowired
 	private RestaurantService restaurantService = new RestaurantServiceBean();
+	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(value="/createRestaurant",method=RequestMethod.PUT,consumes=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<RestaurantBean> createRestaurant(@RequestBody RestaurantBean restaurant){
+		
+		RestaurantBean r = restaurantService.create(restaurant);
+		
+		return new ResponseEntity<RestaurantBean>(r,HttpStatus.OK);
+	}
 	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(
@@ -114,7 +125,6 @@ public class RestaurantController {
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(value="/prepForUpload/{id}",method=RequestMethod.GET)
 	public ResponseEntity<String> prepForUpload(@PathVariable("id") Long id){
-		System.out.println(id);
 		restId = id;
 		return new ResponseEntity<String>("Sent",HttpStatus.OK);
 	}
@@ -128,7 +138,10 @@ public class RestaurantController {
 	@ResponseBody
 	public ResponseEntity<TESTFILEINFO> uploadImage(@RequestParam("file") MultipartFile image) throws IOException{
 		
-		System.out.println(System.getProperty("user.dir"));
+		String dir = System.getProperty("user.dir");
+		
+		Path pth = Paths.get(dir,"../","ISA_ANGULAR/src/assets/pictures/restaurant_pictures");
+		System.out.println(pth);
 		
 		TESTFILEINFO fileInfo = new TESTFILEINFO();
 		HttpHeaders headers = new HttpHeaders();
@@ -137,7 +150,7 @@ public class RestaurantController {
 			try {
 				String filename = image.getOriginalFilename();
 				
-				File destination = new File("C:\\Users\\Djuka\\Desktop\\FOLDER_STRUCTURE"+  File.separator + restId + ".jpg");
+				File destination = new File(pth +  File.separator + restId + ".jpg");
 				image.transferTo(destination);
 				
 				fileInfo.setFileName(destination.getPath());
