@@ -219,6 +219,7 @@ export class ViewRestaurantsComponent implements OnInit{
            this.restaurants[i].foodMenu.push(this.editingRestaurant.foodMenu[j]);
          }
 
+         /*
          for(let j=0; j<this.editingRestaurant.zones.length;  j++){
            if(this.editingRestaurant.zones[j].hasOwnProperty("_$visited")){
              console.log("has visited property.");
@@ -229,7 +230,7 @@ export class ViewRestaurantsComponent implements OnInit{
            }
            this.restaurants[i].zones.push(this.editingRestaurant.zones[j]);
          }
-
+        */
          break;
        }
      }

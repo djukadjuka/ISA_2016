@@ -10,6 +10,7 @@ export class SharedService {
   public isBartender : boolean = false;
   public isWaiter : boolean = false;
   public isSocialAccount : boolean = true;
+  public isManager : boolean = true;
 
   public userId : String = "1";
   public userEmail : String = "";

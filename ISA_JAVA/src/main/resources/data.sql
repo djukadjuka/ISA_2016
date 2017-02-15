@@ -56,79 +56,79 @@ insert into restaurant(id, name, type, image)
 values (1, 'Burger King', 'Fast Food','/assets/pictures/restaurant_pictures/1.jpg');
 
 insert into restaurant(id, name, type, image) 
-values (2, 'Jack-in-the-Box', 'Fast Food',null);
+values (2, 'Jack-in-the-Box', 'Fast Food','/assets/pictures/restaurant_pictures/2.jpg');
 
 insert into restaurant(id, name, type, image) 
-values (3, 'Big Pizza', 'Fast Food',null);
+values (3, 'Big Pizza', 'Fast Food','/assets/pictures/restaurant_pictures/3.jpg');
 
 insert into restaurant(id, name, type, image) 
-values (4, 'Pizza Hut', 'Fast Food',null);
+values (4, 'Pizza Hut', 'Fast Food','/assets/pictures/restaurant_pictures/4.jpg');
 
 insert into restaurant(id, name, type, image) 
-values (5, 'Gordon Ramsay London', 'Fine Dining',null);
+values (5, 'Gordon Ramsay London', 'Fine Dining','/assets/pictures/restaurant_pictures/5.jpg');
 
 insert into restaurant(id, name, type, image) 
-values (6, 'Lanterna', 'Fine Dining',null);
+values (6, 'Lanterna', 'Fine Dining','/assets/pictures/restaurant_pictures/6.jpg');
 
 insert into restaurant(id, name, type, image) 
-values (7, 'Wine Cellar', 'Fine Dining',null);
+values (7, 'Wine Cellar', 'Fine Dining','/assets/pictures/restaurant_pictures/7.jpg');
 
 insert into restaurant(id, name, type, image) 
 values (8, 'Afaria', 'Bistro','/assets/pictures/restaurant_pictures/8.jpg');
 
 insert into restaurant(id, name, type, image) 
-values (9, 'Allard', 'Bistro',null);
+values (9, 'Allard', 'Bistro','/assets/pictures/restaurant_pictures/9.jpg');
 
 insert into restaurant(id, name, type, image) 
 values (10, 'Noma', 'Fine Dining','/assets/pictures/restaurant_pictures/10.jpg');
 
 insert into restaurant(id, name, type, image) 
-values (11, 'Celler de Can Roca', 'Fine Dining',null);
+values (11, 'Celler de Can Roca', 'Fine Dining','/assets/pictures/restaurant_pictures/11.jpg');
 
 insert into restaurant(id, name, type, image) 
-values (12, 'Eleven Madison Park', 'Fine Dining',null);
+values (12, 'Eleven Madison Park', 'Fine Dining','/assets/pictures/restaurant_pictures/12.jpg');
 
 insert into restaurant(id, name, type, image) 
-values (13, 'Auberge Pyrenees Cevennes', 'Bistro',null);
+values (13, 'Auberge Pyrenees Cevennes', 'Bistro','/assets/pictures/restaurant_pictures/13.jpg');
 
 insert into restaurant(id, name, type, image) 
-values (14, 'Aux Lyonnais', 'Bistro',null);
+values (14, 'Aux Lyonnais', 'Bistro','/assets/pictures/restaurant_pictures/14.jpg');
 
 insert into restaurant(id, name, type, image) 
 values (15, 'Horseshoe Cafe', 'Diner','/assets/pictures/restaurant_pictures/15.jpg');
 
 insert into restaurant(id, name, type, image) 
-values (16, 'Palace Diner', 'Diner',null);
+values (16, 'Palace Diner', 'Diner','/assets/pictures/restaurant_pictures/16.jpg');
 
 insert into restaurant(id, name, type, image) 
-values (17, 'White Light Diner', 'Diner',null);
+values (17, 'White Light Diner', 'Diner','/assets/pictures/restaurant_pictures/17.jpg');
 
 insert into restaurant(id, name, type, image) 
-values (18, 'Ruths Diner', 'Diner',null);
+values (18, 'Ruths Diner', 'Diner','/assets/pictures/restaurant_pictures/18.jpg');
 
 insert into restaurant(id, name, type, image) 
-values (19, 'Blue Benn', 'Diner',null);
+values (19, 'Blue Benn', 'Diner','/assets/pictures/restaurant_pictures/19.jpg');
 
 insert into restaurant(id, name, type, image) 
-values (20, 'Fremont Diner', 'Diner',null);
+values (20, 'Fremont Diner', 'Diner','/assets/pictures/restaurant_pictures/20.jpg');
 
 insert into restaurant(id, name, type, image) 
-values (21, 'JC Irish', 'Sports Bar',null);
+values (21, 'JC Irish', 'Sports Bar','/assets/pictures/restaurant_pictures/21.jpg');
 
 insert into restaurant(id, name, type, image) 
 values (22, 'Twin Peaks', 'Sports Bar','/assets/pictures/restaurant_pictures/22.jpg');
 
 insert into restaurant(id, name, type, image) 
-values (23, 'The Pub at Monte Carlo', 'Sports Bar',null);
+values (23, 'The Pub at Monte Carlo', 'Sports Bar','/assets/pictures/restaurant_pictures/23.jpg');
 
 insert into restaurant(id, name, type, image) 
-values (24, 'TAP', 'Sports Bar',null);
+values (24, 'TAP', 'Sports Bar','/assets/pictures/restaurant_pictures/24.jpg');
 
 insert into restaurant(id, name, type, image) 
-values (25, 'Crown & Anchor', 'Sports Bar',null);
+values (25, 'Crown & Anchor', 'Sports Bar','/assets/pictures/restaurant_pictures/25.jpg');
 
 insert into restaurant(id, name, type, image) 
-values (26, 'Lagasses Stadium', 'Sports Bar',null);
+values (26, 'Lagasses Stadium', 'Sports Bar','/assets/pictures/restaurant_pictures/26.jpg');
 
 --=====================================
 --RESTAURANT ZONES
@@ -309,7 +309,6 @@ values (500015, 'Orangina', 'Best soft drink from wherever the hell it is.', 999
 --Tables
 --insert into tables(table_id,max_people,segment,smoking,status_table,image)
 --values(, );
-
 --=========================================
 insert into tables(table_id, max_people, segment, smoking, status_table,image)
 values (11111, 4, 'segment', 'non-smoking','free' ,'/assets/pictures/restaurant_pictures/10.jpg');
@@ -525,3 +524,31 @@ insert into restaurant_serves_cuisines(rest_id,type_id)
 values (10, 3);
 insert into restaurant_serves_cuisines(rest_id,type_id)
 values (10, 10);
+
+--=============================================
+--MANAGERS
+--insert into employee()
+--=============================================
+insert into employee(date_of_birth,role,shoe_size,suit_size,user_id)
+values ('2000-1-1','MANAGER',null,null,1);
+insert into employee(date_of_birth,role,shoe_size,suit_size,user_id)
+values ('2000-1-1','MANAGER',null,null,2);
+
+
+--=====================================
+--TESTING DJuKA
+--=====================================
+insert into restaurant_registry(id,restaurant_name,seen,type,status,deleted)
+values(1,'A new Hope',0,'Fast Food','PENDING',0);
+
+insert into registering_restaurants(rest_id,manager_id)
+values(1,1);
+
+insert into manages_restaurants(rest_id,manager_id)
+values(1,1);
+insert into manages_restaurants(rest_id,manager_id)
+values(2,1);
+insert into manages_restaurants(rest_id,manager_id)
+values(3,1);
+insert into manages_restaurants(rest_id,manager_id)
+values(1,2);
