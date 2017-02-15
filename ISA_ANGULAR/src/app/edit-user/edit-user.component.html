@@ -29,7 +29,7 @@
                           <header>Add a friend</header>
                       </template>
                       <template let-user="rowData" pTemplate="body">
-                          <button type="button" label="Send request" class="ui-button-success" (click)="sendFriendRequest(user)" pButton style="float:center" icon="fa-user-plus" iconPos="left"></button>
+                          <button type="button" label="Send request" class="ui-button-success" (click)="sendFriendRequest(user)" pButton style="float:center; width: 100%;" icon="fa-user-plus" iconPos="left"></button>
                       </template>
                   </p-column>
               </p-dataTable>
@@ -49,7 +49,7 @@
                           <header>Remove from friends</header>
                       </template>
                       <template let-friendship="rowData" pTemplate="body">
-                          <button type="button"  label="Unfriend" class="ui-button-warning" (click)="removeFromFriends(friendship)" pButton style="float:center" icon="fa-times" iconPos="left"></button>
+                          <button type="button"  label="Unfriend" class="ui-button-warning" (click)="removeFromFriends(friendship)" pButton style="float:center; width: 100%;" icon="fa-times" iconPos="left"></button>
                       </template>
                 </p-column>
               </p-dataTable>

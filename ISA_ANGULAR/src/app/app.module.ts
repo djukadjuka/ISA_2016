@@ -46,6 +46,8 @@ import {ListboxModule} from 'primeng/primeng';
 import {FileUploadModule} from 'primeng/primeng';
 import {DropdownModule} from 'primeng/primeng';
 import {TooltipModule} from 'primeng/primeng';
+import {StepsModule} from 'primeng/primeng';
+import {ProgressBarModule} from 'primeng/primeng';
 
 //Service imports
 
@@ -97,6 +99,8 @@ import { TablesService } from './tables/tables.service';
     FileUploadModule,
     DropdownModule,
     TooltipModule,
+    StepsModule,
+    ProgressBarModule,
     routing
   ],
   providers: [

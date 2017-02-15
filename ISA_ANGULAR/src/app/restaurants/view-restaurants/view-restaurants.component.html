@@ -40,6 +40,54 @@
     </form>
 </p-dialog>
 
+<!--Reservations dialog-->
+<p-dialog header="Table reservation" [responsive]=true [resizable]=false [draggable]=false width="700" [modal]=true [(visible)]="showReservationDialog">
+ 
+    <div class="ui-g">
+        <div class="ui-g-4"></div>
+        <div class="ui-g-4">
+            <p-steps [model]="reservationSteps" styleClass="steps-basic"></p-steps>
+        </div>
+    </div>
+    <div>
+        <h3>Date and time info</h3>
+        <form [formGroup]="formReservation" class="form-horizontal">
+            <div class="form-group">
+                <div class="col-md-12">
+                <label class="control-label">Date:</label>
+                <!--<input class="form-control" formControlName="date" [(ngModel)]="reservation.date" type="text">-->
+                <p><p-calendar [(ngModel)]="reservation.date" formControlName="date" [showIcon]="true"></p-calendar></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-12">
+                <label class="control-label">Start time:</label>
+                <!--<input class="form-control" formControlName="startTime" [(ngModel)]="reservation.startTime" type="text">-->
+                <p><p-calendar [(ngModel)]="reservation.startTime" formControlName="startTime" [timeOnly]="true"></p-calendar></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-12">
+                <label class="control-label">End time:</label>
+                <!--<input class="form-control" formControlName="endTime" [(ngModel)]="reservation.endTime" type="text">-->
+                <p><p-calendar [(ngModel)]="reservation.endTime" formControlName="endTime" [timeOnly]="true"></p-calendar></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="ui-g">
+                    <div class="ui-g-3"></div>
+                    <div class="ui-g-3"></div>
+                    <div class="ui-g-3"></div>
+                    <div class="ui-g-3">
+                        <button pButton [disabled]="!formReservation.valid" class="ui-button-success" type="text"  icon="fa-check" label="Next step"></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <p-progressBar [value]="50"></p-progressBar>
+</p-dialog>
+
 <!--DATA GRID OF ALL RESTAURANTS-->
 <!--Shown if the user is not editing a restaurant-->
 <!--8 Items per page-->
@@ -93,6 +141,9 @@
                         </button><br/>
                 <button style="width:100%" pButton type="button" label="Change Image"
                         icon="fa-image" (click)="showUploadImageDialog(restaurant.id)"> 
+                        </button><br/>
+                <button style="width:100%" pButton type="button" label="Reservation"
+                        icon="fa-book" (click)="showReservationDialog=true"> 
                         </button><br/>
                 
             </p-panel>

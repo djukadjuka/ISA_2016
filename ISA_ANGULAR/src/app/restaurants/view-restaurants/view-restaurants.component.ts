@@ -7,6 +7,7 @@ import {ProductService} from '../../products/products.service';
 import {ProductClass} from '../../products/product-class';
 import {SelectItem} from 'primeng/primeng';
 import {Message} from 'primeng/primeng';
+import {MenuItem} from 'primeng/primeng';
 import {Http,Headers,RequestOptions,RequestMethod,Request,Response} from '@angular/http';
 
 @Component({
@@ -49,6 +50,12 @@ export class ViewRestaurantsComponent implements OnInit{
   showFilterDialog = false;
   showFilterCancelButton = false;
   formFilter : FormGroup;
+
+  //reservation for restaurant
+  showReservationDialog = false;
+  reservationSteps: MenuItem[] = [{label: "Step"}, {label: "Step"}, {label: "Step"}];
+  reservation = { date : "", startTime : "", endTime : "" };
+  formReservation : FormGroup;
 
   //Editing things
   editingRestaurant : RestaurantClass = new RestaurantClass();
@@ -134,6 +141,13 @@ export class ViewRestaurantsComponent implements OnInit{
       this.formFilter = this._fb.group({
         restaurantName: [''],
         restaurantType: ['']
+        });
+
+      //reservation form builder
+       this.formReservation = this._fb.group({
+        date: ['', Validators.required],
+        startTime: ['', Validators.required],
+        endTime: ['', Validators.required]
         });
    }
 
