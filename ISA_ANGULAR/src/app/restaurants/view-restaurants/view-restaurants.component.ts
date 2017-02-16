@@ -54,7 +54,9 @@ export class ViewRestaurantsComponent implements OnInit{
   //reservation for restaurant
   showReservationDialog = false;
   reservationSteps: MenuItem[] = [{label: "Step"}, {label: "Step"}, {label: "Step"}];
-  reservation = { date : "", startTime : "", endTime : "" };
+  reservation = { startDate : new Date, endDate : new Date };
+  reservationActiveStep = 0;
+  reservationLoadingBar = 10;
   formReservation : FormGroup;
 
   //Editing things
@@ -145,9 +147,8 @@ export class ViewRestaurantsComponent implements OnInit{
 
       //reservation form builder
        this.formReservation = this._fb.group({
-        date: ['', Validators.required],
-        startTime: ['', Validators.required],
-        endTime: ['', Validators.required]
+        startDate: ['', Validators.required],
+        endDate: ['', Validators.required]
         });
    }
 
@@ -416,6 +417,8 @@ export class ViewRestaurantsComponent implements OnInit{
      this.editingZones = false;
    }
 
+   //filtering restaurants functions
+
    filterRestaurants()
    {
      if(this.formFilter.value.restaurantName.trim() == "" && this.formFilter.value.restaurantType == "")
@@ -445,6 +448,33 @@ export class ViewRestaurantsComponent implements OnInit{
                                       this.restaurants = res;
                                   }
                                 );
+   }
+
+   //reservation steps functions
+
+   reservationStep1()
+   {
+        this.reservation.endDate.setFullYear(this.reservation.startDate.getFullYear());
+        this.reservation.endDate.setMonth(this.reservation.startDate.getMonth());
+        this.reservation.endDate.setDate(this.reservation.startDate.getDate());
+
+        if(this.reservation.endDate.getTime() - this.reservation.startDate.getTime() < 1800000)
+        {
+              this.growl = [];
+              this.growl.push({severity:'error',
+                                summary:'Wrong end time!',
+                                detail:'Your reservation can\'t end before it started and has to last at least 30 minutes.'});
+        }
+        else
+        {
+            this.reservationActiveStep = 1;
+            //this.reservationLoadingBar = 30;
+            while(this.reservationLoadingBar < 35)
+            {
+              this.reservationLoadingBar += 1;
+            }
+        }
+        
    }
 
    ///////////////////////////////////////

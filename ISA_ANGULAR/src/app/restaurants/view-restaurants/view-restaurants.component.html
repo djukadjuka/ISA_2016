@@ -46,31 +46,26 @@
     <div class="ui-g">
         <div class="ui-g-4"></div>
         <div class="ui-g-4">
-            <p-steps [model]="reservationSteps" styleClass="steps-basic"></p-steps>
+            <p-steps [model]="reservationSteps" [activeIndex]="reservationActiveStep" styleClass="steps-basic"></p-steps>
         </div>
     </div>
-    <div>
+    <!--Reservation step 1-->
+    <div *ngIf="reservationActiveStep==0">
         <h3>Date and time info</h3>
         <form [formGroup]="formReservation" class="form-horizontal">
-            <div class="form-group">
+            <div class="form-group" style="float: left">
                 <div class="col-md-12">
-                <label class="control-label">Date:</label>
-                <!--<input class="form-control" formControlName="date" [(ngModel)]="reservation.date" type="text">-->
-                <p><p-calendar [(ngModel)]="reservation.date" formControlName="date" [showIcon]="true"></p-calendar></p>
+                <label class="control-label">Start date and time:</label>
+                <p><p-calendar [(ngModel)]="reservation.startDate" formControlName="startDate" inputStyleClass="form-control" [monthNavigator]="true" [yearNavigator]="true" yearRange="2017:2018" [inline]="true" [showTime]="true" ></p-calendar></p>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-lg-12">
-                <label class="control-label">Start time:</label>
-                <!--<input class="form-control" formControlName="startTime" [(ngModel)]="reservation.startTime" type="text">-->
-                <p><p-calendar [(ngModel)]="reservation.startTime" formControlName="startTime" [timeOnly]="true"></p-calendar></p>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-lg-12">
-                <label class="control-label">End time:</label>
-                <!--<input class="form-control" formControlName="endTime" [(ngModel)]="reservation.endTime" type="text">-->
-                <p><p-calendar [(ngModel)]="reservation.endTime" formControlName="endTime" [timeOnly]="true"></p-calendar></p>
+            <div class="form-group" >
+                <div class="ui-g">
+                    <div class="ui-g-3"></div>
+                    <div class="ui-g-3">
+                        <label class="control-label">End time:</label>
+                        <p><p-calendar [(ngModel)]="reservation.endDate" formControlName="endDate" [inline]="true" [timeOnly]="true"></p-calendar></p>
+                    </div>
                 </div>
             </div>
             <div class="form-group">
@@ -79,13 +74,28 @@
                     <div class="ui-g-3"></div>
                     <div class="ui-g-3"></div>
                     <div class="ui-g-3">
-                        <button pButton [disabled]="!formReservation.valid" class="ui-button-success" type="text"  icon="fa-check" label="Next step"></button>
+                        <button pButton style="float: right" [disabled]="!formReservation.valid" (click)="reservationStep1()" class="ui-button-success" type="text"  icon="fa-check" label="Next step"></button>
                     </div>
                 </div>
             </div>
         </form>
     </div>
-    <p-progressBar [value]="50"></p-progressBar>
+    <!--Reservation step 2-->
+    <div *ngIf="reservationActiveStep==1">
+        <b> Za izabrani vremenski period graficki prikaz slobodnih stolova </b>
+        
+        <div class="form-group">
+            <div class="ui-g">
+                <div class="ui-g-3"></div>
+                <div class="ui-g-3"></div>
+                <div class="ui-g-3"></div>
+                <div class="ui-g-3">
+                    <button pButton style="float: right" (click)="reservationStep2()" class="ui-button-success" type="text"  icon="fa-check" label="Next step"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p-progressBar [value]="reservationLoadingBar"></p-progressBar>
 </p-dialog>
 
 <!--DATA GRID OF ALL RESTAURANTS-->
