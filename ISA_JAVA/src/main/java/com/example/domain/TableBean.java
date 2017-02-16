@@ -12,7 +12,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 
 @Entity
-@Table(name = "tables")
+@Table(name = "Table")
 public class TableBean implements Serializable {
 
 	
@@ -27,14 +27,7 @@ public class TableBean implements Serializable {
 	@Column(name = "max_people", unique = false, nullable = false)
 	private Integer maxPeople;
 
-	@Column(name = "segment", unique = false, nullable = false)
-	private String segment;
 	
-	@Column(name = "smoking", unique = false, nullable = false)
-	private String smoking;
-	
-	@Column(name = "status_table", unique = false, nullable = false)
-	private String statusTable;
 	
 
 	@Column(name = "image",  nullable = true)
@@ -44,7 +37,7 @@ public class TableBean implements Serializable {
 	
 	public TableBean() {
 		super();
-		this.statusTable = "free";
+		
 	}
 	
 
@@ -59,13 +52,7 @@ public class TableBean implements Serializable {
 	
 
 
-	public String getSegment() {
-		return segment;
-	}
-
-	public void setSegment(String segment) {
-		this.segment = segment;
-	}
+	
 
 	
 	public Integer getMaxPeople() {
@@ -76,22 +63,7 @@ public class TableBean implements Serializable {
 		this.maxPeople = maxPeople;
 	}
 
-	public String getSmoking() {
-		return smoking;
-	}
-
-	public void setSmoking(String smoking) {
-		this.smoking = smoking;
-	}
-
-
-	public String getStatusTable() {
-		return statusTable;
-	}
-
-	public void setStatusTable(String statusTable) {
-		this.statusTable = statusTable;
-	}
+	
 	
 	
 	public String getImage() {
