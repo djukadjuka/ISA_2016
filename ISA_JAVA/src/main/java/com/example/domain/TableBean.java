@@ -12,7 +12,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 
 @Entity
-@Table(name = "Table")
+@Table(name = "Tables")
 public class TableBean implements Serializable {
 
 	
@@ -26,9 +26,6 @@ public class TableBean implements Serializable {
 	
 	@Column(name = "max_people", unique = false, nullable = false)
 	private Integer maxPeople;
-
-	
-	
 
 	@Column(name = "image",  nullable = true)
 	private String image;
