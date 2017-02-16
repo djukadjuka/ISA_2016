@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { TablesClass } from '../tables/tables-class';
+import { TablesService } from '../tables/tables.service';
 
 @Component({
   selector: 'app-edit-waiter',
@@ -7,9 +9,36 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditWaiterComponent implements OnInit {
 
-  constructor() { }
+
+   private displayScheduleButton: boolean = false;
+   private showTablesButton: boolean = false ;
+
+   tables: TablesClass[];
+
+  constructor(
+ private tablesService: TablesService
+
+  ) { }
 
   ngOnInit() {
+    
+  }
+
+  displaySchedule(){
+
+    this.displayScheduleButton = true;
+
+
+  }
+  showTables(){
+    this.tablesService.getTables().subscribe(
+      res => {
+        this.tables = res;
+      }
+    );
+
+    this.showTablesButton = true;
+
   }
 
 }

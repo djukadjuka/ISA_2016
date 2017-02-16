@@ -7,9 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditChefComponent implements OnInit {
 
+
+  private displayScheduleButton: boolean =false;
   constructor() { }
 
   ngOnInit() {
   }
 
+
+  displaySchedule(){
+    this.displayScheduleButton = true;
+
+  }
 }

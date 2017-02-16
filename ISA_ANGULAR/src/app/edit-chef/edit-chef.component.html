@@ -11,12 +11,19 @@
 
 
       <p>
-          <input class="btn btn-primary" value="Schedule" type="button">
+          <input class="btn btn-primary" (click)="displaySchedule()" value="Schedule" type="button">
       </p>
   
  <p>
-          <input class="btn btn-primary" value="Tables" type="button">
+          <input class="btn btn-primary" value="Orders" type="button">
   </div>
+
+
+<p-dialog header="Schedule" [responsive]=true [resizable]=false [draggable]=false width="500" [modal]=true [(visible)]="displayScheduleButton">
+   <h3>Your Schedule</h3>
+
+</p-dialog>
+
   <!-- edit form column -->
   <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
     <h3>Personal info</h3>
