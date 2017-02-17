@@ -58,7 +58,7 @@ public class EmployeeBean{
 						@JoinColumn(name = "rest_id", nullable = false, updatable = false)
 				
 			)
-	private Set<RegisteringRestaurant> has_registered;
+	private Set<RestaurantRegistry> has_registered;
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(	name = "manages_restaurants",
@@ -120,11 +120,11 @@ public class EmployeeBean{
 		this.suitSize = suitSize;
 	}
 
-	public Set<RegisteringRestaurant> getHas_registered() {
+	public Set<RestaurantRegistry> getHas_registered() {
 		return has_registered;
 	}
 
-	public void setHas_registered(Set<RegisteringRestaurant> has_registered) {
+	public void setHas_registered(Set<RestaurantRegistry> has_registered) {
 		this.has_registered = has_registered;
 	}
 

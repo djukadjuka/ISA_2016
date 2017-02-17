@@ -310,8 +310,8 @@ values (500015, 'Orangina', 'Best soft drink from wherever the hell it is.', 999
 --insert into tables(table_id,max_people,image)
 --values(, );
 --=========================================
-insert into tables(table_id, max_people,image)
-values (11111, 4, '/assets/pictures/restaurant_pictures/10.jpg');
+--insert into tables(table_id, max_people,image)
+--values (11111, 4, '/assets/pictures/restaurant_pictures/10.jpg');
 
 
 --========================================
@@ -513,12 +513,15 @@ values (10, 10);
 
 --=============================================
 --MANAGERS
---insert into employee()
 --=============================================
 insert into employee(date_of_birth,role,shoe_size,suit_size,user_id)
-values ('2000-1-1','MANAGER',null,null,1);
+values ('2030-1-1','MANAGER',null,null,1);
 insert into employee(date_of_birth,role,shoe_size,suit_size,user_id)
-values ('2000-1-1','MANAGER',null,null,2);
+values ('2040-1-1','MANAGER',null,null,2);
+insert into employee(date_of_birth,role,shoe_size,suit_size,user_id)
+values ('2050-1-1','MANAGER',null,null,3);
+insert into employee(date_of_birth,role,shoe_size,suit_size,user_id)
+values ('2010-1-1','MANAGER',null,null,4);
 
 
 --=====================================
@@ -526,15 +529,47 @@ values ('2000-1-1','MANAGER',null,null,2);
 --=====================================
 insert into restaurant_registry(id,restaurant_name,seen,type,status,deleted)
 values(1,'A new Hope',0,'Fast Food','PENDING',0);
+insert into restaurant_registry(id,restaurant_name,seen,type,status,deleted)
+values(2,'Dashing Prince',0,'Diner','PENDING',0);
+insert into restaurant_registry(id,restaurant_name,seen,type,status,deleted)
+values(3,'The Dutchman',0,'Sports Bar','PENDING',0);
+insert into restaurant_registry(id,restaurant_name,seen,type,status,deleted)
+values(4,'Buckys Fish and Grill',0,'Fast Food','PENDING',0);
 
-insert into registering_restaurants(rest_id,manager_id)
-values(1,1);
-
+--MENADZERI 1,2,3 DRZE RESTORANE 1,2,3
 insert into manages_restaurants(rest_id,manager_id)
 values(1,1);
+insert into manages_restaurants(rest_id,manager_id)
+values(1,2);
+insert into manages_restaurants(rest_id,manager_id)
+values(1,3);
 insert into manages_restaurants(rest_id,manager_id)
 values(2,1);
 insert into manages_restaurants(rest_id,manager_id)
+values(2,2);
+insert into manages_restaurants(rest_id,manager_id)
+values(2,3);
+insert into manages_restaurants(rest_id,manager_id)
 values(3,1);
 insert into manages_restaurants(rest_id,manager_id)
-values(1,2);
+values(3,2);
+insert into manages_restaurants(rest_id,manager_id)
+values(3,3);
+
+--MENADZER 4 DRZI RESTORANE 4,5
+insert into manages_restaurants(rest_id,manager_id)
+values(4,4);
+insert into manages_restaurants(rest_id,manager_id)
+values(5,4);
+
+--MENADZERI PROBAJU DA REGISTRUJU RESTORANE
+--MENADZER 1 PROBA DA REGISTRUJE 1,2,3
+--MENADZER 4 PROBA DA REGISTRUJE 4
+insert into registering_restaurants(rest_id,manager_id)
+values(1,1);
+insert into registering_restaurants(rest_id,manager_id)
+values(2,1);
+insert into registering_restaurants(rest_id,manager_id)
+values(3,1);
+insert into registering_restaurants(rest_id,manager_id)
+values(4,4);

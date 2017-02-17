@@ -3,11 +3,13 @@ package com.example.service;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.example.domain.EmployeeBean;
 import com.example.domain.UserBean;
 import com.example.repository.EmployeeRepository;
 
+@Service
 public class EmployeeServiceBean  implements EmployeeService{
 	
 	@Autowired
@@ -45,6 +47,10 @@ public class EmployeeServiceBean  implements EmployeeService{
 	public void delete(Long id) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public EmployeeBean getMGR_fromRestaurantREGISTRY(Long registry_id){
+		return empRepo.getMGR_fromRestaurantREGISTRY(registry_id);
 	}
 
 }

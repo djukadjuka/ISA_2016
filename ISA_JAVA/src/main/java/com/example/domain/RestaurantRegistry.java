@@ -14,7 +14,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="restaurant_registry")
-public class RegisteringRestaurant {
+public class RestaurantRegistry {
 	
 	public enum RegistryStatus{
 		PENDING,
@@ -52,10 +52,10 @@ public class RegisteringRestaurant {
 	
 	@Override
 	public boolean equals(Object o){
-		if(!(o instanceof RegisteringRestaurant)){
+		if(!(o instanceof RestaurantRegistry)){
 			return false;
 		}
-		if(((RegisteringRestaurant)o).getId() == this.getId()){
+		if(((RestaurantRegistry)o).getId() == this.getId()){
 			return true;			
 		}
 		return false;
@@ -109,8 +109,13 @@ public class RegisteringRestaurant {
 		this.deleted = deleted;
 	}
 
-	public Set<EmployeeBean> getRegistered_by() {
-		return registered_by;
+	public Set<Long> getRegistered_by() {
+		HashSet<Long> employees = new HashSet<Long>();
+		for(EmployeeBean emps : registered_by){
+			employees.add(emps.getId());
+		}
+		
+		return employees;
 	}
 
 	public void setRegistered_by(Set<EmployeeBean> registered_by) {
