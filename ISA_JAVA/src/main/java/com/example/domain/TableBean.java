@@ -58,11 +58,11 @@ public class TableBean {
 	}
 
 	public Integer getMaxPeople() {
-		return max_people;
+		return maxPeople;
 	}
 
 	public void setMaxPeople(Integer maxPeople) {
-		this.max_people = maxPeople;
+		this.maxPeople = maxPeople;
 	}
 
 	public TableStatus getStatus() {
