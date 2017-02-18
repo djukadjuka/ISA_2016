@@ -83,7 +83,31 @@
     <!--Reservation step 2-->
     <div *ngIf="reservationActiveStep==1">
         <b> Za izabrani vremenski period graficki prikaz slobodnih stolova </b>
-        
+         <div class="ui-g" style="background-image: url(../../assets/pictures/restaurant_pictures/blackAndWhiteFloor.png); height: 300px; width: 650px;">
+
+            <div class="ui-g-1 tableForTwo" [style.border-color]="tableBorderColor()" (click)="tableClicked($event)">
+            </div>
+            <div class="ui-g-1 tableForSix" (click)="tableClicked($event)">
+            </div>
+            <div class="ui-g-1 tableForTwo" (click)="tableClicked($event)"></div>
+            <div class="ui-g-1 tableForSix">  
+            </div>
+            <div class="ui-g-1 tableForFour"></div>
+            <div class="ui-g-1 tableForSix">
+            </div>
+            <div class="ui-g-1 tableForTwo"></div>
+            <div class="ui-g-1 tableForSix" >
+            </div>
+            <div class="ui-g-1 tableForTwo"></div>
+            <div class="ui-g-1 tableForSix">  
+            </div>
+            <div class="ui-g-1 tableForFour"></div>
+            <div class="ui-g-1 tableForSix">
+            </div>
+            <div class="ui-g-1 tableForTwo"></div>
+            <div class="ui-g-1 tableForSix" >
+            </div>
+        </div>
         <div class="form-group">
             <div class="ui-g">
                 <div class="ui-g-3"></div>

@@ -6,21 +6,18 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import static javax.persistence.GenerationType.IDENTITY;
 
 
 @Entity
-@Table(name = "Tables")
+@Table(name = "RestaurantTable")
 public class TableBean implements Serializable {
-
-	
 	
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = IDENTITY)
+	@GeneratedValue
 	@Column(name = "table_id", unique = true, nullable = false)
 	private Integer id;
 	
@@ -30,13 +27,13 @@ public class TableBean implements Serializable {
 	@Column(name = "image",  nullable = true)
 	private String image;
 	
-	
+	@ManyToOne(optional = false)
+	private RestaurantZoneBean zone;
 	
 	public TableBean() {
 		super();
 		
 	}
-	
 
 	public Integer getId() {
 		return id;
@@ -46,12 +43,6 @@ public class TableBean implements Serializable {
 		this.id = id;
 	}
 
-	
-
-
-	
-
-	
 	public Integer getMaxPeople() {
 		return maxPeople;
 	}
@@ -59,9 +50,6 @@ public class TableBean implements Serializable {
 	public void setMaxPeople(Integer maxPeople) {
 		this.maxPeople = maxPeople;
 	}
-
-	
-	
 	
 	public String getImage() {
 		return image;
@@ -70,10 +58,4 @@ public class TableBean implements Serializable {
 	public void setImage(String image) {
 		this.image = image;
 	}
-	
-
 }
-	
-	
-	
-

@@ -477,6 +477,38 @@ export class ViewRestaurantsComponent implements OnInit{
         
    }
 
+   //restaurant table reservation
+   tableClicked(event)
+   {
+     
+      if(event.target.style.borderColor === "red")
+      {
+            this.growl = [];
+            this.growl.push({severity:'warning',
+                              summary:'Sorry, that table is taken!',
+                              detail:'Try choosing the gray ones.'});
+            return;
+      }
+
+      if(event.target.style.borderColor === "black")
+      {
+          event.target.style.borderColor = "green";
+          // add to list and show
+      }
+      else
+      {
+          event.target.style.borderColor = "black";
+          // remove from list 
+      }
+
+      
+   }
+
+   tableBorderColor()
+   {
+       return "black";
+   }
+
    ///////////////////////////////////////
    // IMAGE UPLOADING
    ///////////////////////////////////////
