@@ -48,6 +48,7 @@ import {DropdownModule} from 'primeng/primeng';
 import {TooltipModule} from 'primeng/primeng';
 import {StepsModule} from 'primeng/primeng';
 import {ProgressBarModule} from 'primeng/primeng';
+import {MessagesModule} from 'primeng/primeng';
 
 //Service imports
 
@@ -58,6 +59,7 @@ import { EditUserHelpService } from './edit-barman/edit-userhelp.service';
 import { ProductService} from './products/products.service';
 import { SharedService } from './shared/shared.service'; 
 import { TablesService } from './tables/tables.service';
+import {RestaurantRegistryService} from './restaurant_registry/restaurant-registry-service';
 
 @NgModule({
   declarations: [
@@ -101,6 +103,7 @@ import { TablesService } from './tables/tables.service';
     TooltipModule,
     StepsModule,
     ProgressBarModule,
+    MessagesModule,
     routing
   ],
   providers: [
@@ -111,6 +114,7 @@ import { TablesService } from './tables/tables.service';
     ProductService,
     ConfirmationService,
     SharedService,
+    RestaurantRegistryService,
     TablesService
   ],
   bootstrap: [AppComponent]

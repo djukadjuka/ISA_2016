@@ -11,6 +11,10 @@
     <h4>Email: {{user.email}}</h4>
     <button type="text" (click)="showEditProfileDialog()" pButton icon="fa-pencil-square-o" label="Edit profile"></button>
     <button type="text" (click)="showChangePasswordDialog()" pButton icon="fa-key" label="Change password"></button>
+    <button *ngIf="_sharedService.isManager" pButton type="button" 
+            icon="fa-american-sign-language-interpreting" (click)="new_restaurant_dialog()"
+            label="Register New Restaurant" >
+    </button>
   </div>
 
   <div class="col-md-8 col-sm-6 col-xs-12">
@@ -69,6 +73,54 @@
                   </p-column>
               </p-dataTable> 
           </p-accordionTab>
+
+          <!--REGISTERING RESTAURANTS NOTIFICATIONS-->
+            <!--FOR ADMIN TO SEE NEW REGISTRIES-->
+            <!--FOR MANAGER TO SEE STATUS ON REGISTRIES -->
+          <p-accordionTab *ngIf="_sharedService.isAdmin || _sharedService.isManager" header="Restaurant Registry">
+            
+            <!--ADMIN DATA-->
+            <p-dataTable *ngIf="_sharedService.isAdmin" [value]="visible_registries_admin" [responsive]="true" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20,25,30]">
+              <p-header>Pending Restaurant Registrations</p-header>
+              <p-column field="id" header="ID"></p-column>
+              <p-column field="restaurant_name" header="Restaurant Name"></p-column>
+              <p-column field="type" header="Restaurant Type"></p-column>
+              
+              <!--ADMIN ACCEPT/DECLINE ACTIONS-->
+              <p-column styleClass="col-button">
+                 <template pTemplate="header">
+                          <header>Available Actions</header>
+                      </template>
+                      <template let-registry="rowData" pTemplate="body">
+                          <button type="button" label="Accept" class="ui-button-success" (click)="accept_restaurant(registry.id)" pButton style="width: 100%;" icon="fa-check"></button>
+                          <button type="button" label="Decline" class="ui-button-danger" (click)="decline_restaurant(registry.id)" pButton style="width: 100%;" icon="fa-close"></button>
+                      </template>
+
+              </p-column>
+            </p-dataTable>
+
+            <!--MANAGER DATA-->
+            <p-dataTable *ngIf="_sharedService.isManager" [value]="visible_registries_manager" [responsive]="true" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20,25,30]">
+              <p-header>Registry Status</p-header>
+              <p-column field="id" header="ID"></p-column>
+              <p-column field="restaurant_name" header="Restaurant Name"></p-column>
+              <p-column field="type" header="Restaurant Type"></p-column>
+
+              <!--RESTAURANT STATUS-->
+              <p-column class="col-button">
+                <template pTemplate="header">
+                  <header>Registry Status</header>
+                </template>
+                <template let-registry="rowData" pTemplate="body">
+                  <button *ngIf="registry.status == 'PENDING'" type="button" label="Pending" class="ui-button-warning" pButton pButton style="width: 100%;" icon="fa-hourglass-half"></button>
+                  <button *ngIf="registry.status == 'ACCEPTED'" type="button" label="Accepted" class="ui-button-success" pButton pButton style="width: 100%;" icon="fa-check" ></button>
+                  <button *ngIf="registry.status == 'DECLINED'" type="button" label="Declined" class="ui-button-danger" pButton pButton style="width: 100%;" icon="fa-close" ></button>
+                  <button *ngIf="registry.status != 'PENDING'" type="button" label="OK" class="ui-button-info" pButton pButton style="width: 100%;" (click)="disband_row(registry.id)"></button>
+                </template>
+              </p-column>
+            </p-dataTable>
+
+          </p-accordionTab>
         </p-accordion>
     </p-tabPanel>
     <p-tabPanel header="History" leftIcon="fa-history">
@@ -77,6 +129,44 @@
   </p-tabView>
   </div>
 </div>
+
+<!--REGISTER NEW RESTAURANT DIALOG-->
+<p-dialog header="Register New Restaurant" [responsive]=true [resizable]=false
+          [draggable]=false width="800" [modal]=true [(visible)]="new_restaurant_dialog_showing">
+          <div class="ui-g">
+              <!--RESTAURANT NAME -->
+              <div class="ui-g-4">
+                <b>Restaurants Name :</b> 
+              </div>
+              <div class="ui-g-4">
+                <i><input type="text" (keyup)="restaurant_name_changed()" pInputText [(ngModel)]="restaurant_name_input"/></i><br/>
+              </div>
+              <div class="ui-g-4">
+                <!--INVALID RESTAURANT NAME...-->
+                <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!restaurant_name_valid">
+                    <i class="fa fa-close"></i>
+                    <span>Invalid input!</span>
+                </div>
+              </div>
+
+              <!--RESTAURANT TYPE-->
+            <div class="ui-g-4">
+              <b>Restaurant Type : </b> 
+            </div>
+            <div class="ui-g-8">
+              <i><p-selectButton [options]="restaurant_types" [(ngModel)]="selected_restaurant_type">
+                </p-selectButton></i>
+            </div>
+
+            <div class="ui-g-12">
+              <button pButton type="button"
+                      icon="fa-check" label="Accept" [disabled]="!restaurant_name_valid"
+                      (click)="register_new_restaurant()" style="width:100%"></button>
+            </div>
+
+          </div>
+</p-dialog>
+
 
 <!-- Edit profile dialog -->
 <p-dialog header="Edit profile" [responsive]=true [resizable]=false [draggable]=false width="500" [modal]=true [(visible)]="displayEditProfile">

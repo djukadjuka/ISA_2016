@@ -3,18 +3,20 @@ package com.example.domain;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Access;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="restaurant_registry")
-public class RegisteringRestaurant {
+public class RestaurantRegistry {
 	
 	public enum RegistryStatus{
 		PENDING,
@@ -23,7 +25,7 @@ public class RegisteringRestaurant {
 	}
 	
 	@Id
-	@Access(javax.persistence.AccessType.PROPERTY)
+	@GeneratedValue
 	private Long id;
 	
 	@Column(nullable = false,name = "restaurant_name")
@@ -52,10 +54,10 @@ public class RegisteringRestaurant {
 	
 	@Override
 	public boolean equals(Object o){
-		if(!(o instanceof RegisteringRestaurant)){
+		if(!(o instanceof RestaurantRegistry)){
 			return false;
 		}
-		if(((RegisteringRestaurant)o).getId() == this.getId()){
+		if(((RestaurantRegistry)o).getId() == this.getId()){
 			return true;			
 		}
 		return false;
@@ -109,7 +111,17 @@ public class RegisteringRestaurant {
 		this.deleted = deleted;
 	}
 
-	public Set<EmployeeBean> getRegistered_by() {
+	public Set<Long> getRegistered_by() {
+		HashSet<Long> employees = new HashSet<Long>();
+		for(EmployeeBean emps : registered_by){
+			employees.add(emps.getId());
+		}
+		
+		return employees;
+	}
+	
+	@JsonIgnore
+	public Set<EmployeeBean> getRegistereb_by(){
 		return registered_by;
 	}
 

@@ -6,6 +6,8 @@ import { Message } from 'primeng/primeng';
 import { SharedService } from '../shared/shared.service';
 import { SelectItem } from 'primeng/primeng';
 import { Observable } from 'rxjs/Rx';
+import {RestaurantRegistry} from '../restaurant_registry/restaurant-registry-class';
+import {RestaurantRegistryService} from '../restaurant_registry/restaurant-registry-service';
 
 @Component({
   selector: 'app-edit-user',
@@ -42,7 +44,8 @@ export class EditUserComponent implements OnInit {
     private _editUserService : EditUserService,
     private _confirmationService: ConfirmationService,
     private _sharedService : SharedService,
-    private _fb: FormBuilder
+    private _fb: FormBuilder,
+    private _restaurantRegistryService : RestaurantRegistryService
     ) { }
 
   ngOnInit() 
@@ -57,7 +60,31 @@ export class EditUserComponent implements OnInit {
     //Uvezati Auth0 korisnike sa DB korisnicima i vuci korisnika po tom ID-u
     this._editUserService.getUserById(this._sharedService.userId)
                          .subscribe(
-                           res => this.user = res
+                           res => {
+                               this.user = res;
+                               //vidi sta je user;;;;;;;
+                                if(this._sharedService.isAdmin){
+                                       this._restaurantRegistryService.getUnseenRegistersForAdmin().subscribe(
+                                           res=>{
+                                                    this.visible_registries_admin = res;
+                                                    console.log(this.visible_registries_admin);
+                                                    this._restaurantRegistryService.getUnseenRegisterForManager(this._sharedService.userId).subscribe(
+                                                        res=>{
+                                                            this.visible_registries_manager = res;
+                                                            console.log(this.visible_registries_manager);
+                                                        }
+                                                    );
+                                                }
+                                        );
+                                }else if(this._sharedService.isManager){
+                                    this._restaurantRegistryService.getUnseenRegisterForManager(this._sharedService.userId).subscribe(
+                                        res=>{
+                                            this.visible_registries_manager = res;
+                                            //console.log(this.visible_registries_manager);
+                                        }
+                                    );
+                                }
+                           }
                          );
     
     this.findNewPeopleData();
@@ -69,6 +96,21 @@ export class EditUserComponent implements OnInit {
                res => this.notificationsData()
     );
     
+    if(this._sharedService.isAdmin){
+        Observable.timer(0,5000).subscribe(
+            res=>{
+              this.refresh_adminData();
+              this.refresh_managerData(this._sharedService.userId);  
+            } 
+        );
+    }
+
+    if(this._sharedService.isManager){
+        Observable.timer(0,5000).subscribe(
+            res=> this.refresh_managerData(this._sharedService.userId)
+        );
+    }
+
     this.setColumnsForDataLists();
     
   }
@@ -94,7 +136,15 @@ export class EditUserComponent implements OnInit {
             {field: 'recipient.username', header: 'Username'},
             {field: 'recipient.email', header: 'Email'}
         ];
-    
+
+    this.restaurant_types = [{label:'Fine Dining', value: 'Fine Dining'},
+                              {label:'Fast Food', value: 'Fast Food'},
+                              {label:'Bistro', value: 'Bistro'},
+                              {label:'Sports Bar', value: 'Sports Bar'},
+                              {label:'Diner', value: 'Diner'}];
+
+    this.selected_restaurant_type = this.restaurant_types[0].value;
+
     // this.statusFilters = [
     //     {label: 'Any Status', value: null},
     //      {label: 'Friends', value: "ACCEPTED"},
@@ -125,6 +175,14 @@ export class EditUserComponent implements OnInit {
                               .subscribe(
                                 res => this.allFriendRequests = res
                               );
+  }
+
+  refresh_adminData(){
+      this._restaurantRegistryService.getUnseenRegistersForAdmin().subscribe(res=>this.visible_registries_admin = res);
+  }
+
+  refresh_managerData(id){
+      this._restaurantRegistryService.getUnseenRegisterForManager(id).subscribe(res=>this.visible_registries_manager = res);
   }
 
   fillForm()
@@ -256,4 +314,97 @@ export class EditUserComponent implements OnInit {
           this.msgs.push({severity:'warn', summary:'Sorry! Can\'t change password.', detail:'Facebook/Google logged users can\'t change passwords'});
       }
   }
-}
+
+  /*\
+  |#|   RESTAURANT REGISTRY CONFIG
+  \*/
+
+    //all registries that are unseen
+    visible_registries_admin : RestaurantRegistry[];
+    visible_registries_manager : RestaurantRegistry[];
+    new_restaurant_registry : RestaurantRegistry;
+    new_restaurant_dialog_showing = false;
+    restaurant_name_input : string;
+    selected_restaurant_type : string;
+    restaurant_types : SelectItem[];
+    restaurant_name_valid = false;
+
+    //called when admin accepts a restaurant for registry
+    //should update backend
+    accept_restaurant(id){
+        for(let i =0;   i<this.visible_registries_admin.length; i++){
+            if(this.visible_registries_admin[i].id == id){
+                this.visible_registries_admin.splice(i,1);
+            }
+        }
+        this._restaurantRegistryService.updateRegistration_ACCEPTED(id).subscribe(res=>{console.log(res);});
+        console.log("Accepted restaurant : " + id);
+    }
+
+    //called when admin denies a restaurant for registry
+    //should update backend
+    decline_restaurant(id){
+        for(let i =0;   i<this.visible_registries_admin.length; i++){
+            if(this.visible_registries_admin[i].id == id){
+                this.visible_registries_admin.splice(i,1);
+            }
+        }
+        this._restaurantRegistryService.updateRegistration_DECLINED(id).subscribe(res=>console.log(res));
+        console.log("Declined restaurant : " + id);
+    }
+
+    //caled when manager sees an updated restaurant status
+    //shoudl update backend
+    disband_row(id){
+        for(let i =0;   i<this.visible_registries_admin.length; i++){
+            if(this.visible_registries_admin[i].id == id){
+                this.visible_registries_admin.splice(i,1);
+            }
+        }
+        this._restaurantRegistryService.updateRegistration_SEEN(id).subscribe(res=>console.log(res));
+        console.log("Disbanded row : " + id);
+    }
+
+    //when a manager wants to register a new restaurant
+    //open dialog and show options
+    new_restaurant_dialog(){
+        this.new_restaurant_registry = new RestaurantRegistry();
+        this.selected_restaurant_type = this.restaurant_types[0].value;
+        this.restaurant_name_input = "";
+        this.restaurant_name_valid = false;
+
+        this.new_restaurant_dialog_showing = true;
+    }
+
+    //when the manager accepts the new restaurant
+    register_new_restaurant(){
+        this.new_restaurant_registry.deleted = 0;
+        this.new_restaurant_registry.restaurant_name = this.restaurant_name_input;
+        this.new_restaurant_registry.seen = 0;
+        this.new_restaurant_registry.status = 'PENDING';
+        this.new_restaurant_registry.type = this.selected_restaurant_type;
+        this.new_restaurant_registry.registered_by=null;
+
+        console.log(this.new_restaurant_registry);
+
+        this._restaurantRegistryService.registerNewRestaurant(this.new_restaurant_registry,+this._sharedService.userId).subscribe(   
+            res=>{
+                console.log(res);
+                this.visible_registries_manager.push(res);
+                this.new_restaurant_dialog_showing = false;
+            }
+        );
+        
+    }
+
+    restaurant_name_changed(){
+        let str = this.restaurant_name_input.trim();
+
+        if(str === ""){
+            console.log("String is empty!");
+            this.restaurant_name_valid = false;
+        }else{
+            this.restaurant_name_valid = true;
+        }
+    }
+}   
