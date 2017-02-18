@@ -140,17 +140,20 @@ public class RegistryController {
 		@CrossOrigin(origins="http://localhost:4200")
 		@RequestMapping(value = path_prefix + "newRegistry/{mgr_id}",
 						method=RequestMethod.POST,
+						consumes=MediaType.APPLICATION_JSON_VALUE,
 						produces=MediaType.APPLICATION_JSON_VALUE)
 		@ResponseBody
-		public ResponseEntity<RestaurantRegistry> newRegistry(@PathVariable("mgr_id") Long mgr_id, 
-															  @RequestBody RestaurantRegistry registry){
-			
-			RestaurantRegistry reg = service.create(registry);
+		public ResponseEntity<RestaurantRegistry> newRegistry(@RequestBody RestaurantRegistry registry,
+															  @PathVariable("mgr_id") Long mgr_id){
 			EmployeeBean emp = employee_service.findOne(mgr_id);
-			Set<EmployeeBean> emps = new HashSet<EmployeeBean>();
-			emps.add(emp);
-			reg.setRegistered_by(emps);
-			service.update(reg);
+
+			registry.setRegistered_by(new HashSet<EmployeeBean>());
+			registry.getRegistereb_by().add(emp);
+			RestaurantRegistry reg = service.create(registry);
+			
+			service.addNewRelationsLOL(reg.getId(), emp.getId());
+			
+			System.out.println(reg.getRegistered_by());
 			
 			return new ResponseEntity<RestaurantRegistry>(reg,HttpStatus.OK);
 		}

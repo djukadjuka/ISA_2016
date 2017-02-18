@@ -23,7 +23,6 @@ public class RestaurantBean{
 
 	@Id
 	@GeneratedValue
-	@Access(AccessType.FIELD)
 	private long id;
 	
 	@Column(nullable = false)
@@ -70,7 +69,7 @@ public class RestaurantBean{
 	private Set<RestaurantFoodTypeBean> foodTypes = new HashSet<RestaurantFoodTypeBean>();
 	
 	@ManyToMany(mappedBy = "manages")
-	private Set<EmployeeBean> managers;
+	private Set<EmployeeBean> managers = new HashSet<EmployeeBean>();
 	
 	public Set<Long> getManagers() {
 		HashSet<Long> set = new HashSet<>();

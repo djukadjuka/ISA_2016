@@ -2,13 +2,14 @@ package com.example.repository;
 
 import java.util.Collection;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.example.domain.EmployeeBean;
 import com.example.domain.RestaurantRegistry;
 
 @Repository
@@ -70,5 +71,14 @@ public interface RestaurantRegistryRepository extends JpaRepository<RestaurantRe
 			+ "WHERE id = :rest_id", nativeQuery = true)
 	public int updateRestaurantStatus_DECLINED(@Param("rest_id") Long rest_id);
 	
+	/**
+	 * Pravi novu vezu
+	 * */
+	@Transactional
+	@Modifying
+	@Query(value=""
+			+ "INSERT INTO registering_restaurants (rest_id, manager_id)"
+			+  "VALUES(:rest_id,:mgr_id)",nativeQuery = true)
+	public void addNewRelationsLOL(@Param("rest_id") Long rest_id, @Param("mgr_id") Long mgr_id);
 	
 }

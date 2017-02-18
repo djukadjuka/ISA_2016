@@ -3,14 +3,16 @@ package com.example.domain;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Access;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="restaurant_registry")
@@ -23,7 +25,7 @@ public class RestaurantRegistry {
 	}
 	
 	@Id
-	@Access(javax.persistence.AccessType.PROPERTY)
+	@GeneratedValue
 	private Long id;
 	
 	@Column(nullable = false,name = "restaurant_name")
@@ -116,6 +118,11 @@ public class RestaurantRegistry {
 		}
 		
 		return employees;
+	}
+	
+	@JsonIgnore
+	public Set<EmployeeBean> getRegistereb_by(){
+		return registered_by;
 	}
 
 	public void setRegistered_by(Set<EmployeeBean> registered_by) {

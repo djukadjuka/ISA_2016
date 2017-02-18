@@ -65,6 +65,11 @@ public class RestaurantRegistryServiceBean implements RestaurantRegistryService{
 	public int updateRestaurantStatus_DECLINED(Long rest_id) {
 		return repository.updateRestaurantStatus_DECLINED(rest_id);
 	}
+	
+	@Override
+	public void addNewRelationsLOL(Long rest_id, Long mgr_id){
+		repository.addNewRelationsLOL(rest_id, mgr_id);
+	}
 /*
 	@Override
 	public EmployeeBean getMANAGER_byIDOFHISREG(Long registry_id){

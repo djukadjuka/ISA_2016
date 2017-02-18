@@ -1,6 +1,7 @@
 package com.example.domain;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Access;
@@ -58,7 +59,7 @@ public class EmployeeBean{
 						@JoinColumn(name = "rest_id", nullable = false, updatable = false)
 				
 			)
-	private Set<RestaurantRegistry> has_registered;
+	private Set<RestaurantRegistry> has_registered = new HashSet<RestaurantRegistry>();
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(	name = "manages_restaurants",
@@ -70,7 +71,7 @@ public class EmployeeBean{
 						@JoinColumn(name = "rest_id", nullable = false, updatable = false)
 				
 			)
-	private Set<RestaurantBean> manages;
+	private Set<RestaurantBean> manages = new HashSet<RestaurantBean>();
 
 	public long getId() {
 		return id;
@@ -135,6 +136,21 @@ public class EmployeeBean{
 	public void setManages(Set<RestaurantBean> manages) {
 		this.manages = manages;
 	}
+
+	public EmployeeBean(long id, UserBean user, EmployeeEnum role, Date dateOfBirth, Float shoeSize, Float suitSize,
+			Set<RestaurantRegistry> has_registered, Set<RestaurantBean> manages) {
+		super();
+		this.id = id;
+		this.user = user;
+		this.role = role;
+		this.dateOfBirth = dateOfBirth;
+		this.shoeSize = shoeSize;
+		this.suitSize = suitSize;
+		this.has_registered = has_registered;
+		this.manages = manages;
+	}
+	
+	public EmployeeBean(){};
 	
 	
 }

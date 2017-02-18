@@ -383,11 +383,15 @@ export class EditUserComponent implements OnInit {
         this.new_restaurant_registry.seen = 0;
         this.new_restaurant_registry.status = 'PENDING';
         this.new_restaurant_registry.type = this.selected_restaurant_type;
-        this.new_restaurant_registry.registered_by.push(this._sharedService.userId);
+        this.new_restaurant_registry.registered_by=null;
 
-        this._restaurantRegistryService.registerNewRestaurant(this.new_restaurant_registry,this._sharedService.userId).subscribe(   
+        console.log(this.new_restaurant_registry);
+
+        this._restaurantRegistryService.registerNewRestaurant(this.new_restaurant_registry,+this._sharedService.userId).subscribe(   
             res=>{
+                console.log(res);
                 this.visible_registries_manager.push(res);
+                this.new_restaurant_dialog_showing = false;
             }
         );
         

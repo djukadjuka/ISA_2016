@@ -35,8 +35,8 @@ constructor(private _http : Http) { }
 	updateRegistration_ACCEPTED(reg_id){
 		var headers = new Headers({'Content-Type':'application/json'});
 		var options = new RequestOptions({headers:headers});
-		return this._http.put(this._baseURL+this._url_postfix+"/adminAccepted/"+reg_id,null,options)
-		.map(res=>res.json().data);
+		return this._http.put(this._baseURL+this._url_postfix+"adminAccepted/"+reg_id,null,options)
+		.map(res=>res.json());
 	}
 
 	/**
@@ -45,8 +45,8 @@ constructor(private _http : Http) { }
 	 updateRegistration_DECLINED(reg_id){
 		var headers = new Headers({'Content-Type':'application/json'});
 		var options = new RequestOptions({headers:headers});
-		return this._http.put(this._baseURL+this._url_postfix+"/adminDeclined/"+reg_id,null,options)
-		.map(res=>res.json().data);
+		return this._http.put(this._baseURL+this._url_postfix+"adminDeclined/"+reg_id,null,options)
+		.map(res=>res.json());
 	 }
 
 	/**
@@ -55,8 +55,8 @@ constructor(private _http : Http) { }
 	 updateRegistration_SEEN(reg_id){
 		var headers = new Headers({'Content-Type':'application/json'});
 		var options = new RequestOptions({headers:headers});
-		return this._http.put(this._baseURL+this._url_postfix+"/managerSawStatus/"+reg_id,null,options)
-		.map(res=>res.json().data);
+		return this._http.put(this._baseURL+this._url_postfix+"managerSawStatus/"+reg_id,null,options)
+		.map(res=>res.json());
 	 }
 
 	 /**
@@ -65,8 +65,8 @@ constructor(private _http : Http) { }
 	  registerNewRestaurant(register,mgr_id){
 		var headers = new Headers({'Content-Type':'application/json'});
 		var options = new RequestOptions({headers:headers});
-		return this._http.put(this._baseURL+this._url_postfix+"/newRegistry/"+mgr_id,JSON.stringify(register),options)
-		.map(res=>res.json().data);
+		return this._http.post(this._baseURL+this._url_postfix+"newRegistry/"+mgr_id,JSON.stringify(register),options)
+		.map(res=><RestaurantRegistry>res.json());
 
 	  }
 }

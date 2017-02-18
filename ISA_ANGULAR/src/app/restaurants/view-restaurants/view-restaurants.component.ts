@@ -486,9 +486,7 @@ export class ViewRestaurantsComponent implements OnInit{
      this.uploadingId = id;
    }
    uploadImageBaby(event){
-     //show the file information
-     // could do with just event.files[0] since it's only one file ....
-     //console.log(event.files);
+     this.uploadingPicture = false;
    }
 
    beforeSend(event){
