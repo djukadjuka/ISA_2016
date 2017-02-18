@@ -29,7 +29,7 @@ public class TableBean {
 	private Integer id;
 	
 	@Column(name = "max_people", unique = false, nullable = false)
-	private Integer max_people;
+	private Integer maxPeople;
 
 	@Column(name = "status", unique = false, nullable = false)
 	@Enumerated(EnumType.STRING)
