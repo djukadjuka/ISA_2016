@@ -64,7 +64,7 @@
                     <div class="ui-g-3"></div>
                     <div class="ui-g-3">
                         <label class="control-label">End time:</label>
-                        <p><p-calendar [(ngModel)]="reservation.endDate" formControlName="endDate" [inline]="true" [timeOnly]="true"></p-calendar></p>
+                        <p><p-calendar [(ngModel)]="reservation.endDate" formControlName="endDate" [timeOnly]="true"></p-calendar></p>
                     </div>
                 </div>
             </div>
@@ -84,30 +84,18 @@
     <div *ngIf="reservationActiveStep==1">
         <b> Za izabrani vremenski period graficki prikaz slobodnih stolova </b>
          <div class="ui-g" style="background-image: url(../../assets/pictures/restaurant_pictures/blackAndWhiteFloor.png); height: 300px; width: 650px;">
-
-            <div class="ui-g-1 tableForTwo" [style.border-color]="tableBorderColor()" (click)="tableClicked($event)">
-            </div>
-            <div class="ui-g-1 tableForSix" (click)="tableClicked($event)">
-            </div>
-            <div class="ui-g-1 tableForTwo" (click)="tableClicked($event)"></div>
-            <div class="ui-g-1 tableForSix">  
-            </div>
-            <div class="ui-g-1 tableForFour"></div>
-            <div class="ui-g-1 tableForSix">
-            </div>
-            <div class="ui-g-1 tableForTwo"></div>
-            <div class="ui-g-1 tableForSix" >
-            </div>
-            <div class="ui-g-1 tableForTwo"></div>
-            <div class="ui-g-1 tableForSix">  
-            </div>
-            <div class="ui-g-1 tableForFour"></div>
-            <div class="ui-g-1 tableForSix">
-            </div>
-            <div class="ui-g-1 tableForTwo"></div>
-            <div class="ui-g-1 tableForSix" >
-            </div>
+            <div *ngFor="let table of reservationTables">
+                <div *ngIf="table.maxPeople == 2" class="ui-g-1 tableForTwo" id="{{table.id}}" [style.border-color]="tableBorderColor(table)" (click)="tableClicked($event)"></div>
+                <div *ngIf="table.maxPeople == 4" class="ui-g-1 tableForFour" id="{{table.id}}" [style.border-color]="tableBorderColor(table)" (click)="tableClicked($event)"></div>
+                <div *ngIf="table.maxPeople == 6" class="ui-g-1 tableForSix" id="{{table.id}}" [style.border-color]="tableBorderColor(table)" (click)="tableClicked($event)"></div>
+            </div>        
         </div>
+       <!--<p> Tables selected: </p>
+       <p *ngFor="let selectedTable of reservationSelectedTables">
+           <i *ngIf="selectedTable.selected == true">
+                {{selectedTable.id}}
+           </i>
+        </p>-->
         <div class="form-group">
             <div class="ui-g">
                 <div class="ui-g-3"></div>

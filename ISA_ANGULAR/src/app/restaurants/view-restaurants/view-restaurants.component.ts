@@ -53,6 +53,8 @@ export class ViewRestaurantsComponent implements OnInit{
 
   //reservation for restaurant
   showReservationDialog = false;
+  reservationTables = [];
+  reservationSelectedTables = [];
   reservationSteps: MenuItem[] = [{label: "Step"}, {label: "Step"}, {label: "Step"}];
   reservation = { startDate : new Date, endDate : new Date };
   reservationActiveStep = 0;
@@ -467,14 +469,22 @@ export class ViewRestaurantsComponent implements OnInit{
         }
         else
         {
-            this.reservationActiveStep = 1;
-            //this.reservationLoadingBar = 30;
             while(this.reservationLoadingBar < 35)
             {
               this.reservationLoadingBar += 1;
             }
+
+             //za sad za zonu jedan, posle za zonu trenutno kliknutog restorana
+            this.viewRestaurantsService.getAllTables(1)
+                                  .subscribe(
+                                    res => 
+                                    {
+                                      this.reservationTables = res;
+                                      //change to next step (Step 2)
+                                      this.reservationActiveStep = 1;
+                                    }
+                                  );
         }
-        
    }
 
    //restaurant table reservation
@@ -494,19 +504,33 @@ export class ViewRestaurantsComponent implements OnInit{
       {
           event.target.style.borderColor = "green";
           // add to list and show
+          let tableJson = {"id" : event.target.id, "selected" : true};
+
+          this.reservationSelectedTables.push(tableJson);
       }
       else
       {
           event.target.style.borderColor = "black";
           // remove from list 
+          for(let i=0; i < this.reservationSelectedTables.length; i++)
+          {
+              if(this.reservationSelectedTables[i].id == event.target.id)
+              {
+                  this.reservationSelectedTables[i].selected = false;
+                  break;
+              }
+          }
       }
 
       
    }
 
-   tableBorderColor()
+   tableBorderColor(table)
    {
-       return "black";
+       if(table.status == "FREE")
+          return "black";
+       else
+          return "red";
    }
 
    ///////////////////////////////////////

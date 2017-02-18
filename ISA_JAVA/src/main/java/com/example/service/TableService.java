@@ -8,5 +8,5 @@ public interface TableService {
 
 	Collection<TableBean> findAll();
 	
-	
+	Collection<TableBean> findAllTablesByZoneId(Long zone_id);
 }
