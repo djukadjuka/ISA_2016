@@ -490,15 +490,13 @@ export class ViewRestaurantsComponent implements OnInit{
    }
 
    beforeSend(event){
-     console.log(event.xhr);
-     console.log(event.formData);
+     //console.log(event.xhr);
+     //console.log(event.formData);
    }
 
    uploadingId;
 
    beforeUpload(event){
      this.viewRestaurantsService.prepForUpload(this.uploadingId).subscribe(res=>res);
-    //READONLY //event.files[0].name = this.uploadingId + ".jpg";
-     //console.log(event.files[0].name);
    }
 }

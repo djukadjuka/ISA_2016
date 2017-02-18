@@ -77,10 +77,10 @@
           <!--REGISTERING RESTAURANTS NOTIFICATIONS-->
             <!--FOR ADMIN TO SEE NEW REGISTRIES-->
             <!--FOR MANAGER TO SEE STATUS ON REGISTRIES -->
-          <p-accordionTab header="Restaurant Registry">
+          <p-accordionTab *ngIf="_sharedService.isAdmin || _sharedService.isManager" header="Restaurant Registry">
             
             <!--ADMIN DATA-->
-            <p-dataTable [value]="visible_registries_admin" [responsive]="true" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20,25,30]">
+            <p-dataTable *ngIf="_sharedService.isAdmin" [value]="visible_registries_admin" [responsive]="true" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20,25,30]">
               <p-header>Pending Restaurant Registrations</p-header>
               <p-column field="id" header="ID"></p-column>
               <p-column field="restaurant_name" header="Restaurant Name"></p-column>
@@ -100,7 +100,7 @@
             </p-dataTable>
 
             <!--MANAGER DATA-->
-            <p-dataTable [value]="visible_registries_manager" [responsive]="true" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20,25,30]">
+            <p-dataTable *ngIf="_sharedService.isManager" [value]="visible_registries_manager" [responsive]="true" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20,25,30]">
               <p-header>Registry Status</p-header>
               <p-column field="id" header="ID"></p-column>
               <p-column field="restaurant_name" header="Restaurant Name"></p-column>
