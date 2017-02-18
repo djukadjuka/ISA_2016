@@ -307,11 +307,23 @@ values (500015, 'Orangina', 'Best soft drink from wherever the hell it is.', 999
 
 --========================================
 --Table
---insert into tables(table_id,max_people,image)
+--insert into restaurant_table(table_id,max_people,status,restaurant_zone_id)
 --values(, );
 --=========================================
---insert into tables(table_id, max_people,image)
---values (11111, 4, '/assets/pictures/restaurant_pictures/10.jpg');
+insert into restaurant_table(table_id, max_people,status,restaurant_zone_id)
+values (1, 4, 'FREE', 1);
+
+insert into restaurant_table(table_id, max_people,status,restaurant_zone_id)
+values (2, 2, 'FREE', 1);
+
+insert into restaurant_table(table_id, max_people,status,restaurant_zone_id)
+values (3, 6, 'FREE', 1);
+
+insert into restaurant_table(table_id, max_people,status,restaurant_zone_id)
+values (4, 4, 'FREE', 1);
+
+insert into restaurant_table(table_id, max_people,status,restaurant_zone_id)
+values (5, 6, 'FREE', 1);
 
 
 --========================================

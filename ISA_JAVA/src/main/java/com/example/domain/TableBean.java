@@ -1,20 +1,27 @@
 package com.example.domain;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.example.domain.FriendshipBean.FriendshipStatus;
+
 
 @Entity
-@Table(name = "RestaurantTable")
-public class TableBean implements Serializable {
+@Table(name = "Restaurant_table")
+public class TableBean {
 	
-	private static final long serialVersionUID = 1L;
+	public enum TableStatus {
+        FREE,
+        TAKEN
+    }
 
 	@Id
 	@GeneratedValue
@@ -22,18 +29,25 @@ public class TableBean implements Serializable {
 	private Integer id;
 	
 	@Column(name = "max_people", unique = false, nullable = false)
-	private Integer maxPeople;
+	private Integer max_people;
 
-	@Column(name = "image",  nullable = true)
-	private String image;
+	@Column(name = "status", unique = false, nullable = false)
+	@Enumerated(EnumType.STRING)
+	private TableStatus status;
 	
-	@ManyToOne(optional = false)
-	private RestaurantZoneBean zone;
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "restaurant_zone_id", nullable = false)
+    private RestaurantZoneBean restaurant_zone_id;
 	
 	public TableBean() {
 		super();
 		
 	}
+	
+	public TableBean(RestaurantZoneBean rzb) {
+        this.status = TableStatus.FREE;
+        this.restaurant_zone_id = rzb;
+    }
 
 	public Integer getId() {
 		return id;
@@ -44,18 +58,18 @@ public class TableBean implements Serializable {
 	}
 
 	public Integer getMaxPeople() {
-		return maxPeople;
+		return max_people;
 	}
 
 	public void setMaxPeople(Integer maxPeople) {
-		this.maxPeople = maxPeople;
-	}
-	
-	public String getImage() {
-		return image;
+		this.max_people = maxPeople;
 	}
 
-	public void setImage(String image) {
-		this.image = image;
+	public TableStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(TableStatus status) {
+		this.status = status;
 	}
 }

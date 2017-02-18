@@ -53,6 +53,7 @@ export class ViewRestaurantsComponent implements OnInit{
 
   //reservation for restaurant
   showReservationDialog = false;
+  reservationTables = [];
   reservationSteps: MenuItem[] = [{label: "Step"}, {label: "Step"}, {label: "Step"}];
   reservation = { startDate : new Date, endDate : new Date };
   reservationActiveStep = 0;
@@ -467,14 +468,22 @@ export class ViewRestaurantsComponent implements OnInit{
         }
         else
         {
-            this.reservationActiveStep = 1;
-            //this.reservationLoadingBar = 30;
             while(this.reservationLoadingBar < 35)
             {
               this.reservationLoadingBar += 1;
             }
+
+             //za sad za zonu jedan, posle za zonu trenutno kliknutog restorana
+            this.viewRestaurantsService.getAllTables(1)
+                                  .subscribe(
+                                    res => 
+                                    {
+                                      this.reservationTables = res;
+                                      console.log(this.reservationTables);
+                                      this.reservationActiveStep = 1;
+                                    }
+                                  );
         }
-        
    }
 
    //restaurant table reservation
@@ -504,9 +513,12 @@ export class ViewRestaurantsComponent implements OnInit{
       
    }
 
-   tableBorderColor()
+   tableBorderColor(table)
    {
-       return "black";
+       if(table.status == "FREE")
+          return "black";
+       else
+          return "red";
    }
 
    ///////////////////////////////////////
