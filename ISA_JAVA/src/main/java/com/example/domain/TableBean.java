@@ -29,14 +29,11 @@ public class TableBean implements Serializable {
 
 	@Column(name = "image",  nullable = true)
 	private String image;
-	
-	
-	
+
 	public TableBean() {
 		super();
 		
 	}
-	
 
 	public Integer getId() {
 		return id;
@@ -45,12 +42,6 @@ public class TableBean implements Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
-	
-
-
-	
-
 	
 	public Integer getMaxPeople() {
 		return maxPeople;
@@ -60,9 +51,6 @@ public class TableBean implements Serializable {
 		this.maxPeople = maxPeople;
 	}
 
-	
-	
-	
 	public String getImage() {
 		return image;
 	}

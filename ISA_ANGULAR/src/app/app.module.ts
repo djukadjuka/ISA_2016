@@ -49,6 +49,7 @@ import {TooltipModule} from 'primeng/primeng';
 import {StepsModule} from 'primeng/primeng';
 import {ProgressBarModule} from 'primeng/primeng';
 import {MessagesModule} from 'primeng/primeng';
+import {OverlayPanelModule} from 'primeng/primeng';
 
 //Service imports
 
@@ -104,6 +105,7 @@ import {RestaurantRegistryService} from './restaurant_registry/restaurant-regist
     StepsModule,
     ProgressBarModule,
     MessagesModule,
+    OverlayPanelModule,
     routing
   ],
   providers: [

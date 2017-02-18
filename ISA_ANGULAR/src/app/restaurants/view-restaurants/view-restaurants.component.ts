@@ -8,6 +8,7 @@ import {ProductClass} from '../../products/product-class';
 import {SelectItem} from 'primeng/primeng';
 import {Message} from 'primeng/primeng';
 import {MenuItem} from 'primeng/primeng';
+import {OverlayPanel} from 'primeng/primeng';
 import {Http,Headers,RequestOptions,RequestMethod,Request,Response} from '@angular/http';
 
 @Component({
@@ -499,4 +500,139 @@ export class ViewRestaurantsComponent implements OnInit{
    beforeUpload(event){
      this.viewRestaurantsService.prepForUpload(this.uploadingId).subscribe(res=>res);
    }
+
+/**********************-------------------------------------------------------
+ * 2.3 NEW CONFIG
+ */
+
+    //global editing flag
+    editing_something = false;
+    //single editing flags
+    creating_new_manager_open = false;
+    creating_new_employee_open = false;
+    creating_employee_schedule_open = false;
+    creating_employee_region_open = false;
+    creating_new_deliverer_open = false;
+    creating_new_delivery_open = false;
+    checking_delivery_notifications_open = false;
+    /**VIEW FLAGS CONFIG*/
+    check_visibility(){
+      if( this.creating_employee_region_open == false &&
+          this.creating_employee_schedule_open == false &&
+          this.creating_new_deliverer_open == false &&
+          this.creating_new_delivery_open == false &&
+          this.creating_new_employee_open == false &&
+          this.creating_new_manager_open == false &&
+          this.checking_delivery_notifications_open == false){
+            this.editing_something = false;
+          }else{
+            this.editing_something = true;
+          }
+    }
+
+    /**
+     * ADDING NEW MANAGER CONFIG
+     */
+     create_new_manager_clicked(){
+
+
+        this.creating_new_manager_open = true;
+        this.check_visibility();
+     }
+
+     close_new_manager_panel(){
+
+       this.creating_new_manager_open = false;
+       this.check_visibility();
+     }
+
+    /**
+     * ADDING NEW EMPLOYEE CONFIG
+     */
+     add_new_employee_clicked(){
+
+        this.creating_new_employee_open = true;
+        this.check_visibility();
+     }
+
+     close_new_employee_panel(){
+
+       this.creating_new_employee_open = false;
+        this.check_visibility();
+     }
+
+    /**
+     * ADDING EMPLOYEE SCHEDULE CONFIG
+     */
+     edit_employee_schedule_clicked(){
+
+        this.creating_employee_schedule_open = true;
+        this.check_visibility();
+     }
+
+
+     close_new_employee_schedule(){
+
+        this.creating_employee_schedule_open = false;
+        this.check_visibility();
+     }
+    /**
+     * ADDING EMPLOYEE REGION CONFIG
+     */
+     edit_employee_region_clicked(){
+
+        this.creating_employee_region_open = true;
+        this.check_visibility();
+     }
+
+     close_edit_employee_region(){
+
+       this.creating_employee_region_open = false;
+       this.check_visibility();
+     }
+
+    /**
+     * REGISTER DELIVERER CONFIG
+     */
+     register_new_deliverer_clicked(){
+
+        this.creating_new_deliverer_open = true;
+        this.check_visibility();
+     }
+
+     close_register_new_deliverer(){
+
+       this.creating_new_deliverer_open = false;
+       this.check_visibility();
+     }
+
+    /**
+     * CREATE DELIVERY CONFIG
+     */
+     create_new_delivery_clicked(){
+
+        this.creating_new_delivery_open = true;
+        this.check_visibility();
+     }
+
+     close_create_new_delivery(){
+
+       this.creating_new_delivery_open = false;
+       this.check_visibility();
+     }
+
+     /**
+      * CHECK DELIVERY NOTIFICATIONS CONFIG
+      */
+      check_delivery_notifications_clicked(){
+
+        this.checking_delivery_notifications_open = true;
+        this.check_visibility();
+      }
+
+      close_check_delivery_notifications(){
+
+        this.checking_delivery_notifications_open = false;
+        this.check_visibility();
+      }
 }

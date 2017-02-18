@@ -101,7 +101,7 @@
 <!--DATA GRID OF ALL RESTAURANTS-->
 <!--Shown if the user is not editing a restaurant-->
 <!--8 Items per page-->
-<p-dataGrid *ngIf="!editing && !editingZones" [value]="restaurants" [paginator]="true" [rows]="8">
+<p-dataGrid *ngIf="!editing && !editingZones && !editing_something" [value]="restaurants" [paginator]="true" [rows]="8">
     
     <!--Datagrid header-->
     <header>
@@ -143,15 +143,66 @@
                 </div>
                 <!-- REPLACE IF NOT A GOOD MANAGER-->
                 <hr class="ui-widget-content" style="border-top:0">
-                <button style="width:100%" pButton type="button" label="Edit Restaurant" 
-                        icon="fa-edit" (click)="editRestaurant(restaurant)">
-                        </button><br/>
-                <button style="width:100%" pButton type="button" label="Edit Zones" 
-                        icon="fa-edit" (click)="editZones(restaurant)">
-                        </button><br/>
-                <button style="width:100%" pButton type="button" label="Change Image"
-                        icon="fa-image" (click)="showUploadImageDialog(restaurant.id)"> 
-                        </button><br/>
+
+<!--==============================================================================-->
+<!--================ ACCORDION TO SHOW EDITING OPTIONS-->
+<!--==============================================================================-->
+                <p-accordion>
+                    <p-accordionTab header="Options">
+                        
+                        <!--EDIT RESTAURANT BUTTON-->
+                        <button style="width:100%" pButton type="button" label="Edit Restaurant" 
+                                icon="fa-edit" (click)="editRestaurant(restaurant)">
+                                </button><br/>
+                        
+                        <!--EDIT ZONES BUTTON-->
+                        <button style="width:100%" pButton type="button" label="Edit Zones" 
+                                icon="fa-edit" (click)="editZones(restaurant)">
+                                </button><br/>
+
+                        <!--CHANGE IMAGE BUTTON-->
+                        <button style="width:100%" pButton type="button" label="Change Image"
+                                icon="fa-image" (click)="showUploadImageDialog(restaurant.id)"> 
+                                </button><br/>
+                        
+                        <!--ADD NEW MANAGER BUTTON-->
+                        <button style="width:100%" pButton type="button" label="Add Manager"
+                                icon="fa-user-circle-o" (click)="create_new_manager_clicked()" [disabled]=true> 
+                                </button><br/>
+
+                        <!--ADD NEW EMPLOYEE BUTTON-->
+                        <button style="width:100%" pButton type="button" label="Add Employee"
+                                icon="fa-id-card-o" (click)="add_new_employee_clicked()" [disabled]=true> 
+                                </button><br/>
+
+                        <!--EDIT EMPLOYEE SCEDULE BUTTON -->
+                        <button style="width:100%" pButton type="button" label="Edit Employee Schedule"
+                                icon="fa-address-book-o" (click)="edit_employee_schedule_clicked()" [disabled]=true> 
+                                </button><br/>
+                        
+                        <!--EDIT EMPLOYEE REGION BUTTON -->
+                        <button style="width:100%" pButton type="button" label="Edit Employee Region"
+                                icon="fa-calculator" (click)="edit_employee_region_clicked()" [disabled]=true> 
+                                </button><br/>
+
+                        <!--REGISTER DELIVERER BUTTON-->
+                        <button style="width:100%" pButton type="button" label="Register New Deliverer"
+                                icon="fa-bicycle" (click)="register_new_deliverer_clicked()" [disabled]=true> 
+                                </button><br/>
+
+                        <!--CREATE DELIVERY BUTTON-->
+                        <button style="width:100%" pButton type="button" label="Create Delivery"
+                                icon="fa-bookmark-o" (click)="create_new_delivery_clicked()" [disabled]=true> 
+                                </button><br/>
+
+                        <!--CHECK DELIVERY NOTIFICATIONS BUTTON-->
+                        <button style="width:100%" pButton type="button" label="Check Deliveries"
+                                icon="fa-cart-arrow-down" (click)="check_delivery_notifications_clicked()" [disabled]=true> 
+                                </button><br/>
+
+                    </p-accordionTab>
+                </p-accordion>
+
                 <button style="width:100%" pButton type="button" label="Reservation"
                         icon="fa-book" (click)="showReservationDialog=true"> 
                         </button><br/>
@@ -309,19 +360,19 @@
 
                 <!--ROW FOR FOOD TYPES AND IMAGE -->
                 <div class="row">
-                    <div class= col-md-6>
+                    <div class= col-md-12>
                         <b>Available Cuisines:</b>
                             <p-listbox  [options]="availableCuisines" [(ngModel)]="selectedCuisines"
                                         (onChange)="showChange()" 
                                         multiple="multiple" checkbox="checkbox"></p-listbox>
-                    </div>
+                    </div><!--
                     <div class= col-md-6>
                         <b>Restaurant picture:</b><br/>
                         <img [src]="editingRestaurant.image" (error)="editingRestaurant.image = '/assets/pictures/no_image_found.jpg'" alt="..." height="150" width="150"/><br/>
                         <b>Upload new:</b><br/>
-                        <!-- url="http://localhost:4400/restaurantPictureUpload"-->
+                        url="http://localhost:4400/restaurantPictureUpload"
                         <i>Work in progress....</i>
-                    </div>
+                    </div>-->
                 </div>
 
             </div>
@@ -375,3 +426,45 @@
     </p-tabView>
 
 </p-panel>
+
+<!--=====================================================================-->
+<!--================= ADD NEW MANAGER PANEL-->
+<!--=====================================================================-->
+
+
+
+<!--=====================================================================-->
+<!--================= ADD NEW EMPLOYEE PANEL-->
+<!--=====================================================================-->
+
+
+
+<!--=====================================================================-->
+<!--================= EDIT EMPLOYEE SCEDULE PANEL-->
+<!--=====================================================================-->
+
+
+
+<!--=====================================================================-->
+<!--================= EDIT EMPLOYEE REGION PANEL-->
+<!--=====================================================================-->
+
+
+
+<!--=====================================================================-->
+<!--================= REGISTER DELIVERER PANEL-->
+<!--=====================================================================-->
+
+
+
+<!--=====================================================================-->
+<!--================= CREATE DELIVERY PANEL-->
+<!--=====================================================================-->
+
+
+
+<!--=====================================================================-->
+<!--================= CHECK DELIVERY NOTIFICATIONS PANEL-->
+<!--=====================================================================-->
+
+

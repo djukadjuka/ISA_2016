@@ -23,7 +23,7 @@ insert into user(id, email, first_name, last_name, password, profile_picture, us
 values (6, 'mironiko@gmail.com', 'Miroslav', 'Nikolic', 'test', 'NA', 'test6');
 
 insert into user(id, email, first_name, last_name, password, profile_picture, username) 
-values (7, 'kanovic@gmail.com', 'Predrag', 'Kanovic', 'test', 'NA', 'test7');
+values (7, 'kanovic@gmail.com', 'NemPojma', 'Kanovic', 'test', 'NA', 'test7');
 
 insert into user(id, email, first_name, last_name, password, profile_picture, username) 
 values (8, 'nix_rich@gmail.com', 'Richard', 'Nixon', 'test', 'NA', 'test8');
@@ -45,6 +45,60 @@ values (13, 'nukes_shitao@cc_zero_hour.com', 'Shi', 'Tao', 'test', 'NA', 'test13
 
 insert into user(id, email, first_name, last_name, password, profile_picture, username) 
 values (14, 'tanks_rock@cc_zero_hour.com', 'Gen', 'Kwai', 'test', 'NA', 'test14');
+
+insert into user(id, email, first_name, last_name, password, profile_picture, username) 
+values (15, 'maynard_keenan@caduceus.com', 'Maynard', 'Keenan', 'test', 'NA', 'maynard_tool');
+
+insert into user(id, email, first_name, last_name, password, profile_picture, username) 
+values (16, 'draper.don@scdp.com', 'Donald', 'Draper', 'test', 'NA', 'don_mad_man');
+
+insert into user(id, email, first_name, last_name, password, profile_picture, username) 
+values (17, 'roger.sterling@scdp.com', 'Roger', 'Sterling', 'test', 'NA', 'roger_mad_man');
+
+insert into user(id, email, first_name, last_name, password, profile_picture, username) 
+values (18, 'deniro@gmail.com', 'Robert', 'DeNiro', 'test', 'NA', 'robert_niro');
+
+insert into user(id, email, first_name, last_name, password, profile_picture, username) 
+values (19, 'filler@gmail.com', 'Filler', 'User', 'test', 'NA', 'filler_user_01');
+
+insert into user(id, email, first_name, last_name, password, profile_picture, username) 
+values (20, 'spyder@gmail.com', 'Peter', 'Parker', 'test', 'NA', 'pete_parker');
+
+insert into user(id, email, first_name, last_name, password, profile_picture, username) 
+values (21, 'filler02@gmail.com', 'Filler', 'User', 'test', 'NA', 'filler_user_02');
+
+insert into user(id, email, first_name, last_name, password, profile_picture, username) 
+values (22, 'frederick.white40@example.com', 'Frederick', 'White', 'test', 'NA', 'predator');
+
+insert into user(id, email, first_name, last_name, password, profile_picture, username) 
+values (23, 'becky.adams89@example.com', 'Becky', 'Adams', 'test', 'NA', 'girlygurrrl');
+
+insert into user(id, email, first_name, last_name, password, profile_picture, username) 
+values (24, 'caroline.collins23@example.com', 'Caroline', 'Collins', 'test', 'NA', 'whatevz');
+
+insert into user(id, email, first_name, last_name, password, profile_picture, username) 
+values (26, 'austin.stephens92@example.com', 'Austin', 'Stephens', 'test', 'NA', 'ambrosia');
+
+insert into user(id, email, first_name, last_name, password, profile_picture, username) 
+values (27, 'ivan.larson32@example.com', 'Ivan', 'Larson', 'test', 'NA', '11111');
+
+insert into user(id, email, first_name, last_name, password, profile_picture, username) 
+values (28, 'hugh.bailey56@example.com', 'Hugh', 'Bailey', 'test', 'NA', 'espresso');
+
+insert into user(id, email, first_name, last_name, password, profile_picture, username) 
+values (29, 'ennifer.davis23@example.com', 'Jennifer', 'Davis', 'test', 'NA', 'married');
+
+insert into user(id, email, first_name, last_name, password, profile_picture, username) 
+values (30, 'edna.chapman81@example.com', 'Edna', 'Chapman', 'test', 'NA', 'ashley1');
+
+insert into user(id, email, first_name, last_name, password, profile_picture, username) 
+values (31, 'heidi.romero92@example.com', 'Heidi', 'Romero', 'test', 'NA', '78945612');
+
+insert into user(id, email, first_name, last_name, password, profile_picture, username) 
+values (32, 'josephine.mendoza21@example.com', 'Josephine', 'Mendoza', 'test', 'NA', 'server');
+
+insert into user(id, email, first_name, last_name, password, profile_picture, username) 
+values (33, 'mae.henderson84@example.com', 'Mae', 'Henderson', 'test', 'NA', 'jack1');
 
 --=============================================
 --RESTAURANTS
@@ -522,6 +576,32 @@ insert into employee(date_of_birth,role,shoe_size,suit_size,user_id)
 values ('2050-1-1','MANAGER',null,null,3);
 insert into employee(date_of_birth,role,shoe_size,suit_size,user_id)
 values ('2010-1-1','MANAGER',null,null,4);
+
+--=============================================
+--OTHER EMPLOYEES
+--=============================================
+insert into employee(date_of_birth,role,shoe_size,suit_size,user_id)
+values ('2010-1-1','WAITER',null,null,5);
+insert into employee(date_of_birth,role,shoe_size,suit_size,user_id)
+values ('2010-1-1','WAITER',null,null,6);
+insert into employee(date_of_birth,role,shoe_size,suit_size,user_id)
+values ('2010-1-1','WAITER',null,null,7);
+insert into employee(date_of_birth,role,shoe_size,suit_size,user_id)
+values ('2010-1-1','WAITER',null,null,8);
+insert into employee(date_of_birth,role,shoe_size,suit_size,user_id)
+values ('2010-1-1','WAITER',null,null,9);
+insert into employee(date_of_birth,role,shoe_size,suit_size,user_id)
+values ('2010-1-1','WAITER',null,null,10);
+insert into employee(date_of_birth,role,shoe_size,suit_size,user_id)
+values ('2010-1-1','COOK',null,null,11);
+insert into employee(date_of_birth,role,shoe_size,suit_size,user_id)
+values ('2010-1-1','COOK',null,null,12);
+insert into employee(date_of_birth,role,shoe_size,suit_size,user_id)
+values ('2010-1-1','BARTENDER',null,null,13);
+insert into employee(date_of_birth,role,shoe_size,suit_size,user_id)
+values ('2010-1-1','BARTENDER',null,null,14);
+insert into employee(date_of_birth,role,shoe_size,suit_size,user_id)
+values ('2010-1-1','BARTENDER',null,null,15);
 
 
 --=====================================
