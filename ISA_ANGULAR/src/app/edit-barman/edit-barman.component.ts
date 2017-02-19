@@ -1,7 +1,10 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EditUserHelpService } from './edit-userhelp.service';
 import { TablesClass } from '../tables/tables-class';
 import { TablesService } from '../tables/tables.service';
+import { Message } from 'primeng/primeng';
+import { SharedService } from '../shared/shared.service';
 
 @Component({
   selector: 'app-edit-barman',
@@ -14,9 +17,11 @@ export class EditBarmanComponent implements OnInit, OnChanges {
 
   noImageFound: string = "/assets/pictures/no_image_found.jpg";
   private user = {};
-  private userUpdate = {};
+  private userUpdate = {username: "", id: ""};
+  private msgs: Message[] = [];
 
   private displaySchedule: boolean = false;
+   private formEditUser: FormGroup;
 
 
 
@@ -25,7 +30,9 @@ export class EditBarmanComponent implements OnInit, OnChanges {
 
   constructor(
     private _editUserService: EditUserHelpService,
-    private tablesService: TablesService
+    private tablesService: TablesService,
+    private _fb: FormBuilder,
+    private _sharedService : SharedService,
 
   ) { }
 
@@ -62,14 +69,21 @@ export class EditBarmanComponent implements OnInit, OnChanges {
 
   ngOnInit() {
 
+    this.formEditUser = this._fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      username: ['', Validators.required]
+    });
+    
 
 
-    this._editUserService.getUserById(1)
+
+    this._editUserService.getUserById(this._sharedService.userId)
       .subscribe(
-      res => this.user = res
+      res => this.userUpdate = res
       );
 
-    console.log(this.user);
+    console.log(this.userUpdate);
   }
 
   showScheduleDialog() {
