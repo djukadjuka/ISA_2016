@@ -82,7 +82,7 @@
     </div>
     <!--Reservation step 2-->
     <div *ngIf="reservationActiveStep==1">
-        <b> Za izabrani vremenski period graficki prikaz slobodnih stolova </b>
+        <b> Choose tables you would like to reserve </b>
          <div class="ui-g" style="background-image: url(../../assets/pictures/restaurant_pictures/blackAndWhiteFloor.png); height: 300px; width: 650px;">
             <div *ngFor="let table of reservationTables">
                 <div *ngIf="table.maxPeople == 2" class="ui-g-1 tableForTwo" id="{{table.id}}" [style.border-color]="tableBorderColor(table)" (click)="tableClicked($event)"></div>
@@ -90,12 +90,12 @@
                 <div *ngIf="table.maxPeople == 6" class="ui-g-1 tableForSix" id="{{table.id}}" [style.border-color]="tableBorderColor(table)" (click)="tableClicked($event)"></div>
             </div>        
         </div>
-       <!--<p> Tables selected: </p>
-       <p *ngFor="let selectedTable of reservationSelectedTables">
+       <p><b> Tables selected: </b></p>
+       <i *ngFor="let selectedTable of reservationSelectedTables">
            <i *ngIf="selectedTable.selected == true">
-                {{selectedTable.id}}
+                Table id: {{selectedTable.id}} &nbsp;
            </i>
-        </p>-->
+        </i>
         <div class="form-group">
             <div class="ui-g">
                 <div class="ui-g-3"></div>
@@ -107,8 +107,15 @@
             </div>
         </div>
     </div>
+    <!-- Reservation step 3-->
+    <div *ngIf="reservationActiveStep==2">
+        <b>Invite your friends</b>
+    </div>
     <p-progressBar [value]="reservationLoadingBar"></p-progressBar>
 </p-dialog>
+
+<!-- Dialog for questions to user -->
+<p-confirmDialog icon="fa fa-question-circle" width="425"></p-confirmDialog>
 
 <!--DATA GRID OF ALL RESTAURANTS-->
 <!--Shown if the user is not editing a restaurant-->

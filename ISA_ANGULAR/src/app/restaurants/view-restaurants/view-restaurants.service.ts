@@ -38,6 +38,14 @@ export class ViewRestaurantsService {
                         .map(res => res.json());
   }
 
+  makeReservation(reservation)
+  {
+      var headers = new Headers({'Content-Type':'application/json'});
+      var options = new RequestOptions({headers:headers});
+      return this._http.post(this._baseURL + "/makeReservation",JSON.stringify(reservation),options)
+            .map(res => res.json());
+  }
+
   updateRestaurant(data){
       var headers = new Headers({'Content-Type':'application/json'});
       var options = new RequestOptions({headers:headers});

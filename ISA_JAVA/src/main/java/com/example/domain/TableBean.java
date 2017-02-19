@@ -26,7 +26,7 @@ public class TableBean {
 	@Id
 	@GeneratedValue
 	@Column(name = "table_id", unique = true, nullable = false)
-	private Integer id;
+	private Long id;
 	
 	@Column(name = "max_people", unique = false, nullable = false)
 	private Integer maxPeople;
@@ -49,11 +49,11 @@ public class TableBean {
         this.restaurant_zone_id = rzb;
     }
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

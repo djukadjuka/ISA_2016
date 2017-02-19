@@ -26,4 +26,10 @@ public class TableServiceBean implements TableService{
 		return repository.findAllTablesByZoneId(zone_id);
 	}
 
+	@Override
+	public TableBean findOne(Long id) {
+		// TODO Auto-generated method stub
+		return repository.findOne(id);
+	}
+
 }

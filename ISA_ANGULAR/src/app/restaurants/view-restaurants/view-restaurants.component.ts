@@ -8,6 +8,7 @@ import {ProductClass} from '../../products/product-class';
 import {SelectItem} from 'primeng/primeng';
 import {Message} from 'primeng/primeng';
 import {MenuItem} from 'primeng/primeng';
+import {ConfirmationService} from 'primeng/primeng';
 import {Http,Headers,RequestOptions,RequestMethod,Request,Response} from '@angular/http';
 
 @Component({
@@ -56,7 +57,7 @@ export class ViewRestaurantsComponent implements OnInit{
   reservationTables = [];
   reservationSelectedTables = [];
   reservationSteps: MenuItem[] = [{label: "Step"}, {label: "Step"}, {label: "Step"}];
-  reservation = { startDate : new Date, endDate : new Date };
+  reservation = { startDate : new Date, endDate : new Date, table_id : "" };
   reservationActiveStep = 0;
   reservationLoadingBar = 10;
   formReservation : FormGroup;
@@ -77,7 +78,8 @@ export class ViewRestaurantsComponent implements OnInit{
   constructor(
     private viewRestaurantsService : ViewRestaurantsService, 
     private productService : ProductService,
-    private _fb: FormBuilder) 
+    private _fb: FormBuilder,
+    private _confirmationService : ConfirmationService) 
     {
 
       this.allFoodTypes = {"Serbian":{"id":1,"name":"Serbian"},
@@ -487,6 +489,54 @@ export class ViewRestaurantsComponent implements OnInit{
         }
    }
 
+   reservationStep2()
+   {
+      this._confirmationService.confirm({
+              header: 'Confirm reservation',
+              message: 'Are you sure you want to reserve these tables? Reservation will be made after confirming this step.',
+              accept: () => {
+                  
+
+                  this.growl = [];
+                  //uzmi reservationSelectedTables i prodji kroz njih i dodaj id-eve stolova u listu sa startDate endDate
+                  for(let i = 0; i < this.reservationSelectedTables.length; i++)
+                  {
+                      if(this.reservationSelectedTables[i].selected == true)
+                      {
+                          this.reservation.table_id = this.reservationSelectedTables[i].id;
+
+                          let temp = {startDate : this.reservation.startDate.getTime(), endDate : this.reservation.endDate.getTime(), table_id : this.reservation.table_id};
+                          console.log(temp);
+
+                           this.viewRestaurantsService.makeReservation(temp)
+                                      .subscribe(
+                                          res => {
+                                             
+                                             if(res == true)
+                                             {
+                                                  this.growl.push({severity:'success', summary:'Successful reservation for table '+ temp.table_id, detail:''});  
+                                             }
+                                             else
+                                             {
+                                                  this.growl.push({severity:'error', summary:'Sorry, table '+ temp.table_id + ' is already taken!', detail:''});
+                                             }
+                                         }
+                                      );
+                          
+                          //za svaku rezervaciju cu isto upisati nju u tabelu ReservationCalls gde ce mi originator i recipient biti isti user koji je rezervisao
+                      }
+                  }
+
+                  while(this.reservationLoadingBar < 80)
+                  {
+                    this.reservationLoadingBar += 1;
+                  }
+
+                  this.reservationActiveStep = 2;
+              }
+          });
+   }
+
    //restaurant table reservation
    tableClicked(event)
    {
@@ -503,10 +553,23 @@ export class ViewRestaurantsComponent implements OnInit{
       if(event.target.style.borderColor === "black")
       {
           event.target.style.borderColor = "green";
-          // add to list and show
+          // add to list if doesn't exist already
           let tableJson = {"id" : event.target.id, "selected" : true};
+          let exists = false;
 
-          this.reservationSelectedTables.push(tableJson);
+          for(let i=0; i < this.reservationSelectedTables.length; i++)
+          {
+              if(this.reservationSelectedTables[i].id == event.target.id)
+              {
+                  this.reservationSelectedTables[i].selected = true;
+                  console.log(this.reservationSelectedTables[i]);
+                  exists = true;
+                  break;
+              }
+          }
+
+          if(!exists)
+            this.reservationSelectedTables.push(tableJson);
       }
       else
       {

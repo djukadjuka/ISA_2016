@@ -4,6 +4,7 @@ div.tableForSix {
     border: solid black; 
     background-color: gray; 
     margin: 5px;
+    cursor: pointer;
 }
 
 div.tableForFour {
@@ -12,6 +13,7 @@ div.tableForFour {
     border: solid black;
     background-color: gray; 
     margin: 5px;
+    cursor: pointer;
 }
 
 div.tableForTwo {
@@ -20,4 +22,5 @@ div.tableForTwo {
     border: solid black; 
     background-color: gray; 
     margin: 5px;
+    cursor: pointer;
 }
