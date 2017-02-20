@@ -13,6 +13,7 @@ import { SharedService } from '../../shared/shared.service';
 import {ConfirmationService} from 'primeng/primeng';
 import {Http,Headers,RequestOptions,RequestMethod,Request,Response} from '@angular/http';
 
+
 @Component({
   selector: 'app-view-restaurants',
   templateUrl: './view-restaurants.component.html',

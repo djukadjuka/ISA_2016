@@ -51,6 +51,12 @@
           <input class="form-control" [(ngModel)]="userUpdate.username" formControlName="username" type="text">
         </div>
       </div>
+       <div class="form-group">
+        <label class="col-md-3 control-label"></label>
+        <div class="col-md-8">
+          <button pButton [disabled]="!formEditUser.valid" class="ui-button-success" type="text" (click)="updateUser()" icon="fa-check" label="Save changes"></button>
+        </div>
+      </div>
     </form>
   </div>
 </div>

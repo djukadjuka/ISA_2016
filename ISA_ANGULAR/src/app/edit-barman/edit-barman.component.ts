@@ -1,6 +1,6 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { EditUserHelpService } from './edit-userhelp.service';
+import { EditUserService } from '../edit-user/edit-user.service';
 import { TablesClass } from '../tables/tables-class';
 import { TablesService } from '../tables/tables.service';
 import { Message } from 'primeng/primeng';
@@ -29,7 +29,7 @@ export class EditBarmanComponent implements OnInit, OnChanges {
   tables: TablesClass[];
 
   constructor(
-    private _editUserService: EditUserHelpService,
+    private _editUserService: EditUserService,
     private tablesService: TablesService,
     private _fb: FormBuilder,
     private _sharedService : SharedService,
@@ -67,6 +67,31 @@ export class EditBarmanComponent implements OnInit, OnChanges {
 
   }
 
+
+   updateUser()
+  {
+      this._editUserService.checkUsername(this.userUpdate.username, this.userUpdate.id)
+                            .subscribe(
+                              res => 
+                              {
+                                if(res) {
+                                  this.msgs = [];
+                                  this.msgs.push({severity:'error', summary:'That username is taken!', detail:'Choose another username.'});
+                                  }
+                                else
+                                  this._editUserService.updateUser(this.userUpdate)
+                                                        .subscribe(
+                                                                 res => 
+                                                                  {
+                                                                  
+                                                                    this.user = this.userUpdate;
+                                                                  }
+                                                                );  
+                                }
+                            )           
+  }
+
+
   ngOnInit() {
 
     this.formEditUser = this._fb.group({
@@ -88,11 +113,8 @@ export class EditBarmanComponent implements OnInit, OnChanges {
 
   showScheduleDialog() {
 
-    this.tablesService.getTables().subscribe(
-      res => {
-        this.tables = res;
-      }
-    );
+   
+    
 
     this.displaySchedule = true;
   }

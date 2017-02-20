@@ -31,7 +31,7 @@ export class EditWaiterComponent implements OnInit {
 
   }
   showTables(){
-    this.tablesService.getTables().subscribe(
+    this.tablesService.getTables(1).subscribe(
       res => {
         this.tables = res;
       }
