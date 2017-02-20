@@ -3,10 +3,9 @@
   <div class="col-md-4 col-sm-6 col-xs-12">
     <h1> Welcome back </h1>
       
-     <p>First name: </p>
-    <p>Last name: </p>
-    <p>Username: </p>
-    <p>Email: </p>
+    <p>First name:{{userUpdate.firstName}} </p>
+    <p>Last name:{{userUpdate.lastName}} </p>
+    <p>Username:{{userUpdate.username}} </p>
 
 
 
@@ -19,57 +18,39 @@
   </div>
 
 
-<p-dialog header="Schedule" [responsive]=true [resizable]=false [draggable]=false width="500" [modal]=true [(visible)]="displayScheduleButton">
-   <h3>Your Schedule</h3>
+<p-panel *ngIf="displayScheduleButton">
+   <h1>Your Schedule</h1>
+   <h3>Pick date</h3>
+   <p><p-calendar  [monthNavigator]="true" [yearNavigator]="true" yearRange="2017:2018" [inline]="true"  ></p-calendar></p>
+    <h3>Show schedule</h3>
+</p-panel>
 
-</p-dialog>
-
-  <!-- edit form column -->
+<!-- edit form column -->
   <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
     <h3>Personal info</h3>
-    <form class="form-horizontal" role="form">
+    <form class="form-horizontal" [formGroup]="formEditUser">
       <div class="form-group">
         <label class="col-lg-3 control-label">First name:</label>
         <div class="col-lg-8">
-          <input class="form-control" value="" type="text">
+          <input class="form-control" [(ngModel)]="userUpdate.firstName" formControlName="firstName" type="text">
         </div>
       </div>
       <div class="form-group">
         <label class="col-lg-3 control-label">Last name:</label>
         <div class="col-lg-8">
-          <input class="form-control" value="" type="text">
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="col-lg-3 control-label">Email:</label>
-        <div class="col-lg-8">
-          <input class="form-control" value="" type="text">
+          <input class="form-control" [(ngModel)]="userUpdate.lastName" formControlName="lastName" type="text">
         </div>
       </div>
       <div class="form-group">
         <label class="col-md-3 control-label">Username:</label>
         <div class="col-md-8">
-          <input class="form-control" value="" type="text">
+          <input class="form-control" [(ngModel)]="userUpdate.username" formControlName="username" type="text">
         </div>
       </div>
-      <div class="form-group">
-        <label class="col-md-3 control-label">Password:</label>
-        <div class="col-md-8">
-          <input class="form-control" value="11111122333" type="password">
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="col-md-3 control-label">Confirm password:</label>
-        <div class="col-md-8">
-          <input class="form-control" value="11111122333" type="password">
-        </div>
-      </div>
-      <div class="form-group">
+       <div class="form-group">
         <label class="col-md-3 control-label"></label>
         <div class="col-md-8">
-          <input class="btn btn-primary" value="Save Changes" type="button">
-          <span></span>
-          <input class="btn btn-default" value="Cancel" type="reset">
+          <button pButton [disabled]="!formEditUser.valid" class="ui-button-success" type="text" (click)="updateUser()" icon="fa-check" label="Save changes"></button>
         </div>
       </div>
     </form>

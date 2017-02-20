@@ -6,8 +6,8 @@
 
  
     <p>First name:{{userUpdate.firstName}} </p>
-    <p>Last name:{{user.lastName}} </p>
-    <p>Username:{{user.username}} </p>
+    <p>Last name:{{userUpdate.lastName}} </p>
+    <p>Username:{{userUpdate.username}} </p>
     
   
       
@@ -22,11 +22,12 @@
     
   </div>
 
-<p-dialog header="Schedule" [responsive]=true [resizable]=false [draggable]=false width="500" [modal]=true [(visible)]="displaySchedule">
-   <h3>Your Schedule</h3>
-
-</p-dialog>
-
+<p-panel *ngIf="displaySchedule">
+   <h1>Your Schedule</h1>
+   <h3>Pick date</h3>
+   <p><p-calendar  [monthNavigator]="true" [yearNavigator]="true" yearRange="2017:2018" [inline]="true"  ></p-calendar></p>
+    <h3>Show schedule</h3>
+</p-panel>
 
 
   <!-- edit form column -->
