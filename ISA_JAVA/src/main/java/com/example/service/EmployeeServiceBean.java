@@ -13,44 +13,45 @@ import com.example.repository.EmployeeRepository;
 public class EmployeeServiceBean  implements EmployeeService{
 	
 	@Autowired
-	EmployeeRepository empRepo;
+	private EmployeeRepository empRepo;
 
 	@Override
 	public EmployeeBean findOne(Long id) {
-		// TODO Auto-generated method stub
 		return empRepo.findOne(id);
 	}
 
 	@Override
 	public Collection<EmployeeBean> findAll() {
-		// TODO Auto-generated method stub
 		return empRepo.findAll();
 	}
 
 	@Override
-	public UserBean update(EmployeeBean employee) {
-		// TODO Auto-generated method stub
-	/*	UserBean u = empRepo.findOne(employee.getId());
-		if(u == null)
-			return null;
-		return  empRepo.save(employee);*/
-		return null;
+	public EmployeeBean update(EmployeeBean employee) {
+		return empRepo.save(employee);
 	}
 
 	@Override
-	public UserBean create(EmployeeBean emloyee) {
-		// TODO Auto-generated method stub
-		return null;
+	public EmployeeBean create(EmployeeBean emloyee) {
+		return empRepo.save(emloyee);
 	}
 
 	@Override
 	public void delete(Long id) {
-		// TODO Auto-generated method stub
-		
+		empRepo.delete(id);
 	}
 	
 	public EmployeeBean getMGR_fromRestaurantREGISTRY(Long registry_id){
 		return empRepo.getMGR_fromRestaurantREGISTRY(registry_id);
+	}
+
+	@Override
+	public Collection<EmployeeBean> getWorkersThatWorkForARestaurant(Long rest_id) {
+		return empRepo.getWorkersThatWorkForARestaurant(rest_id);
+	}
+
+	@Override
+	public Collection<EmployeeBean> getWorkersThatDoNotWorkForARestaurant() {
+		return empRepo.getWorkersThatDoNotWorkForARestaurant();
 	}
 
 }

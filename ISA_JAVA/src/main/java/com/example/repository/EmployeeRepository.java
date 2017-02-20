@@ -1,5 +1,7 @@
 package com.example.repository;
 
+import java.util.Collection;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,4 +24,16 @@ public interface EmployeeRepository extends JpaRepository<EmployeeBean, Long> {
 			+ " and e.user_id = r.manager_id",nativeQuery = true)
 	public EmployeeBean getMGR_fromRestaurantREGISTRY(@Param("registry_id") Long registry_id);
 	
+	/**
+	 * SELECT EMPLOYEES that work for a restaurant and are not managers
+	 * */
+	@Query(value ="SELECT * FROM employee e WHERE e.works_in_restaurant = :rest_id",nativeQuery=true)
+	public Collection<EmployeeBean> getWorkersThatWorkForARestaurant(@Param("rest_id") Long rest_id);
+	
+	/**
+	 * SELECT EMPLOYEES that do not work for a restaurant
+	 * */
+	@Query(value ="SELECT * FROM employee e WHERE"
+				+ " e.role != 'MANAGER' AND e.works_in_restaurant IS NULL",nativeQuery=true)
+	public Collection<EmployeeBean> getWorkersThatDoNotWorkForARestaurant();
 }

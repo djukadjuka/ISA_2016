@@ -1,11 +1,8 @@
 package com.example.domain;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -71,6 +69,17 @@ public class RestaurantBean{
 	@ManyToMany(mappedBy = "manages")
 	private Set<EmployeeBean> managers = new HashSet<EmployeeBean>();
 	
+	@OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+	private Set<EmployeeBean> workers = new HashSet<EmployeeBean>();
+	
+	public Set<EmployeeBean> getWorkers() {
+		return workers;
+	}
+
+	public void setWorkers(Set<EmployeeBean> workers) {
+		this.workers = workers;
+	}
+
 	public Set<Long> getManagers() {
 		HashSet<Long> set = new HashSet<>();
 		for(EmployeeBean em : managers){

@@ -14,6 +14,26 @@ export class ViewRestaurantsService {
 
   constructor(private _http : Http) { }
 
+  getWorkersNOMANAGERSForRestaurant(rest_id){
+    return this._http.get(this._baseURL + "/schedz/getEmployeesForRestaurant/"+rest_id)
+      .map(res=>res.json());
+  }
+
+  getSpecificWorkersSchedules(worker_id){
+    return this._http.get(this._baseURL + "/schedz/getForEmployee/" + worker_id)
+      .map(res => res.json());
+  }
+
+  getWorkersAndUsersForEmployeeManagement(rest_id){
+    return this._http.get(this._baseURL + "/userRepo/getEmployeeDataForRestaurant/" + rest_id)
+      .map(res=>res.json());
+  }
+
+  getFreeManagers_AndUserManagers(manager_id,restaurant_id){
+    return this._http.get(this._baseURL + "/userRepo/getManagers/" + manager_id + "/forRestaurant/"+restaurant_id)
+          .map(res=>res.json());
+  }
+
   getRestaurants()
     {
         return this._http.get(this._baseURL + "/getAllRestaurants")

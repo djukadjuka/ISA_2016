@@ -9,6 +9,7 @@ import {SelectItem} from 'primeng/primeng';
 import {Message} from 'primeng/primeng';
 import {MenuItem} from 'primeng/primeng';
 import {OverlayPanel} from 'primeng/primeng';
+import { SharedService } from '../../shared/shared.service';
 import {Http,Headers,RequestOptions,RequestMethod,Request,Response} from '@angular/http';
 
 @Component({
@@ -76,6 +77,7 @@ export class ViewRestaurantsComponent implements OnInit{
   constructor(
     private viewRestaurantsService : ViewRestaurantsService, 
     private productService : ProductService,
+    private _sharedService : SharedService,
     private _fb: FormBuilder) 
     {
 
@@ -515,6 +517,7 @@ export class ViewRestaurantsComponent implements OnInit{
     creating_new_deliverer_open = false;
     creating_new_delivery_open = false;
     checking_delivery_notifications_open = false;
+    restaurant_23 : RestaurantClass;
     /**VIEW FLAGS CONFIG*/
     check_visibility(){
       if( this.creating_employee_region_open == false &&
@@ -530,14 +533,23 @@ export class ViewRestaurantsComponent implements OnInit{
           }
     }
 
-    /**
+    /**=============================
      * ADDING NEW MANAGER CONFIG
-     */
-     create_new_manager_clicked(){
+     * =============================*/
+     //should be user list ...
+     possible_managers; assigned_managers;
+     create_new_manager_clicked(restaurant : RestaurantClass){
+        this.restaurant_23 = restaurant;
 
+        this.viewRestaurantsService.getFreeManagers_AndUserManagers(this._sharedService.userId,this.restaurant_23.id)
+        .subscribe(res=>{
+            console.log(res);
+            this.possible_managers = res.free_users;
+            this.assigned_managers = res.managers;
+            this.creating_new_manager_open = true;
+            this.check_visibility();
+        });
 
-        this.creating_new_manager_open = true;
-        this.check_visibility();
      }
 
      close_new_manager_panel(){
@@ -546,13 +558,80 @@ export class ViewRestaurantsComponent implements OnInit{
        this.check_visibility();
      }
 
-    /**
+    /**=======================================
      * ADDING NEW EMPLOYEE CONFIG
-     */
-     add_new_employee_clicked(){
+     =======================================*/
 
-        this.creating_new_employee_open = true;
-        this.check_visibility();
+     //for pickboxes
+     restaurant_workers;  free_workers; 
+     //for data table
+     free_users; 
+     //selected dude for registration
+     selected_user_for_work;
+     //new employee object
+     registering_employee;
+     //dialog flag
+     registering_new_employee; 
+     //pick box options
+     employee_roles : SelectItem[];
+
+     //date things
+     minDate;
+     maxDate
+
+     add_new_employee_clicked(restaurant : RestaurantClass){
+        this.restaurant_23 = restaurant;
+        this.employee_roles = [{label:'Waiter',value:'WAITER'},{label:'Cook',value:'COOK'},{label:'Bartender',value:'BARTENDER'}];
+        
+        this.maxDate = new Date();
+        
+        this.viewRestaurantsService.getWorkersAndUsersForEmployeeManagement(this.restaurant_23.id)
+          .subscribe(res=>{
+            //console.log(res);
+            this.restaurant_workers = []; this.free_workers = []; this.free_users = [];
+            //console.log("Not employed users : ");
+            for(let person_id in res.not_employed_users){
+              this.free_users.push(res.not_employed_users[person_id]);
+            }
+            //console.log("Your workers :");
+            for(let person_id in res.employed_workers){
+              this.restaurant_workers.push(res.employed_workers[person_id]);
+            }
+            //console.log("Not employed workers :");
+            for(let person_id in res.not_employed_workers){
+              this.free_workers.push(res.not_employed_workers[person_id]);
+            }
+
+            this.registering_employee = {};
+            this.registering_employee.dateOfBirth = null;
+            this.registering_employee.has_registered = null;
+            this.registering_employee.id = null;
+            this.registering_employee.role = "WAITER";
+            this.registering_employee.shoeSize = 10;
+            this.registering_employee.suitSize = 10;
+            this.registering_employee.user = null;
+
+            this.creating_new_employee_open = true;
+            this.check_visibility();
+          });
+     }
+
+     selected_a_user_for_work(event){
+       console.log(this.selected_user_for_work);
+       this.registering_employee = {};
+       this.registering_employee.dateOfBirth = null;
+       this.registering_employee.has_registered = null;
+       this.registering_employee.id = this.selected_user_for_work.id;
+       this.registering_employee.role = "WAITER";
+       this.registering_employee.shoeSize = null;
+       this.registering_employee.suitSize = null;
+       this.registering_employee.user = this.selected_user_for_work;
+
+       this.registering_new_employee = true;
+     }
+     close_new_employee_dialog(){
+
+       this.registering_new_employee = false;
      }
 
      close_new_employee_panel(){
@@ -561,15 +640,97 @@ export class ViewRestaurantsComponent implements OnInit{
         this.check_visibility();
      }
 
-    /**
+    /**============================================
      * ADDING EMPLOYEE SCHEDULE CONFIG
-     */
-     edit_employee_schedule_clicked(){
+     =========================================*/
 
-        this.creating_employee_schedule_open = true;
-        this.check_visibility();
+     employee_usernames_schedule : SelectItem[]; schedule_employee;
+
+     all_schedules_for_employee;
+
+     //for dialog
+     adding_new_shedule = false;
+
+     //for schedz day
+     min_schedz_day;
+     max_schedz_day;
+     new_schedz_day;
+     schedz_time_start;
+     schedz_time_end;
+
+     edit_employee_schedule_clicked(restaurant : RestaurantClass){
+        this.restaurant_23 = restaurant;
+        this.viewRestaurantsService.getWorkersNOMANAGERSForRestaurant(this.restaurant_23.id).subscribe(
+          res=>{
+            this.employee_usernames_schedule = [];
+            for(let item in res){
+              this.employee_usernames_schedule.push({label:res[item].user.username,value:res[item].id})
+            }
+            this.creating_employee_schedule_open = true;
+            this.check_visibility();
+          }
+        );
      }
 
+     schedule_selected(event){
+       this.viewRestaurantsService.getSpecificWorkersSchedules(this.schedule_employee).subscribe(res=>{
+         this.all_schedules_for_employee = [];
+         for(let item in res){
+           let start_time = new Date(res[item].from);
+           let end_time = new Date(res[item].to);
+           let date = new Date(res[item].date);
+           this.all_schedules_for_employee.push(
+             {from:""+start_time.getHours() + " : " + start_time.getMinutes(),
+               to:""+end_time.getHours() + " : " + end_time.getMinutes(),
+               date:""+date.getDate()+" : "+ (date.getMonth()+1) + " : " + date.getFullYear()}
+             );
+         }
+       });
+     }
+
+     add_new_schedule_clicked(){
+        let today = new Date();
+        let month = today.getMonth();
+        let year = today.getFullYear();
+        let prevMonth = (month === 0) ? 11 : month -1;
+        let prevYear = (prevMonth === 11) ? year - 1 : year;
+        let nextMonth = (month === 11) ? 0 : month + 1;
+        let nextYear = (nextMonth === 0) ? year + 1 : year;
+        this.min_schedz_day = new Date();
+        this.max_schedz_day = new Date();
+        this.max_schedz_day.setMonth(nextMonth);
+        this.max_schedz_day.setFullYear(nextYear);
+
+        this.adding_new_shedule = true;
+
+        console.log(this.schedule_employee);
+     }
+
+     close_new_schedule_dialog(){
+        this.new_schedz_day;
+        this.schedz_time_start;
+        this.schedz_time_end;
+
+        this.schedz_time_start.setDate(this.new_schedz_day.getDate());
+        this.schedz_time_end.setDate(this.new_schedz_day.getDate());
+
+        this.schedz_time_start.setMonth(this.new_schedz_day.getMonth());
+        this.schedz_time_end.setMonth(this.new_schedz_day.getMonth());
+
+        this.schedz_time_end.setFullYear(this.new_schedz_day.getFullYear());
+        this.schedz_time_start.setFullYear(this.new_schedz_day.getFullYear());
+
+        console.log("start");
+        console.log(this.schedz_time_start);
+        console.log("end");
+        console.log(this.schedz_time_end);
+        console.log("real");
+        console.log(this.new_schedz_day);
+        console.log("One milliseconds : ");
+        console.log(this.schedz_time_end.getTime());
+
+        this.adding_new_shedule = false;
+     }
 
      close_new_employee_schedule(){
 
@@ -579,7 +740,8 @@ export class ViewRestaurantsComponent implements OnInit{
     /**
      * ADDING EMPLOYEE REGION CONFIG
      */
-     edit_employee_region_clicked(){
+     edit_employee_region_clicked(restaurant : RestaurantClass){
+        this.restaurant_23 = restaurant;
 
         this.creating_employee_region_open = true;
         this.check_visibility();
@@ -594,7 +756,8 @@ export class ViewRestaurantsComponent implements OnInit{
     /**
      * REGISTER DELIVERER CONFIG
      */
-     register_new_deliverer_clicked(){
+     register_new_deliverer_clicked(restaurant : RestaurantClass){
+        this.restaurant_23 = restaurant;
 
         this.creating_new_deliverer_open = true;
         this.check_visibility();
@@ -609,7 +772,8 @@ export class ViewRestaurantsComponent implements OnInit{
     /**
      * CREATE DELIVERY CONFIG
      */
-     create_new_delivery_clicked(){
+     create_new_delivery_clicked(restaurant : RestaurantClass){
+        this.restaurant_23 = restaurant;
 
         this.creating_new_delivery_open = true;
         this.check_visibility();
@@ -624,7 +788,8 @@ export class ViewRestaurantsComponent implements OnInit{
      /**
       * CHECK DELIVERY NOTIFICATIONS CONFIG
       */
-      check_delivery_notifications_clicked(){
+      check_delivery_notifications_clicked(restaurant : RestaurantClass){
+        this.restaurant_23 = restaurant;
 
         this.checking_delivery_notifications_open = true;
         this.check_visibility();
@@ -636,3 +801,22 @@ export class ViewRestaurantsComponent implements OnInit{
         this.check_visibility();
       }
 }
+
+/*
+USER API
+{
+      "id": 16,
+      "firstName": "Donald",
+      "lastName": "Draper",
+      "username": "don_mad_man",
+      "password": "test",
+      "email": "draper.don@scdp.com",
+      "profilePicture": "NA"
+    },
+
+MY API
+{
+  "free_users":[{},{} ....],
+  "managers":[{},{},{} ....]
+}
+ */

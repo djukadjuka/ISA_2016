@@ -1,6 +1,8 @@
 package com.example.controller;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,8 +16,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.domain.EmployeeBean;
 import com.example.domain.FriendshipBean;
 import com.example.domain.UserBean;
+import com.example.service.EmployeeService;
+import com.example.service.EmployeeServiceBean;
 import com.example.service.FriendshipService;
 import com.example.service.UserService;
 
@@ -27,6 +32,8 @@ public class UserController {
 	
 	@Autowired
 	FriendshipService friendshipService;
+	
+	@Autowired EmployeeService employeeService = new EmployeeServiceBean();
 	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(
@@ -105,5 +112,63 @@ public class UserController {
 		}
 		userService.update(user);
 		return new ResponseEntity<UserBean>(user,HttpStatus.OK);
+	}
+	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+				value = "/userRepo/getManagers/{mgr_id}/forRestaurant/{rest_id}",
+				method = RequestMethod.GET,
+				produces = MediaType.APPLICATION_JSON_VALUE
+			)
+	@ResponseBody
+	public ResponseEntity<HashMap<String,Object>> getDataForManagerEditing(@PathVariable("mgr_id") Long mgr_id,
+																		   @PathVariable("rest_id") Long rest_id){
+		HashMap<String,Object> ret = new HashMap<>();
+		
+		ArrayList<UserBean> freeUsers = (ArrayList<UserBean>) userService.getUsersNotManagingOrNotManagersForRestaurant(rest_id);
+		ArrayList<UserBean> managers = (ArrayList<UserBean>) userService.getManagersForRestaurantNoCurrentManager(rest_id, mgr_id);
+		
+		ret.put("free_users", freeUsers);
+		ret.put("managers", managers);
+		
+		return new ResponseEntity<HashMap<String,Object>>(ret,HttpStatus.OK);
+	}
+	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(value = "userRepo/getEmployeeDataForRestaurant/{rest_id}",
+					method = RequestMethod.GET,
+					produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseEntity<HashMap<String,Object>> getDataForNewEmployees(@PathVariable("rest_id") Long rest_id){
+		ArrayList<EmployeeBean> not_employed_workers = (ArrayList<EmployeeBean>) employeeService.getWorkersThatDoNotWorkForARestaurant();
+		ArrayList<EmployeeBean> employed_workers = (ArrayList<EmployeeBean>) employeeService.getWorkersThatWorkForARestaurant(rest_id);
+		ArrayList<UserBean> employed_users = (ArrayList<UserBean>) userService.getUsersThatWorkForARestaurant(rest_id);
+		ArrayList<UserBean> not_employed_users = (ArrayList<UserBean>) userService.getusersThatDoNotWorkForARestaurant();
+		
+		HashMap<Long,EmployeeBean> not_employed_workers_map = new HashMap<>();
+		HashMap<Long,EmployeeBean> employed_workers_map= new HashMap<>();
+		HashMap<Long,UserBean> employed_users_map= new HashMap<>();
+		HashMap<Long,UserBean> not_employed_users_map= new HashMap<>();
+		
+		for(EmployeeBean e : not_employed_workers){
+			not_employed_workers_map.put(e.getId(), e);
+		}
+		for(EmployeeBean e : employed_workers){
+			employed_workers_map.put(e.getId(), e);
+		}
+		for(UserBean u : employed_users){
+			employed_users_map.put(u.getId(), u);
+		}
+		for(UserBean u : not_employed_users){
+			not_employed_users_map.put(u.getId(), u);
+		}
+		
+		HashMap<String,Object> ret = new HashMap<String,Object>();
+		ret.put("not_employed_workers", not_employed_workers_map);
+		ret.put("not_employed_users", not_employed_users_map);
+		ret.put("employed_workers", employed_workers_map);
+		ret.put("employed_users", employed_users_map);
+		
+		return new ResponseEntity<HashMap<String,Object>>(ret,HttpStatus.OK);
 	}
 }

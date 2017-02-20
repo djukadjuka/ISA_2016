@@ -16,12 +16,16 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="Employee")
@@ -72,6 +76,31 @@ public class EmployeeBean{
 				
 			)
 	private Set<RestaurantBean> manages = new HashSet<RestaurantBean>();
+
+	@ManyToOne
+	@JoinColumn(name = "works_in_restaurant", nullable = true)
+	private RestaurantBean restaurant;
+	
+	@OneToMany(mappedBy = "for_employee", cascade = CascadeType.ALL)
+	private Set<EmployeeScheduleBean> shcedule = new HashSet<>();
+	
+	@JsonIgnore
+	public Set<EmployeeScheduleBean> getShcedule() {
+		return shcedule;
+	}
+
+	public void setShcedule(Set<EmployeeScheduleBean> shcedule) {
+		this.shcedule = shcedule;
+	}
+
+	@JsonIgnore
+	public RestaurantBean getRestaurant() {
+		return restaurant;
+	}
+
+	public void setRestaurant(RestaurantBean restaurant) {
+		this.restaurant = restaurant;
+	}
 
 	public long getId() {
 		return id;

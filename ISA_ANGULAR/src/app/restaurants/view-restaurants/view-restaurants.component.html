@@ -167,37 +167,37 @@
                         
                         <!--ADD NEW MANAGER BUTTON-->
                         <button style="width:100%" pButton type="button" label="Add Manager"
-                                icon="fa-user-circle-o" (click)="create_new_manager_clicked()" [disabled]=true> 
+                                icon="fa-user-circle-o" (click)="create_new_manager_clicked(restaurant)" [disabled]=false> 
                                 </button><br/>
 
                         <!--ADD NEW EMPLOYEE BUTTON-->
-                        <button style="width:100%" pButton type="button" label="Add Employee"
-                                icon="fa-id-card-o" (click)="add_new_employee_clicked()" [disabled]=true> 
+                        <button style="width:100%" pButton type="button" label="Manage Employees"
+                                icon="fa-id-card-o" (click)="add_new_employee_clicked(restaurant)" [disabled]=false> 
                                 </button><br/>
 
                         <!--EDIT EMPLOYEE SCEDULE BUTTON -->
                         <button style="width:100%" pButton type="button" label="Edit Employee Schedule"
-                                icon="fa-address-book-o" (click)="edit_employee_schedule_clicked()" [disabled]=true> 
+                                icon="fa-address-book-o" (click)="edit_employee_schedule_clicked(restaurant)" [disabled]=false> 
                                 </button><br/>
                         
                         <!--EDIT EMPLOYEE REGION BUTTON -->
                         <button style="width:100%" pButton type="button" label="Edit Employee Region"
-                                icon="fa-calculator" (click)="edit_employee_region_clicked()" [disabled]=true> 
+                                icon="fa-calculator" (click)="edit_employee_region_clicked(restaurant)" [disabled]=true> 
                                 </button><br/>
 
                         <!--REGISTER DELIVERER BUTTON-->
                         <button style="width:100%" pButton type="button" label="Register New Deliverer"
-                                icon="fa-bicycle" (click)="register_new_deliverer_clicked()" [disabled]=true> 
+                                icon="fa-bicycle" (click)="register_new_deliverer_clicked(restaurant)" [disabled]=true> 
                                 </button><br/>
 
                         <!--CREATE DELIVERY BUTTON-->
                         <button style="width:100%" pButton type="button" label="Create Delivery"
-                                icon="fa-bookmark-o" (click)="create_new_delivery_clicked()" [disabled]=true> 
+                                icon="fa-bookmark-o" (click)="create_new_delivery_clicked(restaurant)" [disabled]=true> 
                                 </button><br/>
 
                         <!--CHECK DELIVERY NOTIFICATIONS BUTTON-->
                         <button style="width:100%" pButton type="button" label="Check Deliveries"
-                                icon="fa-cart-arrow-down" (click)="check_delivery_notifications_clicked()" [disabled]=true> 
+                                icon="fa-cart-arrow-down" (click)="check_delivery_notifications_clicked(restaurant)" [disabled]=true> 
                                 </button><br/>
 
                     </p-accordionTab>
@@ -430,41 +430,291 @@
 <!--=====================================================================-->
 <!--================= ADD NEW MANAGER PANEL-->
 <!--=====================================================================-->
-
+<p-panel *ngIf="creating_new_manager_open" >
+    <p-header>
+        <div class="ui-g">
+            <div class="ui-g-6">
+                <h3 style="float: left;"> Add Managers to {{restaurant_23.name}} </h3>
+            </div>
+            <div class="ui-g-6">
+                <button pButton icon="fa-close" label="Close" style="float: right;height : 100%" (click)="close_new_manager_panel()"></button>
+            </div>
+        </div>
+    </p-header>
+    <p>Users that are not managers will be upgraded to Manager status. Existing Managers will simply be added to the manager list.</p>
+    
+    <!--POSSIBLE MANAGERS PICKLIST-->
+    <p-pickList [source]="possible_managers" [target]="assigned_managers" 
+                        [showSourceControls]="false" [showTargetControls]="false" 
+                        [sourceStyle]="{'height':'300px'}" [targetStyle]="{'height':'300px'}" 
+                        [responsive]="true"
+                        sourceHeader="Possible Managers" targetHeader="Assigned Managers">
+        <template let-user pTemplate="item">
+            <div class="media">
+                <!--USERS IMAGE-->
+                <div class="media-left">
+                    <img class="media-object" src="http://lorempixel.com/100/100/sports/?">
+                </div>
+                <div class="media-body">
+                    <!--USERS NAME for the title-->
+                    <h4 class="media-heading"><b>{{user?.username}}</b></h4>
+                    <b>First Name : </b><i>{{user?.firstName}}</i><br/>
+                    <b>Last Name : </b><i>{{user?.lastName}}</i><br/>
+                    <b>Email : </b><i>{{user?.email}}</i>
+                </div>
+            </div><hr/>
+        </template>
+    </p-pickList>
+</p-panel>
 
 
 <!--=====================================================================-->
 <!--================= ADD NEW EMPLOYEE PANEL-->
 <!--=====================================================================-->
+<!--
+    Show existing employees.
+    Show unregistered employees -> Basic Users
+    Show registered employees
+-->
+<p-panel *ngIf="creating_new_employee_open" >
+    <p-header>
+        <div class="ui-g">
+            <div class="ui-g-6">
+                <h3 style="float: left;"> Manage Employees For {{restaurant_23.name}} </h3>
+            </div>
+            <div class="ui-g-6">
+                <button pButton icon="fa-close" label="Close" style="float: right;height : 100%" (click)="close_new_employee_panel()"></button>
+            </div>
+        </div>
+    </p-header>
 
+    <p>Select a user from the data table to begin registering him as an employee.<br/>
+    You can also add existing employees from the pick list below.</p><br/>
+
+    <p-dataTable [value]="free_users" selectionMode="single" 
+                [(selection)]="selected_user_for_work" (onRowSelect)="selected_a_user_for_work($event)">
+        <p-header>Free Users</p-header>
+        <p-column field="username" header="Username"></p-column>
+        <p-column field="firstName" header="First Name"></p-column>
+        <p-column field="lastName" header="Last Name"></p-column>
+        <p-column field="email" header="Email"></p-column>
+    </p-dataTable><br/>
+
+    <p-dialog width="500" header="Add new Employee" 
+            [(visible)]="registering_new_employee"
+            modal="modal" responsive="true">
+        <p>
+            <!--EMPLOYEE ROLE-->
+                <b>Role : </b>
+                <i>
+                    <p-selectButton [options]="employee_roles" [(ngModel)]="registering_employee.role"></p-selectButton>
+                </i><br/>
+            <!--EMPLOYEE SHOE SIZE-->
+                <b>Shoe Size : </b>
+                <!--<input type="text" pInputText [(ngModel)]="registering_employee.shoeSize" style="width:190px"/>-->
+                <p-slider [(ngModel)]="registering_employee.shoeSize" [style]="{'width':'200px'}">{{registering_employee.shoeSize}}</p-slider><br/>
+            <!--EMPLOYEE SUIT SIZE-->
+                <b>Suit Size : </b>
+                <!--<input type="text" pInputText [(ngModel)]="registering_employee.suitSize" style="width:190px"/>-->
+                <p-slider [(ngModel)]="registering_employee.suitSize" [style]="{'width':'200px'}">{{registering_employee.suitSize}}</p-slider><br/>
+            <!--EMPLOYEE DATE OF BIRTH-->
+                <b>Date of Birth : </b>
+                <p-calendar [(ngModel)]="registering_employee.dateOfBirth" [minDate]="minDate" 
+                [monthNavigator]="true" [yearNavigator]="true" yearRange="1940:2030"
+                [maxDate]="maxDate" [readonlyInput]="true"></p-calendar><br/>
+        </p> 
+        <p-footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button type="button" pButton icon="fa-check" (click)="close_new_employee_dialog()" label="Submit"></button>
+            </div>
+        </p-footer>
+    </p-dialog>
+
+    <p-pickList [source]="free_workers" [target]="restaurant_workers" 
+                        [showSourceControls]="false" [showTargetControls]="false" 
+                        [sourceStyle]="{'height':'300px'}" [targetStyle]="{'height':'300px'}" 
+                        [responsive]="true"
+                        sourceHeader="Free Workers" targetHeader="Assigned Workers">
+        <template let-worker pTemplate="item">
+            <div class="media">
+                <!--USERS IMAGE-->
+                <div class="media-left">
+                    <img class="media-object" src="http://lorempixel.com/100/100/sports/?">
+                </div>
+                <div class="media-body">
+                    <!--USERS NAME for the title-->
+                    <h4 class="media-heading"><b>{{worker.user?.username}}</b></h4>
+                    <b>First Name : </b><i>{{worker.user?.firstName}}</i><br/>
+                    <b>Last Name : </b><i>{{worker.user?.lastName}}</i><br/>
+                    <b>Role : </b><i>{{worker?.role}}</i><br/>
+                    <b>Date of Birth : </b><i>{{worker?.dateOfBirth}}</i><br/>
+                    <b>Shoe Size : </b><i>{{worker?.shoeSize}}</i><br/>
+                    <b>Suit Size : </b><i>{{worker?.suitSize}}</i><br/>
+                    <b>Email : </b><i>{{worker.user?.email}}</i>
+                </div>
+            </div><hr/>
+        </template>
+    </p-pickList>
+
+
+</p-panel>
 
 
 <!--=====================================================================-->
 <!--================= EDIT EMPLOYEE SCEDULE PANEL-->
 <!--=====================================================================-->
+<p-panel *ngIf="creating_employee_schedule_open" >
+    <p-header>
+        <div class="ui-g">
+            <div class="ui-g-6">
+                <h3 style="float: left;"> Configure Schedules </h3>
+            </div>
+            <div class="ui-g-6">
+                <button pButton icon="fa-close" label="Close" style="float: right;height : 100%" (click)="close_new_employee_schedule()"></button>
+            </div>
+        </div>
+    </p-header>
 
+    <!--MAIN CONTENT DIV-->
+    <div class="ui-g">
+        
+        <!--DIV CONTAINING LISTBOX-->
+        <div class="ui-g-4">
+            <p-listbox [options]="employee_usernames_schedule" [(ngModel)]="schedule_employee" 
+                       filter="filter" (onChange)="schedule_selected($event)"></p-listbox>
+        </div>
+
+        <!--DIV CONTAINING DATA-->
+        <div class="ui-g-8">
+            <p-dataTable [value]="all_schedules_for_employee" rows="20" 
+                        [paginator]="true" [pageLinks]="5" 
+                        [rowsPerPageOptions]="[5,10,20]">
+                <p-header>Schedules</p-header>
+                    <p-column field="from" header="From (h)"></p-column>
+                    <p-column field="to" header="To (h)"></p-column>
+                    <p-column field="date" header="On Date"></p-column>
+            </p-dataTable><br/>
+            <button *ngIf="schedule_employee != undefined" type="button" pButton label="Add New" (click)="add_new_schedule_clicked()"></button>
+        </div>
+    </div>
+
+    <p-dialog width="500" header="Add new Schedule" 
+            [(visible)]="adding_new_shedule"
+            modal="modal" responsive="true">
+        
+
+            <div class="ui-g">
+                <!--TIME START-->
+                <div class="ui-g-6">
+                    <b>Time Start : </b>
+                </div>
+                <div class="ui-g-6">
+                    <p-calendar [(ngModel)]="schedz_time_start" [timeOnly]="true"></p-calendar>
+                </div>
+                <!--TIME END-->
+                <div class="ui-g-6">
+                    <b>Time End : </b>
+                </div>
+                <div class="ui-g-6">
+                    <p-calendar [(ngModel)]="schedz_time_end" [timeOnly]="true"></p-calendar>
+                </div>
+                <!--DATE-->
+                <div class="ui-g-6">
+                    <b>Day : </b>
+                </div>
+                <div class="ui-g-6">
+                    <p-calendar [(ngModel)]="new_schedz_day" [minDate]="min_schedz_day" [maxDate]="max_schedz_day" [readonlyInput]="true"></p-calendar>
+                </div>
+            </div>
+            schedz_time_start : {{schedz_time_start}}<br/>
+            schedz_time_end : {{schedz_time_end}}<br/>
+            new_schedz_day : {{new_schedz_day}}<br/>
+
+
+        <p-footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button type="button" pButton icon="fa-check" (click)="close_new_schedule_dialog()" label="Submit"></button>
+            </div>
+        </p-footer>
+    </p-dialog>
+</p-panel>
 
 
 <!--=====================================================================-->
 <!--================= EDIT EMPLOYEE REGION PANEL-->
 <!--=====================================================================-->
+<p-panel *ngIf="creating_employee_region_open" >
+    <p-header>
+        <div class="ui-g">
+            <div class="ui-g-6">
+                <h3 style="float: left;"> HEADER </h3>
+            </div>
+            <div class="ui-g-6">
+                <button pButton icon="fa-close" label="Close" style="float: right;height : 100%" (click)="close_edit_employee_region()"></button>
+            </div>
+        </div>
+    </p-header>
 
+
+
+</p-panel>
 
 
 <!--=====================================================================-->
 <!--================= REGISTER DELIVERER PANEL-->
 <!--=====================================================================-->
+<p-panel *ngIf="creating_new_deliverer_open" >
+    <p-header>
+        <div class="ui-g">
+            <div class="ui-g-6">
+                <h3 style="float: left;"> HEADER </h3>
+            </div>
+            <div class="ui-g-6">
+                <button pButton icon="fa-close" label="Close" style="float: right;height : 100%" (click)="close_register_new_deliverer()"></button>
+            </div>
+        </div>
+    </p-header>
 
+
+
+</p-panel>
 
 
 <!--=====================================================================-->
 <!--================= CREATE DELIVERY PANEL-->
 <!--=====================================================================-->
+<p-panel *ngIf="creating_new_delivery_open" >
+    <p-header>
+        <div class="ui-g">
+            <div class="ui-g-6">
+                <h3 style="float: left;"> HEADER </h3>
+            </div>
+            <div class="ui-g-6">
+                <button pButton icon="fa-close" label="Close" style="float: right;height : 100%" (click)="close_create_new_delivery()"></button>
+            </div>
+        </div>
+    </p-header>
 
+
+
+</p-panel>
 
 
 <!--=====================================================================-->
 <!--================= CHECK DELIVERY NOTIFICATIONS PANEL-->
 <!--=====================================================================-->
+<p-panel *ngIf="checking_delivery_notifications_open" >
+    <p-header>
+        <div class="ui-g">
+            <div class="ui-g-6">
+                <h3 style="float: left;"> HEADER </h3>
+            </div>
+            <div class="ui-g-6">
+                <button pButton icon="fa-close" label="Close" style="float: right;height : 100%" (click)="close_check_delivery_notifications()"></button>
+            </div>
+        </div>
+    </p-header>
 
+
+</p-panel>
 

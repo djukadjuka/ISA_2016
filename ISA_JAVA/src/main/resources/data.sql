@@ -1,4 +1,4 @@
---D:\Suckhead\Fakultet\ISA\ISA_2016\IMAGES\no_image_found.jpg
+
 --========================================
 --USERS
 --insert into user(id, email, first_name, last_name, password, profile_picture, username, friends_of_user_id) 
@@ -568,55 +568,58 @@ values (10, 10);
 --=============================================
 --MANAGERS
 --=============================================
-insert into employee(date_of_birth,role,shoe_size,suit_size,user_id)
-values ('2030-1-1','MANAGER',null,null,1);
-insert into employee(date_of_birth,role,shoe_size,suit_size,user_id)
-values ('2040-1-1','MANAGER',null,null,2);
-insert into employee(date_of_birth,role,shoe_size,suit_size,user_id)
-values ('2050-1-1','MANAGER',null,null,3);
-insert into employee(date_of_birth,role,shoe_size,suit_size,user_id)
-values ('2010-1-1','MANAGER',null,null,4);
+insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)
+values ('2030-1-1','MANAGER',null,null,1,null);
+insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)
+values ('2040-1-1','MANAGER',null,null,2,null);
+insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)
+values ('2050-1-1','MANAGER',null,null,3,null);
+insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)
+values ('2010-1-1','MANAGER',null,null,4,null);
 
 --=============================================
 --OTHER EMPLOYEES
 --=============================================
-insert into employee(date_of_birth,role,shoe_size,suit_size,user_id)
-values ('2010-1-1','WAITER',null,null,5);
-insert into employee(date_of_birth,role,shoe_size,suit_size,user_id)
-values ('2010-1-1','WAITER',null,null,6);
-insert into employee(date_of_birth,role,shoe_size,suit_size,user_id)
-values ('2010-1-1','WAITER',null,null,7);
-insert into employee(date_of_birth,role,shoe_size,suit_size,user_id)
-values ('2010-1-1','WAITER',null,null,8);
-insert into employee(date_of_birth,role,shoe_size,suit_size,user_id)
-values ('2010-1-1','WAITER',null,null,9);
-insert into employee(date_of_birth,role,shoe_size,suit_size,user_id)
-values ('2010-1-1','WAITER',null,null,10);
-insert into employee(date_of_birth,role,shoe_size,suit_size,user_id)
-values ('2010-1-1','COOK',null,null,11);
-insert into employee(date_of_birth,role,shoe_size,suit_size,user_id)
-values ('2010-1-1','COOK',null,null,12);
-insert into employee(date_of_birth,role,shoe_size,suit_size,user_id)
-values ('2010-1-1','BARTENDER',null,null,13);
-insert into employee(date_of_birth,role,shoe_size,suit_size,user_id)
-values ('2010-1-1','BARTENDER',null,null,14);
-insert into employee(date_of_birth,role,shoe_size,suit_size,user_id)
-values ('2010-1-1','BARTENDER',null,null,15);
-
+insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)
+values ('2010-1-1','WAITER',null,null,5,1);
+insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)
+values ('2010-1-1','WAITER',null,null,6,1);
+insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)
+values ('2010-1-1','WAITER',null,null,7,1);
+insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)
+values ('2010-1-1','WAITER',null,null,8,1);
+insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)
+values ('2010-1-1','WAITER',null,null,9,2);
+insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)
+values ('2010-1-1','WAITER',null,null,10,2);
+insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)
+values ('2010-1-1','COOK',null,null,11,2);
+insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)
+values ('2010-1-1','COOK',null,null,12,2);
+insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)
+values ('2010-1-1','BARTENDER',null,null,13,3);
+insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)
+values ('2010-1-1','BARTENDER',null,null,14,3);
+insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)
+values ('2010-1-1','BARTENDER',null,null,15,3);
 
 --=====================================
---TESTING DJuKA
+--EMPLOYEE SCHEDZZZ
 --=====================================
-insert into restaurant_registry(id,restaurant_name,seen,type,status,deleted)
-values(1,'A new Hope',0,'Fast Food','PENDING',0);
-insert into restaurant_registry(id,restaurant_name,seen,type,status,deleted)
-values(2,'Dashing Prince',0,'Diner','PENDING',0);
-insert into restaurant_registry(id,restaurant_name,seen,type,status,deleted)
-values(3,'The Dutchman',0,'Sports Bar','PENDING',0);
-insert into restaurant_registry(id,restaurant_name,seen,type,status,deleted)
-values(4,'Buckys Fish and Grill',0,'Fast Food','PENDING',0);
+insert into employee_schedule(id,to_date,from_date,date_date,for_employee)
+values(1,1000000100000,1000000000000,1000000100000,5);
+insert into employee_schedule(id,to_date,from_date,date_date,for_employee)
+values(2,1000000100000,1000000000000,1000000100000,6);
+insert into employee_schedule(id,to_date,from_date,date_date,for_employee)
+values(3,1000000100000,1000000000000,1000000100000,7);
+insert into employee_schedule(id,to_date,from_date,date_date,for_employee)
+values(4,1000000100000,1000000000000,1000000100000,8);
 
---MENADZERI 1,2,3 DRZE RESTORANE 1,2,3
+--=====================================
+--MANAGERS MANAGING RESTAURANTS
+--=====================================
+
+--==1,2,3 holds 1,2,3
 insert into manages_restaurants(rest_id,manager_id)
 values(1,1);
 insert into manages_restaurants(rest_id,manager_id)
@@ -636,11 +639,24 @@ values(3,2);
 insert into manages_restaurants(rest_id,manager_id)
 values(3,3);
 
---MENADZER 4 DRZI RESTORANE 4,5
+--==4 holds 4,5
 insert into manages_restaurants(rest_id,manager_id)
 values(4,4);
 insert into manages_restaurants(rest_id,manager_id)
 values(5,4);
+
+--=====================================
+--TESTING DJuKA
+--=====================================
+insert into restaurant_registry(id,restaurant_name,seen,type,status,deleted)
+values(1,'A new Hope',0,'Fast Food','PENDING',0);
+insert into restaurant_registry(id,restaurant_name,seen,type,status,deleted)
+values(2,'Dashing Prince',0,'Diner','PENDING',0);
+insert into restaurant_registry(id,restaurant_name,seen,type,status,deleted)
+values(3,'The Dutchman',0,'Sports Bar','PENDING',0);
+insert into restaurant_registry(id,restaurant_name,seen,type,status,deleted)
+values(4,'Buckys Fish and Grill',0,'Fast Food','PENDING',0);
+
 
 --MENADZERI PROBAJU DA REGISTRUJU RESTORANE
 --MENADZER 1 PROBA DA REGISTRUJE 1,2,3

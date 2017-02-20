@@ -44,5 +44,23 @@ public class UserServiceBean implements UserService{
 	public void delete(Long id) {
 		userRepo.delete(id);
 	}
+	
+	public Collection<UserBean> getUsersNotManagingOrNotManagersForRestaurant(Long rest_id){
+		return userRepo.getUsersNotManagingOrNotManagersForRestaurant(rest_id);
+	}
+	
+	public Collection<UserBean> getManagersForRestaurantNoCurrentManager(Long rest_id, Long mgr_id){
+		return userRepo.getManagersForRestaurantNoCurrentManager(rest_id, mgr_id);
+	}
+
+	@Override
+	public Collection<UserBean> getUsersThatWorkForARestaurant(Long rest_id) {
+		return userRepo.getUsersThatWorkForARestaurant(rest_id);
+	}
+
+	@Override
+	public Collection<UserBean> getusersThatDoNotWorkForARestaurant() {
+		return userRepo.getusersThatDoNotWorkForARestaurant();
+	}
 
 }

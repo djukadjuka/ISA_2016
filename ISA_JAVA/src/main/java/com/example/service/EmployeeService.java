@@ -14,11 +14,15 @@ public interface EmployeeService {
 	
 	Collection<EmployeeBean> findAll();
 	
-	UserBean update(EmployeeBean employee);
+	EmployeeBean update(EmployeeBean employee);
 	
-	UserBean create(EmployeeBean emloyee);
+	EmployeeBean create(EmployeeBean emloyee);
 	
 	void delete(Long id);
 	
 	public EmployeeBean getMGR_fromRestaurantREGISTRY(Long registry_id);
+	
+	//CUSTOM
+	public Collection<EmployeeBean> getWorkersThatWorkForARestaurant(Long rest_id);
+	public Collection<EmployeeBean> getWorkersThatDoNotWorkForARestaurant();
 }
