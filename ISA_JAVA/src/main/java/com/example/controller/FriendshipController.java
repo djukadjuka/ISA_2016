@@ -27,8 +27,6 @@ public class FriendshipController {
 
 	@Autowired
 	private FriendshipService friendshipService = new FriendshipServiceBean();
-	@Autowired
-	private UserServiceBean userService = new UserServiceBean();
 	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(

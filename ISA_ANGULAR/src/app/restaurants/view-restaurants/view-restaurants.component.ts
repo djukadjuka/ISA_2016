@@ -10,6 +10,7 @@ import {Message} from 'primeng/primeng';
 import {MenuItem} from 'primeng/primeng';
 import {OverlayPanel} from 'primeng/primeng';
 import { SharedService } from '../../shared/shared.service';
+import {ConfirmationService} from 'primeng/primeng';
 import {Http,Headers,RequestOptions,RequestMethod,Request,Response} from '@angular/http';
 
 @Component({
@@ -55,8 +56,10 @@ export class ViewRestaurantsComponent implements OnInit{
 
   //reservation for restaurant
   showReservationDialog = false;
+  reservationTables = [];
+  reservationSelectedTables = [];
   reservationSteps: MenuItem[] = [{label: "Step"}, {label: "Step"}, {label: "Step"}];
-  reservation = { startDate : new Date, endDate : new Date };
+  reservation = { startDate : new Date, endDate : new Date, table_id : "" };
   reservationActiveStep = 0;
   reservationLoadingBar = 10;
   formReservation : FormGroup;
@@ -78,7 +81,8 @@ export class ViewRestaurantsComponent implements OnInit{
     private viewRestaurantsService : ViewRestaurantsService, 
     private productService : ProductService,
     private _sharedService : SharedService,
-    private _fb: FormBuilder) 
+    private _fb: FormBuilder,
+    private _confirmationService : ConfirmationService)
     {
 
       this.allFoodTypes = {"Serbian":{"id":1,"name":"Serbian"},
@@ -470,14 +474,129 @@ export class ViewRestaurantsComponent implements OnInit{
         }
         else
         {
-            this.reservationActiveStep = 1;
-            //this.reservationLoadingBar = 30;
             while(this.reservationLoadingBar < 35)
             {
               this.reservationLoadingBar += 1;
             }
+
+             //za sad za zonu jedan, posle za zonu trenutno kliknutog restorana
+            this.viewRestaurantsService.getAllTables(1)
+                                  .subscribe(
+                                    res => 
+                                    {
+                                      this.reservationTables = res;
+                                      //change to next step (Step 2)
+                                      this.reservationActiveStep = 1;
+                                    }
+                                  );
         }
-        
+   }
+
+   reservationStep2()
+   {
+      this._confirmationService.confirm({
+              header: 'Confirm reservation',
+              message: 'Are you sure you want to reserve these tables? Reservation will be made after confirming this step.',
+              accept: () => {
+                  
+
+                  this.growl = [];
+                  //uzmi reservationSelectedTables i prodji kroz njih i dodaj id-eve stolova u listu sa startDate endDate
+                  for(let i = 0; i < this.reservationSelectedTables.length; i++)
+                  {
+                      if(this.reservationSelectedTables[i].selected == true)
+                      {
+                          this.reservation.table_id = this.reservationSelectedTables[i].id;
+
+                          let temp = {startDate : this.reservation.startDate.getTime(), endDate : this.reservation.endDate.getTime(), table_id : this.reservation.table_id};
+                          console.log(temp);
+
+                           this.viewRestaurantsService.makeReservation(temp)
+                                      .subscribe(
+                                          res => {
+                                             
+                                             if(res == true)
+                                             {
+                                                  this.growl.push({severity:'success', summary:'Successful reservation for table '+ temp.table_id, detail:''});  
+                                             }
+                                             else
+                                             {
+                                                  this.growl.push({severity:'error', summary:'Sorry, table '+ temp.table_id + ' is already taken!', detail:''});
+                                             }
+                                         }
+                                      );
+                          
+                          //za svaku rezervaciju cu isto upisati nju u tabelu ReservationCalls gde ce mi originator i recipient biti isti user koji je rezervisao
+                      }
+                  }
+
+                  while(this.reservationLoadingBar < 80)
+                  {
+                    this.reservationLoadingBar += 1;
+                  }
+
+                  this.reservationActiveStep = 2;
+              }
+          });
+   }
+
+   //restaurant table reservation
+   tableClicked(event)
+   {
+     
+      if(event.target.style.borderColor === "red")
+      {
+            this.growl = [];
+            this.growl.push({severity:'warning',
+                              summary:'Sorry, that table is taken!',
+                              detail:'Try choosing the gray ones.'});
+            return;
+      }
+
+      if(event.target.style.borderColor === "black")
+      {
+          event.target.style.borderColor = "green";
+          // add to list if doesn't exist already
+          let tableJson = {"id" : event.target.id, "selected" : true};
+          let exists = false;
+
+          for(let i=0; i < this.reservationSelectedTables.length; i++)
+          {
+              if(this.reservationSelectedTables[i].id == event.target.id)
+              {
+                  this.reservationSelectedTables[i].selected = true;
+                  console.log(this.reservationSelectedTables[i]);
+                  exists = true;
+                  break;
+              }
+          }
+
+          if(!exists)
+            this.reservationSelectedTables.push(tableJson);
+      }
+      else
+      {
+          event.target.style.borderColor = "black";
+          // remove from list 
+          for(let i=0; i < this.reservationSelectedTables.length; i++)
+          {
+              if(this.reservationSelectedTables[i].id == event.target.id)
+              {
+                  this.reservationSelectedTables[i].selected = false;
+                  break;
+              }
+          }
+      }
+
+      
+   }
+
+   tableBorderColor(table)
+   {
+       if(table.status == "FREE")
+          return "black";
+       else
+          return "red";
    }
 
    ///////////////////////////////////////
