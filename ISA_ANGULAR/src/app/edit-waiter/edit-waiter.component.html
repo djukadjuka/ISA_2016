@@ -57,9 +57,10 @@
     <template let-tables pTemplate="item">
    <!--Style of one cell in the datagrid-->
         <div style="padding:3px" class="ui-g-12 ui-md-3">
-            <p-panel [header]="tables.name" [style]="{'text-align':'center'}">
+            <p-panel [header]="tables.id" [style]="{'text-align':'center'}">
                 <img [src]="tables.image" (error)="tables.image = '/assets/pictures/no_image_found.jpg'" width="150" height="150">
                 <hr class="ui-widget-content" style="border-top:0">
+                
                 <button pButton type="button" label="Take order!" icon="fa-edit" ></button>
                 <button pButton type="button" label="Money!!!" icon="fa-edit" ></button>
             </p-panel>
