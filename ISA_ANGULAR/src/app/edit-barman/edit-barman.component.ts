@@ -20,6 +20,7 @@ export class EditBarmanComponent implements OnInit, OnChanges {
   private userUpdate = {username: "", id: ""};
   private msgs: Message[] = [];
 
+  private displayScheduleeButton : boolean = false;
   private displaySchedule: boolean = false;
    private formEditUser: FormGroup;
 
@@ -117,6 +118,11 @@ export class EditBarmanComponent implements OnInit, OnChanges {
     
 
     this.displaySchedule = true;
+  }
+  displaySchedulee(){
+
+    this.displayScheduleeButton = true;
+
   }
 
 }

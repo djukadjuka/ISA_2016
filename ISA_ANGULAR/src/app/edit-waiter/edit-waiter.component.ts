@@ -13,7 +13,7 @@ import { SharedService } from '../shared/shared.service';
 })
 export class EditWaiterComponent implements OnInit {
 
-
+  private displayScheduleeButton: boolean = false;
    private displayScheduleButton: boolean = false;
    private showTablesButton: boolean = false ;
    private user = {};
@@ -55,6 +55,11 @@ export class EditWaiterComponent implements OnInit {
 
     this.displayScheduleButton = true;
 
+
+  }
+  displaySchedulee(){
+
+    this.displayScheduleeButton = true;
 
   }
   showTables(){

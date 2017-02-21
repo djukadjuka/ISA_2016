@@ -12,7 +12,7 @@ import {ViewRestaurantsService} from '../restaurants/view-restaurants/view-resta
 })
 export class EditChefComponent implements OnInit {
 
-
+private displayScheduleeButton: boolean = false;
   private displayScheduleButton: boolean =false;
    private user = {};
     private userUpdate = {username: "", id: ""};
@@ -63,6 +63,11 @@ export class EditChefComponent implements OnInit {
 
   }
 
+  displaySchedulee(){
+
+    this.displayScheduleeButton = true;
+
+  }
   
     updateUser()
   {
