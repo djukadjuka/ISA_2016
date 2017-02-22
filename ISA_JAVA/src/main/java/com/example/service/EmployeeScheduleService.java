@@ -1,8 +1,7 @@
 package com.example.service;
 
 import java.util.Collection;
-
-import org.springframework.data.repository.query.Param;
+import java.util.HashMap;
 
 import com.example.domain.EmployeeScheduleBean;
 
@@ -20,4 +19,6 @@ public interface EmployeeScheduleService {
 	
 	//CUSTOM
 	public Collection<EmployeeScheduleBean> getScheddzzzForEmployee(Long employee_id);
+	
+	public Collection<EmployeeScheduleBean> getSchedduleForEmployee();
 }

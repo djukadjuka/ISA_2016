@@ -1,6 +1,7 @@
 package com.example.service;
 
 import java.util.Collection;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,5 +44,11 @@ public class EmployeeScheduleServiceBean implements EmployeeScheduleService{
 	public Collection<EmployeeScheduleBean> getScheddzzzForEmployee(Long employee_id) {
 		return repository.getScheddzzzForEmployee(employee_id);
 	}
+	@Override
+	public  Collection<EmployeeScheduleBean> getSchedduleForEmployee(){
+		return repository.getSchedduleForEmployee();
+	}
+
+	
 
 }

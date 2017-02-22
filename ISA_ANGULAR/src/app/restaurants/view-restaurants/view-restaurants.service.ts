@@ -30,6 +30,12 @@ export class ViewRestaurantsService {
       .map(res=>res.json());
   }
 
+  getScheduleByDate(){
+    return this._http.get(this._baseURL + "/schedz/getScheduleByDate")
+          .map(res=>res.json());
+
+  }
+
   getFreeManagers_AndUserManagers(manager_id,restaurant_id){
     return this._http.get(this._baseURL + "/userRepo/getManagers/" + manager_id + "/forRestaurant/"+restaurant_id)
           .map(res=>res.json());
