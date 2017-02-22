@@ -51,8 +51,8 @@ public class TableController {
 			{
 				if(time > r.getStartDate() && time < r.getEndDate())
 				{
-					//UPDATE TABLE ?
 					t.setStatus(TableStatus.TAKEN);
+					//tableService.updateTableStatus(t);
 					break;
 				}
 			}

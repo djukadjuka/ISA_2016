@@ -39,10 +39,7 @@ public class ReservationServiceBean implements ReservationService{
 	@Override
 	public ReservationBean update(ReservationBean reservation) {
 		// TODO Auto-generated method stub
-		ReservationBean f = repository.findOne(reservation.getId());
-		if(f == null)
-			return null;
-		return repository.save(reservation);
+		return null;
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.domain.ReservationBean;
 import com.example.domain.TableBean;
 import com.example.repository.TableRepository;
 
@@ -30,6 +31,12 @@ public class TableServiceBean implements TableService{
 	public TableBean findOne(Long id) {
 		// TODO Auto-generated method stub
 		return repository.findOne(id);
+	}
+
+	@Override
+	public int updateTableStatus(TableBean t) {
+		// TODO Auto-generated method stub
+		return repository.updateTableStatus(t.getId(), t.getStatus());
 	}
 
 }

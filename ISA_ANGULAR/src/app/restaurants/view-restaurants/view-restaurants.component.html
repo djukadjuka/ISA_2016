@@ -66,6 +66,17 @@
                         <label class="control-label">End time:</label>
                         <p><p-calendar [(ngModel)]="reservation.endDate" formControlName="endDate" [timeOnly]="true"></p-calendar></p>
                     </div>
+                    <div class="ui-g-12"></div>
+                    <div class="ui-g-3"></div>
+                    <div class="ui-g-6">
+                        <label class="control-label">Choose restaurant zone:</label>
+                        <select [(ngModel)]="reservation.restaurantZone" formControlName="restaurantZone" style="width: 90%; height: 30px">
+                            <option [value]="" selected></option>
+                            <option *ngFor="let zone of restaurantZones" [value]="zone.id">  
+                                {{zone.name}}
+                            </option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="form-group">
@@ -82,8 +93,8 @@
     </div>
     <!--Reservation step 2-->
     <div *ngIf="reservationActiveStep==1">
-        <b> Choose tables you would like to reserve </b>
-         <div class="ui-g" style="background-image: url(../../assets/pictures/restaurant_pictures/blackAndWhiteFloor.png); height: 300px; width: 650px;">
+        <b> Choose tables you would like to reserve in {{reservationZoneName}} </b>
+         <div class="ui-g" [ngStyle]="{'background-image' : reservationZoneBackgroundImage }" style="height: 300px; width: 650px;">
             <div *ngFor="let table of reservationTables">
                 <div *ngIf="table.maxPeople == 2" class="ui-g-1 tableForTwo" id="{{table.id}}" [style.border-color]="tableBorderColor(table)" (click)="tableClicked($event)"></div>
                 <div *ngIf="table.maxPeople == 4" class="ui-g-1 tableForFour" id="{{table.id}}" [style.border-color]="tableBorderColor(table)" (click)="tableClicked($event)"></div>
@@ -221,9 +232,10 @@
 
                     </p-accordionTab>
                 </p-accordion>
-
+                
+                <!--RESERVATION BUTTON -->
                 <button style="width:100%" pButton type="button" label="Reservation"
-                        icon="fa-book" (click)="showReservationDialog=true"> 
+                        icon="fa-book" (click)="restaurantReservation(restaurant)"> 
                         </button><br/>
                 
             </p-panel>
