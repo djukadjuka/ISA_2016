@@ -63,4 +63,9 @@ public class UserServiceBean implements UserService{
 		return userRepo.getusersThatDoNotWorkForARestaurant();
 	}
 
+	@Override
+	public Collection<UserBean> getPossibleDeliverers() {
+		return userRepo.getPossibleDeliverers();
+	}
+
 }

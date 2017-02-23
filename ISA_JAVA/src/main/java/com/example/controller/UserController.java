@@ -171,4 +171,14 @@ public class UserController {
 		
 		return new ResponseEntity<HashMap<String,Object>>(ret,HttpStatus.OK);
 	}
+	
+	//get users that are not employees
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(value = "userRepo/getPendingDeliverers",
+					method = RequestMethod.GET,
+					produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseEntity<Collection<UserBean>> getIdleUsers(){
+		return new ResponseEntity<Collection<UserBean>>(userService.getPossibleDeliverers(),HttpStatus.OK);
+	}
 }

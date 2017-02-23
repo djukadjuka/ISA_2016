@@ -25,6 +25,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.example.domain.deliveryBeans.DeliveryOrderBean;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -84,6 +85,30 @@ public class EmployeeBean{
 	@OneToMany(mappedBy = "for_employee", cascade = CascadeType.ALL)
 	private Set<EmployeeScheduleBean> shcedule = new HashSet<>();
 	
+	@OneToMany(mappedBy = "served_by", cascade = CascadeType.ALL)
+	private Set<TableBean> serves_tables = new HashSet<>();
+	
+	@OneToMany(mappedBy = "made_by", cascade = CascadeType.ALL)
+	private Set<DeliveryOrderBean> orders;
+	
+	@JsonIgnore
+	public Set<DeliveryOrderBean> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(Set<DeliveryOrderBean> orders) {
+		this.orders = orders;
+	}
+
+	@JsonIgnore
+	public Set<TableBean> getServes_tables() {
+		return serves_tables;
+	}
+
+	public void setServes_tables(Set<TableBean> serves_tables) {
+		this.serves_tables = serves_tables;
+	}
+
 	@JsonIgnore
 	public Set<EmployeeScheduleBean> getShcedule() {
 		return shcedule;

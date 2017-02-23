@@ -42,6 +42,18 @@ public class TableBean {
     @JoinColumn(name = "restaurant_zone_id", nullable = false)
     private RestaurantZoneBean restaurant_zone_id;
 	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "served_by", nullable = true)
+	private EmployeeBean served_by;
+	
+	public EmployeeBean getServed_by() {
+		return served_by;
+	}
+
+	public void setServed_by(EmployeeBean served_by) {
+		this.served_by = served_by;
+	}
+
 	public TableBean() {
 		super();
 		

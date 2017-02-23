@@ -24,5 +24,6 @@ public interface UserService {
 	
 	public Collection<UserBean> getUsersThatWorkForARestaurant(Long rest_id);
 	public Collection<UserBean> getusersThatDoNotWorkForARestaurant();
+	public Collection<UserBean> getPossibleDeliverers();
 	
 }

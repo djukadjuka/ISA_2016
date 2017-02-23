@@ -32,4 +32,9 @@ public class TableServiceBean implements TableService{
 		return repository.findOne(id);
 	}
 
+	@Override
+	public Collection<TableBean> findAllTablesFromRestaurant(Long rest_id) {
+		return repository.findAllTablesFromRestaurant(rest_id);
+	}
+
 }

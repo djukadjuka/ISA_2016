@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.domain.ReservationBean;
@@ -64,5 +65,15 @@ public class TableController {
 		return new ResponseEntity<Collection<TableBean>>(tables,HttpStatus.OK);
 	}
 	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value="/tableController/getTablesForRestaurant/{rest_id}",
+			method = RequestMethod.GET,
+			produces=MediaType.APPLICATION_JSON_VALUE
+			)
+	@ResponseBody
+	public ResponseEntity<Collection<TableBean>> getTablesForRestaurant(@PathVariable("rest_id") Long rest_id){
+		return new ResponseEntity<Collection<TableBean>>(tableService.findAllTablesFromRestaurant(rest_id),HttpStatus.OK);
+	}
 	
 }

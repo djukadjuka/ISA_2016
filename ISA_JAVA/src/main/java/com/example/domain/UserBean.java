@@ -49,6 +49,9 @@ public class UserBean implements Serializable{
 	@Column(nullable = false)
 	private String profilePicture;
 	
+	@Column(name="requested_deliverer",nullable = true)
+	private Integer requested_deliverer;
+	
 	//@OneToMany(fetch = FetchType.LAZY, mappedBy = "friendsOfUser")
 	//private Set<UserBean> usersFriends = new HashSet<UserBean>();
 	
@@ -70,6 +73,14 @@ public class UserBean implements Serializable{
 //	public void setFriendsOfUser(RestaurantBean friendsOfUser) {
 //		this.friendsOfUser = friendsOfUser;
 //	}
+
+	public Integer getRequested_deliverer() {
+		return requested_deliverer;
+	}
+
+	public void setRequested_deliverer(Integer requested_deliverer) {
+		this.requested_deliverer = requested_deliverer;
+	}
 
 	public Long getId() {
 		return id;

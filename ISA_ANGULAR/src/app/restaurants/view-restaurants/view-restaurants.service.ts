@@ -15,6 +15,35 @@ export class ViewRestaurantsService {
 
   constructor(private _http : Http) { }
 
+  getDeliveryBidsForDeliveryId(delivery_id){
+    return this._http.get(this._baseURL + "/delivery_controller/getBidsForDeliveryId/" + delivery_id)
+    .map(res=>res.json());
+  }
+
+  getDeliveryOrdersForRestaurant(rest_id){
+    return this._http.get(this._baseURL + "/delivery_controller/getStartingData/" + rest_id)
+    .map(res=>res.json());
+  }
+
+  getPendingDeliverers(){
+    return this._http.get(this._baseURL + "/userRepo/getPendingDeliverers").map(res=>res.json());
+  }
+
+  getWaitersForRestaurant(rest_id){
+    return this._http.get(this._baseURL + "/EmployeeControler/getWaitersForRestaurant/" + rest_id)
+    .map(res=>res.json());
+  }
+
+  getTablesForRestaurant(rest_id){
+    return this._http.get(this._baseURL + "/tableController/getTablesForRestaurant/" + rest_id)
+    .map(res=>res.json());
+  }
+
+  getWorkersForRestaurant(rest_id){
+    return this._http.get(this._baseURL + "/EmployeeControler/getEmployeesForRestaurant/" + rest_id)
+    .map(res=>res.json());
+  }
+
   getWorkersNOMANAGERSForRestaurant(rest_id){
     return this._http.get(this._baseURL + "/schedz/getEmployeesForRestaurant/"+rest_id)
       .map(res=>res.json());
