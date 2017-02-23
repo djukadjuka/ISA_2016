@@ -12,6 +12,8 @@ public interface TableService {
 	
 	TableBean findOne(Long id);
 	
+	int updateTableStatus(TableBean t);
+	
 	Collection<TableBean> findAllTablesByZoneId(Long zone_id);
 	
 	//DJ_CUSTOM

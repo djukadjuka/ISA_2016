@@ -60,7 +60,9 @@ export class ViewRestaurantsComponent implements OnInit{
   reservationTables = [];
   reservationSelectedTables = [];
   reservationSteps: MenuItem[] = [{label: "Step"}, {label: "Step"}, {label: "Step"}];
-  reservation = { startDate : new Date, endDate : new Date, table_id : "" };
+  reservation = { startDate : new Date, endDate : new Date, table_id : "", restaurantZone : "" };
+  reservationZoneBackgroundImage = "";
+  reservationZoneName = "";
   reservationActiveStep = 0;
   reservationLoadingBar = 10;
   formReservation : FormGroup;
@@ -156,7 +158,8 @@ export class ViewRestaurantsComponent implements OnInit{
       //reservation form builder
        this.formReservation = this._fb.group({
         startDate: ['', Validators.required],
-        endDate: ['', Validators.required]
+        endDate: ['', Validators.required],
+        restaurantZone: ['', Validators.required]
         });
    }
 
@@ -458,6 +461,26 @@ export class ViewRestaurantsComponent implements OnInit{
                                 );
    }
 
+
+   //reservation button click
+
+   restaurantReservation(restaurant)
+   {
+        this.viewRestaurantsService.getZonesForRestaurant(restaurant)
+                                    .subscribe(
+                                        res=>
+                                        {
+                                            this.restaurantZones = [];
+                                                for(let item of res){
+                                                  if(item.deleted == 0){
+                                                    this.restaurantZones.push(item);
+                                                  }
+                                            
+                                            this.showReservationDialog=true;
+                                        }
+                                    });
+   }
+
    //reservation steps functions
 
    reservationStep1()
@@ -481,11 +504,47 @@ export class ViewRestaurantsComponent implements OnInit{
             }
 
              //za sad za zonu jedan, posle za zonu trenutno kliknutog restorana
-            this.viewRestaurantsService.getAllTables(1)
+            this.viewRestaurantsService.getAllTables(this.reservation.restaurantZone)
                                   .subscribe(
                                     res => 
                                     {
                                       this.reservationTables = res;
+                                      console.log(res);
+                                      //set the proper background-image for selected restaurant zone
+                                      for(let zone of this.restaurantZones)
+                                      {
+                                          if(zone.id == this.reservation.restaurantZone)
+                                          {
+                                              switch(zone.name)
+                                              {
+                                                  case "Garden":
+                                                      this.reservationZoneName = "Garden";
+                                                      this.reservationZoneBackgroundImage = "url(../../assets/pictures/restaurant_pictures/gardenGray.jpg)";
+                                                      break;
+                                                  case "Garden (Closed)":
+                                                      this.reservationZoneName = "Garden (Closed)";
+                                                      this.reservationZoneBackgroundImage = "url(../../assets/pictures/restaurant_pictures/garden.jpg)";
+                                                       break;
+                                                  case "Smoking":
+                                                      this.reservationZoneName = "Smoking Area";
+                                                      this.reservationZoneBackgroundImage = "url(../../assets/pictures/restaurant_pictures/smokingArea.png)";
+                                                       break;
+                                                  case "No Smoking":
+                                                      this.reservationZoneName = "No Smoking Area";
+                                                      this.reservationZoneBackgroundImage = "url(../../assets/pictures/restaurant_pictures/nonSmokingArea.jpg)";
+                                                       break;
+                                                  case "Main Hall":
+                                                      this.reservationZoneName = "Main Hall";
+                                                      this.reservationZoneBackgroundImage = "url(../../assets/pictures/restaurant_pictures/blackAndWhiteFloor.png)";
+                                                       break;
+                                                  case "Kids":
+                                                      this.reservationZoneName = "Kids Area";
+                                                      this.reservationZoneBackgroundImage = "url(../../assets/pictures/restaurant_pictures/kids.jpg)";
+                                                       break;   
+                                              }
+                                              break;
+                                          }
+                                      }
                                       //change to next step (Step 2)
                                       this.reservationActiveStep = 1;
                                     }
@@ -510,7 +569,6 @@ export class ViewRestaurantsComponent implements OnInit{
                           this.reservation.table_id = this.reservationSelectedTables[i].id;
 
                           let temp = {startDate : this.reservation.startDate.getTime(), endDate : this.reservation.endDate.getTime(), table_id : this.reservation.table_id};
-                          console.log(temp);
 
                            this.viewRestaurantsService.makeReservation(temp)
                                       .subscribe(
@@ -548,9 +606,9 @@ export class ViewRestaurantsComponent implements OnInit{
       if(event.target.style.borderColor === "red")
       {
             this.growl = [];
-            this.growl.push({severity:'warning',
+            this.growl.push({severity:'error',
                               summary:'Sorry, that table is taken!',
-                              detail:'Try choosing the gray ones.'});
+                              detail:'Try choosing the free ones.'});
             return;
       }
 

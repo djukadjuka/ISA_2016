@@ -5,6 +5,7 @@ import { Message } from 'primeng/primeng';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EditUserService } from '../edit-user/edit-user.service';
 import { SharedService } from '../shared/shared.service';
+import {ViewRestaurantsService} from '../restaurants/view-restaurants/view-restaurants.service'
 
 @Component({
   selector: 'app-edit-waiter',
@@ -17,13 +18,16 @@ export class EditWaiterComponent implements OnInit {
    private displayScheduleButton: boolean = false;
    private showTablesButton: boolean = false ;
    private user = {};
+   schedule = [];
     private userUpdate = {username: "", id: ""};
     private msgs: Message[] = [];
     private formEditUser: FormGroup;
+    private formEditSchedule: FormGroup;
 
    tables: TablesClass[];
 
   constructor(
+    private viewRestaurantsService : ViewRestaurantsService,
  private _editUserService: EditUserService,
     private tablesService: TablesService,
     private _fb: FormBuilder,
@@ -47,7 +51,7 @@ export class EditWaiterComponent implements OnInit {
       res => this.userUpdate = res
       );
 
-    console.log(this.userUpdate);
+    console.log(JSON.stringify(this.userUpdate));
     
   }
 
@@ -59,7 +63,20 @@ export class EditWaiterComponent implements OnInit {
   }
   displaySchedulee(){
 
+
+      
+
+    this.viewRestaurantsService.getScheduleByDate().subscribe(
+      res => {
+        this.schedule =res;
+       
+      }
+          
+    );
+        console.log(this.schedule);
     this.displayScheduleeButton = true;
+
+
 
   }
   showTables(){
