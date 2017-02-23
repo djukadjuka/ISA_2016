@@ -19,5 +19,15 @@ public interface DeliveryBidService {
 	void delete(Long id);
 	
 	//custom
-	public Collection<DeliveryOrderBid> getDeliveryBidsForDeliveryId(Long ord_id);
+	/**DELIVERY BID NOTIFICATIONS THAT ARE NOT SEEN BY THE DELIVERER*/
+	public Collection<DeliveryOrderBid> getNotSeenDeliveryStatuses(Long emp_id);
+	
+	/**GET ALL POSSIBLE BIDS THIS DELIVERER MADE EVER*/
+	public Collection<DeliveryOrderBid> getAllPossibleDeliveryBids(Long emp_id);
+
+	/**GET ALL BIDS FOR ONE DELIVERY*/
+	Collection<DeliveryOrderBid> getDeliveryBidsForDeliveryId(Long ord_id);
+	
+	/**SETS THE BIDS STATUS TO NULL SO THAT IT IS EXPIRED IN THE FRONT END*/
+	public void setBidToBeExpired(Long dob_id);
 }

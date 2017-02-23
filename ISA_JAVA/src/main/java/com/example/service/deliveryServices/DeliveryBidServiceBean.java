@@ -39,9 +39,30 @@ public class DeliveryBidServiceBean implements DeliveryBidService{
 		this.repository.delete(id);
 	}
 
+	/**
+	 * DELIVERY BID NOTIFICATIONS THAT ARE NOT SEEN BY THE DELIVERER
+	 */
+	@Override
+	public Collection<DeliveryOrderBid> getNotSeenDeliveryStatuses(Long emp_id) {
+		return this.repository.getNotSeenDeliveryStatuses(emp_id);
+	}
+
+	/**
+	 * GET ALL POSSIBLE BIDS THIS DELIVERER MADE EVER
+	 */
+	@Override
+	public Collection<DeliveryOrderBid> getAllPossibleDeliveryBids(Long emp_id) {
+		return this.repository.getAllPossibleDeliveryBids(emp_id);
+	}
+
 	@Override
 	public Collection<DeliveryOrderBid> getDeliveryBidsForDeliveryId(Long ord_id) {
 		return this.repository.getDeliveryBidsForDeliveryId(ord_id);
+	}
+
+	@Override
+	public void setBidToBeExpired(Long dob_id) {
+		this.repository.setBidToBeExpired(dob_id);
 	}
 	
 	

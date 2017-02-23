@@ -12,6 +12,18 @@ export class EditUserService {
         private _http : Http,
         private _sharedService : SharedService ) { }
 
+  /**
+   * Data for the deliverer
+   * ---------------
+   * what deliveres are available,
+   * what deliveries are accepted/declined (status deliveries),
+   * all bids he made ever
+   */
+  getDelivererStartingData(current_date,emp_id){
+    return this._http.get(this._baseURL + "/delivery_controller/getFreeDeliveries/current_date/"+current_date+"/emp_id/"+emp_id)
+    .map(res=>res.json());
+  }
+
   getUserById(id)
   {
         return this._http.get(this._baseURL + "/getUser/" + id)

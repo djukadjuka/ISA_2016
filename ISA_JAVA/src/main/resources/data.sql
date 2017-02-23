@@ -672,26 +672,15 @@ values(5,4);
 --=====================================
 --TESTING DJuKA
 --=====================================
-insert into restaurant_registry(id,restaurant_name,seen,type,status,deleted)
-values(1,'A new Hope',0,'Fast Food','PENDING',0);
-insert into restaurant_registry(id,restaurant_name,seen,type,status,deleted)
-values(2,'Dashing Prince',0,'Diner','PENDING',0);
-insert into restaurant_registry(id,restaurant_name,seen,type,status,deleted)
-values(3,'The Dutchman',0,'Sports Bar','PENDING',0);
-insert into restaurant_registry(id,restaurant_name,seen,type,status,deleted)
-values(4,'Buckys Fish and Grill',0,'Fast Food','PENDING',0);
 
---MENADZERI PROBAJU DA REGISTRUJU RESTORANE
---MENADZER 1 PROBA DA REGISTRUJE 1,2,3
---MENADZER 4 PROBA DA REGISTRUJE 4
-insert into registering_restaurants(rest_id,manager_id)
-values(1,1);
-insert into registering_restaurants(rest_id,manager_id)
-values(2,1);
-insert into registering_restaurants(rest_id,manager_id)
-values(3,1);
-insert into registering_restaurants(rest_id,manager_id)
-values(4,4);
+insert into restaurant_registry(id,restaurant_name,seen,type,status,deleted,registering_by)
+values(1,'A new Hope',0,'Fast Food','PENDING',0,1);
+insert into restaurant_registry(id,restaurant_name,seen,type,status,deleted,registering_by)
+values(2,'Dashing Prince',0,'Diner','PENDING',0,1);
+insert into restaurant_registry(id,restaurant_name,seen,type,status,deleted,registering_by)
+values(3,'The Dutchman',0,'Sports Bar','PENDING',0,1);
+insert into restaurant_registry(id,restaurant_name,seen,type,status,deleted,registering_by)
+values(4,'Buckys Fish and Grill',0,'Fast Food','PENDING',0,4);
 
 --==============================================
 --EXISTING DELIVERERS
@@ -709,11 +698,17 @@ values(18,'ACCEPTED');
 --==orders
 
 insert into delivery_order(id,date_from,date_to,made_by,for_restaurant_id,accepted_user_id,price_accepted)
-values(1,969660000000,969746400000,1,1,null,null);
+values(1,969660000000,969746400000,1,1,17,null);
 insert into delivery_order(id,date_from,date_to,made_by,for_restaurant_id,accepted_user_id,price_accepted)
-values(2,1487718000000,1487977200000,1,1,null,null);
+values(2,1487718000000,1487977200000,1,1,17,null);
 insert into delivery_order(id,date_from,date_to,made_by,for_restaurant_id,accepted_user_id,price_accepted)
-values(3,1487718000000,1487977200000,1,1,null,null);
+values(3,1487718000000,1487977200000,1,1,18,null);
+insert into delivery_order(id,date_from,date_to,made_by,for_restaurant_id,accepted_user_id,price_accepted)
+values(4,1487718000000,1487977200000,1,1,18,null);
+insert into delivery_order(id,date_from,date_to,made_by,for_restaurant_id,accepted_user_id,price_accepted)
+values(5,1487718000000,1487977200000,1,1,null,null);
+insert into delivery_order(id,date_from,date_to,made_by,for_restaurant_id,accepted_user_id,price_accepted)
+values(6,969660000000,969746400000,1,1,null,null);
 
 --==order items
 --==(1)
@@ -729,17 +724,44 @@ values(3,1487718000000,1487977200000,1,1,null,null);
 --==(3)
 	insert into delivery_order_item(id,item_amount,item_name,belongs_to_order) values (9,22,'bolts',3);
 	insert into delivery_order_item(id,item_amount,item_name,belongs_to_order) values (10,12,'AK-47',3);
+--==(4)
+	insert into delivery_order_item(id,item_amount,item_name,belongs_to_order) values (11,100,'cabbage',4);
+	insert into delivery_order_item(id,item_amount,item_name,belongs_to_order) values (12,10,'carrots',4);
+	insert into delivery_order_item(id,item_amount,item_name,belongs_to_order) values (13,40,'chicken',4);
+	insert into delivery_order_item(id,item_amount,item_name,belongs_to_order) values (14,140,'crabs',4);
+--==(5)
+	insert into delivery_order_item(id,item_amount,item_name,belongs_to_order) values (15,12,'AK-47',5);
+	insert into delivery_order_item(id,item_amount,item_name,belongs_to_order) values (16,600,'birds',5);
+	insert into delivery_order_item(id,item_amount,item_name,belongs_to_order) values (17,40,'chicken',5);
+--==(6)
+	insert into delivery_order_item(id,item_amount,item_name,belongs_to_order) values (18,10,'carrots',6);
+	insert into delivery_order_item(id,item_amount,item_name,belongs_to_order) values (19,40,'chicken',6);
+	insert into delivery_order_item(id,item_amount,item_name,belongs_to_order) values (20,100,'cabbage',6);
+	insert into delivery_order_item(id,item_amount,item_name,belongs_to_order) values (21,10,'carrots',6);
+	insert into delivery_order_item(id,item_amount,item_name,belongs_to_order) values (22,20,'tomatos',6);
+	insert into delivery_order_item(id,item_amount,item_name,belongs_to_order) values (23,400,'rivets',6);
+	insert into delivery_order_item(id,item_amount,item_name,belongs_to_order) values (24,50,'screws',6);
 
---==ORDER BIDS
---==for restaurant (1)
-	--made by (17) 
-		--for order (1)
-		insert into delivery_order_bid(id,bidding_price,made_by_deliverer_user_id,made_for_restaurant_id,made_for_order_id) values (1,100,17,1,1);
-		--for order (2)
-		insert into delivery_order_bid(id,bidding_price,made_by_deliverer_user_id,made_for_restaurant_id,made_for_order_id) values (2,200,17,1,2);
-	--made by (18) for order (1)
-		--for order(2)
-		insert into delivery_order_bid(id,bidding_price,made_by_deliverer_user_id,made_for_restaurant_id,made_for_order_id) values (3,300,18,1,2);
-		--for order(3)
-		insert into delivery_order_bid(id,bidding_price,made_by_deliverer_user_id,made_for_restaurant_id,made_for_order_id) values (4,400,18,1.3,3);
-
+--==order bids
+	--==by user 17
+		insert into delivery_order_bid(id,bid_status,bidding_price,seen_status,made_by_deliverer_user_id,made_for_order_id,made_for_restaurant_id)
+		values(1,'ACCEPTED',100,0,17,1,1);
+		insert into delivery_order_bid(id,bid_status,bidding_price,seen_status,made_by_deliverer_user_id,made_for_order_id,made_for_restaurant_id)
+		values(2,'ACCEPTED',200,0,17,2,1);
+		insert into delivery_order_bid(id,bid_status,bidding_price,seen_status,made_by_deliverer_user_id,made_for_order_id,made_for_restaurant_id)
+		values(3,'DECLINED',300,0,17,3,1);
+		insert into delivery_order_bid(id,bid_status,bidding_price,seen_status,made_by_deliverer_user_id,made_for_order_id,made_for_restaurant_id)
+		values(4,'DECLINED',400,0,17,4,1);
+		insert into delivery_order_bid(id,bid_status,bidding_price,seen_status,made_by_deliverer_user_id,made_for_order_id,made_for_restaurant_id)
+		values(5,'PENDING',500,0,17,5,1);
+	--==by user 18
+		insert into delivery_order_bid(id,bid_status,bidding_price,seen_status,made_by_deliverer_user_id,made_for_order_id,made_for_restaurant_id)
+		values(6,'DECLINED',200,0,18,2,1);
+		insert into delivery_order_bid(id,bid_status,bidding_price,seen_status,made_by_deliverer_user_id,made_for_order_id,made_for_restaurant_id)
+		values(7,'ACCEPTED',400,0,18,3,1);
+		insert into delivery_order_bid(id,bid_status,bidding_price,seen_status,made_by_deliverer_user_id,made_for_order_id,made_for_restaurant_id)
+		values(8,'ACCEPTED',500,0,18,4,1);
+		insert into delivery_order_bid(id,bid_status,bidding_price,seen_status,made_by_deliverer_user_id,made_for_order_id,made_for_restaurant_id)
+		values(9,'PENDING',600,0,18,5,1);
+		insert into delivery_order_bid(id,bid_status,bidding_price,seen_status,made_by_deliverer_user_id,made_for_order_id,made_for_restaurant_id)
+		values(10,'PENDING',800,0,18,6,1);

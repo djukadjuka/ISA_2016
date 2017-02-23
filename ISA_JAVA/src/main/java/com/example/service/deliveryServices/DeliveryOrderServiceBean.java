@@ -44,4 +44,12 @@ public class DeliveryOrderServiceBean implements DeliveryOrderService{
 		return this.repository.getDeliveryOrdersForRestaurant(rest_id);
 	}
 
+	/**
+	 * GET all deliveries that are free to bid on
+	 */
+	@Override
+	public Collection<DeliveryOrderBean> getAllFreeDeliveries(Long current_date) {
+		return this.repository.getAllFreeDeliveries(current_date);
+	}
+
 }

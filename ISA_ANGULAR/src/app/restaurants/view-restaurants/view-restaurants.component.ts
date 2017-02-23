@@ -21,8 +21,10 @@ import {Http,Headers,RequestOptions,RequestMethod,Request,Response} from '@angul
 })
 export class ViewRestaurantsComponent implements OnInit{
 
+  levat = parseInt;
+
   //things for presentation
-    
+
     //images
     noImageFound : string = "/assets/pictures/no_image_found.jpg";
     uploadedPicture;

@@ -21,4 +21,6 @@ public interface RestaurantService {
 	RestaurantBean update(RestaurantBean restaurant);
 	
 	void delete(Long id);
+	
+	public void createManagerRelation(Long man_id,Long rest_id);
 }

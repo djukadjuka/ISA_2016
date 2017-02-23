@@ -177,7 +177,7 @@
 <!--==============================================================================-->
 <!--================ ACCORDION TO SHOW EDITING OPTIONS-->
 <!--==============================================================================-->
-                <p-accordion>
+                <p-accordion *ngIf="restaurant.managers.indexOf(levat(_sharedService.userId)) > -1">
                     <p-accordionTab header="Options">
                         
                         <!--EDIT RESTAURANT BUTTON-->

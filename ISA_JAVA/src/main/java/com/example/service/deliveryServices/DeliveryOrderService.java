@@ -20,5 +20,9 @@ public interface DeliveryOrderService {
 	void delete(Long id);
 	
 	//custom
+	/**GET ORDERS FOR A RESTAURANT*/
 	public Collection<DeliveryOrderBean> getDeliveryOrdersForRestaurant(Long rest_id);
+	
+	/**GET VALID FREE DELIVERIES*/
+	public Collection<DeliveryOrderBean> getAllFreeDeliveries(Long current_date);
 }

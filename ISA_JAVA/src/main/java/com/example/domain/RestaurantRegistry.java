@@ -9,7 +9,9 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -44,8 +46,9 @@ public class RestaurantRegistry {
 	@Column(nullable = false,name = "deleted")
 	private int deleted;
 
-	@ManyToMany(mappedBy = "has_registered")
-	private Set<EmployeeBean> registered_by = new HashSet<EmployeeBean>();
+	@ManyToOne
+	@JoinColumn(name = "registering_by", nullable = true)
+	private EmployeeBean registering_by;
 	
 	@Override
 	public int hashCode(){
@@ -111,23 +114,15 @@ public class RestaurantRegistry {
 		this.deleted = deleted;
 	}
 
-	public Set<Long> getRegistered_by() {
-		HashSet<Long> employees = new HashSet<Long>();
-		for(EmployeeBean emps : registered_by){
-			employees.add(emps.getId());
-		}
-		
-		return employees;
-	}
-	
 	@JsonIgnore
-	public Set<EmployeeBean> getRegistereb_by(){
-		return registered_by;
+	public EmployeeBean getRegistering_by() {
+		return registering_by;
 	}
 
-	public void setRegistered_by(Set<EmployeeBean> registered_by) {
-		this.registered_by = registered_by;
+	public void setRegistering_by(EmployeeBean registering_by) {
+		this.registering_by = registering_by;
 	}
+	
 	
 	
 	

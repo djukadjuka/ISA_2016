@@ -1,6 +1,11 @@
 package com.example.controller;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,6 +43,10 @@ public class DeliveryController {
 	@Autowired
 	private DeliveryOrderService delivery_order_service = new DeliveryOrderServiceBean();
 	
+	//////////////////////////////////////////////////
+	////////FOR MANAGER
+	/////////////////////////////////////////////////
+	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(
 			value = "/delivery_controller/getStartingData/{rest_id}",
@@ -56,6 +65,39 @@ public class DeliveryController {
 			)
 	public ResponseEntity<Collection<DeliveryOrderBid>> getBidsForOrder(@PathVariable("ord_id") Long ord_id){
 		return new ResponseEntity<Collection<DeliveryOrderBid>>(this.delivery_bid_service.getDeliveryBidsForDeliveryId(ord_id),HttpStatus.OK);
+	}
+	
+	///////////////////////////////////////////////////////////
+	///////SPECIFIC FOR DELIVERER
+	//////////////////////////////////////////////////////////
+	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value="/delivery_controller/getFreeDeliveries/current_date/{current_date}/emp_id/{emp_id}",
+			method=RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE
+			)
+	public ResponseEntity<HashMap<String,Object>> getFreeBids(@PathVariable("current_date") Long current_date,
+																	 @PathVariable("emp_id") Long emp_id){
+		
+		HashMap<String,Object> payload = new HashMap<String,Object>();
+		ArrayList<DeliveryOrderBid> status_bids = (ArrayList<DeliveryOrderBid>) this.delivery_bid_service.getNotSeenDeliveryStatuses(emp_id);
+		ArrayList<DeliveryOrderBean> free_orders = (ArrayList<DeliveryOrderBean>) this.delivery_order_service.getAllFreeDeliveries(current_date);
+		
+		for(int idx=0;	idx<status_bids.size();	idx++){
+			Long date_to = status_bids.get(idx).getMade_for_order().getDate_to();
+			if(date_to < current_date){
+				this.delivery_bid_service.setBidToBeExpired(status_bids.get(idx).getId());
+				status_bids.get(idx).setBid_status(null);
+			}
+		}
+		
+		ArrayList<DeliveryOrderBid> all_bids = (ArrayList<DeliveryOrderBid>) this.delivery_bid_service.getAllPossibleDeliveryBids(emp_id);
+		payload.put("status_bids", status_bids);
+		payload.put("free_orders", free_orders);
+		payload.put("all_bids", all_bids);
+		
+		return new ResponseEntity<HashMap<String,Object>>(payload,HttpStatus.OK);
 	}
 	
 }
