@@ -180,8 +180,13 @@ export class ViewRestaurantsService {
       .map(res=>res.json());
   }
 
-  getBillsForRestaurantTimePeriod(rest_id,date_from,date_to){
-    return this._http.get(this._baseURL + "/restaurant_statistics/getBills/"+rest_id+"/from/"+date_from+"/to/"+date_to)
-      .map(res=>res.json());
+  getAttendanceForYear(year,rest_id){
+    return this._http.get(this._baseURL + "/restaurant_statistics/getAttendanceForYear/"+year+"/for_restaurant/"+rest_id)
+      .map(res=>res.json());  
+  }
+  
+  getAttendanceForDayPeriod(start_day,end_day,rest_id){
+    return this._http.get(this._baseURL + "/restaurant_statistics/getAttendanceFromDay/"+start_day+"/toDay/"+end_day+"/for_restaurant/"+rest_id)
+      .map(res=>res.json());  
   }
 }

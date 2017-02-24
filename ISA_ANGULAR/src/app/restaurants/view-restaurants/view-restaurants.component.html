@@ -989,16 +989,24 @@
             
             <!--PER WEEK IN YEAR-->
             <b>Select year for weekly stats : </b><i><p-spinner size="30" [(ngModel)]="start_year" (onChange)="year_weeks_changed()"></p-spinner></i><br/>
-            <p-chart *ngIf="attendance_weeks != null" type="bar" [data]="attendance_weeks"></p-chart><br/>
+            <p-chart id="week_chart" *ngIf="attendance_weeks != null" type="bar" [data]="attendance_weeks"></p-chart><br/>
             
             <!--PER DAY FROM TO-->
             <div class="ui-g">
-                <div class="ui-g-6"><p-calendar [(ngModel)]="date_day_from" 
+                <div class="ui-g-12"><h4>Attendance per Day</h4></div>
+                <div class="ui-g-6">
+                    <b>From date : </b>
+                    <i><p-calendar [(ngModel)]="date_day_from" 
                                                 [readonlyInput]="true" 
-                                                (onSelect)="selected_day_from()"></p-calendar></div>
-                <div class="ui-g-6"><p-calendar [(ngModel)]="date_day_to" [minDate]="min_day_to" 
-                                                [maxDate]="max_day_to" [readonlyInput]="true" 
-                                                (onSelect)="selected_day_to()" disabled="date_day_from == ''"></p-calendar></div>
+                                                (onSelect)="selected_day_from()"></p-calendar></i>
+                </div>
+                <div class="ui-g-6">
+                    <b>To date : </b>
+                    <p-calendar [(ngModel)]="date_day_to" [minDate]="min_day_to" 
+                                                [readonlyInput]="true" 
+                                                (onSelect)="selected_day_to()" [disabled]="date_day_from == null">
+                    </p-calendar>
+                </div>
             </div>
             <p-chart *ngIf="attendance_days != null" type="bar" [data]="attendance_days"></p-chart>
         

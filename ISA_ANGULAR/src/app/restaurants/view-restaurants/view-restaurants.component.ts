@@ -14,6 +14,7 @@ import {ConfirmationService} from 'primeng/primeng';
 import {Http,Headers,RequestOptions,RequestMethod,Request,Response} from '@angular/http';
 import {BarChartDays} from './BarChartDays';
 import {BarChartWeeks} from './BarChartWeeks';
+import {UIChart} from 'primeng/primeng'
 
 
 @Component({
@@ -1231,9 +1232,12 @@ export class ViewRestaurantsComponent implements OnInit{
       selected_waiter_23_reviews;
 
       //for charts
-      attendance_weeks; attendance_days;
+      attendance_weeks : BarChartWeeks; attendance_days;
       //chart dates
       start_year = new Date().getFullYear();
+      //dates for day to day attendance:
+      date_day_from : Date = null; date_day_to : Date;
+      min_day_to : Date;
 
       //constants:
       one_day_in_millis = 86400000;
@@ -1289,6 +1293,8 @@ export class ViewRestaurantsComponent implements OnInit{
               this.check_visibility();
             }
           );
+        }else if(idx == 3){
+          this.call_rest_for_week_attendance();
         }
       }
 
@@ -1326,23 +1332,65 @@ export class ViewRestaurantsComponent implements OnInit{
       //selecting the starting week deletes the end week, sets the minimum end week
       //and enables it for input
       year_weeks_changed(){
-        console.log(this.start_year);
-        
-        let start_date = new Date();
-        let end_date = new Date();
-        start_date.setFullYear(this.start_year);
-        start_date.setDate(1);
-        start_date.setMonth(0);
-        start_date.setHours(0);
-        start_date.setMinutes(0);
-        start_date.setSeconds(1);
-        end_date.setTime(start_date.getTime());
-        start_date.setTime(start_date.getTime()-this.one_day_in_millis);
-        console.log("Start date : ");
-        console.log(start_date);
-        end_date.setFullYear(end_date.getFullYear() + 1);
-        console.log("End date : ");
-        console.log(end_date);
+        this.call_rest_for_week_attendance();
+
+      }
+
+      call_rest_for_week_attendance(){
+        this.attendance_weeks = null;
+        this.viewRestaurantsService.getAttendanceForYear(this.start_year,this.restaurant_23.id).subscribe(
+          res=>{
+            let labs = [];
+            let dta = [];
+            for(let item in res){
+              labs.push(item);
+              dta.push(res[item]);
+            }
+            //console.log(dta);
+            this.attendance_weeks = new BarChartWeeks(labs,dta,this.start_year).data;
+            
+          }
+        )
+      }
+
+      //when a day from has been selected from the first datepicker
+      selected_day_from(){
+        this.date_day_from.setHours(0);
+        this.date_day_from.setMinutes(0);
+        this.date_day_from.setSeconds(0);
+
+        this.date_day_to = null;
+        this.min_day_to = new Date(this.date_day_from.getTime() + this.one_day_in_millis);
+      }
+
+      //when a day to has been selected from the second datepicker
+      selected_day_to(){
+        this.date_day_to.setMinutes(59);
+        this.date_day_to.setHours(23);
+        this.date_day_to.setSeconds(59);
+
+        this.attendance_days = null;
+        this.viewRestaurantsService.getAttendanceForDayPeriod(this.date_day_from.getTime(),this.date_day_to.getTime(),this.restaurant_23.id)
+        .subscribe(res=>{
+          //console.log(res);
+          let labs = [];
+          let dta = [];
+          for(let item in res){
+            labs.push(item);
+          }
+          labs = labs.sort((n1,n2)=>n1-n2);
+          let labs2 = [];
+          for(let item in labs){
+            let tem = labs[item];
+            let d = new Date(parseInt(tem)).getDate();
+            let m = new Date(parseInt(tem)).getMonth() +1;
+            let y = new Date(parseInt(tem)).getFullYear();
+            let str = d + "/" + m + "/" + y;
+            labs2.push(str);
+            dta.push(res[tem]);
+          }
+          this.attendance_days = new BarChartDays(labs2,dta).data;
+        });
       }
 
       //when panel is ultimatelly closed
