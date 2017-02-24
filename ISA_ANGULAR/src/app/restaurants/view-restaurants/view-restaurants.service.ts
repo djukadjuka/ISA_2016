@@ -53,9 +53,9 @@ export class ViewRestaurantsService {
             .map(res =><RestaurantClass[]> res.json());
   }
 
-  getAllTables(zone_id)
+  getAllTables(zone_id, startDate, endDate)
   {
-      return this._http.get(this._baseURL+"/getAllTables/"+zone_id)
+      return this._http.get(this._baseURL+"/getAllTables/"+zone_id+"/"+startDate+"/"+endDate)
                         .map(res => res.json());
   }
 

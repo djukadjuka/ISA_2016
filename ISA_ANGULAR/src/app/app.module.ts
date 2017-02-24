@@ -19,6 +19,7 @@ import { ViewRestaurantsComponent } from './restaurants/view-restaurants/view-re
 import { EditChefComponent } from './edit-chef/edit-chef.component';
 import { EditBarmanComponent} from './edit-barman/edit-barman.component';
 import { EditWaiterComponent} from './edit-waiter/edit-waiter.component';
+import { ReservationsComponent } from './reservations/reservations.component';
 
 //PrimeNG imports
 
@@ -62,6 +63,7 @@ import { ProductService} from './products/products.service';
 import { SharedService } from './shared/shared.service'; 
 import { TablesService } from './tables/tables.service';
 import {RestaurantRegistryService} from './restaurant_registry/restaurant-registry-service';
+import { ReservationService } from './reservations/reservation.service';
 
 @NgModule({
   declarations: [
@@ -74,7 +76,8 @@ import {RestaurantRegistryService} from './restaurant_registry/restaurant-regist
     EditBarmanComponent,
     EditUserComponent,
     EditWaiterComponent,
-    ViewRestaurantsComponent
+    ViewRestaurantsComponent,
+    ReservationsComponent
   ],
   imports: [
     BrowserModule,
@@ -119,7 +122,8 @@ import {RestaurantRegistryService} from './restaurant_registry/restaurant-regist
     ConfirmationService,
     SharedService,
     RestaurantRegistryService,
-    TablesService
+    TablesService,
+    ReservationService
   ],
   bootstrap: [AppComponent]
 })

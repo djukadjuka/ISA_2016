@@ -6,8 +6,8 @@ import { Message } from 'primeng/primeng';
 import { SharedService } from '../shared/shared.service';
 import { SelectItem } from 'primeng/primeng';
 import { Observable } from 'rxjs/Rx';
-import {RestaurantRegistry} from '../restaurant_registry/restaurant-registry-class';
-import {RestaurantRegistryService} from '../restaurant_registry/restaurant-registry-service';
+import { RestaurantRegistry} from '../restaurant_registry/restaurant-registry-class';
+import { RestaurantRegistryService} from '../restaurant_registry/restaurant-registry-service';
 
 @Component({
   selector: 'app-edit-user',

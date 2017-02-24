@@ -27,34 +27,50 @@ public class TableController {
 	@Autowired
 	private TableService tableService = new TableServiceBean();
 	@Autowired
+	
+	/**
+	 * 	Metoda vraca stolove koji pripadaju odredjenoj zoni restorana
+	 *  i pritom vrsi proveru za dati pocetni i krajnji datum, da li su
+	 *  stolovi slobodni i menja im status u free ili taken
+	 */
 	private ReservationServiceBean reservationService = new ReservationServiceBean();
 	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(
-			value="/getAllTables/{zone_id}",
+			value="/getAllTables/{zone_id}/{startDate}/{endDate}",
 			method = RequestMethod.GET,
 			produces=MediaType.APPLICATION_JSON_VALUE
 			)
-	public ResponseEntity<Collection<TableBean>> getAllTables(@PathVariable("zone_id") Long zone_id){
+	public ResponseEntity<Collection<TableBean>> getAllTables(@PathVariable("zone_id") Long zone_id,
+															  @PathVariable("startDate") Long startDate,
+															  @PathVariable("endDate") Long endDate){
+		
 		Collection<TableBean> tables = tableService.findAllTablesByZoneId(zone_id);
 		
-		//prvo proveriti da li su stolovi zauzeti, promeniti im status shodno tome
-		
-		Date date = new Date();
-		Long time = date.getTime();
+		//Prvo sledi provera da li su stolovi zauzeti za dati termin 
 		
 		for(TableBean t : tables)
 		{
 			Collection<ReservationBean> reservations = reservationService.findReservationsByTableId(t.getId());
+			boolean taken = false;
 			
 			for(ReservationBean r : reservations)
 			{
-				if(time > r.getStartDate() && time < r.getEndDate())
+				if((startDate <= r.getStartDate() && endDate > r.getStartDate())
+				    || (startDate < r.getEndDate() && endDate > r.getEndDate())
+				    || (startDate >= r.getStartDate() && endDate <= r.getEndDate()))
 				{
+					tableService.updateTableStatus(t.getId(), "TAKEN");
 					t.setStatus(TableStatus.TAKEN);
-					//tableService.updateTableStatus(t);
+					taken = true;
 					break;
 				}
+			}
+			
+			if(!taken)
+			{
+				tableService.updateTableStatus(t.getId(), "FREE");
+				t.setStatus(TableStatus.FREE);
 			}
 		}
 		

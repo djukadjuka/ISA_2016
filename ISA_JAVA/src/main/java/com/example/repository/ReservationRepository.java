@@ -13,7 +13,10 @@ import com.example.domain.ReservationBean;
 public interface ReservationRepository extends JpaRepository<ReservationBean, Long> {
 	
 	//vraca sve one rezervacije koje SE POKLAPAJU sa proslednjenom (za taj sto), dakle vraca bilo sta ako je rezervacija neispravna, odnosno ako se poklapa sa nekom predhodnom
-	@Query(value = "SELECT * FROM Reservation r WHERE r.table_id = :table_id and ((r.start_date < :startDate and r.end_date > :startDate) or (r.start_date < :endDate and r.end_date > :endDate))", nativeQuery = true)
+	@Query(value = "SELECT * FROM Reservation r WHERE r.table_id = :table_id and " +
+			"(( :startDate <= r.start_date and :endDate > r.start_date ) or " + 
+			"( :startDate < r.end_date and :endDate > r.end_date ) or " + 
+			"( :startDate >= r.start_date and :endDate <= r.end_date ))", nativeQuery = true)
     public Collection<ReservationBean> findReservationsMatch(@Param("startDate") Long startDate, @Param("endDate") Long endDate, @Param("table_id") Long table_id);
 	
 	@Query(value = "SELECT * FROM Reservation r WHERE r.table_id = :table_id", nativeQuery = true)

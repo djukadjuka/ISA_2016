@@ -34,9 +34,9 @@ public class TableServiceBean implements TableService{
 	}
 
 	@Override
-	public int updateTableStatus(TableBean t) {
+	public int updateTableStatus(Long id, String status) {
 		// TODO Auto-generated method stub
-		return repository.updateTableStatus(t.getId(), t.getStatus());
+		return repository.updateTableStatus(id,status);
 	}
 
 }
