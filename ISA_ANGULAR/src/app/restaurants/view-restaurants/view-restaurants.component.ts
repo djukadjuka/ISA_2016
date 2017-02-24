@@ -1210,8 +1210,10 @@ export class ViewRestaurantsComponent implements OnInit{
         this.check_visibility();
       }
 
+      //================================================
       /**RESTAURANT STATISTICS */
-
+      //================================================
+      
       //all restaurant reviews
       all_restaurant_reviews;
       //restaurant grade
@@ -1228,7 +1230,18 @@ export class ViewRestaurantsComponent implements OnInit{
       //waiter reviews
       selected_waiter_23_reviews;
 
+      //for charts
+      attendance_weeks; attendance_days;
+      //chart dates
+      start_year = new Date().getFullYear();
+
+      //constants:
+      one_day_in_millis = 86400000;
+      one_week_in_millis = 86400000 * 7;
+
+      //when the panel is opened
       check_restaurant_statistics_clicked(restaurant){
+
         this.restaurant_23 = restaurant;
         this.restaurant_23_waiters = [];
         for(let item in this.restaurant_23.workers){
@@ -1293,6 +1306,7 @@ export class ViewRestaurantsComponent implements OnInit{
         )
       }
 
+      //when selecting different waiter to show grades
       selected_23_waiter_changed(event){
         this.viewRestaurantsService.getGradesForEmployee(this.selected_23_waiter).subscribe(
           res=>{
@@ -1305,6 +1319,33 @@ export class ViewRestaurantsComponent implements OnInit{
           }
         )
       }
+
+      //==============================================
+      //DATE CHARTS CONFIG
+      //==============================================
+      //selecting the starting week deletes the end week, sets the minimum end week
+      //and enables it for input
+      year_weeks_changed(){
+        console.log(this.start_year);
+        
+        let start_date = new Date();
+        let end_date = new Date();
+        start_date.setFullYear(this.start_year);
+        start_date.setDate(1);
+        start_date.setMonth(0);
+        start_date.setHours(0);
+        start_date.setMinutes(0);
+        start_date.setSeconds(1);
+        end_date.setTime(start_date.getTime());
+        start_date.setTime(start_date.getTime()-this.one_day_in_millis);
+        console.log("Start date : ");
+        console.log(start_date);
+        end_date.setFullYear(end_date.getFullYear() + 1);
+        console.log("End date : ");
+        console.log(end_date);
+      }
+
+      //when panel is ultimatelly closed
       close_check_restaurant_statistics(){
 
         this.checking_restaurant_statistics = false;

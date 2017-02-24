@@ -1,6 +1,11 @@
 package com.example.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -93,4 +98,62 @@ public class RestaurantStatisticsController {
 		return new ResponseEntity<Collection<BillBean>>(this.bill_service.getAllBillsRestaurantTimePeriod(rest_id, date_from, date_to),HttpStatus.OK);
 	}
 
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value="/restaurant_statistics/getAttendanceForYear/{year_number}/for_restaurant/{rest_id}",
+			method = RequestMethod.GET,
+			produces=MediaType.APPLICATION_JSON_VALUE
+			)
+	public ResponseEntity<HashMap<Integer,Integer>> getAttendanceForYear(@PathVariable("year_number") Long year_number, @PathVariable("rest_id") Long rest_id) throws ParseException{
+		HashMap<Integer,Integer> payload = new HashMap<>();
+		/*for(int i=1;	i<=52;	i++){
+			payload.put(i, 0);
+		}*/
+		Long one_week_in_millis = (long) (1000*60*60*24*7);
+		//Long one_day_in_millis = (long)(1000*60*60*24);
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+		String start_date_string = "01/01/"+year_number+" 00:00:00";
+		String end_date_string = "7/01/"+year_number+" 23:59:59";
+		
+		Date start_date = dateFormat.parse(start_date_string);
+		
+		Date end_date = dateFormat.parse(end_date_string);
+		
+		for(int i=1;	i<=52;	i++){
+			System.out.println(start_date);
+			ArrayList<BillBean> bills =  (ArrayList<BillBean>) this.bill_service.getAllBillsRestaurantTimePeriod(rest_id, start_date.getTime(), end_date.getTime());
+			System.out.println(end_date);
+			payload.put(i, bills.size());
+			start_date.setTime(start_date.getTime() + one_week_in_millis);
+			end_date.setTime(end_date.getTime() + one_week_in_millis);
+		}
+		
+		return new ResponseEntity<HashMap<Integer,Integer>>(payload,HttpStatus.OK);
+	}
+	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value="/restaurant_statistics/getAttendanceFromDay/{day_start}/toDay/{day_end}/for_restaurant/{rest_id}",
+			method = RequestMethod.GET,
+			produces=MediaType.APPLICATION_JSON_VALUE
+			)
+	public ResponseEntity<HashMap<Long,Integer>> getAttendanceForDays(@PathVariable("day_start") Long day_start,
+																		 @PathVariable("day_end") Long day_end,
+																		 @PathVariable("rest_id") Long rest_id) throws ParseException{
+		HashMap<Long,Integer> payload = new HashMap<>();
+		
+		Long one_day_in_millis = (long)(1000*60*60*24);
+		
+		Date start_date = new Date(day_start);
+		Date end_date = new Date(day_end);
+		
+		while(start_date.getTime() < end_date.getTime()){
+			ArrayList<BillBean> bills =  (ArrayList<BillBean>) this.bill_service.getAllBillsRestaurantTimePeriod(rest_id, start_date.getTime(),start_date.getTime()+one_day_in_millis);
+			payload.put(start_date.getTime(),bills.size());
+			start_date.setTime(start_date.getTime()+one_day_in_millis);
+		}
+		
+		return new ResponseEntity<HashMap<Long,Integer>>(payload,HttpStatus.OK);
+	}
 }

@@ -24,10 +24,11 @@ public interface BillRepository extends JpaRepository<BillBean, Long>{
 	
 	/**get all bills for a restaurant in a time period*/
 	@Query(value="select b.* from bill b"
-			+ " where b.date_of_transaction < :date_to"
-			+ " and b.date_of_transaction > :date_from"
+			+ " where b.date_of_transaction <= :date_to"
+			+ " and b.date_of_transaction >= :date_from"
 			+ " and b.restaurant_id = :rest_id",nativeQuery=true)
 	public Collection<BillBean> getAllBillsRestaurantTimePeriod(@Param("rest_id") Long rest_id,
 																@Param("date_from") Long date_from,
 																@Param("date_to") Long date_to);
+	
 }

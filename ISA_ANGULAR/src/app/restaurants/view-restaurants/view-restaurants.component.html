@@ -987,17 +987,11 @@
         <!--ATTENDANCE-->
         <p-tabPanel header="Restaurant Attendance">
             
-            <!--PER WEEK-->
-            <div class="ui-g">
-                <div class="ui-g-6"><p-calendar [(ngModel)]="date_week_from" [minDate]="minDate" 
-                                                (onSelect)="selected_week_from()"></p-calendar></div>
-                <div class="ui-g-6"><p-calendar [(ngModel)]="date_week_to" [minDate]="min_week_to" 
-                                                [maxDate]="max_week_to" [readonlyInput]="true" 
-                                                (onSelect)="selected_week_to()" disabled="date_week_from == ''"></p-calendar></div>
-            </div>
-            <p-chart type="bar" [data]="attendance_weeks"></p-chart><br/>
+            <!--PER WEEK IN YEAR-->
+            <b>Select year for weekly stats : </b><i><p-spinner size="30" [(ngModel)]="start_year" (onChange)="year_weeks_changed()"></p-spinner></i><br/>
+            <p-chart *ngIf="attendance_weeks != null" type="bar" [data]="attendance_weeks"></p-chart><br/>
             
-            <!--PER DAY-->
+            <!--PER DAY FROM TO-->
             <div class="ui-g">
                 <div class="ui-g-6"><p-calendar [(ngModel)]="date_day_from" 
                                                 [readonlyInput]="true" 
@@ -1006,7 +1000,7 @@
                                                 [maxDate]="max_day_to" [readonlyInput]="true" 
                                                 (onSelect)="selected_day_to()" disabled="date_day_from == ''"></p-calendar></div>
             </div>
-            <p-chart type="bar" [data]="attendance_days"></p-chart>
+            <p-chart *ngIf="attendance_days != null" type="bar" [data]="attendance_days"></p-chart>
         
         </p-tabPanel>
 

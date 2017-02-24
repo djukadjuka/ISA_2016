@@ -53,7 +53,7 @@ public class BillServiceBean implements BillService{
 
 	@Override
 	public Collection<BillBean> getAllBillsRestaurantTimePeriod(Long rest_id, Long date_from, Long date_to) {
-		return this.getAllBillsRestaurantTimePeriod(rest_id, date_from, date_to);
+		return this.repository.getAllBillsRestaurantTimePeriod(rest_id, date_from, date_to);
 	}
 
 }

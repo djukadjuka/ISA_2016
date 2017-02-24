@@ -873,3 +873,11 @@ insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) val
 insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(53	,	155,	1487199600000,	6,	1);--02/16/2017
 insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(54	,	155,	1487199600000,	6,	1);
 insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(55	,	155,	1487199600000,	6,	1);
+--provera da ne uzme izvan godine
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(56	,	155,	1514761200000,	6,	1);--01/01/2018 0:00:00
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(57	,	155,	1514761200000,	6,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(58	,	155,	1514761200000,	6,	1);
+
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(59	,	155,	1483225199000,	6,	1);--12/31/2016 23:59:59
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(60	,	155,	1483225199000,	6,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(61	,	155,	1483225199000,	6,	1);
