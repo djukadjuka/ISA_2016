@@ -29,12 +29,14 @@
 </p-panel>
 
 
-<p-dialog header="Schedule" [responsive]=true [resizable]=false [draggable]=false width="500" [modal]=true [(visible)]="displayScheduleeButton">
+<p-dialog header="Schedule" [responsive]=true [resizable]=false [draggable]=false width="1000" [modal]=true [(visible)]="displayScheduleeButton">
 <div class="ui-g-8">
             <p-dataTable [value]="all_schedules_for_employee" rows="20" 
                         [paginator]="true" [pageLinks]="5" 
                         [rowsPerPageOptions]="[5,10,20]">
-                <p-header>Schedules: </p-header>
+                <p-header>Schedules for waiters:  </p-header>
+                    <p-column field="first_name" header="First Name " item-width="50"></p-column>
+                    <p-column field="last_name" header="Last Name "></p-column>
                     <p-column field="from" header="From(h) "></p-column>
                     <p-column field="to" header="To (h)"></p-column>
                     <p-column field="date" header="On Date"></p-column>

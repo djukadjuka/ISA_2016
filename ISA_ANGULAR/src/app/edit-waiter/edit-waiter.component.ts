@@ -55,6 +55,9 @@ export class EditWaiterComponent implements OnInit {
     
   }
 
+   all_schedules_for_employee;
+   all_users;
+
   displaySchedule(){
 
     this.displayScheduleButton = true;
@@ -68,12 +71,30 @@ export class EditWaiterComponent implements OnInit {
 
     this.viewRestaurantsService.getScheduleByDate().subscribe(
       res => {
-        this.schedule =res;
+
+         this.all_schedules_for_employee = [];
+          for(let item in res){
+           let start_time = new Date(res[item].from);
+           let end_time = new Date(res[item].to);
+           let date = new Date(res[item].date);
+           let fName = res[item].for_employee.user.firstName;
+           let lName = res[item].for_employee.user.lastName
+          
+
+           console.log(res);
+
+            this.all_schedules_for_employee.push(
+             { first_name:""+fName, last_name:""+lName,  from:""+start_time.getHours() + " : " + start_time.getMinutes(),
+               to:""+end_time.getHours() + " : " + end_time.getMinutes(),
+               date:""+date.getDate()+" : "+ (date.getMonth()+1) + " : " + date.getFullYear()}
+             );
+       // this.schedule =res;
        
       }
-          
+      
+      }   
     );
-        console.log(this.schedule);
+       // console.log(this.schedule);
     this.displayScheduleeButton = true;
 
 
