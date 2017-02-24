@@ -154,4 +154,34 @@ export class ViewRestaurantsService {
     }
   }
 
+
+  getAllRestaurantGrades(rest_id){
+    return this._http.get(this._baseURL + "/restaurant_statistics/getAllRestaurantGrades/" + rest_id)
+      .map(res=>res.json());
+  }
+
+  getGradesForProductInRestaurant(rest_id,prod_id){
+    return this._http.get(this._baseURL + "/restaurant_statistics/gradesForProduct/"+prod_id+"/inRestaurant/" + rest_id)
+      .map(res=>res.json());
+  }
+
+  getGradesForEmployee(emp_id){
+    return this._http.get(this._baseURL + "/restaurant_statistics/getGradesForEmployee/"+emp_id)
+      .map(res=>res.json());
+  }
+
+  getBillsForRestaurant(rest_id){
+    return this._http.get(this._baseURL + "/restaurant_statistics/getAllRestaurantBills/"+rest_id)
+      .map(res=>res.json());
+  }
+
+  getBillsForEmployee(emp_id){
+    return this._http.get(this._baseURL + "/restaurant_statistics/getBillsForAnEmployee/"+emp_id)
+      .map(res=>res.json());
+  }
+
+  getBillsForRestaurantTimePeriod(rest_id,date_from,date_to){
+    return this._http.get(this._baseURL + "/restaurant_statistics/getBills/"+rest_id+"/from/"+date_from+"/to/"+date_to)
+      .map(res=>res.json());
+  }
 }

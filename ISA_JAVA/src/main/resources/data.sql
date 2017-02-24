@@ -765,3 +765,111 @@ values(6,969660000000,969746400000,1,1,null,null);
 		values(9,'PENDING',600,0,18,5,1);
 		insert into delivery_order_bid(id,bid_status,bidding_price,seen_status,made_by_deliverer_user_id,made_for_order_id,made_for_restaurant_id)
 		values(10,'PENDING',800,0,18,6,1);
+
+--===============================
+--==REVIEWS
+--===============================
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(1		,	1,	null,	5,	null,	null);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(2		,	1,	null,	5,	null,	null);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(3		,	2,	null,	5,	null,	null);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(4		,	2,	null,	5,	null,	null);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(5		,	1,	null,	5,	null,	null);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(6		,	1,	null,	6,	null,	null);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(7		,	3,	null,	6,	null,	null);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(8		,	3,	null,	null,	100001,	1);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(9		,	4,	null,	null,	100001,	1);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(10	,	4,	null,	null,	100001,	1);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(11	,	4,	null,	null,	100001,	1);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(12	,	2,	null,	null,	100001,	1);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(13	,	2,	null,	null,	100002,	1);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(14	,	4,	null,	null,	100002,	1);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(15	,	3,	null,	null,	null,	1);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(16	,	1,	null,	null,	null,	1);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(17	,	1,	null,	null,	null,	1);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(18	,	5,	null,	null,	null,	1);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(19	,	5,	null,	null,	null,	1);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(20	,	1,	null,	null,	null,	1);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(21	,	1,	null,	null,	null,	1);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(22	,	3,	null,	null,	null,	1);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(23	,	5,	null,	null,	null,	1);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(24	,	2,	null,	null,	null,	1);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(25	,	2,	null,	null,	null,	1);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(26	,	5,	null,	null,	null,	1);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(27	,	5,	null,	null,	null,	1);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(28	,	5,	null,	null,	null,	1);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(29	,	5,	null,	null,	null,	1);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(30	,	5,	null,	null,	null,	1);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(31	,	5,	null,	null,	null,	1);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(32	,	4,	null,	null,	null,	1);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(33	,	1,	null,	null,	null,	1);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(34	,	1,	null,	null,	null,	1);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(35	,	1,	null,	null,	null,	1);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(36	,	1,	null,	5,	null,	null);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(37	,	2,	null,	6,	null,	null);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(38	,	2,	null,	7,	null,	null);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(39	,	1,	null,	null,	100001,	1);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(40	,	4,	null,	null,	100002,	1);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(41	,	4,	null,	null,	100002,	1);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(42	,	4,	null,	null,	100002,	1);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(43	,	1,	null,	null,	null,	1);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(44	,	2,	null,	null,	null,	1);
+insert into review(id,grade,short_description,for_employee,for_product,for_restaurant) values(45	,	1,	null,	null,	null,	1);
+
+--===============================
+--BILLS
+--===============================
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(1	,	100,	1486681200000,	5,	1);	--02/10/2017
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(2	,	100,	1486681200000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(3	,	100,	1486681200000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(4	,	100,	1486681200000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(5	,	100,	1486681200000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(6	,	100,	1486681200000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(7	,	100,	1486681200000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(8	,	100,	1486681200000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(9	,	100,	1486681200000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(10	,	100,	1486681200000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(11	,	200,	1486681200000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(12	,	200,	1486681200000,	5,	1); 
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(13	,	200,	1486767600000,	5,	1);--02/11/2017
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(14	,	200,	1486767600000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(15	,	200,	1486767600000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(16	,	200,	1486767600000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(17	,	200,	1486767600000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(18	,	200,	1486767600000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(19	,	200,	1486767600000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(20	,	200,	1486854000000,	6,	1);--02/12/2017
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(21	,	200,	1486854000000,	6,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(22	,	200,	1486854000000,	6,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(23	,	300,	1486854000000,	6,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(24	,	300,	1486854000000,	6,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(25	,	300,	1486854000000,	6,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(26	,	300,	1486854000000,	6,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(27	,	300,	1486854000000,	6,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(28	,	300,	1486854000000,	6,	1);--02/13/2017
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(29	,	300,	1486854000000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(30	,	300,	1486854000000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(31	,	300,	1486854000000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(32	,	300,	1486854000000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(33	,	300,	1486854000000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(34	,	300,	1486854000000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(35	,	300,	1486854000000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(36	,	300,	1486854000000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(37	,	300,	1486854000000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(38	,	300,	1486854000000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(39	,	300,	1486854000000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(40	,	300,	1486854000000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(41	,	300,	1487026800000,	5,	1);--02/14/2017
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(42	,	225,	1487026800000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(43	,	225,	1487026800000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(44	,	225,	1487026800000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(45	,	225,	1487026800000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(46	,	225,	1487113200000,	5,	1);--02/15/2017
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(47	,	225,	1487113200000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(48	,	225,	1487113200000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(49	,	225,	1487113200000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(50	,	225,	1487113200000,	5,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(51	,	225,	1487113200000,	6,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(52	,	155,	1487113200000,	6,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(53	,	155,	1487199600000,	6,	1);--02/16/2017
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(54	,	155,	1487199600000,	6,	1);
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(55	,	155,	1487199600000,	6,	1);

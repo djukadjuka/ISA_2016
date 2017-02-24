@@ -26,6 +26,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.example.domain.deliveryBeans.DeliveryOrderBean;
+import com.example.domain.ratings.ReviewBean;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -53,7 +54,10 @@ public class EmployeeBean{
 	
 	@Column(nullable = true)
 	private Float suitSize;
-
+	
+	@OneToMany(mappedBy = "for_employee", cascade = CascadeType.ALL)
+	private Set<ReviewBean> reviews = new HashSet<>();
+	
 	@OneToMany(mappedBy = "registering_by", cascade = CascadeType.ALL)
 	private Set<RestaurantRegistry> registry = new HashSet<>();
 	
@@ -116,6 +120,14 @@ public class EmployeeBean{
 
 	public void setRestaurant(RestaurantBean restaurant) {
 		this.restaurant = restaurant;
+	}
+
+	public Set<ReviewBean> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(Set<ReviewBean> reviews) {
+		this.reviews = reviews;
 	}
 
 	public long getId() {
