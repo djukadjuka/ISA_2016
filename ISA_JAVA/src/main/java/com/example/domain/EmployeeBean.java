@@ -25,6 +25,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.example.domain.deliveryBeans.DeliveryOrderBean;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -53,17 +54,8 @@ public class EmployeeBean{
 	@Column(nullable = true)
 	private Float suitSize;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(	name = "registering_restaurants",
-				catalog = "isa_database",
-				joinColumns = 
-						@JoinColumn(name = "manager_id", nullable = false, updatable = false)
-				,
-				inverseJoinColumns = 
-						@JoinColumn(name = "rest_id", nullable = false, updatable = false)
-				
-			)
-	private Set<RestaurantRegistry> has_registered = new HashSet<RestaurantRegistry>();
+	@OneToMany(mappedBy = "registering_by", cascade = CascadeType.ALL)
+	private Set<RestaurantRegistry> registry = new HashSet<>();
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(	name = "manages_restaurants",
@@ -84,6 +76,30 @@ public class EmployeeBean{
 	@OneToMany(mappedBy = "for_employee", cascade = CascadeType.ALL)
 	private Set<EmployeeScheduleBean> shcedule = new HashSet<>();
 	
+	@OneToMany(mappedBy = "served_by", cascade = CascadeType.ALL)
+	private Set<TableBean> serves_tables = new HashSet<>();
+	
+	@OneToMany(mappedBy = "made_by", cascade = CascadeType.ALL)
+	private Set<DeliveryOrderBean> orders;
+	
+	@JsonIgnore
+	public Set<DeliveryOrderBean> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(Set<DeliveryOrderBean> orders) {
+		this.orders = orders;
+	}
+
+	@JsonIgnore
+	public Set<TableBean> getServes_tables() {
+		return serves_tables;
+	}
+
+	public void setServes_tables(Set<TableBean> serves_tables) {
+		this.serves_tables = serves_tables;
+	}
+
 	@JsonIgnore
 	public Set<EmployeeScheduleBean> getShcedule() {
 		return shcedule;
@@ -150,12 +166,12 @@ public class EmployeeBean{
 		this.suitSize = suitSize;
 	}
 
-	public Set<RestaurantRegistry> getHas_registered() {
-		return has_registered;
+	public Set<RestaurantRegistry> getRegistry() {
+		return registry;
 	}
 
-	public void setHas_registered(Set<RestaurantRegistry> has_registered) {
-		this.has_registered = has_registered;
+	public void setRegistry(Set<RestaurantRegistry> registry) {
+		this.registry = registry;
 	}
 
 	public Set<RestaurantBean> getManages() {
@@ -175,7 +191,6 @@ public class EmployeeBean{
 		this.dateOfBirth = dateOfBirth;
 		this.shoeSize = shoeSize;
 		this.suitSize = suitSize;
-		this.has_registered = has_registered;
 		this.manages = manages;
 	}
 	

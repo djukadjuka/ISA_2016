@@ -192,7 +192,7 @@
 <!--==============================================================================-->
 <!--================ ACCORDION TO SHOW EDITING OPTIONS-->
 <!--==============================================================================-->
-                <p-accordion>
+                <p-accordion *ngIf="restaurant.managers.indexOf(levat(_sharedService.userId)) > -1">
                     <p-accordionTab header="Options">
                         
                         <!--EDIT RESTAURANT BUTTON-->
@@ -227,22 +227,22 @@
                         
                         <!--EDIT EMPLOYEE REGION BUTTON -->
                         <button style="width:100%" pButton type="button" label="Edit Employee Region"
-                                icon="fa-calculator" (click)="edit_employee_region_clicked(restaurant)" [disabled]=true> 
+                                icon="fa-calculator" (click)="edit_employee_region_clicked(restaurant)" [disabled]=false> 
                                 </button><br/>
 
                         <!--REGISTER DELIVERER BUTTON-->
                         <button style="width:100%" pButton type="button" label="Register New Deliverer"
-                                icon="fa-bicycle" (click)="register_new_deliverer_clicked(restaurant)" [disabled]=true> 
+                                icon="fa-bicycle" (click)="register_new_deliverer_clicked(restaurant)" [disabled]=false> 
                                 </button><br/>
 
                         <!--CREATE DELIVERY BUTTON-->
                         <button style="width:100%" pButton type="button" label="Create Delivery"
-                                icon="fa-bookmark-o" (click)="create_new_delivery_clicked(restaurant)" [disabled]=true> 
+                                icon="fa-bookmark-o" (click)="create_new_delivery_clicked(restaurant)" [disabled]=false> 
                                 </button><br/>
 
                         <!--CHECK DELIVERY NOTIFICATIONS BUTTON-->
                         <button style="width:100%" pButton type="button" label="Check Deliveries"
-                                icon="fa-cart-arrow-down" (click)="check_delivery_notifications_clicked(restaurant)" [disabled]=true> 
+                                icon="fa-cart-arrow-down" (click)="check_delivery_notifications_clicked(restaurant)" [disabled]=false> 
                                 </button><br/>
 
                     </p-accordionTab>
@@ -693,15 +693,52 @@
     <p-header>
         <div class="ui-g">
             <div class="ui-g-6">
-                <h3 style="float: left;"> HEADER </h3>
+                <h3 style="float: left;"> Configure Employee Tables </h3>
             </div>
             <div class="ui-g-6">
                 <button pButton icon="fa-close" label="Close" style="float: right;height : 100%" (click)="close_edit_employee_region()"></button>
             </div>
         </div>
     </p-header>
+    <!--DATA TABLE WITH ALL TABLES BELONGING TO THIS RESTAURANT-->
+    <p-dataTable [value]="selected_restaurant_tables">
+        <p-column field="id" header="Table ID"></p-column>
+        <p-column field="maxPeople" header="Seats"></p-column>
+        <p-column styleClass="col-button">
+            <template pTemplate="header">
+                Employee Serving
+            </template>
+            <template let-table="rowData" pTemplate="body">
+                <button type="button" label="Check Employee" style="width:100%;padding:2px;" pButton (click)="view_table_serving(table)" icon="fa-search"></button>
+                <button type="button" label="Change Server" style="width:100%;padding:2px;" pButton (click)="change_table_serving(table)" icon="fa-edit"></button>
+            </template>
+        </p-column>
+    </p-dataTable>
 
+    <!--DIALOG FOR SELECTED EMPLOYEES INFO-->
+    <p-dialog header="Employee Info" modal="modal" 
+              width="400" responsive="true" 
+              [(visible)]="checking_table_server">
+        <div class="ui-g">
+            <div class="ui-g-5"><b> Name :  </b></div><div class="ui-g-7"><i>  {{employee_serving_data?.user.firstName}} </i></div>
+            <div class="ui-g-5"><b> Surname :  </b></div><div class="ui-g-7"><i>  {{employee_serving_data?.user.lastName}} </i></div>
+            <div class="ui-g-5"><b> ID : </b></div><div class="ui-g-7"><i>  {{employee_serving_data?.id}} </i></div>
+            <div class="ui-g-5"><b> Username :  </b></div><div class="ui-g-7"><i>  {{employee_serving_data?.user.username}} </i></div>
+            <div class="ui-g-5"><b> Email </b></div><div class="ui-g-7"><i>  {{employee_serving_data?.user.email}} </i></div>
+            <div class="ui-g-5"><b> Shoe Size : </b></div><div class="ui-g-7"><i>  {{employee_serving_data?.shoeSize}} </i></div>
+            <div class="ui-g-5"><b> Suit Size :  </b></div><div class="ui-g-7"><i>  {{employee_serving_data?.suitSize}} </i></div>
+        </div>
+    </p-dialog>
 
+    <!--DIALOG FOR CHANGING SERVER-->
+    <p-dialog header="Assign Different Waiter to this Table" modal="modal"
+              width="400" responsive="true"
+              [(visible)]="changing_table_server">
+            <p-listbox [options]="all_servers_select_item" [(ngModel)]="selected_server_id"></p-listbox>
+        <p-footer>
+            <button type="button" pButton icon="fa-check" label="Save" (click)="changed_table_server()" style="width:100%;"></button>
+        </p-footer>
+    </p-dialog>
 
 </p-panel>
 
@@ -713,7 +750,7 @@
     <p-header>
         <div class="ui-g">
             <div class="ui-g-6">
-                <h3 style="float: left;"> HEADER </h3>
+                <h3 style="float: left;"> Register New Deliverer </h3>
             </div>
             <div class="ui-g-6">
                 <button pButton icon="fa-close" label="Close" style="float: right;height : 100%" (click)="close_register_new_deliverer()"></button>
@@ -721,7 +758,23 @@
         </div>
     </p-header>
 
+    <!--ALL IDLE USERS DATA TABLE-->
+    <p-dataTable [value]="idle_users_for_deliverer">
+        <p-column field="firstName" header="First Name"></p-column>
+        <p-column field="lastName" header="Last Name"></p-column>
+        <p-column field="username" header="Username"></p-column>
+        <p-column field="email" header="Email"></p-column>
+        <p-column styleClass="col-button">
+            <template let-user="rowData" pTemplate="body">
+                <button type="button" label="Upgrade To Deliverer" pButton (click)="upgrade_to_deliverer(user)" icon="fa-bicycle"></button>
+            </template>
+        </p-column>
+    </p-dataTable>
+    <p-dialog header="Upgrading" modal="modal"
+              width="400" responsive="true"
+              [(visible)]="upgrading_user_to_deliverer">
 
+    </p-dialog>
 
 </p-panel>
 
@@ -733,14 +786,64 @@
     <p-header>
         <div class="ui-g">
             <div class="ui-g-6">
-                <h3 style="float: left;"> HEADER </h3>
+                <h3 style="float: left;"> Create New Delivery Order </h3>
             </div>
             <div class="ui-g-6">
                 <button pButton icon="fa-close" label="Close" style="float: right;height : 100%" (click)="close_create_new_delivery()"></button>
             </div>
         </div>
     </p-header>
-
+    <div class="ui-g">
+        <!--SPECIFY ONE ITEM AND ADD TO LIST-->
+        <div class="ui-g-6">
+            <div class="ui-g">
+                <div class="ui-g-6">
+                    <b>Item name : </b>
+                </div>
+                <div class="ui-g-6">
+                    <i><input type="text" pInputText [(ngModel)]="order_item_input_name"></i>
+                </div>
+                <div class="ui-g-6">
+                    <b>Amount : </b>
+                </div>
+                <div class="ui-g-6">
+                    <i><input type="text" pInputText [(ngModel)]="order_item_input_amount" 
+                    pTooltip="Must be greater than 0." (keyup)="item_amount_changed()"
+                    tooltipPosition="top"></i>
+                </div>
+                <div class="ui-g-12">
+                    <button type="button" pButton (click)="add_item_to_order_list()" 
+                    label="Add Item" icon="fa-check" style="width:100%;" [disabled]="!order_amount_greater_than_zero"></button>
+                </div>
+            </div>
+        </div>
+        <!--THE ENTIRE ORDER LIST-->
+        <div class="ui-g-6">
+            <p-dataTable header="Items" [value]="order_with_items">
+                <p-column field="item_name" header="Name"></p-column>
+                <p-column field="item_amount" header="Amount"></p-column>
+                <p-column styleClass="col-button">
+                    <template pTemplate="header">
+                        Remove
+                    </template>
+                    <template let-item="rowData" pTemplate="body">
+                        <button type="button" pButton (click)="remove_item(item)" 
+                                icon="fa-close" style="width:100%;"></button>
+                    </template>
+                </p-column>
+                <p-footer>
+                    Date From:
+                    <p-calendar [(ngModel)]="order_date_from" (onSelect)="check_order_dates()" [readonlyInput]="true"></p-calendar>
+                    Date To :
+                    <p-calendar [(ngModel)]="order_date_to" (onSelect)="check_order_dates()" [readonlyInput]="true"></p-calendar>
+                    <br/>
+                    <button type="button" pButton (click)="send_order()" label="Send Order" 
+                            [disabled]="(order_with_items.length == 0) || order_dates_invalid" 
+                            icon="fa-check" style="width:100%;"></button>
+                </p-footer>
+            </p-dataTable>
+        </div>
+    </div>
 
 
 </p-panel>
@@ -753,14 +856,52 @@
     <p-header>
         <div class="ui-g">
             <div class="ui-g-6">
-                <h3 style="float: left;"> HEADER </h3>
+                <h3 style="float: left;"> Your Orders </h3>
             </div>
             <div class="ui-g-6">
                 <button pButton icon="fa-close" label="Close" style="float: right;height : 100%" (click)="close_check_delivery_notifications()"></button>
             </div>
         </div>
     </p-header>
-
+    
+    <div class="ui-g">
+        <!--ALL ORDERS DIV-->
+        <div class="ui-g-6">
+            <p-dataTable [value]="order_presentation" sortField="belongs_to_order"
+                         rowGroupMode="subheader" groupField="belongs_to_order" expandableRowGroups="true"
+                         [sortableRowGroup]="false" selectionMode="single"
+                         (onRowSelect)="onRowSelect($event)">
+                <p-header>All Orders</p-header>
+                <template pTemplate="rowgroupheader" let-rowData>
+                    <b>Order : </b><i>{{rowData['belongs_to_order']}}</i>, <b>Time Period :  </b><i>[{{rowData['from']}} - {{rowData['to']}}]</i>
+                </template>
+                <p-column field="item_name" header="Item Name"></p-column>
+                <p-column field="item_amount" header="Amount"></p-column>
+                <template pTemplate="rowgroupfooter" let-data>
+                    <td colspan="2">
+                        <button pButton type="button" label="Check Bids"
+                                icon="fa-search" (click)="check_bids(data['belongs_to_order'])"
+                                style="width:100%;"></button>
+                    </td>
+                </template>
+            </p-dataTable>
+        </div>
+        <!--ORDER BIDS DIV-->
+        <div class="ui-g-6">
+            <p-dataTable [value]="order_bids" >
+                <p-header>Order Bids</p-header>
+                <p-column field="id" header="ID"></p-column>
+                <p-column field="bidding_price" header="Price ($)"></p-column>
+                <p-column field="made_for_order.id" header="For Order"></p-column>
+                <p-column styleClass="col-button">
+                    <template let-bid="rowData" pTemplate="body">
+                        <button type="button" pButton (click)="accept_bid(bid)" 
+                                icon="fa-check" label="Accept This Bid"></button>
+                    </template>
+                </p-column>
+            </p-dataTable>
+        </div>
+    </div>
 
 </p-panel>
 

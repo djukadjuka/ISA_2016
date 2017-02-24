@@ -121,6 +121,94 @@
             </p-dataTable>
 
           </p-accordionTab>
+
+          <!--============================================================-->
+          <!--=================DELIVERER THINGS-->
+          <!--============================================================-->
+          <p-accordionTab *ngIf="_sharedService.isDeliverer" header="Deliveries And Orders">
+            
+            <!--ALL AVAILABLE ORDERS-->
+            <p-dataTable [value]="free_orders_presentation" sortField="belongs_to_order" 
+                         rowGroupMode="subheader" groupField="belongs_to_order" 
+                         expandableRowGroups="true" [sortableRowGroup]="false"
+                         [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
+              <p-header><h5>Available Orders</h5></p-header>
+              <!--EXPANDABLE ROW TAB NAME-->
+              <template pTemplate="rowgroupheader" let-rowData>
+                <b>Order Id : </b><i>{{rowData['belongs_to_order']}}</i>, <b>Order Time Period : </b><i>[{{rowData['from']}} - {{rowData['to']}}]</i>
+              </template>
+              <p-column field="item_name" header="Item Name"></p-column>
+              <p-column field="item_amount" header="Amount of Items"></p-column>
+              <template pTemplate="rowgroupfooter" let-item>
+                <td colspan="2">
+                  <button pButton icon="fa-dollar"
+                          label="Enter Bid" (click)="enter_bid_dollars(item.belongs_to_order)" 
+                          style="width:100%" type="button"></button>
+                </td>
+              </template>
+            </p-dataTable><br/>
+            
+            <!--DIALOG TO ENTER THE BID-->
+            <p-dialog header="Enter Bid" [(visible)]="entering_bid" modal="modal" width="300" responsive="true">
+              <div class="ui-g">
+                <div class="ui-g-10">
+                  <input pInputText type="text" placeholder="Your bid in dollars..." 
+                         pTooltip="Must be greater than 0." (keyup)="bid_entered_keyup()"
+                         [(ngModel)]="bid_in_dollars"/>
+                </div>
+                <div class="ui-g-2">
+                  <button pButton icon="fa-dollar"></button>
+                </div>
+                <div class="ui-g-12">
+                  <button pButton icon="fa-check" label="Submit Bid!" (click)="bid_submitted()" style="width:100%;"
+                          [disabled]="!bid_valid"></button>
+                </div>
+              </div>
+            </p-dialog>
+
+            <!--STATUS AND NOTIFICATIONS-->
+            <p-dataTable [value]="not_seen_bid_statuses"
+            [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
+              <p-header><h5>Bid Status</h5></p-header>
+              <p-column field="id" header="Bid ID"></p-column>
+              <p-column field="bidding_price" header="Price ($)"></p-column>
+              <p-column field="made_for_order.id" header="For Order"></p-column>
+              <p-column styleClass="col-button">
+                <template pTemplate="header">Status</template>
+                <template let-item="rowData" pTemplate="body">
+                  <div *ngIf="item.bid_status == 'PENDING'">
+                    <button pButton label="PENDING" style="width:100%;" icon="fa-hourglass-half" class="ui-button-warning"></button>
+                  </div>
+                  <div *ngIf="(item.bid_status != 'PENDING' )">
+                    <button *ngIf="item.bid_status == 'ACCEPTED'" pButton label="ACCEPTED !" style="width:100%" icon="fa-check" class="ui-button-success"></button>
+                    <button *ngIf="item.bid_status == 'DECLINED'" pButton label="DECLINED !" style="width:100%" icon="fa-close" class="ui-button-danger"></button>
+                    <button *ngIf="item.bid_status == null" pButton label="EXPIRED" style="width:100%" icon="fa-hourglass-half" class="ui-button-danger"></button>
+                    <button pButton label="OK" class="ui-button-info" style="width:100%;" (click)="dismiss_order_notification(item)"></button>
+                  </div>
+                </template>
+              </p-column>
+            </p-dataTable>
+
+            <!--ALL ORDER BIDS EVER-->
+            <p-dataTable [value]="all_deliverer_bids"
+            [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
+              <p-header><h5>All Bids and Deliveries Ever</h5></p-header>
+              <p-column field="id" header="Bid ID"></p-column>
+              <p-column field="bidding_price" header="Price Bid ($)"></p-column>
+              <p-column field="made_for_order.id" header="Made For Order"></p-column>
+              <p-column styleClass="col-button">
+                <template pTemplate="header">Outcome</template>
+                <template let-item="rowData" pTemplate="body">
+                    <button pButton *ngIf="item.bid_status == 'PENDING'" label="PENDING" style="width:100%;" class="ui-button-info"></button>
+                    <button pButton *ngIf="item.bid_status == 'DECLINED'" label="DECLINED" style="width:100%;" class="ui-button-info"></button>
+                    <button pButton *ngIf="item.bid_status == 'ACCEPTED'" label="ACCEPTED" style="width:100%;" class="ui-button-info"></button>
+                    <button pButton *ngIf="item.bid_status == null" label="EXPIRED" style="width:100%;" class="ui-button-info"></button>
+                  </template>
+              </p-column>
+            </p-dataTable>
+
+          </p-accordionTab>
+
         </p-accordion>
     </p-tabPanel>
     <p-tabPanel header="History" leftIcon="fa-history">

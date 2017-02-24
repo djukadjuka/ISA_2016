@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -52,6 +53,17 @@ public class ScheduleController {
 	public ResponseEntity<ArrayList<EmployeeBean>> getEmployeesForRestaurant(@PathVariable("rest_id") Long rest_id){
 		return new ResponseEntity<ArrayList<EmployeeBean>>(
 				(ArrayList<EmployeeBean>)employee_service.getWorkersThatWorkForARestaurant(rest_id),HttpStatus.OK);
+	}
+	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(value="schedz/getScheduleByDate",
+					method= RequestMethod.GET,
+					produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public  ResponseEntity<ArrayList<EmployeeScheduleBean>> getScheduleByDate(){
+		
+		return new ResponseEntity<ArrayList<EmployeeScheduleBean>>(
+				(ArrayList<EmployeeScheduleBean>)schedule_service.getSchedduleForEmployee(), HttpStatus.OK);
 	}
 	
 }

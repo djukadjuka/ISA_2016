@@ -21,8 +21,10 @@ import {Http,Headers,RequestOptions,RequestMethod,Request,Response} from '@angul
 })
 export class ViewRestaurantsComponent implements OnInit{
 
+  levat = parseInt;
+
   //things for presentation
-    
+
     //images
     noImageFound : string = "/assets/pictures/no_image_found.jpg";
     uploadedPicture;
@@ -932,7 +934,7 @@ export class ViewRestaurantsComponent implements OnInit{
 
         this.schedz_time_end.setFullYear(this.new_schedz_day.getFullYear());
         this.schedz_time_start.setFullYear(this.new_schedz_day.getFullYear());
-
+/*
         console.log("start");
         console.log(this.schedz_time_start);
         console.log("end");
@@ -941,7 +943,7 @@ export class ViewRestaurantsComponent implements OnInit{
         console.log(this.new_schedz_day);
         console.log("One milliseconds : ");
         console.log(this.schedz_time_end.getTime());
-
+*/
         this.adding_new_shedule = false;
      }
 
@@ -953,11 +955,70 @@ export class ViewRestaurantsComponent implements OnInit{
     /**
      * ADDING EMPLOYEE REGION CONFIG
      */
+     //all restaurants tables
+     selected_restaurant_tables;
+     //employee selected to view the data;
+     employee_serving_data;
+     //table selected to change server;
+
+     //dialog about the server serving concrete table
+     checking_table_server = false;
+     //dialog about changing the employee serving a table
+     changing_table_server = false;
+
+     //employees that are not serving the selected table
+     all_servers; all_servers_select_item:SelectItem[];selected_server_id;
+
      edit_employee_region_clicked(restaurant : RestaurantClass){
         this.restaurant_23 = restaurant;
 
-        this.creating_employee_region_open = true;
-        this.check_visibility();
+        this.viewRestaurantsService.getTablesForRestaurant(this.restaurant_23.id).subscribe(
+          res=>{
+            console.log(res);
+            this.selected_restaurant_tables = res;
+            this.creating_employee_region_open = true;
+            this.check_visibility();
+          }
+        )
+
+     }
+
+     //view details about employee serving this table
+     view_table_serving(table){
+        this.employee_serving_data = table.served_by;
+        this.checking_table_server = true;
+     }
+
+     //change employee serving table
+     change_table_serving(table){
+      this.viewRestaurantsService.getWaitersForRestaurant(this.restaurant_23.id).subscribe(
+        res=>{
+          this.all_servers = res;
+          this.all_servers_select_item = [];
+          for(let server in this.all_servers){
+            this.all_servers_select_item.push({label:this.all_servers[server].user.username,value:this.all_servers[server].id});
+          }
+          this.selected_server_id = table.served_by.id;
+          this.changing_table_server  = true;
+        }
+      )
+     }
+
+     //called after button is clicked changing the employee who serves table;
+     //dialog should be closed after Save is clicked
+     changed_table_server(){
+      let selected_guy;
+      for(let server in this.all_servers){
+        if(this.all_servers[server].id == this.selected_server_id){
+          selected_guy = this.all_servers[server];
+        }
+      }
+
+      //who is selected to be the new server for this table...
+      console.log(selected_guy);
+
+      //this after rest call...
+      this.changing_table_server = false;
      }
 
      close_edit_employee_region(){
@@ -969,11 +1030,32 @@ export class ViewRestaurantsComponent implements OnInit{
     /**
      * REGISTER DELIVERER CONFIG
      */
+    //posible deliverers
+    idle_users_for_deliverer;
+
+    //dialog visibility to upgrade user to deliverer
+    upgrading_user_to_deliverer
+
+    //for the progress bar
+    upgrading_to_deliverer_status : number = 0;
+
      register_new_deliverer_clicked(restaurant : RestaurantClass){
         this.restaurant_23 = restaurant;
 
-        this.creating_new_deliverer_open = true;
-        this.check_visibility();
+        this.viewRestaurantsService.getPendingDeliverers().subscribe(
+          res=>{
+            this.idle_users_for_deliverer = res;
+            this.creating_new_deliverer_open = true;
+            this.check_visibility();
+          }
+        )
+
+     }
+
+     upgrade_to_deliverer(user){
+       this.upgrading_user_to_deliverer = true;
+       
+       console.log(user);
      }
 
      close_register_new_deliverer(){
@@ -985,11 +1067,71 @@ export class ViewRestaurantsComponent implements OnInit{
     /**
      * CREATE DELIVERY CONFIG
      */
+
+    order_item_input_name;
+    order_item_input_amount;
+    order_amount_greater_than_zero = false;
+    
+    //order things
+    order_with_items = [];
+    fake_key = 0;
+
+    //dates of the order
+    order_date_from : Date; order_date_to : Date; order_dates_invalid;
+
      create_new_delivery_clicked(restaurant : RestaurantClass){
         this.restaurant_23 = restaurant;
-
+        this.fake_key = 0;
+        this.order_item_input_name = "";
+        this.order_item_input_amount = "";
+        this.order_amount_greater_than_zero = false;
         this.creating_new_delivery_open = true;
+        this.order_dates_invalid = true;
+        this.order_with_items = [];
         this.check_visibility();
+     }
+
+     regexp = new RegExp('[1-9][0-9]*$');
+     item_amount_changed(){
+        this.order_amount_greater_than_zero = this.regexp.test(this.order_item_input_amount);
+     }
+
+     add_item_to_order_list(){
+       this.order_with_items.push({item_name:this.order_item_input_name,item_amount:this.order_item_input_amount,key:this.fake_key+1});
+       this.fake_key = this.fake_key+1;
+       this.order_item_input_amount = "";
+       this.order_item_input_name = "";
+       this.order_amount_greater_than_zero = false;
+     }
+     remove_item(item){
+       for(let it in this.order_with_items){
+         if(this.order_with_items[it].key == item.key){
+           this.order_with_items.splice(+it,1);
+         }
+       }
+     }
+     send_order(){
+       console.log(this.order_with_items);
+     }
+
+     check_order_dates(){
+        if(this.order_date_from == null){
+          this.order_dates_invalid= true;
+        }else{
+          if(this.order_date_to == null){
+            this.order_dates_invalid = false;
+          }else{
+            let milis_from = this.order_date_from.getTime();
+            let milis_to = this.order_date_to.getTime();
+            if(milis_from < milis_to){
+              this.order_dates_invalid = false;
+            }else{
+              this.order_dates_invalid = true;
+            }
+          }
+        }
+       
+
      }
 
      close_create_new_delivery(){
@@ -1001,11 +1143,61 @@ export class ViewRestaurantsComponent implements OnInit{
      /**
       * CHECK DELIVERY NOTIFICATIONS CONFIG
       */
+      //all possible restaurant orders
+      restaurant_orders;
+
+      //restaurant orders for presentation
+      order_presentation = [];
+
+      //all bids for the other data table
+      order_bids = [];
+
       check_delivery_notifications_clicked(restaurant : RestaurantClass){
         this.restaurant_23 = restaurant;
 
-        this.checking_delivery_notifications_open = true;
-        this.check_visibility();
+        this.viewRestaurantsService.getDeliveryOrdersForRestaurant(this.restaurant_23.id).subscribe(
+          res=>{
+            this.restaurant_orders = res;
+            let curr_date = new Date();
+
+            for(let order in this.restaurant_orders){ 
+                let from = new Date(this.restaurant_orders[order].date_from);
+                let to = new Date(this.restaurant_orders[order].date_to);
+                let from_milis = from.getTime()
+                let to_milis = to.getTime();
+
+                for(let item in this.restaurant_orders[order].contains_items){
+
+                  if(from_milis < curr_date.getTime() && to_milis > curr_date.getTime()){  
+                    this.order_presentation.push({
+                        belongs_to_order:this.restaurant_orders[order].id,
+                        item_name:this.restaurant_orders[order].contains_items[item].item_name,
+                        item_amount:this.restaurant_orders[order].contains_items[item].item_amount,
+                        from: from.getDate() + "/" + (from.getMonth() + 1) + "/" + from.getFullYear(),
+                        to: to.getDate() + "/" + (to.getMonth() + 1) + "/" + to.getFullYear()
+                    });
+                  }
+                }
+
+            }
+
+            this.checking_delivery_notifications_open = true;
+            this.check_visibility();
+          }
+        )
+
+      }
+
+      check_bids(data){
+        this.viewRestaurantsService.getDeliveryBidsForDeliveryId(data).subscribe(
+          res=>{
+            this.order_bids = res;
+          }
+        )
+      }
+
+      accept_bid(bid){
+        console.log(bid);
       }
 
       close_check_delivery_notifications(){
@@ -1014,22 +1206,3 @@ export class ViewRestaurantsComponent implements OnInit{
         this.check_visibility();
       }
 }
-
-/*
-USER API
-{
-      "id": 16,
-      "firstName": "Donald",
-      "lastName": "Draper",
-      "username": "don_mad_man",
-      "password": "test",
-      "email": "draper.don@scdp.com",
-      "profilePicture": "NA"
-    },
-
-MY API
-{
-  "free_users":[{},{} ....],
-  "managers":[{},{},{} ....]
-}
- */

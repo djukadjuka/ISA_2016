@@ -33,8 +33,13 @@ public class TableServiceBean implements TableService{
 		return repository.findOne(id);
 	}
 
+
+	public Collection<TableBean> findAllTablesFromRestaurant(Long rest_id) {
+		return repository.findAllTablesFromRestaurant(rest_id);
+	}
+	
 	@Override
-	public int updateTableStatus(Long id, String status) {
+	public int updateTableStatus(Long id, String status){
 		// TODO Auto-generated method stub
 		return repository.updateTableStatus(id,status);
 	}

@@ -20,11 +20,8 @@ public interface RestaurantRegistryRepository extends JpaRepository<RestaurantRe
 	 * a nije video status registracije
 	 * */
 	@Query(value = ""
-		+ "SELECT regs.id,regs.restaurant_name,regs.seen,regs.status,regs.type,regs.deleted "
-		+ "FROM restaurant_registry regs, registering_restaurants rr "
-		+ "WHERE rr.rest_id = regs.id "
-		+ "AND rr.manager_id = :manager_id "
-		+ "AND regs.seen = 0", nativeQuery = true)
+		+ "select * from restaurant_registry reg where"
+		+ " reg.seen = 0 and reg.registering_by = :manager_id", nativeQuery = true)
 	public Collection<RestaurantRegistry> getRegistersByManagerId(@Param("manager_id")Long manager_id);
 	
 	/**
@@ -41,6 +38,7 @@ public interface RestaurantRegistryRepository extends JpaRepository<RestaurantRe
 	 * UPDATE
 	 * Menadzer je video da je njegov restoran odbijen/prihvacen
 	 * */
+	@Transactional
 	@Modifying
 	@Query(value=""
 			+ "UPDATE restaurant_registry "
@@ -53,6 +51,7 @@ public interface RestaurantRegistryRepository extends JpaRepository<RestaurantRe
 	 * ADMIN UPDATE
 	 * Prihvatio registraciju restorana
 	 * */
+	@Transactional
 	@Modifying
 	@Query(value=""
 			+ "UPDATE restaurant_Registry "
@@ -64,6 +63,7 @@ public interface RestaurantRegistryRepository extends JpaRepository<RestaurantRe
 	 * ADMIN UPDATE
 	 * ODBIO registraciju restorana
 	 * */
+	@Transactional
 	@Modifying
 	@Query(value=""
 			+ "UPDATE restaurant_Registry "

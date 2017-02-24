@@ -59,6 +59,11 @@ public interface UserRepository extends JpaRepository<UserBean, Long>{
 	@Query(value = "SELECT * from user u WHERE"
 					+" u.id NOT IN (SELECT e.user_id from employee e WHERE"
 					+" e.role = 'MANAGER') AND"
-					+" u.id NOT IN (SELECT e.user_id from employee e WHERE e.works_in_restaurant IS NOT NULL)",nativeQuery=true)
+					+" u.id NOT IN (SELECT e.user_id from employee e WHERE e.works_in_restaurant IS NOT NULL)"
+					+ " and u.id not in("
+					+ " select deliverer.user_id from deliverer where deliverer.request_status = 'ACCEPTED')",nativeQuery=true)
 	public Collection<UserBean> getusersThatDoNotWorkForARestaurant();
+	
+	@Query(value = "SELECT * FROM user u WHERE u.id IN (select deliverer.user_id from deliverer where deliverer.request_status = 'PENDING')",nativeQuery=true)
+	public Collection<UserBean> getPossibleDeliverers();
 }

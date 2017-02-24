@@ -25,4 +25,5 @@ public interface EmployeeService {
 	//CUSTOM
 	public Collection<EmployeeBean> getWorkersThatWorkForARestaurant(Long rest_id);
 	public Collection<EmployeeBean> getWorkersThatDoNotWorkForARestaurant();
+	public Collection<EmployeeBean> getWaitersForARestaurant(Long rest_id);
 }

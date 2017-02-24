@@ -54,4 +54,11 @@ public class EmployeeServiceBean  implements EmployeeService{
 		return empRepo.getWorkersThatDoNotWorkForARestaurant();
 	}
 
+	@Override
+	public Collection<EmployeeBean> getWaitersForARestaurant(Long rest_id) {
+		return empRepo.getWaitersForARestaurant(rest_id);
+	}
+	
+	
+
 }

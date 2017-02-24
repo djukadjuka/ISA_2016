@@ -67,4 +67,9 @@ public class RestaurantServiceBean implements RestaurantService{
 		return repository.filterRestaurantsByNameAndType(name, type);
 	}
 
+	@Override
+	public void createManagerRelation(Long man_id, Long rest_id) {
+		this.repository.createManagerRelation(man_id, rest_id);
+	}
+
 }
