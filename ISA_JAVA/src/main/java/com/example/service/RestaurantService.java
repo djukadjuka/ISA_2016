@@ -2,6 +2,11 @@ package com.example.service;
 
 import java.util.Collection;
 
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.example.domain.RestaurantBean;
 
 public interface RestaurantService {
@@ -23,4 +28,16 @@ public interface RestaurantService {
 	void delete(Long id);
 	
 	public void createManagerRelation(Long man_id,Long rest_id);
+	
+	//custom
+	public void updateRestaurantName_FIX(String name, Long id);
+	public void updateRestaurantType_FIX(String type, Long id);
+	public RestaurantBean getExistingFoodType(Long rest_id,Long food_id);
+	public void insert_new_food_type(Long rest_id, Long type_id);
+	public void delete_food_type(Long rest_id, Long type_id);
+	
+	public void inset_drink_item(Long rest_id,  Long drink_id);
+	public void inset_food_item(Long rest_id, Long food_id);
+	public void delete_drink_item(Long rest_id, Long drink_id);
+	public void delete_food_item(Long rest_id, Long food_id);
 }

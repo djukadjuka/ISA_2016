@@ -108,6 +108,12 @@ export class ViewRestaurantsService {
       return this._http.put(this._baseURL+"/updateRestaurant",JSON.stringify(data),options)
       .map(res=>res.json().data);
   }
+  basicRestaurantUpdate(data){
+    var headers = new Headers({'Content-Type':'application/json'});
+      var options = new RequestOptions({headers:headers});
+      return this._http.post(this._baseURL+"/basicRestaurantUpdate",JSON.stringify(data),options)
+      .map(res=>res.json());
+  }
 
   getZonesForRestaurant(restaurant){
       return this._http.get(this._baseURL+"/getZoneByRestaurantId/"+restaurant.id).map(res => <RestaurantZone[]>res.json());

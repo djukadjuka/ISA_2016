@@ -251,27 +251,19 @@ export class ViewRestaurantsComponent implements OnInit{
            this.restaurants[i].foodMenu.push(this.editingRestaurant.foodMenu[j]);
          }
 
-         /*
-         for(let j=0; j<this.editingRestaurant.zones.length;  j++){
-           if(this.editingRestaurant.zones[j].hasOwnProperty("_$visited")){
-             console.log("has visited property.");
-             delete this.editingRestaurant.zones[j]['_$visited'];
-             console.log(this.editingRestaurant.zones[j]);
-           }else{
-             console.log(this.editingRestaurant.zones[j]);
-           }
-           this.restaurants[i].zones.push(this.editingRestaurant.zones[j]);
-         }
-        */
          break;
        }
      }
 
-     this.viewRestaurantsService.updateRestaurant(this.restaurants[k]).subscribe(
-       res=>{}
+     //this.viewRestaurantsService.updateRestaurant(this.restaurants[k]).subscribe(
+       //res=>{}
+     //);
+     this.viewRestaurantsService.basicRestaurantUpdate(this.restaurants[k]).subscribe(
+       res=>{
+         console.log(res);
+         this.editing = false
+       }
      );
-
-     this.editing = false;
    }
 
    cancelUpdate(){
