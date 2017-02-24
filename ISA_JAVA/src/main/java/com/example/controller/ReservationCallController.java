@@ -2,7 +2,6 @@ package com.example.controller;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -10,18 +9,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.domain.ReservationCallBean;
+import com.example.domain.ReservationCallBean.ReservationStatus;
 import com.example.service.ReservationCallServiceBean;
+import com.example.service.UserServiceBean;
 
 @RestController
 public class ReservationCallController {
 	
 	@Autowired
 	public ReservationCallServiceBean reservationCallService = new ReservationCallServiceBean();
+	
+	@Autowired
+	public UserServiceBean userService = new UserServiceBean();
 	
 	synchronized
 	@CrossOrigin(origins = "http://localhost:4200")
@@ -48,6 +53,23 @@ public class ReservationCallController {
 		}
 		
 		return retVal;
+	}
+	
+	synchronized
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value="/reservationInvite",
+			method = RequestMethod.POST,
+			produces=MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE
+			)
+	public boolean reservationInvite(@RequestBody ReservationCallBean rcb)
+	{	
+		ReservationCallBean call = new ReservationCallBean(ReservationStatus.PENDING,rcb.getOriginator(), rcb.getRecipient(),rcb.getReservation());
+		
+		reservationCallService.create(call);
+		
+		return true;
 	}
 	
 	@CrossOrigin(origins = "http://localhost:4200")

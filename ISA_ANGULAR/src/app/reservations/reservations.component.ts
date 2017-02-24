@@ -41,7 +41,7 @@ export class ReservationsComponent implements OnInit {
     
       this.originatorReservationsCols = [
             {field: 'id', header: 'Reservation ID'},
-            {field: 'originator.username', header: 'Originator username'},
+            {field: 'originator.username', header: 'Made by'},
             {field: 'reservation.table_id.restaurant_zone_id.restaurant.name', header: 'Restaurant'},
             {field: 'reservation.table_id.restaurant_zone_id.name', header: 'Zone'},
             {field: 'reservation.table_id.id', header: 'Table ID'},
@@ -82,6 +82,26 @@ export class ReservationsComponent implements OnInit {
                                         this.getOriginatorReservationData();
                                   }
                               );
+  }
+
+  reservationInvite(friend)
+  {
+      if(Object.keys(this.selectedReservation).length === 0)
+      {
+             this.msgs = [];
+             this.msgs.push({severity:'warn', summary:'Please select one reservation.'});
+      }
+      else
+      {
+             this._reservationService.reservationInvite(this.selectedReservation, friend)
+                                    .subscribe(
+                                        res =>
+                                        {
+                                             this.msgs = [];
+                                             this.msgs.push({severity:'success', summary:'Invite sent over e-mail.'});
+                                        }
+                                    )
+      }
   }
 
 }

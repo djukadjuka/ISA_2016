@@ -20,4 +20,18 @@ export class ReservationService {
         return this._http.delete(this._baseURL+"/cancelReservation/" + reservationCall.reservation.id + "/" + reservationCall.id)
                             .map(res => res.json());
     }
+
+     reservationInvite(reservationCall, recipient)
+    {
+        reservationCall.recipient = recipient;
+
+        console.log(reservationCall);
+
+        var headers = new Headers({'Content-Type':'application/json'});
+        var options = new RequestOptions({headers:headers});
+        // {"reservationCall": reservationCall,"recipient" : recipient}
+
+        return this._http.post(this._baseURL+"/reservationInvite",JSON.stringify(reservationCall),options)
+                            .map(res=>res.json().data);
+    }
 }

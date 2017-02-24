@@ -26,8 +26,8 @@
           <template pTemplate="header">
               <header>Invite friends on reservation</header>
           </template>
-          <template let-user="rowData" pTemplate="body">
-              <button type="button" label="Invite" class="ui-button-success" (click)="sendFriendRequest(user)" pButton style="float:center; width: 100%;" icon="fa-user-plus" iconPos="left"></button>
+          <template let-friend="rowData" pTemplate="body">
+              <button type="button" label="Invite" class="ui-button-success" (click)="reservationInvite(friend)" pButton style="float:center; width: 100%;" icon="fa-user-plus" iconPos="left"></button>
           </template>
       </p-column>
 </p-dataTable>
