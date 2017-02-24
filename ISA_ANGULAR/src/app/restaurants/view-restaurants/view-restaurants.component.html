@@ -56,7 +56,7 @@
             <div class="form-group" style="float: left">
                 <div class="col-md-12">
                 <label class="control-label">Start date and time:</label>
-                <p><p-calendar  [(ngModel)]="reservation.startDate" formControlName="startDate" inputStyleClass="form-control" [monthNavigator]="true" [yearNavigator]="true" yearRange="2017:2018" [inline]="true" [showTime]="true" ></p-calendar></p>
+                <p><p-calendar  [(ngModel)]="reservation.startDate" formControlName="startDate" inputStyleClass="form-control" [monthNavigator]="true" [yearNavigator]="true" [minDate]="tminDate" yearRange="2017:2018" [inline]="true" [showTime]="true" ></p-calendar></p>
                 </div>
             </div>
             <div class="form-group" >
@@ -127,7 +127,7 @@
         <div class="form-group">
             <div class="ui-g">
                 <div class="ui-g-3">
-                    <button pButton style="float: left" routerLink="/reservations" class="ui-button-warning" type="text"  icon="fa-arrow-left" label="Invite friends"></button>
+                    <button pButton style="float: left" routerLink="/reservations" class="ui-button-info" type="text"  icon="fa-envelope-o" label="Invite friends"></button>
                 </div>
                 <div class="ui-g-3"></div>
                 <div class="ui-g-3"></div>

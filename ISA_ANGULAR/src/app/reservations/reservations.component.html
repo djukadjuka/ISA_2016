@@ -1,14 +1,23 @@
+<p-growl [value]="msgs"></p-growl>
 
-<p-dataTable [value]="originatorReservations" [rows]="5" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
+<p-dataTable [value]="originatorReservations" selectionMode="single" [(selection)]="selectedReservation" resizableColumns="true" [rows]="5" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
       <p-column *ngFor="let col of originatorReservationsCols" [field]="col.field" [filter]="true" filterPlaceholder="Search" [header]="col.header"></p-column>
-      <!--<p-column styleClass="col-button">
+      <p-column styleClass="col-button">
           <template pTemplate="header">
-              <header>Add a friend</header>
+              <header>Date and time</header>
           </template>
-          <template let-user="rowData" pTemplate="body">
-              <button type="button" label="Send request" class="ui-button-success" (click)="sendFriendRequest(user)" pButton style="float:center; width: 100%;" icon="fa-user-plus" iconPos="left"></button>
+          <template let-reservationCall="rowData" pTemplate="body">
+              {{getDate(reservationCall)}}
           </template>
-      </p-column>-->
+      </p-column>
+      <p-column styleClass="col-button">
+          <template pTemplate="header">
+              <header>Cancel reservation</header>
+          </template>
+          <template let-reservationCall="rowData" pTemplate="body">
+              <button type="button" label="Cancel" class="ui-button-danger" (click)="cancelReservation(reservationCall)" pButton style="float:center; width: 100%;" icon="fa-times" iconPos="left"></button>
+          </template>
+      </p-column>
 </p-dataTable>
 
 <p-dataTable [value]="friends" [rows]="5" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
