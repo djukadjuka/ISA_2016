@@ -1,15 +1,11 @@
 package com.example.domain;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -30,9 +26,6 @@ public class ReservationBean {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "table_id", nullable = false)
     private TableBean table_id;
-    
-    @ManyToMany(mappedBy = "reservations")
-	private Set<ReservationCallBean> reservationCalls = new HashSet<ReservationCallBean>();
 
     public ReservationBean() {
     }

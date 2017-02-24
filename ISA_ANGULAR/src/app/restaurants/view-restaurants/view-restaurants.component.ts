@@ -466,9 +466,6 @@ export class ViewRestaurantsComponent implements OnInit{
                                 );
    }
 
-
-   //reservation button click
-
    restaurantReservation(restaurant)
    {
         this.viewRestaurantsService.getZonesForRestaurant(restaurant)
@@ -503,6 +500,19 @@ export class ViewRestaurantsComponent implements OnInit{
         this.reservation.endDate.setFullYear(this.reservation.startDate.getFullYear());
         this.reservation.endDate.setMonth(this.reservation.startDate.getMonth());
         this.reservation.endDate.setDate(this.reservation.startDate.getDate());
+
+        //ako si odabrao datum u proslosti
+        let date = new Date();
+        let time = date.getTime() + 1800000;
+
+        if(this.reservation.startDate.getTime() < time)
+        {
+              this.growl = [];
+              this.growl.push({severity:'error',
+                                summary:'Wrong start time!',
+                                detail:'Reservation has to be made at least 30 minutes earlier'});
+              return;
+        }
 
         if(this.reservation.endDate.getTime() - this.reservation.startDate.getTime() < 1800000)
         {

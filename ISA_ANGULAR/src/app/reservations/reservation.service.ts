@@ -14,4 +14,10 @@ export class ReservationService {
         return this._http.get(this._baseURL + "/getReservationsForOriginator/" + id)
             .map(res => res.json());
     }
+
+    cancelReservation(reservationCall)
+    {
+        return this._http.delete(this._baseURL+"/cancelReservation/" + reservationCall.reservation.id + "/" + reservationCall.id)
+                            .map(res => res.json());
+    }
 }

@@ -20,12 +20,15 @@
 
 <p-panel *ngIf="displayScheduleButton">
    <h1>Your Schedule</h1>
+   <form [formGroup]="formReservation" class="form-horizontal">
+     <div class="form-group" style="float: left">
     <p> Please pick date then press schedule button </p>
-   <p><p-calendar  [monthNavigator]="true" [yearNavigator]="true" yearRange="2017:2018" [inline]="true"  ></p-calendar></p>
-    
+   <p><p-calendar [(ngModel)]="reservation.Date" formControlName="Date" inputStyleClass="form-control" [monthNavigator]="true" [yearNavigator]="true" yearRange="2017:2018" [inline]="true"  ></p-calendar></p>
+     </div>
       <p>
           <input class="btn btn-primary" value="Schedule" (click)="displaySchedulee()" type="button">
       </p>
+   </form>
 </p-panel>
 
 

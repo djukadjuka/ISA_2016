@@ -16,6 +16,6 @@ public interface EmployeeScheduleRepository extends JpaRepository<EmployeeSchedu
 	@Query(value="SELECT * FROM employee_schedule e WHERE e.for_employee = :employee_id",nativeQuery=true)
 	public Collection<EmployeeScheduleBean> getScheddzzzForEmployee(@Param("employee_id") Long employee_id);
 	
-	@Query(value="SELECT * FROM employee_schedule es WHERE es.for_employee IN ( SELECT e.user_id FROM employee e WHERE e.role = 'WAITER')",nativeQuery=true)
-	public Collection<EmployeeScheduleBean> getSchedduleForEmployee();
+	@Query(value="SELECT * FROM employee_schedule es WHERE es.for_employee IN ( SELECT e.user_id FROM employee e WHERE e.role = 'WAITER') and es.date_date = :date",nativeQuery=true)
+	public Collection<EmployeeScheduleBean> getSchedduleForEmployee(@Param("date") Long date);
 }
