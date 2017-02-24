@@ -485,6 +485,16 @@ export class ViewRestaurantsComponent implements OnInit{
                                     });
    }
 
+   reservationReset()
+   {
+        this.reservationTables = [];
+        this.reservationSelectedTables = [];
+        this.reservationZoneBackgroundImage = "";
+        this.reservationZoneName = "";
+        this.reservationActiveStep = 0;
+        this.reservationLoadingBar = 10;
+   }
+
    //reservation steps functions
 
    reservationStep1()
@@ -502,13 +512,10 @@ export class ViewRestaurantsComponent implements OnInit{
         }
         else
         {
-            while(this.reservationLoadingBar < 35)
-            {
-              this.reservationLoadingBar += 1;
-            }
+              this.reservationLoadingBar = 35;
 
              //za sad za zonu jedan, posle za zonu trenutno kliknutog restorana
-            this.viewRestaurantsService.getAllTables(this.reservation.restaurantZone)
+            this.viewRestaurantsService.getAllTables(this.reservation.restaurantZone, this.reservation.startDate.getTime(), this.reservation.endDate.getTime())
                                   .subscribe(
                                     res => 
                                     {
@@ -556,6 +563,13 @@ export class ViewRestaurantsComponent implements OnInit{
         }
    }
 
+   reservationBackStep1()
+   {
+        this.reservationActiveStep = 0;
+        this.reservationSelectedTables = [];
+        this.reservationLoadingBar = 10;
+   }
+
    reservationStep2()
    {
       this._confirmationService.confirm({
@@ -565,14 +579,19 @@ export class ViewRestaurantsComponent implements OnInit{
                   
 
                   this.growl = [];
+
+                  let atLeastOneSelected = false;
+
                   //uzmi reservationSelectedTables i prodji kroz njih i dodaj id-eve stolova u listu sa startDate endDate
                   for(let i = 0; i < this.reservationSelectedTables.length; i++)
                   {
                       if(this.reservationSelectedTables[i].selected == true)
                       {
+                          atLeastOneSelected = true;
+
                           this.reservation.table_id = this.reservationSelectedTables[i].id;
 
-                          let temp = {startDate : this.reservation.startDate.getTime(), endDate : this.reservation.endDate.getTime(), table_id : this.reservation.table_id};
+                          let temp = {startDate : this.reservation.startDate.getTime(), endDate : this.reservation.endDate.getTime(), table_id : this.reservation.table_id, originator : this._sharedService.userId};
 
                            this.viewRestaurantsService.makeReservation(temp)
                                       .subscribe(
@@ -580,7 +599,7 @@ export class ViewRestaurantsComponent implements OnInit{
                                              
                                              if(res == true)
                                              {
-                                                  this.growl.push({severity:'success', summary:'Successful reservation for table '+ temp.table_id, detail:''});  
+                                                  this.growl.push({severity:'success', summary:'Successful reservation for table '+ temp.table_id, detail:''});
                                              }
                                              else
                                              {
@@ -588,19 +607,35 @@ export class ViewRestaurantsComponent implements OnInit{
                                              }
                                          }
                                       );
-                          
-                          //za svaku rezervaciju cu isto upisati nju u tabelu ReservationCalls gde ce mi originator i recipient biti isti user koji je rezervisao
                       }
                   }
 
-                  while(this.reservationLoadingBar < 80)
+                  // ni jedan sto nije selektovan, a korisnik pokusava da nastavi rezervaciju
+                  if(!atLeastOneSelected)
                   {
-                    this.reservationLoadingBar += 1;
+                      this.growl = [];
+                      this.growl.push({severity:'error', summary:'You haven\'t selected any tables!'});
+                      return ;
                   }
 
+                  this.reservationLoadingBar = 80;
                   this.reservationActiveStep = 2;
               }
           });
+   }
+
+   reservationBackStep2()
+   {
+        this.reservationSelectedTables = [];
+        this.reservationLoadingBar = 35;
+        this.reservationStep1();
+        this.reservationActiveStep = 1;
+   }
+
+   reservationFinish()
+   {
+      this.showReservationDialog = false;
+      this.reservationReset();
    }
 
    //restaurant table reservation

@@ -41,7 +41,7 @@
 </p-dialog>
 
 <!--Reservations dialog-->
-<p-dialog header="Table reservation" [responsive]=true [resizable]=false [draggable]=false width="700" [modal]=true [(visible)]="showReservationDialog">
+<p-dialog header="Table reservation" (onAfterHide)="reservationReset()" [responsive]=true [resizable]=false [draggable]=false width="700" [modal]=true [(visible)]="showReservationDialog">
  
     <div class="ui-g">
         <div class="ui-g-4"></div>
@@ -109,18 +109,33 @@
         </i>
         <div class="form-group">
             <div class="ui-g">
-                <div class="ui-g-3"></div>
-                <div class="ui-g-3"></div>
-                <div class="ui-g-3"></div>
                 <div class="ui-g-3">
-                    <button pButton style="float: right" (click)="reservationStep2()" class="ui-button-success" type="text"  icon="fa-check" label="Next step"></button>
+                    <button pButton style="float: left" (click)="reservationBackStep1()" class="ui-button-warning" type="text"  icon="fa-arrow-left" label="Back"></button>
+                </div>
+                <div class="ui-g-3"></div>
+                <div class="ui-g-2"></div>
+                <div *ngIf="reservationSelectedTables?.length > 0" class="ui-g-4">
+                    <button pButton style="float: right" (click)="reservationStep2()" class="ui-button-success" type="text"  icon="fa-check" label="Make reservation"></button>
                 </div>
             </div>
         </div>
     </div>
     <!-- Reservation step 3-->
     <div *ngIf="reservationActiveStep==2">
-        <b>Invite your friends</b>
+        <h2><b>Thanks for using our table reservation service!</b></h2>
+        <p><b>You can invite your friends to join!</b></p>
+        <div class="form-group">
+            <div class="ui-g">
+                <div class="ui-g-3">
+                    <button pButton style="float: left" routerLink="/reservations" class="ui-button-warning" type="text"  icon="fa-arrow-left" label="Invite friends"></button>
+                </div>
+                <div class="ui-g-3"></div>
+                <div class="ui-g-3"></div>
+                <div class="ui-g-3">
+                    <button pButton style="float: right" (click)="reservationFinish()" class="ui-button-success" type="text"  icon="fa-check" label="Finish"></button>
+                </div>
+            </div>
+        </div>
     </div>
     <p-progressBar [value]="reservationLoadingBar"></p-progressBar>
 </p-dialog>
