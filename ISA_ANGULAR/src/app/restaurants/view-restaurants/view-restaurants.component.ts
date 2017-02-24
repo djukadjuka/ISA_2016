@@ -12,6 +12,8 @@ import {OverlayPanel} from 'primeng/primeng';
 import { SharedService } from '../../shared/shared.service';
 import {ConfirmationService} from 'primeng/primeng';
 import {Http,Headers,RequestOptions,RequestMethod,Request,Response} from '@angular/http';
+import {BarChartDays} from './BarChartDays';
+import {BarChartWeeks} from './BarChartWeeks';
 
 
 @Component({
@@ -742,6 +744,7 @@ export class ViewRestaurantsComponent implements OnInit{
     creating_new_deliverer_open = false;
     creating_new_delivery_open = false;
     checking_delivery_notifications_open = false;
+    checking_restaurant_statistics = false;
     restaurant_23 : RestaurantClass;
     /**VIEW FLAGS CONFIG*/
     check_visibility(){
@@ -751,7 +754,8 @@ export class ViewRestaurantsComponent implements OnInit{
           this.creating_new_delivery_open == false &&
           this.creating_new_employee_open == false &&
           this.creating_new_manager_open == false &&
-          this.checking_delivery_notifications_open == false){
+          this.checking_delivery_notifications_open == false &&
+          this.checking_restaurant_statistics == false){
             this.editing_something = false;
           }else{
             this.editing_something = true;
@@ -1213,6 +1217,148 @@ export class ViewRestaurantsComponent implements OnInit{
       close_check_delivery_notifications(){
 
         this.checking_delivery_notifications_open = false;
+        this.check_visibility();
+      }
+
+      //================================================
+      /**RESTAURANT STATISTICS */
+      //================================================
+      
+      //all restaurant reviews
+      all_restaurant_reviews;
+      //restaurant grade
+      restaurant_avg_grade;
+      //restaurant food list;
+      restaurant_food_list_items : SelectItem[];
+      selected_23_food_item;
+      //food item grades and reviews
+      food_item_reviews;
+      //all waiters
+      restaurant_23_waiters : SelectItem[];
+      //selected waiter for review
+      selected_23_waiter;
+      //waiter reviews
+      selected_waiter_23_reviews;
+
+      //for charts
+      attendance_weeks; attendance_days;
+      //chart dates
+      start_year = new Date().getFullYear();
+
+      //constants:
+      one_day_in_millis = 86400000;
+      one_week_in_millis = 86400000 * 7;
+
+      //when the panel is opened
+      check_restaurant_statistics_clicked(restaurant){
+
+        this.restaurant_23 = restaurant;
+        this.restaurant_23_waiters = [];
+        for(let item in this.restaurant_23.workers){
+          if(this.restaurant_23.workers[item].role == "WAITER"){
+            this.restaurant_23_waiters.push({label:this.restaurant_23.workers[item].user.username,
+                                             value:this.restaurant_23.workers[item].user.id});
+          }
+        }
+
+        this.restaurant_food_list_items = [];
+        for(let item in this.restaurant_23.foodMenu){
+          this.restaurant_food_list_items.push({label:this.restaurant_23.foodMenu[item].name,value:this.restaurant_23.foodMenu[item].id});
+        }
+
+        this.viewRestaurantsService.getAllRestaurantGrades(this.restaurant_23.id).subscribe(
+          res=>{
+            this.all_restaurant_reviews = res;
+            this.restaurant_avg_grade = 0;
+            for(let item in this.all_restaurant_reviews){
+              this.restaurant_avg_grade += this.all_restaurant_reviews[item].grade;
+              if(this.all_restaurant_reviews[item].short_description == null){
+                this.all_restaurant_reviews[item].short_description = "No Comment Available.";
+              }
+            }
+            this.restaurant_avg_grade = this.restaurant_avg_grade / this.all_restaurant_reviews.length;
+            this.checking_restaurant_statistics = true;
+            this.check_visibility();
+          }
+        )
+      }
+
+      //when you select a different tab
+      statistic_tab_change(event){
+        let idx = event.index;
+        if(idx == 0){
+          this.viewRestaurantsService.getAllRestaurantGrades(this.restaurant_23.id).subscribe(
+            res=>{
+              this.all_restaurant_reviews = res;
+              this.checking_restaurant_statistics = true;
+              for(let item in this.all_restaurant_reviews){
+                if(this.all_restaurant_reviews[item].short_description == null){
+                  this.all_restaurant_reviews[item].short_description = "No Comment Available.";
+                }
+              }
+              this.check_visibility();
+            }
+          );
+        }
+      }
+
+      //when selected different food item to show grade
+      selected_food_list_item(event){
+        this.viewRestaurantsService.getGradesForProductInRestaurant(this.restaurant_23.id,this.selected_23_food_item).subscribe(
+          res=>{
+            this.food_item_reviews = res;
+            for(let item in this.food_item_reviews){
+                if(this.food_item_reviews[item].short_description == null){
+                  this.food_item_reviews[item].short_description = "No Comment Available.";
+                }
+              }
+          }
+        )
+      }
+
+      //when selecting different waiter to show grades
+      selected_23_waiter_changed(event){
+        this.viewRestaurantsService.getGradesForEmployee(this.selected_23_waiter).subscribe(
+          res=>{
+            this.selected_waiter_23_reviews = res;
+            for(let item in this.selected_waiter_23_reviews){
+                if(this.selected_waiter_23_reviews[item].short_description == null){
+                  this.selected_waiter_23_reviews[item].short_description = "No Comment Available.";
+                }
+              }
+          }
+        )
+      }
+
+      //==============================================
+      //DATE CHARTS CONFIG
+      //==============================================
+      //selecting the starting week deletes the end week, sets the minimum end week
+      //and enables it for input
+      year_weeks_changed(){
+        console.log(this.start_year);
+        
+        let start_date = new Date();
+        let end_date = new Date();
+        start_date.setFullYear(this.start_year);
+        start_date.setDate(1);
+        start_date.setMonth(0);
+        start_date.setHours(0);
+        start_date.setMinutes(0);
+        start_date.setSeconds(1);
+        end_date.setTime(start_date.getTime());
+        start_date.setTime(start_date.getTime()-this.one_day_in_millis);
+        console.log("Start date : ");
+        console.log(start_date);
+        end_date.setFullYear(end_date.getFullYear() + 1);
+        console.log("End date : ");
+        console.log(end_date);
+      }
+
+      //when panel is ultimatelly closed
+      close_check_restaurant_statistics(){
+
+        this.checking_restaurant_statistics = false;
         this.check_visibility();
       }
 }

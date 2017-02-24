@@ -15,6 +15,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.example.domain.ratings.ReviewBean;
+
 @Entity
 @Table(name="Restaurant")
 public class RestaurantBean{
@@ -32,6 +34,9 @@ public class RestaurantBean{
 	@Column(nullable = true,name = "image")
 	private String image;
 
+	@OneToMany(mappedBy = "for_restaurant", cascade = CascadeType.ALL)
+	private Set<ReviewBean> reviews = new HashSet<>();
+	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(	name = "restaurant_food_menu",
 				catalog = "isa_database",
@@ -174,6 +179,15 @@ public class RestaurantBean{
 		this.type = type;
 	}
 	
+
+	public Set<ReviewBean> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(Set<ReviewBean> reviews) {
+		this.reviews = reviews;
+	}
+
 	@Override
 	public String toString(){
 		return "This is restaurant ["+this.getId()+"]\n"

@@ -3,13 +3,16 @@ package com.example.domain;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.example.domain.ratings.ReviewBean;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -31,6 +34,9 @@ public class ProductBean{
 	
 	@Column(nullable = false)
 	private String name;
+	
+	@OneToMany(mappedBy = "for_product", cascade = CascadeType.ALL)
+	private Set<ReviewBean> reviews = new HashSet<>();
 	
 	@ManyToMany(mappedBy = "foodMenu")
 	private Set<RestaurantBean> restaurantsFood = new HashSet<RestaurantBean>();
@@ -98,6 +104,14 @@ public class ProductBean{
 
 	public String getDescription() {
 		return description;
+	}
+
+	public Set<ReviewBean> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(Set<ReviewBean> reviews) {
+		this.reviews = reviews;
 	}
 
 	public void setDescription(String description) {

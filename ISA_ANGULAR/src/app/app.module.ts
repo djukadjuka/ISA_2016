@@ -52,6 +52,8 @@ import {ProgressBarModule} from 'primeng/primeng';
 import {MessagesModule} from 'primeng/primeng';
 import {OverlayPanelModule} from 'primeng/primeng';
 import {SliderModule} from 'primeng/primeng';
+import {ChartModule} from 'primeng/primeng';
+import {SpinnerModule} from 'primeng/primeng';
 
 //Service imports
 
@@ -111,6 +113,8 @@ import { ReservationService } from './reservations/reservation.service';
     MessagesModule,
     OverlayPanelModule,
     SliderModule,
+    ChartModule,
+    SpinnerModule,
     routing
   ],
   providers: [
