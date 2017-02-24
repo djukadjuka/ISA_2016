@@ -59,8 +59,8 @@ export class ViewRestaurantsService {
       .map(res=>res.json());
   }
 
-  getScheduleByDate(){
-    return this._http.get(this._baseURL + "/schedz/getScheduleByDate")
+  getScheduleByDate(date){
+    return this._http.get(this._baseURL + "/schedz/getScheduleByDate/" + date)
           .map(res=>res.json());
 
   }

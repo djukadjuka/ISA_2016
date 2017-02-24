@@ -56,14 +56,15 @@ public class ScheduleController {
 	}
 	
 	@CrossOrigin(origins = "http://localhost:4200")
-	@RequestMapping(value="schedz/getScheduleByDate",
+	@RequestMapping(value="schedz/getScheduleByDate/{date}",
 					method= RequestMethod.GET,
 					produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public  ResponseEntity<ArrayList<EmployeeScheduleBean>> getScheduleByDate(){
-		
+	public  ResponseEntity<ArrayList<EmployeeScheduleBean>> getScheduleByDate(@PathVariable("date") Long date){
+		//Long Date = Long.decode("date");
+		System.out.println("TEST"+date);
 		return new ResponseEntity<ArrayList<EmployeeScheduleBean>>(
-				(ArrayList<EmployeeScheduleBean>)schedule_service.getSchedduleForEmployee(), HttpStatus.OK);
+				(ArrayList<EmployeeScheduleBean>)schedule_service.getSchedduleForEmployee(date), HttpStatus.OK);
 	}
 	
 }
