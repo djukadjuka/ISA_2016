@@ -149,7 +149,7 @@ public class RestaurantStatisticsController {
 		Date end_date = new Date(day_end);
 		
 		while(start_date.getTime() < end_date.getTime()){
-			ArrayList<BillBean> bills =  (ArrayList<BillBean>) this.bill_service.getAllBillsRestaurantTimePeriod(rest_id, start_date.getTime(),start_date.getTime()+one_day_in_millis);
+			ArrayList<BillBean> bills =  (ArrayList<BillBean>) this.bill_service.getAllBillsRestaurantTimePeriod(rest_id, start_date.getTime(),start_date.getTime()+one_day_in_millis-1000);
 			payload.put(start_date.getTime(),bills.size());
 			start_date.setTime(start_date.getTime()+one_day_in_millis);
 		}

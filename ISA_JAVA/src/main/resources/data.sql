@@ -867,7 +867,7 @@ insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) val
 insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(25	,	300,	1486854000000,	6,	1);
 insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(26	,	300,	1486854000000,	6,	1);
 insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(27	,	300,	1486854000000,	6,	1);
-insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(28	,	300,	1486854000000,	6,	1);--02/13/2017
+insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(28	,	300,	1486854000000,	6,	1);
 insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(29	,	300,	1486854000000,	5,	1);
 insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(30	,	300,	1486854000000,	5,	1);
 insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(31	,	300,	1486854000000,	5,	1);

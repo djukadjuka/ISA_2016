@@ -23,7 +23,8 @@ export class EditWaiterComponent implements OnInit {
     private msgs: Message[] = [];
     private formEditUser: FormGroup;
     private formEditSchedule: FormGroup;
-
+     reservation = { Date : new Date};
+  formReservation : FormGroup;
    tables: TablesClass[];
 
   constructor(
@@ -46,12 +47,18 @@ export class EditWaiterComponent implements OnInit {
 
 
 
+
     this._editUserService.getUserById(this._sharedService.userId)
       .subscribe(
       res => this.userUpdate = res
       );
 
     console.log(JSON.stringify(this.userUpdate));
+
+     //reservation form builder
+       this.formReservation = this._fb.group({
+        Date: ['', Validators.required]
+        });
     
   }
 
@@ -69,7 +76,7 @@ export class EditWaiterComponent implements OnInit {
 
       
 
-    this.viewRestaurantsService.getScheduleByDate().subscribe(
+    this.viewRestaurantsService.getScheduleByDate(this.reservation.Date.getTime()).subscribe(
       res => {
 
          this.all_schedules_for_employee = [];
