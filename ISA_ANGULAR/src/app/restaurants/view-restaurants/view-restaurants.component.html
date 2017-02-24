@@ -1014,12 +1014,43 @@
 
         <!--RESTAURANT CASH-->
         <p-tabPanel header="Restaurant Revinue">
-
+            <div class="ui-g">
+                <div class="ui-g-12"><h4>Revinue per Day</h4></div>
+                <div class="ui-g-6">
+                    <b>From date : </b>
+                    <i><p-calendar [(ngModel)]="date_day_from_revinue" 
+                                                [readonlyInput]="true" 
+                                                (onSelect)="selected_day_from_revinue()"></p-calendar></i>
+                </div>
+                <div class="ui-g-6">
+                    <b>To date : </b>
+                    <p-calendar [(ngModel)]="date_day_to_revinue" [minDate]="min_day_to_revinue" 
+                                                [readonlyInput]="true" 
+                                                (onSelect)="selected_day_to_revinue()" [disabled]="date_day_from_revinue == null">
+                    </p-calendar>
+                </div>
+            </div>
+            <p-chart *ngIf="revinue_chart != null" type="bar" [data]="revinue_chart"></p-chart>
         </p-tabPanel>
 
         <!--REVINUE BY WAITER-->
         <p-tabPanel header="Waiter Revinues">
-
+            <div class="ui-g">
+                <div class="ui-g-4">
+                    <p-listbox [options]="restaurant_23_waiters" 
+                                [(ngModel)]="selected_23_waiter_revinue"
+                                (onChange)="selected_23_waiter_changed_revinue($event)"
+                                filter="filter"></p-listbox>
+                </div>
+                <div class="ui-g-8">
+                    <p-dataTable [value]="this_waiters_revinues" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
+                        <p-header>Waiter Revinues</p-header>
+                        <p-column field="bill_id" header="Bill ID"></p-column>
+                        <p-column field="on_date" header="Date of Transaction"></p-column>
+                        <p-column field="money" header="($)"></p-column>
+                    </p-dataTable>
+                </div>
+            </div>
         </p-tabPanel>
 </p-tabView>
 

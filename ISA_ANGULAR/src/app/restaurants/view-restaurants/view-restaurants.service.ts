@@ -189,4 +189,9 @@ export class ViewRestaurantsService {
     return this._http.get(this._baseURL + "/restaurant_statistics/getAttendanceFromDay/"+start_day+"/toDay/"+end_day+"/for_restaurant/"+rest_id)
       .map(res=>res.json());  
   }
+
+  getRevinueForRestarurant(start_day,end_day,rest_id){
+    return this._http.get(this._baseURL + "/restaurant_statistics/getBills/"+rest_id+"/from/"+start_day+"/to/"+end_day)
+      .map(res=>res.json());  
+  }
 }

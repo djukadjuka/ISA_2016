@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -92,10 +94,24 @@ public class RestaurantStatisticsController {
 			method = RequestMethod.GET,
 			produces=MediaType.APPLICATION_JSON_VALUE
 			)
-	public ResponseEntity<Collection<BillBean>> getRestTimePeriodBills(@PathVariable("rest_id") Long rest_id,
+	public ResponseEntity<Map<Long, Long>> getRestTimePeriodBills(@PathVariable("rest_id") Long rest_id,
 																	   @PathVariable("date_from") Long date_from,
 																	   @PathVariable("date_to") Long date_to){
-		return new ResponseEntity<Collection<BillBean>>(this.bill_service.getAllBillsRestaurantTimePeriod(rest_id, date_from, date_to),HttpStatus.OK);
+		
+		ArrayList<BillBean> bills = (ArrayList<BillBean>) this.bill_service.getAllBillsRestaurantTimePeriod(rest_id, date_from, date_to);
+		
+		HashMap<Long,Long> bills_per_date = new HashMap<Long,Long>();
+		
+		for(BillBean bill : bills){
+			if(bills_per_date.containsKey(bill.getDate_of_transaction())){
+				bills_per_date.put(bill.getDate_of_transaction(), bills_per_date.get(bill.getDate_of_transaction())+bill.getCash());
+			}else{
+				bills_per_date.put(bill.getDate_of_transaction(),bill.getCash());
+			}
+		}
+		Map<Long, Long> map = new TreeMap<Long, Long>(bills_per_date);
+		
+		return new ResponseEntity<Map<Long, Long>>(map,HttpStatus.OK);
 	}
 
 	@CrossOrigin(origins = "http://localhost:4200")

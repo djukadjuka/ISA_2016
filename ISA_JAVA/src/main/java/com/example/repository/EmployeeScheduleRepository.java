@@ -18,4 +18,11 @@ public interface EmployeeScheduleRepository extends JpaRepository<EmployeeSchedu
 	
 	@Query(value="SELECT * FROM employee_schedule es WHERE es.for_employee IN ( SELECT e.user_id FROM employee e WHERE e.role = 'WAITER') and es.date_date = :date",nativeQuery=true)
 	public Collection<EmployeeScheduleBean> getSchedduleForEmployee(@Param("date") Long date);
+	
+	@Query(value="SELECT * FROM employee_schedule es WHERE es.for_employee IN ( SELECT e.user_id FROM employee e WHERE e.role = 'COOK') and es.date_date = :date",nativeQuery=true)
+	public Collection<EmployeeScheduleBean> getSchedduleForCookEmployee(@Param("date") Long date);
+	
+	@Query(value="SELECT * FROM employee_schedule es WHERE es.for_employee IN ( SELECT e.user_id FROM employee e WHERE e.role = 'BARTENDER') and es.date_date = :date",nativeQuery=true)
+	public Collection<EmployeeScheduleBean> getSchedduleForBarmanEmployee(@Param("date") Long date);
 }
+
