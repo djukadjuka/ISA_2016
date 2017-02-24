@@ -41,19 +41,11 @@ public class ReservationCallBean {
     @JoinColumn(name = "recipient_id", nullable = false)
     private UserBean recipient;
 	
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "reservation", nullable = false)
+    private ReservationBean reservation;
+	
 	//food
-	 
-	 @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-		@JoinTable(	name = "Reservations_and_calls",
-					catalog = "isa_database",
-					joinColumns = 
-							@JoinColumn(name = "call_id", nullable = false, updatable = false)
-					,
-					inverseJoinColumns = 
-							@JoinColumn(name = "res_id", nullable = false, updatable = false)
-					
-				)
-	 private Set<ReservationBean> reservations = new HashSet<ReservationBean>();
 	 
 	 public ReservationCallBean() {
 	    }
@@ -63,7 +55,7 @@ public class ReservationCallBean {
 	        this.status = status;
 	        this.originator = originator;
 	        this.recipient = recipient;
-	        this.reservations.add(rb);
+	        this.reservation = rb;
 	    }
 
 	public long getId() {
@@ -98,13 +90,11 @@ public class ReservationCallBean {
 		this.recipient = recipient;
 	}
 
-	public Set<ReservationBean> getReservations() {
-		return reservations;
+	public ReservationBean getReservation() {
+		return reservation;
 	}
 
-	public void setReservations(Set<ReservationBean> reservations) {
-		this.reservations = reservations;
+	public void setReservation(ReservationBean reservation) {
+		this.reservation = reservation;
 	}
-	 
-	 
 }

@@ -94,6 +94,4 @@ public class RestaurantZoneBean {
 	public void setRestaurant(RestaurantBean restaurant) {
 		this.restaurant = restaurant;
 	}
-	
-	
 }

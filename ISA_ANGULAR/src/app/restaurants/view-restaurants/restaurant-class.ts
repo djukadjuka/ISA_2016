@@ -7,4 +7,5 @@ export class RestaurantClass{
     id;
     name;
     type;
+    workers;
 }

@@ -56,7 +56,7 @@
             <div class="form-group" style="float: left">
                 <div class="col-md-12">
                 <label class="control-label">Start date and time:</label>
-                <p><p-calendar  [(ngModel)]="reservation.startDate" formControlName="startDate" inputStyleClass="form-control" [monthNavigator]="true" [yearNavigator]="true" yearRange="2017:2018" [inline]="true" [showTime]="true" ></p-calendar></p>
+                <p><p-calendar  [(ngModel)]="reservation.startDate" formControlName="startDate" inputStyleClass="form-control" [monthNavigator]="true" [yearNavigator]="true" [minDate]="tminDate" yearRange="2017:2018" [inline]="true" [showTime]="true" ></p-calendar></p>
                 </div>
             </div>
             <div class="form-group" >
@@ -127,7 +127,7 @@
         <div class="form-group">
             <div class="ui-g">
                 <div class="ui-g-3">
-                    <button pButton style="float: left" routerLink="/reservations" class="ui-button-warning" type="text"  icon="fa-arrow-left" label="Invite friends"></button>
+                    <button pButton style="float: left" routerLink="/reservations" class="ui-button-info" type="text"  icon="fa-envelope-o" label="Invite friends"></button>
                 </div>
                 <div class="ui-g-3"></div>
                 <div class="ui-g-3"></div>
@@ -244,7 +244,12 @@
                         <button style="width:100%" pButton type="button" label="Check Deliveries"
                                 icon="fa-cart-arrow-down" (click)="check_delivery_notifications_clicked(restaurant)" [disabled]=false> 
                                 </button><br/>
-
+                        
+                        <!--CHECK RESTAURANT STATISTICS-->
+                        <button style="width:100%" pButton type="button" label="Check Restaurant Statistics"
+                                icon="fa-info" (click)="check_restaurant_statistics_clicked(restaurant)" [disabled]=false> 
+                                </button><br/>
+                        
                     </p-accordionTab>
                 </p-accordion>
                 
@@ -905,3 +910,109 @@
 
 </p-panel>
 
+<!--=====================================================================-->
+<!--================= CHECK RESTAURANT SPECIFICATIONS PANEL-->
+<!--=====================================================================-->
+<p-panel *ngIf="checking_restaurant_statistics" >
+    <p-header>
+        <div class="ui-g">
+            <div class="ui-g-6">
+                <h3 style="float: left;"> Restaurant Statistics </h3>
+            </div>
+            <div class="ui-g-6">
+                <button pButton icon="fa-close" label="Close" style="float: right;height : 100%" (click)="close_check_restaurant_statistics()"></button>
+            </div>
+        </div>
+    </p-header>
+
+    <!--ALL STATISTIC TABS-->
+    <p-tabView (onChange)="statistic_tab_change($event)">
+        
+        <!--RESTAURANT REVIEWS-->
+        <p-tabPanel header="Restaurant Reveiews">
+            <h3><b>AVERAGE GRADE : </b><i>{{restaurant_avg_grade.toFixed(1)}}</i></h3>
+            
+            <p-dataTable [value]="all_restaurant_reviews" [rows]="10" 
+                         [paginator]="true" [pageLinks]="3" 
+                         [rowsPerPageOptions]="[5,10,20]">
+                <p-header><h5>Restaurant Reviews</h5></p-header>
+                <p-column field="id" header="ID"></p-column>
+                <p-column field="grade" header="Grade / x"></p-column>
+                <p-column field="short_description" header="Comment"></p-column>
+            </p-dataTable>
+        </p-tabPanel>
+
+        <!--FOOD REVIEWS-->
+        <p-tabPanel header="Food Reviews">
+            <div class="ui-g">
+                <!--List of food items-->
+                <div class="ui-g-4">
+                    <p-listbox [options]="restaurant_food_list_items" 
+                                [(ngModel)]="selected_23_food_item"
+                                (onChange)="selected_food_list_item($event)"
+                                filter="filter"></p-listbox>
+                </div>
+                <div class="ui-g-8">
+                    <p-dataTable [value]="food_item_reviews" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
+                        <p-header>Reviews For Selected Food Item</p-header>
+                        <p-column field="id" header="ID"></p-column>
+                        <p-column field="grade" header="Grade / x"></p-column>
+                        <p-column field="short_description" header="Comment"></p-column>
+                    </p-dataTable>
+                </div>
+            </div>
+        </p-tabPanel>
+
+        <!--WAITER REVIEWS-->
+        <p-tabPanel header="Waiter Reviews">
+            <div class="ui-g">
+                <!--List of waiters-->
+                <div class="ui-g-4">
+                    <p-listbox [options]="restaurant_23_waiters" 
+                                [(ngModel)]="selected_23_waiter"
+                                (onChange)="selected_23_waiter_changed($event)"
+                                filter="filter"></p-listbox>
+                </div>
+                <div class="ui-g-8">
+                    <p-dataTable [value]="selected_waiter_23_reviews" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
+                        <p-header>Reviews For Selected Employee</p-header>
+                        <p-column field="id" header="ID"></p-column>
+                        <p-column field="grade" header="Grade / x"></p-column>
+                        <p-column field="short_description" header="Comment"></p-column>
+                    </p-dataTable>
+                </div>
+            </div>
+        </p-tabPanel>
+
+        <!--ATTENDANCE-->
+        <p-tabPanel header="Restaurant Attendance">
+            
+            <!--PER WEEK IN YEAR-->
+            <b>Select year for weekly stats : </b><i><p-spinner size="30" [(ngModel)]="start_year" (onChange)="year_weeks_changed()"></p-spinner></i><br/>
+            <p-chart *ngIf="attendance_weeks != null" type="bar" [data]="attendance_weeks"></p-chart><br/>
+            
+            <!--PER DAY FROM TO-->
+            <div class="ui-g">
+                <div class="ui-g-6"><p-calendar [(ngModel)]="date_day_from" 
+                                                [readonlyInput]="true" 
+                                                (onSelect)="selected_day_from()"></p-calendar></div>
+                <div class="ui-g-6"><p-calendar [(ngModel)]="date_day_to" [minDate]="min_day_to" 
+                                                [maxDate]="max_day_to" [readonlyInput]="true" 
+                                                (onSelect)="selected_day_to()" disabled="date_day_from == ''"></p-calendar></div>
+            </div>
+            <p-chart *ngIf="attendance_days != null" type="bar" [data]="attendance_days"></p-chart>
+        
+        </p-tabPanel>
+
+        <!--RESTAURANT CASH-->
+        <p-tabPanel header="Restaurant Revinue">
+
+        </p-tabPanel>
+
+        <!--REVINUE BY WAITER-->
+        <p-tabPanel header="Waiter Revinues">
+
+        </p-tabPanel>
+</p-tabView>
+
+</p-panel>

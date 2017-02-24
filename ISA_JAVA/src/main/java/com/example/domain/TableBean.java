@@ -89,4 +89,12 @@ public class TableBean {
 	public void setStatus(TableStatus status) {
 		this.status = status;
 	}
+
+	public RestaurantZoneBean getRestaurant_zone_id() {
+		return restaurant_zone_id;
+	}
+
+	public void setRestaurant_zone_id(RestaurantZoneBean restaurant_zone_id) {
+		this.restaurant_zone_id = restaurant_zone_id;
+	}
 }
