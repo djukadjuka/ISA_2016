@@ -48,6 +48,18 @@ public class EmployeeScheduleServiceBean implements EmployeeScheduleService{
 	public  Collection<EmployeeScheduleBean> getSchedduleForEmployee(Long date){
 		return repository.getSchedduleForEmployee( date);
 	}
+	
+	@Override
+	public  Collection<EmployeeScheduleBean> getSchedduleForCookEmployee(Long date){
+		return repository.getSchedduleForEmployee( date);
+	}
+	
+	@Override
+	public  Collection<EmployeeScheduleBean> getSchedduleForBarmanEmployee(Long date){
+		return repository.getSchedduleForEmployee( date);
+	}
+
+
 
 	
 

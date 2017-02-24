@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.example.domain.ratings.ReviewBean;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="Restaurant")
@@ -85,14 +86,9 @@ public class RestaurantBean{
 		this.workers = workers;
 	}
 
-	public Set<Long> getManagers() {
-		HashSet<Long> set = new HashSet<>();
-		for(EmployeeBean em : managers){
-			set.add(em.getId());
-			System.out.println(em.getId());
-		}
-		
-		return set;
+	@JsonIgnore
+	public Set<EmployeeBean> getManagers() {	
+		return this.managers;
 	}
 
 	public void setManagers(Set<EmployeeBean> managers) {

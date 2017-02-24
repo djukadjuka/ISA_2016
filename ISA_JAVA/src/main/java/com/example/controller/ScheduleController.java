@@ -67,4 +67,28 @@ public class ScheduleController {
 				(ArrayList<EmployeeScheduleBean>)schedule_service.getSchedduleForEmployee(date), HttpStatus.OK);
 	}
 	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(value="schedz/getCookScheduleByDate/{date}",
+					method= RequestMethod.GET,
+					produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public  ResponseEntity<ArrayList<EmployeeScheduleBean>> getCookScheduleByDate(@PathVariable("date") Long date){
+		//Long Date = Long.decode("date");
+		System.out.println("TEST"+date);
+		return new ResponseEntity<ArrayList<EmployeeScheduleBean>>(
+				(ArrayList<EmployeeScheduleBean>)schedule_service.getSchedduleForCookEmployee(date), HttpStatus.OK);
+	}
+	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(value="schedz/getBarmanScheduleByDate/{date}",
+					method= RequestMethod.GET,
+					produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public  ResponseEntity<ArrayList<EmployeeScheduleBean>> getBarmanScheduleByDate(@PathVariable("date") Long date){
+		//Long Date = Long.decode("date");
+		System.out.println("TEST"+date);
+		return new ResponseEntity<ArrayList<EmployeeScheduleBean>>(
+				(ArrayList<EmployeeScheduleBean>)schedule_service.getSchedduleForBarmanEmployee(date), HttpStatus.OK);
+	}
+	
 }

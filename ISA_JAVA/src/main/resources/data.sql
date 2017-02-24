@@ -101,6 +101,28 @@ insert into user(id, email, first_name, last_name, password, profile_picture, us
 values (33, 'mae.henderson84@example.com', 'Mae', 'Henderson', 'test', 'NA', 'jack1');
 
 --=============================================
+--FRIENDSHIPS
+
+--insert into Friendship(id, status, originator_id , recipient_id) 
+--values (, '', '','');
+--=============================================
+
+insert into Friendship(id, status, originator_id , recipient_id) 
+values (1, 'ACCEPTED', 1, 2);
+
+insert into Friendship(id, status, originator_id , recipient_id) 
+values (2, 'ACCEPTED', 1, 3);
+
+insert into Friendship(id, status, originator_id , recipient_id) 
+values (3, 'ACCEPTED', 1, 4);
+
+insert into Friendship(id, status, originator_id , recipient_id) 
+values (4, 'ACCEPTED', 1, 5);
+
+insert into Friendship(id, status, originator_id , recipient_id) 
+values (5, 'ACCEPTED', 1, 6);
+
+--=============================================
 --RESTAURANTS
 
 --insert into restaurant(id, name, type,image) 
