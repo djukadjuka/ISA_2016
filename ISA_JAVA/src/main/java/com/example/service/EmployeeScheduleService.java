@@ -21,4 +21,8 @@ public interface EmployeeScheduleService {
 	public Collection<EmployeeScheduleBean> getScheddzzzForEmployee(Long employee_id);
 	
 	public Collection<EmployeeScheduleBean> getSchedduleForEmployee(Long date);
+	
+	public Collection<EmployeeScheduleBean> getSchedduleForCookEmployee(Long date);
+	
+	public Collection<EmployeeScheduleBean> getSchedduleForBarmanEmployee(Long date);
 }
