@@ -12,7 +12,7 @@ public interface TableService {
 	
 	TableBean findOne(Long id);
 	
-	int updateTableStatus(TableBean t);
+	int updateTableStatus(Long id, String status);
 	
 	Collection<TableBean> findAllTablesByZoneId(Long zone_id);
 	

@@ -1,0 +1,24 @@
+
+<p-dataTable [value]="originatorReservations" [rows]="5" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
+      <p-column *ngFor="let col of originatorReservationsCols" [field]="col.field" [filter]="true" filterPlaceholder="Search" [header]="col.header"></p-column>
+      <!--<p-column styleClass="col-button">
+          <template pTemplate="header">
+              <header>Add a friend</header>
+          </template>
+          <template let-user="rowData" pTemplate="body">
+              <button type="button" label="Send request" class="ui-button-success" (click)="sendFriendRequest(user)" pButton style="float:center; width: 100%;" icon="fa-user-plus" iconPos="left"></button>
+          </template>
+      </p-column>-->
+</p-dataTable>
+
+<p-dataTable [value]="friends" [rows]="5" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
+      <p-column *ngFor="let col of friendsCols" [field]="col.field" [filter]="true" filterPlaceholder="Search" [header]="col.header"></p-column>
+      <p-column styleClass="col-button">
+          <template pTemplate="header">
+              <header>Invite friends on reservation</header>
+          </template>
+          <template let-user="rowData" pTemplate="body">
+              <button type="button" label="Invite" class="ui-button-success" (click)="sendFriendRequest(user)" pButton style="float:center; width: 100%;" icon="fa-user-plus" iconPos="left"></button>
+          </template>
+      </p-column>
+</p-dataTable>

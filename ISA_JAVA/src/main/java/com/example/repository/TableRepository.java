@@ -23,7 +23,7 @@ public interface TableRepository extends JpaRepository<TableBean, Long> {
 	@Modifying
 	@Transactional
     @Query(value = "UPDATE Restaurant_table t SET t.status = :status WHERE t.table_id = :id", nativeQuery = true)
-    int updateTableStatus(@Param("id") Long id, @Param("status") TableStatus status);
+    int updateTableStatus(@Param("id") Long id, @Param("status") String status);
 
 	
 	/**
