@@ -181,33 +181,6 @@ public class RestaurantController {
 		return new ResponseEntity<ArrayList<RestaurantBean>>(allRestaurants,HttpStatus.OK);
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200")
-	@RequestMapping(
-			value = "/updateRestaurant",
-			method = RequestMethod.PUT,
-			consumes = MediaType.APPLICATION_JSON_VALUE,
-			produces = MediaType.APPLICATION_JSON_VALUE
-			)
-	@ResponseBody
-	public ResponseEntity<RestaurantBean> updateRestaurant(@RequestBody RestaurantBean restaurant){
-		
-		RestaurantBean r = restaurantService.findOne((long) restaurant.getId());
-		
-		if(r == null){
-			return new ResponseEntity<RestaurantBean>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		
-		r.setName(restaurant.getName());
-		r.setType(restaurant.getType());
-		r.setDrinksMenu(restaurant.getDrinksMenu());
-		r.setFoodMenu(restaurant.getFoodMenu());
-		r.setFoodTypes(restaurant.getFoodTypes());
-		restaurantService.update(r);
-		
-		return new ResponseEntity<RestaurantBean>(r,HttpStatus.OK);
-		
-	}
-	
 	private long restId;
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(value="/prepForUpload/{id}",method=RequestMethod.GET)

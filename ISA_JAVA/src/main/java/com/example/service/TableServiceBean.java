@@ -21,6 +21,10 @@ public class TableServiceBean implements TableService{
 		return repository.findAll();
 	}
 
+	public TableBean create(TableBean table){
+		return this.repository.save(table);
+	}
+	
 	@Override
 	public Collection<TableBean> findAllTablesByZoneId(Long zone_id) {
 		// TODO Auto-generated method stub

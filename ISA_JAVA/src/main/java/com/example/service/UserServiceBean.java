@@ -68,4 +68,19 @@ public class UserServiceBean implements UserService{
 		return userRepo.getPossibleDeliverers();
 	}
 
+	@Override
+	public Collection<UserBean> getTiesToRestaurantByThisManager(Long manager_id) {
+		return this.userRepo.getTiesToRestaurantByThisManager(manager_id);
+	}
+
+	@Override
+	public void destroyManagerRestaurantTies(Long manager_id, Long rest_id) {
+		this.userRepo.destroyManagerRestaurantTies(manager_id, rest_id);
+	}
+
+	@Override
+	public void fireManagerAllTogether(Long user_id) {
+		this.userRepo.fireManagerAllTogether(user_id);
+	}
+
 }

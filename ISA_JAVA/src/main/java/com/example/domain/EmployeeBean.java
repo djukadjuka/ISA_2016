@@ -45,7 +45,7 @@ public class EmployeeBean{
 	@Enumerated(EnumType.STRING)
 	private EmployeeEnum role;
 	
-	@Column(nullable = false)
+	@Column(nullable = true)
 	@Temporal(TemporalType.DATE)
 	private Date dateOfBirth;
 	

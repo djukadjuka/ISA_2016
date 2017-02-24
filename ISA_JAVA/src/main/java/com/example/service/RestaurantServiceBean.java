@@ -117,4 +117,14 @@ public class RestaurantServiceBean implements RestaurantService{
 		this.repository.delete_food_item(rest_id, food_id);
 	}
 
+	@Override
+	public void delete_zone_from_restaurant(Long rest_id, Long zone_id) {
+		this.repository.delete_zone_from_restaurant(rest_id, zone_id);
+	}
+
+	@Override
+	public void delete_tables_from_zone(Long zone_id) {
+		this.repository.delete_tables_from_zone(zone_id);
+	}
+
 }

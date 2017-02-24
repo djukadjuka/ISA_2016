@@ -16,6 +16,8 @@ public interface TableService {
 	
 	Collection<TableBean> findAllTablesByZoneId(Long zone_id);
 	
+	public TableBean create(TableBean table);
+	
 	//DJ_CUSTOM
 	public Collection<TableBean> findAllTablesFromRestaurant(Long rest_id);
 }

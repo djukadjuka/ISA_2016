@@ -25,5 +25,8 @@ public interface UserService {
 	public Collection<UserBean> getUsersThatWorkForARestaurant(Long rest_id);
 	public Collection<UserBean> getusersThatDoNotWorkForARestaurant();
 	public Collection<UserBean> getPossibleDeliverers();
+	public Collection<UserBean> getTiesToRestaurantByThisManager(Long manager_id);
+	public void destroyManagerRestaurantTies(Long manager_id,Long rest_id);
+	public void fireManagerAllTogether(Long user_id);
 	
 }

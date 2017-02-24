@@ -342,7 +342,7 @@ export class ViewRestaurantsComponent implements OnInit{
      this.zoneCrudModel.name = this.selectedZoneName;
      this.zoneCrudModel.number_of_tables = this.numberOfTables;
      this.zoneCrudModel.tables_for_x = this.tablesForX;
-     this.viewRestaurantsService.updateZone(this.zoneCrudModel).subscribe(
+     this.viewRestaurantsService.updateZoneFIX(this.zoneCrudModel).subscribe(
        res=>{
           this.editingZone = false;
           this.zoneCrud = false;
@@ -766,13 +766,34 @@ export class ViewRestaurantsComponent implements OnInit{
 
         this.viewRestaurantsService.getFreeManagers_AndUserManagers(this._sharedService.userId,this.restaurant_23.id)
         .subscribe(res=>{
-            console.log(res);
             this.possible_managers = res.free_users;
             this.assigned_managers = res.managers;
             this.creating_new_manager_open = true;
             this.check_visibility();
         });
 
+     }
+
+     moved_new_manager_to_target(event){
+       let payload = this.create_manager_payload(event.items);
+       this.viewRestaurantsService.createNewManagers(payload,this.restaurant_23.id).subscribe(
+        res=>{}
+      );
+     }
+
+     create_manager_payload(items){
+      let payload = [];
+      for(let idx in items){
+        payload.push({id:items[idx].id,value:items[idx]});
+      }
+      return payload;
+     }
+
+     moved_existing_manager_to_source(event){
+      let payload = this.create_manager_payload(event.items);
+      this.viewRestaurantsService.fireSomeManagers(payload,this.restaurant_23.id).subscribe(
+        res=>{}
+      )
      }
 
      close_new_manager_panel(){

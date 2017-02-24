@@ -15,14 +15,25 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.domain.RestaurantZoneBean;
+import com.example.domain.TableBean;
+import com.example.service.RestaurantService;
+import com.example.service.RestaurantServiceBean;
+import com.example.service.TableService;
+import com.example.service.TableServiceBean;
 import com.example.service.ZoneService;
 import com.example.service.ZoneServiceBean;
 
 @RestController
 public class ZoneController {
+	
+	@Autowired
+	private TableService table_service = new TableServiceBean();
 
 	@Autowired
 	private ZoneService zoneService = new ZoneServiceBean();
+	
+	@Autowired
+	private RestaurantService restaurant_service = new RestaurantServiceBean();
 	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(
@@ -46,6 +57,33 @@ public class ZoneController {
 		ArrayList<RestaurantZoneBean> zones = (ArrayList<RestaurantZoneBean>) zoneService.findAll();
 		
 		return new ResponseEntity<ArrayList<RestaurantZoneBean>>(zones, HttpStatus.OK);
+	}
+	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value="/editZoneFIX",
+			method=RequestMethod.POST,
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE
+			)
+	@ResponseBody
+	public ResponseEntity<RestaurantZoneBean> editZoneFIX(@RequestBody RestaurantZoneBean zone){
+		
+		this.restaurant_service.delete_tables_from_zone(zone.getId());
+		this.restaurant_service.delete_zone_from_restaurant(zone.getRestaurant().getId(), zone.getId());
+		
+		RestaurantZoneBean rzb = this.zoneService.create(zone);
+		for(int i=0;	i<rzb.getNumber_of_tables();	i++){
+			TableBean table = new TableBean();
+			table.setMaxPeople(rzb.getTables_for_x());
+			table.setStatus(TableBean.TableStatus.FREE);
+			table.setServed_by(null);
+			table.setRestaurant_zone_id(rzb);
+			
+			this.table_service.create(table);
+		}
+		
+		return new ResponseEntity<RestaurantZoneBean>(rzb,HttpStatus.OK);
 	}
 	
 	@CrossOrigin(origins = "http://localhost:4200")

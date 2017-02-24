@@ -3,8 +3,10 @@ package com.example.repository;
 import java.util.Collection;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.domain.UserBean;
 
@@ -28,6 +30,9 @@ public interface UserRepository extends JpaRepository<UserBean, Long>{
 			+ " AND r.id = mr.rest_id "
 			+ " AND r.id = :rest_id "
 			+ " )"
+			+ ")AND u.id NOT IN ("
+			+ " select d.user_id from deliverer d"
+			+ " where d.request_status = 'ACCEPTED'"
 			+ ")",nativeQuery=true)
 	public Collection<UserBean> getUsersNotManagingOrNotManagersForRestaurant(@Param("rest_id") Long rest_id);
 
@@ -66,4 +71,19 @@ public interface UserRepository extends JpaRepository<UserBean, Long>{
 	
 	@Query(value = "SELECT * FROM user u WHERE u.id IN (select deliverer.user_id from deliverer where deliverer.request_status = 'PENDING')",nativeQuery=true)
 	public Collection<UserBean> getPossibleDeliverers();
+	
+	/**Check if user is tied to any restaurant*/
+	@Query(value = "select u.* from user u, manages_restaurants mr where u.id = :manager_id and u.id = mr.manager_id",nativeQuery=true)
+	public Collection<UserBean> getTiesToRestaurantByThisManager(@Param("manager_id") Long manager_id);
+	
+	/**Remove manager from managing this restaurant!*/
+	@Transactional
+	@Modifying
+	@Query(value="delete from manages_restaurants where manager_id = :manager_id and rest_id = :rest_id",nativeQuery=true)
+	public void destroyManagerRestaurantTies(@Param("manager_id") Long manager_id, @Param("rest_id") Long rest_id);
+	
+	@Transactional
+	@Modifying
+	@Query(value="delete from employee where user_id = :user_id",nativeQuery=true)
+	public void fireManagerAllTogether(@Param("user_id") Long user_id);
 }

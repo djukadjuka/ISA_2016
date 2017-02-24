@@ -326,14 +326,15 @@
             </div>
             <div class="ui-g-4">
                 <!--INPUT-->
-                <input type="text" pInputText [(ngModel)]="tablesForX" (keyup)="enteredTablesForX()"/>
+                <!--<input type="text" pInputText [(ngModel)]="tablesForX" (keyup)="enteredTablesForX()"/>-->
+                <p-spinner size="30" [(ngModel)]="tablesForX" [min]="2" [max]="6" [step]="2"></p-spinner>
             </div>
             <div class="ui-g-4">
-                <!--ERROR-->
+                <!--ERROR--><!--
                 <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!tablesForXValid">
                     <i class="fa fa-close"></i>
                     <span>Invalid input!</span>
-                </div>
+                </div>-->
             </div>
 
             <!--ZONE NUMBER OF TABLES-->
@@ -499,7 +500,9 @@
                         [showSourceControls]="false" [showTargetControls]="false" 
                         [sourceStyle]="{'height':'300px'}" [targetStyle]="{'height':'300px'}" 
                         [responsive]="true"
-                        sourceHeader="Possible Managers" targetHeader="Assigned Managers">
+                        sourceHeader="Possible Managers" targetHeader="Assigned Managers"
+                        (onMoveToTarget)="moved_new_manager_to_target($event)"
+                        (onMoveToSource)="moved_existing_manager_to_source($event)">
         <template let-user pTemplate="item">
             <div class="media">
                 <!--USERS IMAGE-->

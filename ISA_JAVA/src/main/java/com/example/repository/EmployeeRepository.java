@@ -3,9 +3,11 @@ package com.example.repository;
 import java.util.Collection;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.domain.EmployeeBean;
 
@@ -42,4 +44,27 @@ public interface EmployeeRepository extends JpaRepository<EmployeeBean, Long> {
 	@Query(value ="SELECT * FROM employee e WHERE"
 				+ " e.role != 'MANAGER' AND e.works_in_restaurant IS NULL",nativeQuery=true)
 	public Collection<EmployeeBean> getWorkersThatDoNotWorkForARestaurant();
+	
+	/**delete deliverer that is now manager*/
+	@Transactional
+	@Modifying
+	@Query(value = "delete from deliverer where user_id = :user_id",nativeQuery = true)
+	public void delete_deliverer_that_became_manager(@Param("user_id") Long user_id);
+	
+	/**check if employee is already manager*/
+	@Query(value = "select * from employee where user_id = :user_id",nativeQuery = true)
+	public EmployeeBean check_if_user_already_manager(@Param("user_id") Long user_id);
+	
+	/**add a new manager*/
+	@Transactional
+	@Modifying
+	@Query(value="insert into employee (date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)"
+			+ " values(null,'MANAGER',null,null,:user_id,null)",nativeQuery=true)
+	public void insert_new_manager(@Param("user_id") Long user_id);
+	
+	/**create new manager relation*/
+	@Transactional
+	@Modifying
+	@Query(value = "insert into manages_restaurants(manager_id,rest_id) values(:manager_id,:rest_id)",nativeQuery=true)
+	public void create_new_manager_relation(@Param("manager_id") Long manager_id, @Param("rest_id") Long rest_id);
 }

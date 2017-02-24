@@ -40,4 +40,7 @@ public interface RestaurantService {
 	public void inset_food_item(Long rest_id, Long food_id);
 	public void delete_drink_item(Long rest_id, Long drink_id);
 	public void delete_food_item(Long rest_id, Long food_id);
+	
+	public void delete_zone_from_restaurant(Long rest_id, Long zone_id);
+	public void delete_tables_from_zone(Long zone_id);
 }
