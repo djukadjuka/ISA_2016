@@ -14,6 +14,7 @@ import {ConfirmationService} from 'primeng/primeng';
 import {Http,Headers,RequestOptions,RequestMethod,Request,Response} from '@angular/http';
 import {BarChartDays} from './BarChartDays';
 import {BarChartWeeks} from './BarChartWeeks';
+import {BarChartDaysMoney} from './BarChartDaysMoney';
 import {UIChart} from 'primeng/primeng'
 
 
@@ -1343,7 +1344,6 @@ export class ViewRestaurantsComponent implements OnInit{
       //and enables it for input
       year_weeks_changed(){
         this.call_rest_for_week_attendance();
-
       }
 
       call_rest_for_week_attendance(){
@@ -1401,6 +1401,69 @@ export class ViewRestaurantsComponent implements OnInit{
           }
           this.attendance_days = new BarChartDays(labs2,dta).data;
         });
+      }
+
+      //restaurant revinue;
+      date_day_from_revinue : Date;
+      date_day_to_revinue : Date;
+      min_day_to_revinue : Date;
+      revinue_chart;
+
+      selected_day_from_revinue(){
+        this.date_day_from_revinue.setHours(0);
+        this.date_day_from_revinue.setMinutes(0);
+        this.date_day_from_revinue.setSeconds(0);
+
+        this.date_day_to_revinue = null;
+        this.min_day_to_revinue = new Date(this.date_day_from_revinue.getTime() + this.one_day_in_millis);
+      }
+
+      selected_day_to_revinue(){
+        this.date_day_to_revinue.setMinutes(59);
+        this.date_day_to_revinue.setHours(23);
+        this.date_day_to_revinue.setSeconds(59);
+
+        this.revinue_chart = null;
+        this.viewRestaurantsService.getRevinueForRestarurant(this.date_day_from_revinue.getTime(),this.date_day_to_revinue.getTime(),this.restaurant_23.id)
+        .subscribe(res=>{
+          console.log(res);
+          let labs = [];
+          let dta = [];
+          
+          for(let day in res){
+            let dd = parseInt(day);
+            let d = new Date(dd).getDate();
+            let m = new Date(dd).getMonth() + 1;
+            let y = new Date(dd).getFullYear();
+            let str = d+"/"+m+"/"+y;
+            labs.push(str);
+            dta.push(res[day]);
+          }
+          
+          this.revinue_chart = new BarChartDaysMoney(labs,dta).data;
+        });
+      }
+
+      selected_23_waiter_revinue;
+      this_waiters_revinues;
+      selected_23_waiter_changed_revinue(event){
+        this.this_waiters_revinues = [];
+        this.viewRestaurantsService.getBillsForEmployee(this.selected_23_waiter_revinue).subscribe(
+          res=>{
+            for(let item in res){
+              let obj = res[item];
+              let date = new Date(parseInt(obj.date_of_transaction));
+              let d = date.getDate();
+              let m = date.getMonth()+1;
+              let y = date.getFullYear();
+              this.this_waiters_revinues.push({
+                bill_id:obj.id,
+                on_date:d+"/"+m+"/"+y,
+                money:obj.cash
+              })
+            }
+          }
+        )
       }
 
       //when panel is ultimatelly closed
