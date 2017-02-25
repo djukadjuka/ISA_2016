@@ -88,28 +88,6 @@ public class ZoneController {
 	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(
-			value="/editZone",
-			method=RequestMethod.PUT,
-			consumes = MediaType.APPLICATION_JSON_VALUE,
-			produces = MediaType.APPLICATION_JSON_VALUE
-			)
-	@ResponseBody
-	public ResponseEntity<RestaurantZoneBean> editZone(@RequestBody RestaurantZoneBean zone){
-		RestaurantZoneBean old_zone = zoneService.findOne(zone.getId());
-		
-		old_zone.setDeleted(zone.getDeleted());
-		old_zone.setName(zone.getName());
-		old_zone.setNumber_of_tables(zone.getNumber_of_tables());
-		old_zone.setRestaurant(zone.getRestaurant());
-		old_zone.setTables_for_x(zone.getTables_for_x());
-		
-		zoneService.update(old_zone);
-		
-		return new ResponseEntity<RestaurantZoneBean>(old_zone,HttpStatus.OK);
-	}
-	
-	@CrossOrigin(origins = "http://localhost:4200")
-	@RequestMapping(
 			value="/addZone",
 			method=RequestMethod.PUT,
 			consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -118,6 +96,16 @@ public class ZoneController {
 	@ResponseBody
 	public ResponseEntity<ArrayList<RestaurantZoneBean>> addZone(@RequestBody RestaurantZoneBean zone){
 		zoneService.create(zone);
+		
+		for(int i=0;	i<zone.getNumber_of_tables();	i++){
+			TableBean table = new TableBean();
+			table.setMaxPeople(zone.getTables_for_x());
+			table.setStatus(TableBean.TableStatus.FREE);
+			table.setServed_by(null);
+			table.setRestaurant_zone_id(zone);
+			
+			this.table_service.create(table);
+		}
 		
 		ArrayList<RestaurantZoneBean> zones = (ArrayList<RestaurantZoneBean>) zoneService.findByRestaurant_id(zone.getRestaurant().getId());
 		return new ResponseEntity<ArrayList<RestaurantZoneBean>>(zones,HttpStatus.OK);

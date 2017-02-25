@@ -64,6 +64,19 @@ export class ViewRestaurantsService {
           .map(res=>res.json());
 
   }
+/*
+  getCookScheduleByDate(date){
+    return this._http.get(this._baseURL + "/schedz/getCookScheduleByDate/" + date)
+          .map(res=>res.json());
+
+  }
+
+ getBarmanScheduleByDate(date){
+    return this._http.get(this._baseURL + "/schedz/getBarmanScheduleByDate/" + date)
+          .map(res=>res.json());
+
+  }
+*/
 
   getFreeManagers_AndUserManagers(manager_id,restaurant_id){
     return this._http.get(this._baseURL + "/userRepo/getManagers/" + manager_id + "/forRestaurant/"+restaurant_id)
@@ -118,14 +131,14 @@ export class ViewRestaurantsService {
   getZonesForRestaurant(restaurant){
       return this._http.get(this._baseURL+"/getZoneByRestaurantId/"+restaurant.id).map(res => <RestaurantZone[]>res.json());
   }
-
+/*
   updateZone(zone){
     var headers = new Headers({'Content-Type':'application/json'});
     var options = new RequestOptions({headers:headers});
     return this._http.put(this._baseURL+"/editZone",JSON.stringify(zone),options).map(
       res=>res.json()
     );
-  }
+  }*/
   updateZoneFIX(zone){
     var headers = new Headers({'Content-Type':'application/json'});
     var options = new RequestOptions({headers:headers});
@@ -236,6 +249,37 @@ export class ViewRestaurantsService {
     var headers = new Headers({'Content-Type':'application/json'});
     var options = new RequestOptions({headers:headers});
     return this._http.post(this._baseURL+"/EmployeeController/fireEmployee/"+emp_id,null,options).map(
+      res=>"finished..."
+    );
+  }
+/////////////////////////////////////////////////////////////SCHEDULES SERVICES
+  create_new_schedule(schedz){
+    var headers = new Headers({'Content-Type':'application/json'});
+    var options = new RequestOptions({headers:headers});
+    return this._http.post(this._baseURL+"/schedz/createNewSchedule",JSON.stringify(schedz),options).map(
+      res=>"finished..."
+    );
+  }
+  delete_schedule(sc_id){
+    var headers = new Headers({'Content-Type':'application/json'});
+    var options = new RequestOptions({headers:headers});
+    return this._http.post(this._baseURL+"/schedz/deleteSchedule/"+sc_id,null,options).map(
+      res=>"finished..."
+    );
+  }
+  //////////////////////////////////////////////////////////////REGION SERVICES
+  change_served_by(empl_id,table){
+    var headers = new Headers({'Content-Type':'application/json'});
+    var options = new RequestOptions({headers:headers});
+    return this._http.post(this._baseURL+"/tableController/setTableForEmployee/"+empl_id,JSON.stringify(table),options).map(
+      res=>"finished..."
+    );
+  }
+  ///////////////////////////////////////////////////////MANAGER DELIVERY STUFF
+  upgrade_to_deliverer(user){
+    var headers = new Headers({'Content-Type':'application/json'});
+    var options = new RequestOptions({headers:headers});
+    return this._http.post(this._baseURL+"/delivery_controller/upgradeToDeliverer",JSON.stringify(user),options).map(
       res=>"finished..."
     );
   }

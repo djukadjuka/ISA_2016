@@ -36,4 +36,8 @@ public interface TableRepository extends JpaRepository<TableBean, Long> {
 			+ "	where r.id = z.restaurant_id and r.id = :rest_id)",nativeQuery = true)
 	public Collection<TableBean> findAllTablesFromRestaurant(@Param("rest_id") Long rest_id);
 	
+	@Transactional
+	@Modifying
+	@Query(value = "update restaurant_table set served_by = :served_by where table_id = :table_id",nativeQuery=true)
+	public void update_served_by_employee(@Param("served_by") Long served_by, @Param("table_id") Long table_id);
 }

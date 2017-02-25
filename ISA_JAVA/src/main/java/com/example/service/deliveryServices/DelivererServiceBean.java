@@ -39,4 +39,14 @@ public class DelivererServiceBean implements DelivererService{
 		this.repository.delete(id);
 	}
 
+	@Override
+	public void deliverer_accepted(Long user_id) {
+		this.repository.deliverer_accepted(user_id);
+	}
+
+	@Override
+	public void user_wants_to_be_deliverer(Long user_id) {
+		this.repository.user_wants_to_be_deliverer(user_id);
+	}
+
 }

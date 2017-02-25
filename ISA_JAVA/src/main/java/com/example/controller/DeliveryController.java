@@ -1,10 +1,7 @@
 package com.example.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +10,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.domain.UserBean;
 import com.example.domain.deliveryBeans.DeliveryOrderBean;
 import com.example.domain.deliveryBeans.DeliveryOrderBid;
 import com.example.service.deliveryServices.DelivererService;
@@ -67,6 +66,16 @@ public class DeliveryController {
 		return new ResponseEntity<Collection<DeliveryOrderBid>>(this.delivery_bid_service.getDeliveryBidsForDeliveryId(ord_id),HttpStatus.OK);
 	}
 	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value="/delivery_controller/upgradeToDeliverer",
+			method=RequestMethod.POST,
+			consumes = MediaType.APPLICATION_JSON_VALUE
+			)
+	public synchronized void upgrade_to_deliverer(@RequestBody UserBean user){
+		this.deliverer_service.deliverer_accepted(user.getId());
+	}
+	
 	///////////////////////////////////////////////////////////
 	///////SPECIFIC FOR DELIVERER
 	//////////////////////////////////////////////////////////
@@ -100,4 +109,19 @@ public class DeliveryController {
 		return new ResponseEntity<HashMap<String,Object>>(payload,HttpStatus.OK);
 	}
 	
+	/////////////////////////////////////////////
+	/////SPECIFIC FOR USER
+	/////////////////////////////////////////////
+	@CrossOrigin(origins = "http://localhost:4200")			///some user wants to be a deliverer
+	@RequestMapping(
+			value="/delivery_controller/userToDeliverer",
+			method=RequestMethod.POST,
+			consumes = MediaType.APPLICATION_JSON_VALUE
+			)
+	public synchronized void userToDeliverer(@RequestBody UserBean user){
+		//System.out.println(user.getId());
+		if(this.deliverer_service.findOne(user.getId())==null){
+			this.deliverer_service.user_wants_to_be_deliverer(user.getId());			
+		}
+	}
 }
