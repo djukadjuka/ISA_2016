@@ -510,4 +510,14 @@ export class EditUserComponent implements OnInit {
     dismiss_order_notification(item){
         console.log(item);
     }
+
+    /**registering as deliverer */
+    register_as_deliverer(){
+        let user = {id:+this._sharedService.userId};
+        this._editUserService.register_as_deliverer(user).subscribe(
+            res=>{
+                console.log(res);
+            }
+        )
+    }
 }   

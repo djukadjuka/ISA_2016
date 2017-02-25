@@ -1146,9 +1146,6 @@ export class ViewRestaurantsComponent implements OnInit{
     //posible deliverers
     idle_users_for_deliverer;
 
-    //dialog visibility to upgrade user to deliverer
-    upgrading_user_to_deliverer
-
     //for the progress bar
     upgrading_to_deliverer_status : number = 0;
 
@@ -1166,9 +1163,13 @@ export class ViewRestaurantsComponent implements OnInit{
      }
 
      upgrade_to_deliverer(user){
-       this.upgrading_user_to_deliverer = true;
-       
-       console.log(user);
+       this.viewRestaurantsService.upgrade_to_deliverer(user).subscribe(res=>{
+         this.viewRestaurantsService.getPendingDeliverers().subscribe(
+          res=>{
+            this.idle_users_for_deliverer = res;
+          }
+        )
+       })
      }
 
      close_register_new_deliverer(){
