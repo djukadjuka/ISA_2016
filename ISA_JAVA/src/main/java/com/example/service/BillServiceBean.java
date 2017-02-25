@@ -56,4 +56,9 @@ public class BillServiceBean implements BillService{
 		return this.repository.getAllBillsRestaurantTimePeriod(rest_id, date_from, date_to);
 	}
 
+	@Override
+	public void delete_employee_bills(Long emp_id) {
+		this.repository.delete_employee_bills(emp_id);
+	}
+
 }

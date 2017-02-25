@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.domain.EmployeeEnum;
 import com.example.domain.UserBean;
 import com.example.repository.UserRepository;
 
@@ -66,6 +67,21 @@ public class UserServiceBean implements UserService{
 	@Override
 	public Collection<UserBean> getPossibleDeliverers() {
 		return userRepo.getPossibleDeliverers();
+	}
+
+	@Override
+	public Collection<UserBean> getTiesToRestaurantByThisManager(Long manager_id) {
+		return this.userRepo.getTiesToRestaurantByThisManager(manager_id);
+	}
+
+	@Override
+	public void destroyManagerRestaurantTies(Long manager_id, Long rest_id) {
+		this.userRepo.destroyManagerRestaurantTies(manager_id, rest_id);
+	}
+
+	@Override
+	public void fireManagerAllTogether(Long user_id) {
+		this.userRepo.fireManagerAllTogether(user_id);
 	}
 
 }

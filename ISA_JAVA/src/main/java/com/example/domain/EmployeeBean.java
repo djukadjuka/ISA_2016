@@ -45,9 +45,8 @@ public class EmployeeBean{
 	@Enumerated(EnumType.STRING)
 	private EmployeeEnum role;
 	
-	@Column(nullable = false)
-	@Temporal(TemporalType.DATE)
-	private Date dateOfBirth;
+	@Column(nullable = true)
+	private Long dateOfBirth;
 	
 	@Column(nullable = true)
 	private Float shoeSize;
@@ -154,11 +153,12 @@ public class EmployeeBean{
 		this.role = role;
 	}
 
-	public Date getDateOfBirth() {
+
+	public Long getDateOfBirth() {
 		return dateOfBirth;
 	}
 
-	public void setDateOfBirth(Date dateOfBirth) {
+	public void setDateOfBirth(Long dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
 
@@ -194,7 +194,7 @@ public class EmployeeBean{
 		this.manages = manages;
 	}
 
-	public EmployeeBean(long id, UserBean user, EmployeeEnum role, Date dateOfBirth, Float shoeSize, Float suitSize,
+	public EmployeeBean(long id, UserBean user, EmployeeEnum role, Long dateOfBirth, Float shoeSize, Float suitSize,
 			Set<RestaurantRegistry> has_registered, Set<RestaurantBean> manages) {
 		super();
 		this.id = id;

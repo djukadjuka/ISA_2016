@@ -7,6 +7,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -23,7 +25,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.domain.ProductBean;
 import com.example.domain.RestaurantBean;
+import com.example.domain.RestaurantFoodTypeBean;
 import com.example.service.RestaurantService;
 import com.example.service.RestaurantServiceBean;
 
@@ -32,6 +36,89 @@ public class RestaurantController {
 
 	@Autowired
 	private RestaurantService restaurantService = new RestaurantServiceBean();
+	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(value="/basicRestaurantUpdate",
+					method=RequestMethod.POST,
+					consumes=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseEntity<RestaurantBean> basicRestaurantUpdate(@RequestBody RestaurantBean restaurant){
+		//must change name,type,food types, foods and drinks
+		
+		String new_name = restaurant.getName();
+		String type = restaurant.getType();
+		Long key = restaurant.getId();
+		HashSet<RestaurantFoodTypeBean> food_types =  (HashSet<RestaurantFoodTypeBean>) restaurant.getFoodTypes();
+		HashSet<ProductBean> foods = (HashSet<ProductBean>) restaurant.getFoodMenu();
+		HashSet<ProductBean> drinks = (HashSet<ProductBean>) restaurant.getDrinksMenu();
+		
+		System.out.println("Name : " + new_name);
+		System.out.println("Type : " + type);
+		System.out.println("Key : " + key);
+		System.out.println("----FOODS---");
+		for(ProductBean food : foods){
+			System.out.println("\tId : " + food.getId());
+			System.out.println("\tName : " + food.getName());
+		}
+		System.out.println("----DRINKS-----");
+		for(ProductBean food : drinks){
+			System.out.println("\tId : " + food.getId());
+			System.out.println("\tName : " + food.getName());
+		}
+		System.out.println("----FOOD_TYPES-----");
+		for(RestaurantFoodTypeBean food_type: food_types){
+			System.out.println("\tId : " + food_type.getId());
+			System.out.println("\tName : " + food_type.getName());
+		}
+		
+		this.restaurantService.updateRestaurantName_FIX(new_name, key);
+		this.restaurantService.updateRestaurantType_FIX(type, key);
+		
+		RestaurantBean existing_restaurant = this.restaurantService.findOne(key);
+		Set<RestaurantFoodTypeBean> e_food_types =  existing_restaurant.getFoodTypes();
+		Set<ProductBean> e_foods = existing_restaurant.getFoodMenu();
+		Set<ProductBean> e_drinks = existing_restaurant.getDrinksMenu();
+		
+		//modif food types
+		for(RestaurantFoodTypeBean f : e_food_types){
+			if(!food_types.contains(f)){
+				this.restaurantService.delete_food_type(key, f.getId());
+			}
+		}
+		for(RestaurantFoodTypeBean f : food_types){
+			if(!e_food_types.contains(f)){
+				this.restaurantService.insert_new_food_type(key, f.getId());
+			}
+		}
+		
+		//modif foods
+		for(ProductBean f : e_foods){
+			if(!foods.contains(f)){
+				this.restaurantService.delete_food_item(key, f.getId());
+			}
+		}
+		for(ProductBean f : foods){
+			if(!e_foods.contains(f)){
+				this.restaurantService.inset_food_item(key, f.getId());
+			}
+		}
+		
+		//modif drinks
+		for(ProductBean f : e_drinks){
+			if(!drinks.contains(f)){
+				this.restaurantService.delete_drink_item(key, f.getId());
+			}
+		}
+		for(ProductBean f : drinks){
+			if(!e_drinks.contains(f)){
+				this.restaurantService.inset_drink_item(key, f.getId());
+			}
+		}
+		
+		RestaurantBean modif = this.restaurantService.findOne(key);
+		
+		return new ResponseEntity<RestaurantBean>(modif,HttpStatus.OK);
+	}
 	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(value="/createRestaurant",method=RequestMethod.PUT,consumes=MediaType.APPLICATION_JSON_VALUE)
@@ -92,33 +179,6 @@ public class RestaurantController {
 		ArrayList<RestaurantBean> allRestaurants = (ArrayList<RestaurantBean>) restaurantService.findAll();
 		
 		return new ResponseEntity<ArrayList<RestaurantBean>>(allRestaurants,HttpStatus.OK);
-	}
-	
-	@CrossOrigin(origins = "http://localhost:4200")
-	@RequestMapping(
-			value = "/updateRestaurant",
-			method = RequestMethod.PUT,
-			consumes = MediaType.APPLICATION_JSON_VALUE,
-			produces = MediaType.APPLICATION_JSON_VALUE
-			)
-	@ResponseBody
-	public ResponseEntity<RestaurantBean> updateRestaurant(@RequestBody RestaurantBean restaurant){
-		
-		RestaurantBean r = restaurantService.findOne((long) restaurant.getId());
-		
-		if(r == null){
-			return new ResponseEntity<RestaurantBean>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		
-		r.setName(restaurant.getName());
-		r.setType(restaurant.getType());
-		r.setDrinksMenu(restaurant.getDrinksMenu());
-		r.setFoodMenu(restaurant.getFoodMenu());
-		r.setFoodTypes(restaurant.getFoodTypes());
-		restaurantService.update(r);
-		
-		return new ResponseEntity<RestaurantBean>(r,HttpStatus.OK);
-		
 	}
 	
 	private long restId;

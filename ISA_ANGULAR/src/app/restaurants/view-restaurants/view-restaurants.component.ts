@@ -251,27 +251,19 @@ export class ViewRestaurantsComponent implements OnInit{
            this.restaurants[i].foodMenu.push(this.editingRestaurant.foodMenu[j]);
          }
 
-         /*
-         for(let j=0; j<this.editingRestaurant.zones.length;  j++){
-           if(this.editingRestaurant.zones[j].hasOwnProperty("_$visited")){
-             console.log("has visited property.");
-             delete this.editingRestaurant.zones[j]['_$visited'];
-             console.log(this.editingRestaurant.zones[j]);
-           }else{
-             console.log(this.editingRestaurant.zones[j]);
-           }
-           this.restaurants[i].zones.push(this.editingRestaurant.zones[j]);
-         }
-        */
          break;
        }
      }
 
-     this.viewRestaurantsService.updateRestaurant(this.restaurants[k]).subscribe(
-       res=>{}
+     //this.viewRestaurantsService.updateRestaurant(this.restaurants[k]).subscribe(
+       //res=>{}
+     //);
+     this.viewRestaurantsService.basicRestaurantUpdate(this.restaurants[k]).subscribe(
+       res=>{
+         console.log(res);
+         this.editing = false
+       }
      );
-
-     this.editing = false;
    }
 
    cancelUpdate(){
@@ -350,7 +342,7 @@ export class ViewRestaurantsComponent implements OnInit{
      this.zoneCrudModel.name = this.selectedZoneName;
      this.zoneCrudModel.number_of_tables = this.numberOfTables;
      this.zoneCrudModel.tables_for_x = this.tablesForX;
-     this.viewRestaurantsService.updateZone(this.zoneCrudModel).subscribe(
+     this.viewRestaurantsService.updateZoneFIX(this.zoneCrudModel).subscribe(
        res=>{
           this.editingZone = false;
           this.zoneCrud = false;
@@ -774,13 +766,34 @@ export class ViewRestaurantsComponent implements OnInit{
 
         this.viewRestaurantsService.getFreeManagers_AndUserManagers(this._sharedService.userId,this.restaurant_23.id)
         .subscribe(res=>{
-            console.log(res);
             this.possible_managers = res.free_users;
             this.assigned_managers = res.managers;
             this.creating_new_manager_open = true;
             this.check_visibility();
         });
 
+     }
+
+     moved_new_manager_to_target(event){
+       let payload = this.create_manager_payload(event.items);
+       this.viewRestaurantsService.createNewManagers(payload,this.restaurant_23.id).subscribe(
+        res=>{}
+      );
+     }
+
+     create_manager_payload(items){
+      let payload = [];
+      for(let idx in items){
+        payload.push({id:items[idx].id,value:items[idx]});
+      }
+      return payload;
+     }
+
+     moved_existing_manager_to_source(event){
+      let payload = this.create_manager_payload(event.items);
+      this.viewRestaurantsService.fireSomeManagers(payload,this.restaurant_23.id).subscribe(
+        res=>{}
+      )
      }
 
      close_new_manager_panel(){
@@ -805,18 +818,64 @@ export class ViewRestaurantsComponent implements OnInit{
      registering_new_employee; 
      //pick box options
      employee_roles : SelectItem[];
+     registering_employee_dob : Date;
 
      //date things
-     minDate;
-     maxDate
+     min_employee_date_of_birth : Date;
+     max_employee_date_of_birth : Date;
 
      add_new_employee_clicked(restaurant : RestaurantClass){
         this.restaurant_23 = restaurant;
         this.employee_roles = [{label:'Waiter',value:'WAITER'},{label:'Cook',value:'COOK'},{label:'Bartender',value:'BARTENDER'}];
         
-        this.maxDate = new Date();
+        this.min_employee_date_of_birth = new Date(0);
+        this.max_employee_date_of_birth = new Date(new Date().getTime() - 1000*60*60*24*365*18);
         
-        this.viewRestaurantsService.getWorkersAndUsersForEmployeeManagement(this.restaurant_23.id)
+        this.get_employee_information_packed();
+     }
+
+     selected_a_user_for_work(event){
+       console.log(this.selected_user_for_work);
+       this.registering_employee = {};
+       this.registering_employee.dateOfBirth = 0;
+       this.registering_employee_dob = new Date(0);
+       this.registering_employee.has_registered = null;
+       this.registering_employee.id = this.selected_user_for_work.id;
+       this.registering_employee.role = "WAITER";
+       this.registering_employee.shoeSize = null;
+       this.registering_employee.suitSize = null;
+       this.registering_employee.user = this.selected_user_for_work;
+
+       this.registering_new_employee = true;
+     }
+
+     fire_employee(worker){
+       this.viewRestaurantsService.fireAnEmployee(worker.id).subscribe(
+         res=>{
+           console.log(res);
+           this.get_employee_information_packed();
+         }
+       );
+     }
+     
+     close_new_employee_dialog(){
+
+       this.registering_employee.date_of_birth = this.registering_employee_dob.getTime();
+       console.log(this.registering_employee);
+       this.viewRestaurantsService.registerNewEmployee(this.registering_employee,this.restaurant_23.id).subscribe(
+         res=>{
+           console.log(res);
+           this.get_employee_information_packed();
+         }
+       );
+       this.registering_new_employee = false;
+     }
+
+/**CONTAINS REST CALL
+ *  ----------------
+ */
+     get_employee_information_packed(){
+      this.viewRestaurantsService.getWorkersAndUsersForEmployeeManagement(this.restaurant_23.id)
           .subscribe(res=>{
             //console.log(res);
             this.restaurant_workers = []; this.free_workers = []; this.free_users = [];
@@ -834,7 +893,8 @@ export class ViewRestaurantsComponent implements OnInit{
             }
 
             this.registering_employee = {};
-            this.registering_employee.dateOfBirth = null;
+            this.registering_employee.dateOfBirth = 0;
+            this.registering_employee_dob = new Date(0);
             this.registering_employee.has_registered = null;
             this.registering_employee.id = null;
             this.registering_employee.role = "WAITER";
@@ -845,24 +905,6 @@ export class ViewRestaurantsComponent implements OnInit{
             this.creating_new_employee_open = true;
             this.check_visibility();
           });
-     }
-
-     selected_a_user_for_work(event){
-       console.log(this.selected_user_for_work);
-       this.registering_employee = {};
-       this.registering_employee.dateOfBirth = null;
-       this.registering_employee.has_registered = null;
-       this.registering_employee.id = this.selected_user_for_work.id;
-       this.registering_employee.role = "WAITER";
-       this.registering_employee.shoeSize = null;
-       this.registering_employee.suitSize = null;
-       this.registering_employee.user = this.selected_user_for_work;
-
-       this.registering_new_employee = true;
-     }
-     close_new_employee_dialog(){
-
-       this.registering_new_employee = false;
      }
 
      close_new_employee_panel(){

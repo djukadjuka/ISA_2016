@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -23,7 +24,9 @@ public class BillBean implements Serializable {
 	@OneToOne(cascade = CascadeType.ALL)
 	private RestaurantBean restaurant;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL,optional=true)
+	@JoinColumn(
+	        name="employee_user_id", unique=false, nullable=true, updatable=true)
 	private EmployeeBean employee;
 	
 	@Column(name = "cash", nullable=true)

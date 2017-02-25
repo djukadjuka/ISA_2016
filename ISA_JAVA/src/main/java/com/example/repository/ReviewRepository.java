@@ -30,4 +30,5 @@ public interface ReviewRepository extends JpaRepository<ReviewBean, Long>{
 			+ " where rev.for_employee = :emp_id",nativeQuery=true)
 	public Collection<ReviewBean> getAllGradesForAnEmployee(@Param("emp_id") Long emp_id);
 	
+	
 }

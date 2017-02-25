@@ -108,6 +108,12 @@ export class ViewRestaurantsService {
       return this._http.put(this._baseURL+"/updateRestaurant",JSON.stringify(data),options)
       .map(res=>res.json().data);
   }
+  basicRestaurantUpdate(data){
+    var headers = new Headers({'Content-Type':'application/json'});
+      var options = new RequestOptions({headers:headers});
+      return this._http.post(this._baseURL+"/basicRestaurantUpdate",JSON.stringify(data),options)
+      .map(res=>res.json()); 
+  }
 
   getZonesForRestaurant(restaurant){
       return this._http.get(this._baseURL+"/getZoneByRestaurantId/"+restaurant.id).map(res => <RestaurantZone[]>res.json());
@@ -117,6 +123,13 @@ export class ViewRestaurantsService {
     var headers = new Headers({'Content-Type':'application/json'});
     var options = new RequestOptions({headers:headers});
     return this._http.put(this._baseURL+"/editZone",JSON.stringify(zone),options).map(
+      res=>res.json()
+    );
+  }
+  updateZoneFIX(zone){
+    var headers = new Headers({'Content-Type':'application/json'});
+    var options = new RequestOptions({headers:headers});
+    return this._http.post(this._baseURL+"/editZoneFIX",JSON.stringify(zone),options).map(
       res=>res.json()
     );
   }
@@ -193,5 +206,37 @@ export class ViewRestaurantsService {
   getRevinueForRestarurant(start_day,end_day,rest_id){
     return this._http.get(this._baseURL + "/restaurant_statistics/getBills/"+rest_id+"/from/"+start_day+"/to/"+end_day)
       .map(res=>res.json());  
+  }
+
+  //////////////////////////////////////////////////////////////////
+  createNewManagers(manager_payload,rest_id){
+    var headers = new Headers({'Content-Type':'application/json'});
+    var options = new RequestOptions({headers:headers});
+    return this._http.post(this._baseURL+"/EmployeeControler/sendNewManagerPack/"+rest_id,JSON.stringify(manager_payload),options).map(
+      res=>"finished..."
+    );
+  }
+  fireSomeManagers(manager_payload,rest_id){
+    var headers = new Headers({'Content-Type':'application/json'});
+    var options = new RequestOptions({headers:headers});
+    return this._http.post(this._baseURL+"/EmployeeControler/sendRemovingManagerPack/"+rest_id,JSON.stringify(manager_payload),options).map(
+      res=>"finished..."
+    );
+  }
+
+  registerNewEmployee(employee,rest_id){
+    var headers = new Headers({'Content-Type':'application/json'});
+    var options = new RequestOptions({headers:headers});
+    return this._http.post(this._baseURL+"/EmployeeController/registerNewEmployee/"+rest_id,JSON.stringify(employee),options).map(
+      res=>"finished..."
+    );
+  }
+
+  fireAnEmployee(emp_id){
+    var headers = new Headers({'Content-Type':'application/json'});
+    var options = new RequestOptions({headers:headers});
+    return this._http.post(this._baseURL+"/EmployeeController/fireEmployee/"+emp_id,null,options).map(
+      res=>"finished..."
+    );
   }
 }

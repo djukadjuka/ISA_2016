@@ -46,6 +46,8 @@ public class ProductBean{
 	
 	@Override
 	public boolean equals(Object obj) {
+		if(!(obj instanceof ProductBean))
+			return false;
 		ProductBean prod = (ProductBean)obj;
 		if(this.id == prod.getId())
 			return true;
