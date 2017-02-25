@@ -838,10 +838,10 @@
                     Date From:
                     <p-calendar [(ngModel)]="order_date_from" (onSelect)="check_order_dates()" [readonlyInput]="true"></p-calendar>
                     Date To :
-                    <p-calendar [(ngModel)]="order_date_to" (onSelect)="check_order_dates()" [readonlyInput]="true"></p-calendar>
+                    <p-calendar [(ngModel)]="order_date_to" [minDate]="min_order_date" [readonlyInput]="true"></p-calendar>
                     <br/>
                     <button type="button" pButton (click)="send_order()" label="Send Order" 
-                            [disabled]="(order_with_items.length == 0) || order_dates_invalid" 
+                            [disabled]="(order_with_items.length == 0) || order_date_to==null" 
                             icon="fa-check" style="width:100%;"></button>
                 </p-footer>
             </p-dataTable>
@@ -872,8 +872,7 @@
         <div class="ui-g-6">
             <p-dataTable [value]="order_presentation" sortField="belongs_to_order"
                          rowGroupMode="subheader" groupField="belongs_to_order" expandableRowGroups="true"
-                         [sortableRowGroup]="false" selectionMode="single"
-                         (onRowSelect)="onRowSelect($event)">
+                         [sortableRowGroup]="false" selectionMode="single">
                 <p-header>All Orders</p-header>
                 <template pTemplate="rowgroupheader" let-rowData>
                     <b>Order : </b><i>{{rowData['belongs_to_order']}}</i>, <b>Time Period :  </b><i>[{{rowData['from']}} - {{rowData['to']}}]</i>

@@ -3,6 +3,7 @@ package com.example.controller;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,11 +14,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.domain.EmployeeBean;
+import com.example.domain.RestaurantBean;
 import com.example.domain.UserBean;
 import com.example.domain.deliveryBeans.DeliveryOrderBean;
 import com.example.domain.deliveryBeans.DeliveryOrderBid;
+import com.example.domain.deliveryBeans.DeliveryOrderItem;
+import com.example.service.EmployeeService;
+import com.example.service.EmployeeServiceBean;
+import com.example.service.RestaurantService;
+import com.example.service.RestaurantServiceBean;
 import com.example.service.deliveryServices.DelivererService;
 import com.example.service.deliveryServices.DelivererServiceBean;
 import com.example.service.deliveryServices.DeliveryBidService;
@@ -30,6 +39,12 @@ import com.example.service.deliveryServices.DeliveryOrderServiceBean;
 @RestController
 public class DeliveryController {
 
+	@Autowired
+	private EmployeeService employee_service = new EmployeeServiceBean();
+	
+	@Autowired
+	private RestaurantService restaurant_serivec = new RestaurantServiceBean();
+	
 	@Autowired
 	private DelivererService deliverer_service = new DelivererServiceBean();
 	
@@ -45,6 +60,26 @@ public class DeliveryController {
 	//////////////////////////////////////////////////
 	////////FOR MANAGER
 	/////////////////////////////////////////////////
+	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value = "/delivery_controller/sendNewDelivery",
+			method = RequestMethod.POST,
+			produces = MediaType.APPLICATION_JSON_VALUE
+			)
+	@ResponseBody
+	public synchronized void sendNewDelivery(@RequestBody RequestWrapper wrapper){
+		DeliveryOrderBean order = wrapper.getOrder();
+		order.setFor_restaurant(this.restaurant_serivec.findOne(wrapper.getRest_id()));
+		order.setMade_by(this.employee_service.findOne(wrapper.getUser_id()));
+		HashSet<DeliveryOrderItem> items = (HashSet<DeliveryOrderItem>) order.getContains_items();
+		order.setContains_items(null);
+		order.setId(this.delivery_order_service.create(order).getId());
+		for(DeliveryOrderItem item : items){
+			item.setBelongs_to_order(order);
+			this.delivery_item_service.create(item);
+		}
+	}
 	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(
@@ -119,9 +154,35 @@ public class DeliveryController {
 			consumes = MediaType.APPLICATION_JSON_VALUE
 			)
 	public synchronized void userToDeliverer(@RequestBody UserBean user){
-		//System.out.println(user.getId());
 		if(this.deliverer_service.findOne(user.getId())==null){
 			this.deliverer_service.user_wants_to_be_deliverer(user.getId());			
 		}
 	}
+}
+
+class RequestWrapper{
+	private Long rest_id;
+	private Long user_id;
+	private DeliveryOrderBean order;
+	
+	public Long getRest_id() {
+		return rest_id;
+	}
+	public void setRest_id(Long rest_id) {
+		this.rest_id = rest_id;
+	}
+	public Long getUser_id() {
+		return user_id;
+	}
+	public void setUser_id(Long user_id) {
+		this.user_id = user_id;
+	}
+	public DeliveryOrderBean getOrder() {
+		return order;
+	}
+	public void setOrder(DeliveryOrderBean order) {
+		this.order = order;
+	}
+	
+	
 }

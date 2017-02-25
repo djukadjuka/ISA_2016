@@ -1192,6 +1192,7 @@ export class ViewRestaurantsComponent implements OnInit{
 
     //dates of the order
     order_date_from : Date; order_date_to : Date; order_dates_invalid;
+    min_order_date : Date;
 
      create_new_delivery_clicked(restaurant : RestaurantClass){
         this.restaurant_23 = restaurant;
@@ -1225,27 +1226,32 @@ export class ViewRestaurantsComponent implements OnInit{
        }
      }
      send_order(){
-       console.log(this.order_with_items);
+       //made by se salje u http zahtevu
+       let order_api = {
+         date_from:this.order_date_from.getTime(),
+         date_to:this.order_date_to.getTime(),
+         contains_items:this.order_with_items
+       }
+       let wrapper = {
+         order:order_api,
+         rest_id:this.restaurant_23.id,
+         user_id:+this._sharedService.userId
+       }
+       console.log(order_api);
+       this.viewRestaurantsService.sendNewDelivery(wrapper).subscribe(
+         res=>{
+           this.order_with_items = [];
+           this.fake_key = 0;
+         }
+       );
      }
 
      check_order_dates(){
-        if(this.order_date_from == null){
-          this.order_dates_invalid= true;
-        }else{
-          if(this.order_date_to == null){
-            this.order_dates_invalid = false;
-          }else{
-            let milis_from = this.order_date_from.getTime();
-            let milis_to = this.order_date_to.getTime();
-            if(milis_from < milis_to){
-              this.order_dates_invalid = false;
-            }else{
-              this.order_dates_invalid = true;
-            }
-          }
-        }
-       
-
+        this.order_date_from.setHours(0);
+        this.order_date_from.setMinutes(0);
+        this.order_date_from.setSeconds(0);
+        this.order_date_to = new Date(this.order_date_from.getTime() + 1000*60*60*24);
+        this.min_order_date = new Date(this.order_date_to.getTime());
      }
 
      close_create_new_delivery(){
@@ -1271,6 +1277,7 @@ export class ViewRestaurantsComponent implements OnInit{
 
         this.viewRestaurantsService.getDeliveryOrdersForRestaurant(this.restaurant_23.id).subscribe(
           res=>{
+            console.log(res);
             this.restaurant_orders = res;
             let curr_date = new Date();
 
@@ -1292,6 +1299,7 @@ export class ViewRestaurantsComponent implements OnInit{
                     });
                   }
                 }
+                console.log(this.order_presentation);
 
             }
 
