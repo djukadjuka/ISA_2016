@@ -118,14 +118,14 @@ export class ViewRestaurantsService {
   getZonesForRestaurant(restaurant){
       return this._http.get(this._baseURL+"/getZoneByRestaurantId/"+restaurant.id).map(res => <RestaurantZone[]>res.json());
   }
-
+/*
   updateZone(zone){
     var headers = new Headers({'Content-Type':'application/json'});
     var options = new RequestOptions({headers:headers});
     return this._http.put(this._baseURL+"/editZone",JSON.stringify(zone),options).map(
       res=>res.json()
     );
-  }
+  }*/
   updateZoneFIX(zone){
     var headers = new Headers({'Content-Type':'application/json'});
     var options = new RequestOptions({headers:headers});
@@ -236,6 +236,21 @@ export class ViewRestaurantsService {
     var headers = new Headers({'Content-Type':'application/json'});
     var options = new RequestOptions({headers:headers});
     return this._http.post(this._baseURL+"/EmployeeController/fireEmployee/"+emp_id,null,options).map(
+      res=>"finished..."
+    );
+  }
+/////////////////////////////////////////////////////////////SCHEDULES SERVICES
+  create_new_schedule(schedz){
+    var headers = new Headers({'Content-Type':'application/json'});
+    var options = new RequestOptions({headers:headers});
+    return this._http.post(this._baseURL+"/schedz/createNewSchedule",JSON.stringify(schedz),options).map(
+      res=>"finished..."
+    );
+  }
+  delete_schedule(sc_id){
+    var headers = new Headers({'Content-Type':'application/json'});
+    var options = new RequestOptions({headers:headers});
+    return this._http.post(this._baseURL+"/schedz/deleteSchedule/"+sc_id,null,options).map(
       res=>"finished..."
     );
   }

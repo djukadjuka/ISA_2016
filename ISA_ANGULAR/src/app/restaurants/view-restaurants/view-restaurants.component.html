@@ -327,14 +327,9 @@
             <div class="ui-g-4">
                 <!--INPUT-->
                 <!--<input type="text" pInputText [(ngModel)]="tablesForX" (keyup)="enteredTablesForX()"/>-->
-                <p-spinner size="30" [(ngModel)]="tablesForX" [min]="2" [max]="6" [step]="2"></p-spinner>
+                <p-spinner size="30" [(ngModel)]="tablesForX" [readonly]=true [min]="2" [max]="6" [step]="2"></p-spinner>
             </div>
             <div class="ui-g-4">
-                <!--ERROR--><!--
-                <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!tablesForXValid">
-                    <i class="fa fa-close"></i>
-                    <span>Invalid input!</span>
-                </div>-->
             </div>
 
             <!--ZONE NUMBER OF TABLES-->
@@ -359,7 +354,7 @@
             <div *ngIf="addingZone" class="ui-helper-clearfix" style="width:100%">
                     <button pButton type="button" icon="fa-plus" 
                             (click)="confirmAdd()" 
-                            label="Add Zone" [disabled]="!numberOfTablesValid || !tablesForXValid"></button>
+                            label="Add Zone" [disabled]="!numberOfTablesValid"></button>
                     <button pButton type="button"
                             (click)="cancelCrud()" label="Cancel"></button> 
             </div>
@@ -601,33 +596,6 @@
             </template>
         </p-column>
     </p-dataTable>
-    <!--
-    <p-pickList [source]="free_workers" [target]="restaurant_workers" 
-                        [showSourceControls]="false" [showTargetControls]="false" 
-                        [sourceStyle]="{'height':'300px'}" [targetStyle]="{'height':'300px'}" 
-                        [responsive]="true"
-                        sourceHeader="Free Workers" targetHeader="Assigned Workers">
-        <template let-worker pTemplate="item">
-            <div class="media">
-       
-                <div class="media-left">
-                    <img class="media-object" src="http://lorempixel.com/100/100/sports/?">
-                </div>
-                <div class="media-body">
-       
-                    <h4 class="media-heading"><b>{{worker.user?.username}}</b></h4>
-                    <b>First Name : </b><i>{{worker.user?.firstName}}</i><br/>
-                    <b>Last Name : </b><i>{{worker.user?.lastName}}</i><br/>
-                    <b>Role : </b><i>{{worker?.role}}</i><br/>
-                    <b>Date of Birth : </b><i>{{worker?.dateOfBirth}}</i><br/>
-                    <b>Shoe Size : </b><i>{{worker?.shoeSize}}</i><br/>
-                    <b>Suit Size : </b><i>{{worker?.suitSize}}</i><br/>
-                    <b>Email : </b><i>{{worker.user?.email}}</i>
-                </div>
-            </div><hr/>
-        </template>
-    </p-pickList>
-    -->
 
 </p-panel>
 
@@ -665,6 +633,12 @@
                     <p-column field="from" header="From (h)"></p-column>
                     <p-column field="to" header="To (h)"></p-column>
                     <p-column field="date" header="On Date"></p-column>
+                    <p-column styleClass="col-button">
+                        <template let-schedz="rowData" pTemplate="body">
+                            <button pButton class="ui-button-danger" icon="fa-close" label="Remove Shedule"
+                                    (click)="remove_schedule(schedz)"></button>
+                        </template>
+                    </p-column>
             </p-dataTable><br/>
             <button *ngIf="schedule_employee != undefined" type="button" pButton label="Add New" (click)="add_new_schedule_clicked()"></button>
         </div>
@@ -676,31 +650,35 @@
         
 
             <div class="ui-g">
+                <div class="ui-g-12">
+                    <p>Schedule start time is 1 hour before the end time. If your shcedule end time is before the start time,
+                        the end time will be set to the next day. (eg. start time (23:30), end time (00:30) - end time is for the next day at 00:30).
+                    </p>
+                </div>
                 <!--TIME START-->
                 <div class="ui-g-6">
                     <b>Time Start : </b>
                 </div>
                 <div class="ui-g-6">
-                    <p-calendar [(ngModel)]="schedz_time_start" [timeOnly]="true"></p-calendar>
+                    <p-calendar [(ngModel)]="schedz_time_start" (onSelect)="changed_shedz_start()" [timeOnly]="true"></p-calendar>
                 </div>
                 <!--TIME END-->
                 <div class="ui-g-6">
                     <b>Time End : </b>
                 </div>
                 <div class="ui-g-6">
-                    <p-calendar [(ngModel)]="schedz_time_end" [timeOnly]="true"></p-calendar>
+                    <p-calendar [(ngModel)]="schedz_time_end" (onSelect)="changed_shedz_end()" 
+                                [minDate]="min_time_end" [timeOnly]="true"></p-calendar>
                 </div>
                 <!--DATE-->
                 <div class="ui-g-6">
                     <b>Day : </b>
                 </div>
                 <div class="ui-g-6">
-                    <p-calendar [(ngModel)]="new_schedz_day" [minDate]="min_schedz_day" [maxDate]="max_schedz_day" [readonlyInput]="true"></p-calendar>
+                    <p-calendar [(ngModel)]="new_schedz_day" [minDate]="min_schedz_day" [maxDate]="max_schedz_day" 
+                                [readonlyInput]="true"></p-calendar><br/><br/><br/><br/>
                 </div>
             </div>
-            schedz_time_start : {{schedz_time_start}}<br/>
-            schedz_time_end : {{schedz_time_end}}<br/>
-            new_schedz_day : {{new_schedz_day}}<br/>
 
 
         <p-footer>
@@ -727,9 +705,13 @@
         </div>
     </p-header>
     <!--DATA TABLE WITH ALL TABLES BELONGING TO THIS RESTAURANT-->
-    <p-dataTable [value]="selected_restaurant_tables">
+    <p-dataTable [value]="selected_restaurant_tables"
+                [rows]="10" [paginator]="true" [pageLinks]="6" 
+                [rowsPerPageOptions]="[5,10,15]">
         <p-column field="id" header="Table ID"></p-column>
         <p-column field="maxPeople" header="Seats"></p-column>
+        <p-column field="restaurant_zone_id.id" header="Zone ID"></p-column>
+        <p-column field="restaurant_zone_id.name" header="Zone Name"></p-column>
         <p-column styleClass="col-button">
             <template pTemplate="header">
                 Employee Serving
@@ -1009,7 +991,7 @@
         <p-tabPanel header="Restaurant Attendance">
             
             <!--PER WEEK IN YEAR-->
-            <b>Select year for weekly stats : </b><i><p-spinner size="30" [(ngModel)]="start_year" (onChange)="year_weeks_changed()"></p-spinner></i><br/>
+            <b>Select year for weekly stats : </b><i><p-spinner size="30" [(ngModel)]="start_year" (onChange)="year_weeks_changed()" [readonly]=true></p-spinner></i><br/>
             <p-chart id="week_chart" *ngIf="attendance_weeks != null" type="bar" [data]="attendance_weeks"></p-chart><br/>
             
             <!--PER DAY FROM TO-->

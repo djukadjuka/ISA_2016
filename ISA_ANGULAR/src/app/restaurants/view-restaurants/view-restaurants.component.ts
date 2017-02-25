@@ -930,6 +930,7 @@ export class ViewRestaurantsComponent implements OnInit{
      new_schedz_day;
      schedz_time_start;
      schedz_time_end;
+     min_time_end;
 
      edit_employee_schedule_clicked(restaurant : RestaurantClass){
         this.restaurant_23 = restaurant;
@@ -937,7 +938,7 @@ export class ViewRestaurantsComponent implements OnInit{
           res=>{
             this.employee_usernames_schedule = [];
             for(let item in res){
-              this.employee_usernames_schedule.push({label:res[item].user.username,value:res[item].id})
+              this.employee_usernames_schedule.push({label:res[item].user.username,value:res[item]})
             }
             this.creating_employee_schedule_open = true;
             this.check_visibility();
@@ -946,7 +947,7 @@ export class ViewRestaurantsComponent implements OnInit{
      }
 
      schedule_selected(event){
-       this.viewRestaurantsService.getSpecificWorkersSchedules(this.schedule_employee).subscribe(res=>{
+       this.viewRestaurantsService.getSpecificWorkersSchedules(this.schedule_employee.id).subscribe(res=>{
          this.all_schedules_for_employee = [];
          for(let item in res){
            let start_time = new Date(res[item].from);
@@ -955,54 +956,94 @@ export class ViewRestaurantsComponent implements OnInit{
            this.all_schedules_for_employee.push(
              {from:""+start_time.getHours() + " : " + start_time.getMinutes(),
                to:""+end_time.getHours() + " : " + end_time.getMinutes(),
-               date:""+date.getDate()+" : "+ (date.getMonth()+1) + " : " + date.getFullYear()}
+               date:""+date.getDate()+" : "+ (date.getMonth()+1) + " : " + date.getFullYear(),
+               id:res[item].id}
              );
          }
        });
      }
+     remove_schedule(schedz){
+        this.viewRestaurantsService.delete_schedule(schedz.id).subscribe(
+          res=>{
+            this.viewRestaurantsService.getSpecificWorkersSchedules(this.schedule_employee.id).subscribe(res=>{
+              this.all_schedules_for_employee = [];
+              for(let item in res){
+                let start_time = new Date(res[item].from);
+                let end_time = new Date(res[item].to);
+                let date = new Date(res[item].date);
+                this.all_schedules_for_employee.push(
+                      {from:""+start_time.getHours() + " : " + start_time.getMinutes(),
+                        to:""+end_time.getHours() + " : " + end_time.getMinutes(),
+                        date:""+date.getDate()+" : "+ (date.getMonth()+1) + " : " + date.getFullYear(),
+                        id:res[item].id}
+                      );
+                  }
+                this.adding_new_shedule = false;
+            });
+          }
+        )
+     }
 
+     /**when creating a new schedule in the schedz dialog */
      add_new_schedule_clicked(){
-        let today = new Date();
-        let month = today.getMonth();
-        let year = today.getFullYear();
-        let prevMonth = (month === 0) ? 11 : month -1;
-        let prevYear = (prevMonth === 11) ? year - 1 : year;
-        let nextMonth = (month === 11) ? 0 : month + 1;
-        let nextYear = (nextMonth === 0) ? year + 1 : year;
+        //set current time for schedz start
+        this.schedz_time_start = new Date();
+        
+        //set current time + 1h for schedz end and min schedz
+        this.schedz_time_end = new Date(this.schedz_time_start.getTime() + 1000*60*60);
+        this.min_time_end = new Date(this.schedz_time_end.getTime());
+        
+        //set current date for the new schedz day
+        this.new_schedz_day = new Date();
+        //min max days one year apart
         this.min_schedz_day = new Date();
-        this.max_schedz_day = new Date();
-        this.max_schedz_day.setMonth(nextMonth);
-        this.max_schedz_day.setFullYear(nextYear);
+        this.max_schedz_day = new Date(new Date().getTime() + 1000*60*60*24*365);
 
         this.adding_new_shedule = true;
 
         console.log(this.schedule_employee);
      }
+     changed_shedz_start(){
+       this.schedz_time_end = new Date(this.schedz_time_start.getTime() + 1000*60*60);
+     }
+     changed_shedz_end(){
+       let start = this.schedz_time_start.getTime();
+       let end = this.schedz_time_end.getTime();
+       if(end <= start){
+         this.schedz_time_end = new Date(start + 1000*60*60);
+       }
+     }
 
      close_new_schedule_dialog(){
-        this.new_schedz_day;
-        this.schedz_time_start;
-        this.schedz_time_end;
+        console.log(this.schedule_employee);
+        let post_schedz = {
+          from:this.schedz_time_start.getTime(),
+          to:this.schedz_time_end.getTime(),
+          date:this.new_schedz_day.getTime(),
+          for_employee:this.schedule_employee
+        };
 
-        this.schedz_time_start.setDate(this.new_schedz_day.getDate());
-        this.schedz_time_end.setDate(this.new_schedz_day.getDate());
+        console.log(post_schedz);
 
-        this.schedz_time_start.setMonth(this.new_schedz_day.getMonth());
-        this.schedz_time_end.setMonth(this.new_schedz_day.getMonth());
-
-        this.schedz_time_end.setFullYear(this.new_schedz_day.getFullYear());
-        this.schedz_time_start.setFullYear(this.new_schedz_day.getFullYear());
-/*
-        console.log("start");
-        console.log(this.schedz_time_start);
-        console.log("end");
-        console.log(this.schedz_time_end);
-        console.log("real");
-        console.log(this.new_schedz_day);
-        console.log("One milliseconds : ");
-        console.log(this.schedz_time_end.getTime());
-*/
-        this.adding_new_shedule = false;
+        this.viewRestaurantsService.create_new_schedule(post_schedz).subscribe(
+          res=>{
+            this.viewRestaurantsService.getSpecificWorkersSchedules(this.schedule_employee.id).subscribe(res=>{
+              this.all_schedules_for_employee = [];
+              for(let item in res){
+                let start_time = new Date(res[item].from);
+                let end_time = new Date(res[item].to);
+                let date = new Date(res[item].date);
+                this.all_schedules_for_employee.push(
+                      {from:""+start_time.getHours() + " : " + start_time.getMinutes(),
+                        to:""+end_time.getHours() + " : " + end_time.getMinutes(),
+                        date:""+date.getDate()+" : "+ (date.getMonth()+1) + " : " + date.getFullYear(),
+                        id:res[item].id}
+                      );
+                  }
+                this.adding_new_shedule = false;
+            });
+          }
+        );
      }
 
      close_new_employee_schedule(){
@@ -1047,8 +1088,10 @@ export class ViewRestaurantsComponent implements OnInit{
         this.checking_table_server = true;
      }
 
+     configuring_for_table;
      //change employee serving table
      change_table_serving(table){
+       this.configuring_for_table = table;
       this.viewRestaurantsService.getWaitersForRestaurant(this.restaurant_23.id).subscribe(
         res=>{
           this.all_servers = res;
@@ -1056,7 +1099,11 @@ export class ViewRestaurantsComponent implements OnInit{
           for(let server in this.all_servers){
             this.all_servers_select_item.push({label:this.all_servers[server].user.username,value:this.all_servers[server].id});
           }
-          this.selected_server_id = table.served_by.id;
+          if(table.served_by == null){
+            this.selected_server_id = null;
+          }else{
+            this.selected_server_id = table.served_by.id;
+          }
           this.changing_table_server  = true;
         }
       )
@@ -1073,6 +1120,8 @@ export class ViewRestaurantsComponent implements OnInit{
       }
 
       //who is selected to be the new server for this table...
+      console.log("------------------------");
+      console.log(this.configuring_for_table);
       console.log(selected_guy);
 
       //this after rest call...
