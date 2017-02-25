@@ -64,6 +64,19 @@ export class ViewRestaurantsService {
           .map(res=>res.json());
 
   }
+/*
+  getCookScheduleByDate(date){
+    return this._http.get(this._baseURL + "/schedz/getCookScheduleByDate/" + date)
+          .map(res=>res.json());
+
+  }
+
+ getBarmanScheduleByDate(date){
+    return this._http.get(this._baseURL + "/schedz/getBarmanScheduleByDate/" + date)
+          .map(res=>res.json());
+
+  }
+*/
 
   getFreeManagers_AndUserManagers(manager_id,restaurant_id){
     return this._http.get(this._baseURL + "/userRepo/getManagers/" + manager_id + "/forRestaurant/"+restaurant_id)
