@@ -66,6 +66,7 @@ import { SharedService } from './shared/shared.service';
 import { TablesService } from './tables/tables.service';
 import {RestaurantRegistryService} from './restaurant_registry/restaurant-registry-service';
 import { ReservationService } from './reservations/reservation.service';
+import { InviteComponent } from './invite/invite.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +80,8 @@ import { ReservationService } from './reservations/reservation.service';
     EditUserComponent,
     EditWaiterComponent,
     ViewRestaurantsComponent,
-    ReservationsComponent
+    ReservationsComponent,
+    InviteComponent
   ],
   imports: [
     BrowserModule,
