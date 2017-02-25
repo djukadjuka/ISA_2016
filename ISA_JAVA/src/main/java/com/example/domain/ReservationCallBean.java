@@ -1,9 +1,6 @@
 package com.example.domain;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -11,8 +8,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -44,6 +39,9 @@ public class ReservationCallBean {
 	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "reservation", nullable = false)
     private ReservationBean reservation;
+	
+	@Column(nullable = true)
+	private Long keygen;
 	
 	//food
 	 
@@ -96,5 +94,9 @@ public class ReservationCallBean {
 
 	public void setReservation(ReservationBean reservation) {
 		this.reservation = reservation;
+	}
+
+	public void setKeygen(Long keygen) {
+		this.keygen = keygen;
 	}
 }

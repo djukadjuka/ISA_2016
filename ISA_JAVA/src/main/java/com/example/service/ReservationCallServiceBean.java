@@ -44,4 +44,10 @@ public class ReservationCallServiceBean implements ReservationCallService{
 		// TODO Auto-generated method stub
 		return repository.findOne(reservationCall);
 	}
+
+	@Override
+	public ReservationCallBean findByKeygenAndId(Long keygen) {
+		// TODO Auto-generated method stub
+		return repository.findByKeygenAndId(keygen);
+	}
 }

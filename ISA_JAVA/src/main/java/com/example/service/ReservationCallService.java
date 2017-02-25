@@ -14,6 +14,8 @@ public interface ReservationCallService {
 	
 	void delete(Long reservation_id, Long reservation_call_id);
 	
+	ReservationCallBean findByKeygenAndId(Long keygen);
+	
 	
 
 }

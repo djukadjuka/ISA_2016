@@ -54,6 +54,7 @@ import {OverlayPanelModule} from 'primeng/primeng';
 import {SliderModule} from 'primeng/primeng';
 import {ChartModule} from 'primeng/primeng';
 import {SpinnerModule} from 'primeng/primeng';
+import {CheckboxModule} from 'primeng/primeng';
 
 //Service imports
 
@@ -117,6 +118,7 @@ import { InviteComponent } from './invite/invite.component';
     SliderModule,
     ChartModule,
     SpinnerModule,
+    CheckboxModule,
     routing
   ],
   providers: [
