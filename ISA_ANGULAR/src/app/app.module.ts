@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router'
 import { routing } from './app.routing'
+import { AgmCoreModule } from 'angular2-google-maps/core';
 
 //Component imports
 
@@ -55,6 +56,7 @@ import {SliderModule} from 'primeng/primeng';
 import {ChartModule} from 'primeng/primeng';
 import {SpinnerModule} from 'primeng/primeng';
 import {CheckboxModule} from 'primeng/primeng';
+import {GMapModule} from 'primeng/primeng';
 
 //Service imports
 
@@ -119,6 +121,10 @@ import { InviteComponent } from './invite/invite.component';
     ChartModule,
     SpinnerModule,
     CheckboxModule,
+    GMapModule,
+    AgmCoreModule.forRoot({
+      apiKey:'AIzaSyBBKgIXEhpHGY3tdQIkKx0edit3QLMyZBw'
+    }),
     routing
   ],
   providers: [

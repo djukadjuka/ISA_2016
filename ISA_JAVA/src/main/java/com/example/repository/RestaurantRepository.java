@@ -78,4 +78,9 @@ public interface RestaurantRepository extends JpaRepository<RestaurantBean, Long
 	@Query(value="delete from restaurant_table where restaurant_zone_id = :zone_id",nativeQuery=true)
 	public void delete_tables_from_zone(@Param("zone_id") Long zone_id);
 	
+	@Transactional
+	@Modifying
+	@Query(value="update restaurant set lat = :lat, lng = :lng where id = :id",nativeQuery=true)
+	public void update_restaurant_coords(@Param("lat") Double lat, @Param("lng") Double lng, @Param("id") Long id);
+	
 }

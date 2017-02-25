@@ -127,4 +127,9 @@ public class RestaurantServiceBean implements RestaurantService{
 		this.repository.delete_tables_from_zone(zone_id);
 	}
 
+	@Override
+	public void update_restaurant_coords(Double lat, Double lng, Long id) {
+		this.repository.update_restaurant_coords(lat, lng, id);
+	}
+
 }

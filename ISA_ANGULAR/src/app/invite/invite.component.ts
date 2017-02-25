@@ -12,7 +12,7 @@ export class InviteComponent implements OnInit, OnDestroy {
 
   private keygen;
   private sub: any;
-  private inviteData = {};
+  private inviteData;
   private showInvite = false;
   private showOrderDialog = false;
 

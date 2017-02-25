@@ -16,7 +16,9 @@ import {BarChartDays} from './BarChartDays';
 import {BarChartWeeks} from './BarChartWeeks';
 import {BarChartDaysMoney} from './BarChartDaysMoney';
 import {UIChart} from 'primeng/primeng'
+import {GMapOptions} from './GMapOptions'
 
+declare var google: any;
 
 @Component({
   selector: 'app-view-restaurants',
@@ -169,6 +171,11 @@ export class ViewRestaurantsComponent implements OnInit{
         });
    }
 
+   google_maps_overlays : any[];
+   handleDragEnd(event) {
+      this.editingRestaurant.lng = this.google_maps_overlays[0].position.lng();
+      this.editingRestaurant.lat = this.google_maps_overlays[0].position.lat();
+    }
    //show dialog to edit a single restaurant
    editRestaurant(restaurant){
 
@@ -179,7 +186,14 @@ export class ViewRestaurantsComponent implements OnInit{
      this.editingRestaurant.type = restaurant.type;
      this.editingRestaurant.foodTypes = restaurant.foodTypes;
      this.editingRestaurant.image = restaurant.image;
+     this.editingRestaurant.lng = restaurant.lng;
+     this.editingRestaurant.lat = restaurant.lat;
 
+     //GOOGLE MAPS CONFIG
+     this.google_map_options = new GMapOptions(this.editingRestaurant.lng, this.editingRestaurant.lat).options;
+     this.google_maps_overlays =[
+      new google.maps.Marker({position:{lat:this.editingRestaurant.lat,lng:this.editingRestaurant.lng},title:this.editingRestaurant.name,draggable:true})
+     ];
      for(let item of this.editingRestaurant.foodTypes){
        this.selectedCuisines.push(item.name);
      }
@@ -222,6 +236,9 @@ export class ViewRestaurantsComponent implements OnInit{
     this.editing = true;
    }
 
+   google_maps;
+   google_map_options;
+
    saveUpdate(){
      this.editingRestaurant.drinksMenu = this.selectedDrinks;
      this.editingRestaurant.foodMenu = this.selectedFood;
@@ -233,6 +250,8 @@ export class ViewRestaurantsComponent implements OnInit{
          k = i;
          this.restaurants[i].name = this.editingRestaurant.name;
          this.restaurants[i].type = this.editingRestaurant.type;
+         this.restaurants[i].lat = this.editingRestaurant.lat;
+         this.restaurants[i].lng = this.editingRestaurant.lng;
 
          this.restaurants[i].drinksMenu = [];
          this.restaurants[i].foodMenu =[];
@@ -260,7 +279,6 @@ export class ViewRestaurantsComponent implements OnInit{
      //);
      this.viewRestaurantsService.basicRestaurantUpdate(this.restaurants[k]).subscribe(
        res=>{
-         console.log(res);
          this.editing = false
        }
      );

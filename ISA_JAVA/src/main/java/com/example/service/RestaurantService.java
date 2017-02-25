@@ -43,4 +43,6 @@ public interface RestaurantService {
 	
 	public void delete_zone_from_restaurant(Long rest_id, Long zone_id);
 	public void delete_tables_from_zone(Long zone_id);
+	
+	public void update_restaurant_coords(Double lat, Double lng, Long id);
 }
