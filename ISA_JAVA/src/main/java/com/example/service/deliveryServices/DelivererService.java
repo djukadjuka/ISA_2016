@@ -16,4 +16,7 @@ public interface DelivererService {
 	
 	void delete(Long id);
 	
+	//custom
+	public void deliverer_accepted(Long user_id);
+	public void user_wants_to_be_deliverer(Long user_id);
 }

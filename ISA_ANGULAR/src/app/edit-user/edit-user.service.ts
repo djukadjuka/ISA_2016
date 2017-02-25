@@ -112,4 +112,14 @@ export class EditUserService {
         if (error) throw new Error(error);
     });
   }
+
+  //////////////////////////////////////////////////////deliverer things
+  register_as_deliverer(user)
+  {
+      var headers = new Headers({'Content-Type':'application/json'});
+      var options = new RequestOptions({headers:headers});
+
+      return this._http.post(this._baseURL+"/delivery_controller/userToDeliverer",JSON.stringify(user),options)
+                        .map(res=>"finished...");
+  }
 }

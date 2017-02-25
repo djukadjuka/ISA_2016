@@ -262,4 +262,12 @@ export class ViewRestaurantsService {
       res=>"finished..."
     );
   }
+  ///////////////////////////////////////////////////////MANAGER DELIVERY STUFF
+  upgrade_to_deliverer(user){
+    var headers = new Headers({'Content-Type':'application/json'});
+    var options = new RequestOptions({headers:headers});
+    return this._http.post(this._baseURL+"/delivery_controller/upgradeToDeliverer",JSON.stringify(user),options).map(
+      res=>"finished..."
+    );
+  }
 }

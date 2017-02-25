@@ -15,6 +15,14 @@
             icon="fa-american-sign-language-interpreting" (click)="new_restaurant_dialog()"
             label="Register New Restaurant" >
     </button>
+    <button *ngIf=" _sharedService.isAdmin == false && _sharedService.isManager == false && _sharedService.isDeliverer == false
+                   && _sharedService.isChef == false && _sharedService.isBartender == false && _sharedService.isWaiter == false" 
+                   pButton type="button" icon="fa-automobile" label="Request Registry as Deliverer"
+             (click)="register_as_deliverer()"
+            pTooltip="If you wish to register as a deliverer, an existing manager must accept your request.
+                      If you are employed as a worker in a restaurant, your request for deliverer status will be
+                      denied automatically. Once you become a deliverer you cannot be employed in a restaurant.">
+    </button>
   </div>
 
   <div class="col-md-8 col-sm-6 col-xs-12">
