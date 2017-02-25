@@ -73,8 +73,8 @@ private displayScheduleeButton: boolean = false;
   }
 
   displaySchedulee(){
-
-    this._restaurantService.getScheduleByDate(this.reservation.Date.getTime()).subscribe(
+        console.log(this.reservation.Date.getTime());
+    this._restaurantService.getCookScheduleByDate(this.reservation.Date.getTime()).subscribe(
       res => {
 
          this.all_schedules_for_employee = [];
