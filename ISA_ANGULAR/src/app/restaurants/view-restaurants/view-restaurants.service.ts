@@ -64,7 +64,7 @@ export class ViewRestaurantsService {
           .map(res=>res.json());
 
   }
-/*
+
   getCookScheduleByDate(date){
     return this._http.get(this._baseURL + "/schedz/getCookScheduleByDate/" + date)
           .map(res=>res.json());
@@ -76,7 +76,7 @@ export class ViewRestaurantsService {
           .map(res=>res.json());
 
   }
-*/
+
 
   getFreeManagers_AndUserManagers(manager_id,restaurant_id){
     return this._http.get(this._baseURL + "/userRepo/getManagers/" + manager_id + "/forRestaurant/"+restaurant_id)
@@ -280,6 +280,20 @@ export class ViewRestaurantsService {
     var headers = new Headers({'Content-Type':'application/json'});
     var options = new RequestOptions({headers:headers});
     return this._http.post(this._baseURL+"/delivery_controller/upgradeToDeliverer",JSON.stringify(user),options).map(
+      res=>"finished..."
+    );
+  }
+  sendNewDelivery(deliveryOrder){
+    var headers = new Headers({'Content-Type':'application/json'});
+    var options = new RequestOptions({headers:headers});
+    return this._http.post(this._baseURL+"/delivery_controller/sendNewDelivery",JSON.stringify(deliveryOrder),options).map(
+      res=>"finished..."
+    );
+  }
+  acceptBid(payload){
+    var headers = new Headers({'Content-Type':'application/json'});
+    var options = new RequestOptions({headers:headers});
+    return this._http.post(this._baseURL+"/delivery_controller/acceptBid",JSON.stringify(payload),options).map(
       res=>"finished..."
     );
   }

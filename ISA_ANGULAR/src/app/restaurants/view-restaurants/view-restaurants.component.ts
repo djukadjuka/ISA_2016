@@ -16,7 +16,9 @@ import {BarChartDays} from './BarChartDays';
 import {BarChartWeeks} from './BarChartWeeks';
 import {BarChartDaysMoney} from './BarChartDaysMoney';
 import {UIChart} from 'primeng/primeng'
+import {GMapOptions} from './GMapOptions'
 
+declare var google: any;
 
 @Component({
   selector: 'app-view-restaurants',
@@ -169,6 +171,11 @@ export class ViewRestaurantsComponent implements OnInit{
         });
    }
 
+   google_maps_overlays : any[];
+   handleDragEnd(event) {
+      this.editingRestaurant.lng = this.google_maps_overlays[0].position.lng();
+      this.editingRestaurant.lat = this.google_maps_overlays[0].position.lat();
+    }
    //show dialog to edit a single restaurant
    editRestaurant(restaurant){
 
@@ -179,7 +186,14 @@ export class ViewRestaurantsComponent implements OnInit{
      this.editingRestaurant.type = restaurant.type;
      this.editingRestaurant.foodTypes = restaurant.foodTypes;
      this.editingRestaurant.image = restaurant.image;
+     this.editingRestaurant.lng = restaurant.lng;
+     this.editingRestaurant.lat = restaurant.lat;
 
+     //GOOGLE MAPS CONFIG
+     this.google_map_options = new GMapOptions(this.editingRestaurant.lng, this.editingRestaurant.lat).options;
+     this.google_maps_overlays =[
+      new google.maps.Marker({position:{lat:this.editingRestaurant.lat,lng:this.editingRestaurant.lng},title:this.editingRestaurant.name,draggable:true})
+     ];
      for(let item of this.editingRestaurant.foodTypes){
        this.selectedCuisines.push(item.name);
      }
@@ -222,6 +236,9 @@ export class ViewRestaurantsComponent implements OnInit{
     this.editing = true;
    }
 
+   google_maps;
+   google_map_options;
+
    saveUpdate(){
      this.editingRestaurant.drinksMenu = this.selectedDrinks;
      this.editingRestaurant.foodMenu = this.selectedFood;
@@ -233,6 +250,8 @@ export class ViewRestaurantsComponent implements OnInit{
          k = i;
          this.restaurants[i].name = this.editingRestaurant.name;
          this.restaurants[i].type = this.editingRestaurant.type;
+         this.restaurants[i].lat = this.editingRestaurant.lat;
+         this.restaurants[i].lng = this.editingRestaurant.lng;
 
          this.restaurants[i].drinksMenu = [];
          this.restaurants[i].foodMenu =[];
@@ -260,7 +279,6 @@ export class ViewRestaurantsComponent implements OnInit{
      //);
      this.viewRestaurantsService.basicRestaurantUpdate(this.restaurants[k]).subscribe(
        res=>{
-         console.log(res);
          this.editing = false
        }
      );
@@ -1192,6 +1210,7 @@ export class ViewRestaurantsComponent implements OnInit{
 
     //dates of the order
     order_date_from : Date; order_date_to : Date; order_dates_invalid;
+    min_order_date : Date;
 
      create_new_delivery_clicked(restaurant : RestaurantClass){
         this.restaurant_23 = restaurant;
@@ -1225,27 +1244,32 @@ export class ViewRestaurantsComponent implements OnInit{
        }
      }
      send_order(){
-       console.log(this.order_with_items);
+       //made by se salje u http zahtevu
+       let order_api = {
+         date_from:this.order_date_from.getTime(),
+         date_to:this.order_date_to.getTime(),
+         contains_items:this.order_with_items
+       }
+       let wrapper = {
+         order:order_api,
+         rest_id:this.restaurant_23.id,
+         user_id:+this._sharedService.userId
+       }
+       console.log(order_api);
+       this.viewRestaurantsService.sendNewDelivery(wrapper).subscribe(
+         res=>{
+           this.order_with_items = [];
+           this.fake_key = 0;
+         }
+       );
      }
 
      check_order_dates(){
-        if(this.order_date_from == null){
-          this.order_dates_invalid= true;
-        }else{
-          if(this.order_date_to == null){
-            this.order_dates_invalid = false;
-          }else{
-            let milis_from = this.order_date_from.getTime();
-            let milis_to = this.order_date_to.getTime();
-            if(milis_from < milis_to){
-              this.order_dates_invalid = false;
-            }else{
-              this.order_dates_invalid = true;
-            }
-          }
-        }
-       
-
+        this.order_date_from.setHours(0);
+        this.order_date_from.setMinutes(0);
+        this.order_date_from.setSeconds(0);
+        this.order_date_to = new Date(this.order_date_from.getTime() + 1000*60*60*24);
+        this.min_order_date = new Date(this.order_date_to.getTime());
      }
 
      close_create_new_delivery(){
@@ -1271,6 +1295,7 @@ export class ViewRestaurantsComponent implements OnInit{
 
         this.viewRestaurantsService.getDeliveryOrdersForRestaurant(this.restaurant_23.id).subscribe(
           res=>{
+            console.log(res);
             this.restaurant_orders = res;
             let curr_date = new Date();
 
@@ -1292,6 +1317,7 @@ export class ViewRestaurantsComponent implements OnInit{
                     });
                   }
                 }
+                console.log(this.order_presentation);
 
             }
 
@@ -1312,6 +1338,41 @@ export class ViewRestaurantsComponent implements OnInit{
 
       accept_bid(bid){
         console.log(bid);
+        let payload = {
+          bid_id:bid.id,
+          order_id:bid.made_for_order.id,
+          cash_accepted_id:bid.bidding_price
+        };
+        this.viewRestaurantsService.acceptBid(payload).subscribe(res=>{
+          this.viewRestaurantsService.getDeliveryOrdersForRestaurant(this.restaurant_23.id).subscribe(
+            res=>{
+              this.restaurant_orders = res;
+              let curr_date = new Date();
+              this.order_presentation = [];
+              this.order_bids = [];
+              for(let order in this.restaurant_orders){ 
+                  let from = new Date(this.restaurant_orders[order].date_from);
+                  let to = new Date(this.restaurant_orders[order].date_to);
+                  let from_milis = from.getTime()
+                  let to_milis = to.getTime();
+
+                  for(let item in this.restaurant_orders[order].contains_items){
+
+                    if(from_milis < curr_date.getTime() && to_milis > curr_date.getTime()){  
+                      this.order_presentation.push({
+                          belongs_to_order:this.restaurant_orders[order].id,
+                          item_name:this.restaurant_orders[order].contains_items[item].item_name,
+                          item_amount:this.restaurant_orders[order].contains_items[item].item_amount,
+                          from: from.getDate() + "/" + (from.getMonth() + 1) + "/" + from.getFullYear(),
+                          to: to.getDate() + "/" + (to.getMonth() + 1) + "/" + to.getFullYear()
+                      });
+                    }
+                  }
+              }
+            }
+          )
+        }
+        )
       }
 
       close_check_delivery_notifications(){

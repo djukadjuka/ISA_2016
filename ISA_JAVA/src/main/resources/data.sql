@@ -128,83 +128,83 @@ values (5, 'ACCEPTED', 1, 6);
 --insert into restaurant(id, name, type,image) 
 --values (, '', '',null);
 --=============================================
-insert into restaurant(id, name, type, image) 
-values (1, 'Burger King', 'Fast Food','/assets/pictures/restaurant_pictures/1.jpg');
+insert into restaurant(id, name, type, image,lng,lat )
+values (1, 'Burger King', 'Fast Food','/assets/pictures/restaurant_pictures/1.jpg',19.829936027526855,45.27331602606693);
 
-insert into restaurant(id, name, type, image) 
-values (2, 'Jack-in-the-Box', 'Fast Food','/assets/pictures/restaurant_pictures/2.jpg');
+insert into restaurant(id, name, type, image,lng,lat )
+values (2, 'Jack-in-the-Box', 'Fast Food','/assets/pictures/restaurant_pictures/2.jpg',45.27077911652709,19.838132858276367);
 
-insert into restaurant(id, name, type, image) 
-values (3, 'Big Pizza', 'Fast Food','/assets/pictures/restaurant_pictures/3.jpg');
+insert into restaurant(id, name, type, image,lng,lat )
+values (3, 'Big Pizza', 'Fast Food','/assets/pictures/restaurant_pictures/3.jpg',45.26739639407451,19.845685958862305);
 
-insert into restaurant(id, name, type, image) 
-values (4, 'Pizza Hut', 'Fast Food','/assets/pictures/restaurant_pictures/4.jpg');
+insert into restaurant(id, name, type, image,lng,lat )
+values (4, 'Pizza Hut', 'Fast Food','/assets/pictures/restaurant_pictures/4.jpg',45.2657653665743,19.83530044555664);
 
-insert into restaurant(id, name, type, image) 
-values (5, 'Gordon Ramsay London', 'Fine Dining','/assets/pictures/restaurant_pictures/5.jpg');
+insert into restaurant(id, name, type, image,lng,lat )
+values (5, 'Gordon Ramsay London', 'Fine Dining','/assets/pictures/restaurant_pictures/5.jpg',45.26099283176157,19.841909408569336);
 
-insert into restaurant(id, name, type, image) 
-values (6, 'Lanterna', 'Fine Dining','/assets/pictures/restaurant_pictures/6.jpg');
+insert into restaurant(id, name, type, image,lng,lat )
+values (6, 'Lanterna', 'Fine Dining','/assets/pictures/restaurant_pictures/6.jpg',45.257790779737306,19.83409881591797);
 
-insert into restaurant(id, name, type, image) 
-values (7, 'Wine Cellar', 'Fine Dining','/assets/pictures/restaurant_pictures/7.jpg');
+insert into restaurant(id, name, type, image,lng,lat )
+values (7, 'Wine Cellar', 'Fine Dining','/assets/pictures/restaurant_pictures/7.jpg',45.25362179991922,19.83658790588379);
 
-insert into restaurant(id, name, type, image) 
-values (8, 'Afaria', 'Bistro','/assets/pictures/restaurant_pictures/8.jpg');
+insert into restaurant(id, name, type, image,lng,lat )
+values (8, 'Afaria', 'Bistro','/assets/pictures/restaurant_pictures/8.jpg',45.24908995297326,19.83881950378418);
 
-insert into restaurant(id, name, type, image) 
-values (9, 'Allard', 'Bistro','/assets/pictures/restaurant_pictures/9.jpg');
+insert into restaurant(id, name, type, image,lng,lat )
+values (9, 'Allard', 'Bistro','/assets/pictures/restaurant_pictures/9.jpg',45.246189381155695,19.840106964111328);
 
-insert into restaurant(id, name, type, image) 
-values (10, 'Noma', 'Fine Dining','/assets/pictures/restaurant_pictures/10.jpg');
+insert into restaurant(id, name, type, image,lng,lat )
+values (10, 'Noma', 'Fine Dining','/assets/pictures/restaurant_pictures/10.jpg',45.24534335314212,19.84027862548828);
 
-insert into restaurant(id, name, type, image) 
-values (11, 'Celler de Can Roca', 'Fine Dining','/assets/pictures/restaurant_pictures/11.jpg');
+insert into restaurant(id, name, type, image,lng,lat )
+values (11, 'Celler de Can Roca', 'Fine Dining','/assets/pictures/restaurant_pictures/11.jpg',45.24165694117146,19.842510223388672);
 
-insert into restaurant(id, name, type, image) 
-values (12, 'Eleven Madison Park', 'Fine Dining','/assets/pictures/restaurant_pictures/12.jpg');
+insert into restaurant(id, name, type, image,lng,lat )
+values (12, 'Eleven Madison Park', 'Fine Dining','/assets/pictures/restaurant_pictures/12.jpg',45.24026692045921,19.843626022338867);
 
-insert into restaurant(id, name, type, image) 
-values (13, 'Auberge Pyrenees Cevennes', 'Bistro','/assets/pictures/restaurant_pictures/13.jpg');
+insert into restaurant(id, name, type, image,lng,lat )
+values (13, 'Auberge Pyrenees Cevennes', 'Bistro','/assets/pictures/restaurant_pictures/13.jpg',45.23778897310704,19.845256805419922);
 
-insert into restaurant(id, name, type, image) 
-values (14, 'Aux Lyonnais', 'Bistro','/assets/pictures/restaurant_pictures/14.jpg');
+insert into restaurant(id, name, type, image,lng,lat )
+values (14, 'Aux Lyonnais', 'Bistro','/assets/pictures/restaurant_pictures/14.jpg',45.23694281999268,19.839763641357422);
 
-insert into restaurant(id, name, type, image) 
-values (15, 'Horseshoe Cafe', 'Diner','/assets/pictures/restaurant_pictures/15.jpg');
+insert into restaurant(id, name, type, image,lng,lat )
+values (15, 'Horseshoe Cafe', 'Diner','/assets/pictures/restaurant_pictures/15.jpg',45.2396625530206,19.81856346130371);
 
-insert into restaurant(id, name, type, image) 
-values (16, 'Palace Diner', 'Diner','/assets/pictures/restaurant_pictures/16.jpg');
+insert into restaurant(id, name, type, image,lng,lat )
+values (16, 'Palace Diner', 'Diner','/assets/pictures/restaurant_pictures/16.jpg',45.24087128146923,19.807233810424805);
 
-insert into restaurant(id, name, type, image) 
-values (17, 'White Light Diner', 'Diner','/assets/pictures/restaurant_pictures/17.jpg');
+insert into restaurant(id, name, type, image,lng,lat )
+values (17, 'White Light Diner', 'Diner','/assets/pictures/restaurant_pictures/17.jpg',45.24135476564864,19.8068904876709);
 
-insert into restaurant(id, name, type, image) 
-values (18, 'Ruths Diner', 'Diner','/assets/pictures/restaurant_pictures/18.jpg');
+insert into restaurant(id, name, type, image,lng,lat )
+values (18, 'Ruths Diner', 'Diner','/assets/pictures/restaurant_pictures/18.jpg',45.24262389204447,19.804487228393555);
 
-insert into restaurant(id, name, type, image) 
-values (19, 'Blue Benn', 'Diner','/assets/pictures/restaurant_pictures/19.jpg');
+insert into restaurant(id, name, type, image,lng,lat )
+values (19, 'Blue Benn', 'Diner','/assets/pictures/restaurant_pictures/19.jpg',45.23899774141306,19.798736572265625);
 
-insert into restaurant(id, name, type, image) 
-values (20, 'Fremont Diner', 'Diner','/assets/pictures/restaurant_pictures/20.jpg');
+insert into restaurant(id, name, type, image,lng,lat )
+values (20, 'Fremont Diner', 'Diner','/assets/pictures/restaurant_pictures/20.jpg',null,null);
 
-insert into restaurant(id, name, type, image) 
-values (21, 'JC Irish', 'Sports Bar','/assets/pictures/restaurant_pictures/21.jpg');
+insert into restaurant(id, name, type, image,lng,lat )
+values (21, 'JC Irish', 'Sports Bar','/assets/pictures/restaurant_pictures/21.jpg',null,null);
 
-insert into restaurant(id, name, type, image) 
-values (22, 'Twin Peaks', 'Sports Bar','/assets/pictures/restaurant_pictures/22.jpg');
+insert into restaurant(id, name, type, image,lng,lat )
+values (22, 'Twin Peaks', 'Sports Bar','/assets/pictures/restaurant_pictures/22.jpg',null,null);
 
-insert into restaurant(id, name, type, image) 
-values (23, 'The Pub at Monte Carlo', 'Sports Bar','/assets/pictures/restaurant_pictures/23.jpg');
+insert into restaurant(id, name, type, image,lng,lat )
+values (23, 'The Pub at Monte Carlo', 'Sports Bar','/assets/pictures/restaurant_pictures/23.jpg',null,null);
 
-insert into restaurant(id, name, type, image) 
-values (24, 'TAP', 'Sports Bar','/assets/pictures/restaurant_pictures/24.jpg');
+insert into restaurant(id, name, type, image,lng,lat )
+values (24, 'TAP', 'Sports Bar','/assets/pictures/restaurant_pictures/24.jpg',null,null);
 
-insert into restaurant(id, name, type, image) 
-values (25, 'Crown & Anchor', 'Sports Bar','/assets/pictures/restaurant_pictures/25.jpg');
+insert into restaurant(id, name, type, image,lng,lat )
+values (25, 'Crown & Anchor', 'Sports Bar','/assets/pictures/restaurant_pictures/25.jpg',null,null);
 
-insert into restaurant(id, name, type, image) 
-values (26, 'Lagasses Stadium', 'Sports Bar','/assets/pictures/restaurant_pictures/26.jpg');
+insert into restaurant(id, name, type, image,lng,lat )
+values (26, 'Lagasses Stadium', 'Sports Bar','/assets/pictures/restaurant_pictures/26.jpg',null,null);
 
 --=====================================
 --RESTAURANT ZONES
@@ -720,17 +720,17 @@ values(18,'ACCEPTED');
 --==orders
 
 insert into delivery_order(id,date_from,date_to,made_by,for_restaurant_id,accepted_user_id,price_accepted)
-values(1,969660000000,969746400000,1,1,17,null);
+values(1,1487718000000,1493071200000,1,1,17,null);
 insert into delivery_order(id,date_from,date_to,made_by,for_restaurant_id,accepted_user_id,price_accepted)
-values(2,1487718000000,1487977200000,1,1,17,null);
+values(2,1487718000000,1493071200000,1,1,17,null);
 insert into delivery_order(id,date_from,date_to,made_by,for_restaurant_id,accepted_user_id,price_accepted)
-values(3,1487718000000,1487977200000,1,1,18,null);
+values(3,1487718000000,1493071200000,1,1,18,null);
 insert into delivery_order(id,date_from,date_to,made_by,for_restaurant_id,accepted_user_id,price_accepted)
-values(4,1487718000000,1487977200000,1,1,18,null);
+values(4,1487718000000,1493071200000,1,1,18,null);
 insert into delivery_order(id,date_from,date_to,made_by,for_restaurant_id,accepted_user_id,price_accepted)
-values(5,1487718000000,1487977200000,1,1,null,null);
+values(5,1487718000000,1493071200000,1,1,null,null);
 insert into delivery_order(id,date_from,date_to,made_by,for_restaurant_id,accepted_user_id,price_accepted)
-values(6,969660000000,969746400000,1,1,null,null);
+values(6,1487718000000,1493071200000,1,1,null,null);
 
 --==order items
 --==(1)
@@ -903,3 +903,8 @@ insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) val
 insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(59	,	155,	1483225199000,	6,	1);--12/31/2016 23:59:59
 insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(60	,	155,	1483225199000,	6,	1);
 insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(61	,	155,	1483225199000,	6,	1);
+
+--nije validan test podatak
+--potrebno obrisati kada se bude radila odbrana....
+insert into deliverer values('ACCEPTED',1);
+

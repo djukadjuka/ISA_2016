@@ -64,6 +64,36 @@ public class DeliveryBidServiceBean implements DeliveryBidService{
 	public void setBidToBeExpired(Long dob_id) {
 		this.repository.setBidToBeExpired(dob_id);
 	}
+
+	@Override
+	public DeliveryOrderBid checkIfDeliveryOrderExists(Long user_id, Long order_id) {
+		return this.repository.checkIfDeliveryOrderExists(user_id, order_id);
+	}
+
+	@Override
+	public void updateCashForDeliveryBid(Long price, Long user_id, Long order_id) {
+		this.repository.updateCashForDeliveryBid(price, user_id, order_id);
+	}
+
+	@Override
+	public void updateNewBidInformation(Long price, Long user_id, Long order_id, Long restaurant_id, Long bid_id) {
+		this.repository.updateNewBidInformation(price, user_id, order_id, restaurant_id, bid_id);
+	}
+
+	@Override
+	public void setBidAccepted(Long bid_id) {
+		this.repository.setBidAccepted(bid_id);
+	}
+
+	@Override
+	public void setOtherBidsDeclined(Long order_id) {
+		this.repository.setOtherBidsDeclined(order_id);
+	}
+
+	@Override
+	public void setSeenStatus(Long id) {
+		this.repository.setSeenStatus(id);
+	}
 	
 	
 }

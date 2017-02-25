@@ -23,13 +23,18 @@
   </div>
 
 <p-panel *ngIf="displaySchedule">
-   <h1>Your Schedule</h1>
-     <p> Please pick date then press schedule button </p>
-   <p><p-calendar  [monthNavigator]="true" [yearNavigator]="true" yearRange="2017:2018" [inline]="true"  ></p-calendar></p>
-     <p>
+  <h1>Your Schedule</h1>
+   <form [formGroup]="formReservation" class="form-horizontal">
+     <div class="form-group" style="float: left">
+    <p> Please pick date then press schedule button </p>
+   <p><p-calendar [(ngModel)]="reservation.Date" formControlName="Date" inputStyleClass="form-control" [monthNavigator]="true" [yearNavigator]="true" yearRange="2017:2018" [inline]="true"  ></p-calendar></p>
+     </div>
+      <p>
           <input class="btn btn-primary" value="Schedule" (click)="displaySchedulee()" type="button">
       </p>
+   </form>
 </p-panel>
+
 
 
 
@@ -39,6 +44,8 @@
                         [paginator]="true" [pageLinks]="5" 
                         [rowsPerPageOptions]="[5,10,20]">
                 <p-header>Schedules</p-header>
+                     <p-column field="first_name" header="First Name " item-width="50"></p-column>
+                    <p-column field="last_name" header="Last Name "></p-column>
                     <p-column field="from" header="From (h)"></p-column>
                     <p-column field="to" header="To (h)"></p-column>
                     <p-column field="date" header="On Date"></p-column>

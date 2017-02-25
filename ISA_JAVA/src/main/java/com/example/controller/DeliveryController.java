@@ -3,21 +3,31 @@ package com.example.controller;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.domain.EmployeeBean;
+import com.example.domain.RestaurantBean;
 import com.example.domain.UserBean;
 import com.example.domain.deliveryBeans.DeliveryOrderBean;
 import com.example.domain.deliveryBeans.DeliveryOrderBid;
+import com.example.domain.deliveryBeans.DeliveryOrderItem;
+import com.example.service.EmployeeService;
+import com.example.service.EmployeeServiceBean;
+import com.example.service.RestaurantService;
+import com.example.service.RestaurantServiceBean;
 import com.example.service.deliveryServices.DelivererService;
 import com.example.service.deliveryServices.DelivererServiceBean;
 import com.example.service.deliveryServices.DeliveryBidService;
@@ -30,6 +40,12 @@ import com.example.service.deliveryServices.DeliveryOrderServiceBean;
 @RestController
 public class DeliveryController {
 
+	@Autowired
+	private EmployeeService employee_service = new EmployeeServiceBean();
+	
+	@Autowired
+	private RestaurantService restaurant_serivec = new RestaurantServiceBean();
+	
 	@Autowired
 	private DelivererService deliverer_service = new DelivererServiceBean();
 	
@@ -45,6 +61,46 @@ public class DeliveryController {
 	//////////////////////////////////////////////////
 	////////FOR MANAGER
 	/////////////////////////////////////////////////
+	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value = "/delivery_controller/acceptBid",
+			method = RequestMethod.POST,
+			consumes = MediaType.APPLICATION_JSON_VALUE
+			)
+	public synchronized void acceptBid(@RequestBody AcceptedBidWrapper wrapper){
+		
+		//set bid accepted
+		this.delivery_bid_service.setBidAccepted(wrapper.getBid_id());
+		
+		Long user_accepted_id = this.delivery_bid_service.findOne(wrapper.getBid_id()).getMade_by_deliverer().getId();
+		
+		//set order accepted_by and cash_accepted
+		this.delivery_order_service.setDeliveryOrderAccepted(user_accepted_id, wrapper.getCash_accepted_id(), wrapper.getOrder_id());
+		
+		//set all other bids for that order to declined
+		this.delivery_bid_service.setOtherBidsDeclined(wrapper.getOrder_id());
+	}
+	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value = "/delivery_controller/sendNewDelivery",
+			method = RequestMethod.POST,
+			consumes = MediaType.APPLICATION_JSON_VALUE
+			)
+	@ResponseBody
+	public synchronized void sendNewDelivery(@RequestBody RequestWrapper wrapper){
+		DeliveryOrderBean order = wrapper.getOrder();
+		order.setFor_restaurant(this.restaurant_serivec.findOne(wrapper.getRest_id()));
+		order.setMade_by(this.employee_service.findOne(wrapper.getUser_id()));
+		HashSet<DeliveryOrderItem> items = (HashSet<DeliveryOrderItem>) order.getContains_items();
+		order.setContains_items(null);
+		order.setId(this.delivery_order_service.create(order).getId());
+		for(DeliveryOrderItem item : items){
+			item.setBelongs_to_order(order);
+			this.delivery_item_service.create(item);
+		}
+	}
 	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(
@@ -79,6 +135,15 @@ public class DeliveryController {
 	///////////////////////////////////////////////////////////
 	///////SPECIFIC FOR DELIVERER
 	//////////////////////////////////////////////////////////
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value="/delivery_controller/delivererSawStatus",
+			method=RequestMethod.POST,
+			consumes = MediaType.APPLICATION_JSON_VALUE
+			)
+	public synchronized void SeenBidStatus(@RequestBody SeenStatusPayload seenStatus){
+		this.delivery_bid_service.setSeenStatus(seenStatus.getBid_seen_id());
+	}
 	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(
@@ -109,6 +174,27 @@ public class DeliveryController {
 		return new ResponseEntity<HashMap<String,Object>>(payload,HttpStatus.OK);
 	}
 	
+	@MessageMapping("/hello")
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value="/deliveryController/sendNewBid",
+			method=RequestMethod.POST,
+			consumes=MediaType.APPLICATION_JSON_VALUE
+			)
+	public synchronized void sendNewBid(@RequestBody BidRequestWrapper bid){
+		if(this.delivery_bid_service.checkIfDeliveryOrderExists(bid.getMade_by_user(), bid.getMade_for_order())==null){
+			DeliveryOrderBid new_bid= new DeliveryOrderBid();
+			new_bid = this.delivery_bid_service.create(new_bid);
+			this.delivery_bid_service.updateNewBidInformation(bid.getBid_in_dollars(), 
+																bid.getMade_by_user(),
+																bid.getMade_for_order(), 
+																this.delivery_order_service.findOne(bid.getMade_for_order()).getFor_restaurant().getId(), 
+																new_bid.getId());
+		}else{
+			this.delivery_bid_service.updateCashForDeliveryBid(bid.getBid_in_dollars(), bid.getMade_by_user(), bid.getMade_for_order());
+		}
+	}
+	
 	/////////////////////////////////////////////
 	/////SPECIFIC FOR USER
 	/////////////////////////////////////////////
@@ -119,9 +205,97 @@ public class DeliveryController {
 			consumes = MediaType.APPLICATION_JSON_VALUE
 			)
 	public synchronized void userToDeliverer(@RequestBody UserBean user){
-		//System.out.println(user.getId());
 		if(this.deliverer_service.findOne(user.getId())==null){
 			this.deliverer_service.user_wants_to_be_deliverer(user.getId());			
 		}
 	}
+}
+
+class RequestWrapper{
+	private Long rest_id;
+	private Long user_id;
+	private DeliveryOrderBean order;
+	
+	public Long getRest_id() {
+		return rest_id;
+	}
+	public void setRest_id(Long rest_id) {
+		this.rest_id = rest_id;
+	}
+	public Long getUser_id() {
+		return user_id;
+	}
+	public void setUser_id(Long user_id) {
+		this.user_id = user_id;
+	}
+	public DeliveryOrderBean getOrder() {
+		return order;
+	}
+	public void setOrder(DeliveryOrderBean order) {
+		this.order = order;
+	}
+}
+
+class BidRequestWrapper{
+	private Long bid_in_dollars;
+	private Long made_for_order;
+	private Long made_by_user;
+	
+	public Long getBid_in_dollars() {
+		return bid_in_dollars;
+	}
+	public void setBid_in_dollars(Long bid_in_dollars) {
+		this.bid_in_dollars = bid_in_dollars;
+	}
+	public Long getMade_for_order() {
+		return made_for_order;
+	}
+	public void setMade_for_order(Long made_for_order) {
+		this.made_for_order = made_for_order;
+	}
+	public Long getMade_by_user() {
+		return made_by_user;
+	}
+	public void setMade_by_user(Long made_by_user) {
+		this.made_by_user = made_by_user;
+	}
+}
+
+class AcceptedBidWrapper{
+	private Long bid_id;
+	private Long order_id;
+	private Long cash_accepted_id;
+	
+	public Long getCash_accepted_id() {
+		return cash_accepted_id;
+	}
+	public void setCash_accepted_id(Long cash_accepted_id) {
+		this.cash_accepted_id = cash_accepted_id;
+	}
+	public Long getBid_id() {
+		return bid_id;
+	}
+	public void setBid_id(Long bid_id) {
+		this.bid_id = bid_id;
+	}
+	public Long getOrder_id() {
+		return order_id;
+	}
+	public void setOrder_id(Long order_id) {
+		this.order_id = order_id;
+	}
+	
+}
+
+class SeenStatusPayload{
+	private Long bid_seen_id;
+
+	public Long getBid_seen_id() {
+		return bid_seen_id;
+	}
+
+	public void setBid_seen_id(Long bid_seen_id) {
+		this.bid_seen_id = bid_seen_id;
+	}
+	
 }

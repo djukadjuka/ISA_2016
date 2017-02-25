@@ -29,6 +29,12 @@ public class RestaurantBean{
 	@Column(nullable = false)
 	private String name;
 	
+	@Column(nullable = true)
+	private Double lng;
+	
+	@Column(nullable = true)
+	private Double lat;
+	
 	@Column(nullable = false)
 	private String type;
 	
@@ -190,5 +196,21 @@ public class RestaurantBean{
 				+ "Whos name is ["+this.getName()+"]\n"
 						+ "We serve ["+this.getDrinksMenu()+"]\n"
 								+ "And ["+this.getFoodMenu()+"]";
+	}
+
+	public Double getLng() {
+		return lng;
+	}
+
+	public void setLng(Double lng) {
+		this.lng = lng;
+	}
+
+	public Double getLat() {
+		return lat;
+	}
+
+	public void setLat(Double lat) {
+		this.lat = lat;
 	}
 }

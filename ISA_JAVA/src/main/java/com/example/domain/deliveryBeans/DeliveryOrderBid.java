@@ -29,8 +29,7 @@ public class DeliveryOrderBid {
 	private Long bidding_price;
 
 	@Column(name="bid_status", nullable = true)
-	@Enumerated(EnumType.STRING)
-	private BID_STATUS bid_status;
+	private String bid_status;
 	
 	@Column(name = "seen_status",nullable = true)
 	private Integer seen_status;
@@ -67,13 +66,7 @@ public class DeliveryOrderBid {
 		return made_by_deliverer;
 	}
 
-	public BID_STATUS getBid_status() {
-		return bid_status;
-	}
-
-	public void setBid_status(BID_STATUS bid_status) {
-		this.bid_status = bid_status;
-	}
+	
 
 	public Integer getSeen_status() {
 		return seen_status;
@@ -101,6 +94,14 @@ public class DeliveryOrderBid {
 
 	public void setBidding_price(Long bidding_price) {
 		this.bidding_price = bidding_price;
+	}
+
+	public String getBid_status() {
+		return bid_status;
+	}
+
+	public void setBid_status(String bid_status) {
+		this.bid_status = bid_status;
 	}
 	
 }

@@ -25,4 +25,8 @@ public interface DeliveryOrderService {
 	
 	/**GET VALID FREE DELIVERIES*/
 	public Collection<DeliveryOrderBean> getAllFreeDeliveries(Long current_date);
+	
+	public void setDeliveryOrderAccepted(Long user_id,
+										 Long price,
+										 Long order_id);
 }

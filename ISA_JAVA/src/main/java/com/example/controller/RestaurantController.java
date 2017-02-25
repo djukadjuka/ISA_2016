@@ -73,6 +73,7 @@ public class RestaurantController {
 		
 		this.restaurantService.updateRestaurantName_FIX(new_name, key);
 		this.restaurantService.updateRestaurantType_FIX(type, key);
+		this.restaurantService.update_restaurant_coords(restaurant.getLat(), restaurant.getLng(),key);
 		
 		RestaurantBean existing_restaurant = this.restaurantService.findOne(key);
 		Set<RestaurantFoodTypeBean> e_food_types =  existing_restaurant.getFoodTypes();

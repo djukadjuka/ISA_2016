@@ -504,11 +504,23 @@ export class EditUserComponent implements OnInit {
         console.log("Bid in dollars : " + this.bid_in_dollars);
         console.log("Made for order with id : " + this.entering_for_order);
         console.log("Made by user : " + this._sharedService.userId);
+        let bid = {
+            bid_in_dollars: this.bid_in_dollars,
+            made_for_order:+this.entering_for_order,
+            made_by_user: +this._sharedService.userId
+        };
+        this._editUserService.send_new_bid(bid).subscribe(res=>{
+            console.log(res);
+        })
         this.entering_bid = false;
     }
 
     dismiss_order_notification(item){
         console.log(item);
+        let payload = {bid_seen_id:item.id};
+        this._editUserService.update_seen_status(payload).subscribe(
+            res=>{}
+        );
     }
 
     /**registering as deliverer */

@@ -2,7 +2,10 @@ package com.example.service.deliveryServices;
 
 import java.util.Collection;
 
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.domain.deliveryBeans.DeliveryOrderBid;
 
@@ -30,4 +33,20 @@ public interface DeliveryBidService {
 	
 	/**SETS THE BIDS STATUS TO NULL SO THAT IT IS EXPIRED IN THE FRONT END*/
 	public void setBidToBeExpired(Long dob_id);
+	
+	public DeliveryOrderBid checkIfDeliveryOrderExists(Long user_id, Long order_id);
+	public void updateCashForDeliveryBid(Long price,Long user_id, Long order_id);
+	
+	public void updateNewBidInformation(
+			Long price,
+			Long user_id,
+			Long order_id,
+			Long restaurant_id,
+			Long bid_id
+			);
+	
+	public void setBidAccepted(Long bid_id);
+	public void setOtherBidsDeclined(Long order_id);
+	
+	public void setSeenStatus(Long id);
 }

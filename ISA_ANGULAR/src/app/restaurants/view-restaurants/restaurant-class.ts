@@ -8,4 +8,5 @@ export class RestaurantClass{
     name;
     type;
     workers;
+    lng;lat;
 }

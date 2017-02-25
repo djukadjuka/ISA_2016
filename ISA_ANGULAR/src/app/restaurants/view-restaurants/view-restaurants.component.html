@@ -407,27 +407,23 @@
 
                 <!--ROW FOR FOOD TYPES AND IMAGE -->
                 <div class="row">
-                    <div class= col-md-12>
+                    <div class= "col-md-4">
                         <b>Available Cuisines:</b>
                             <p-listbox  [options]="availableCuisines" [(ngModel)]="selectedCuisines"
                                         (onChange)="showChange()" 
                                         multiple="multiple" checkbox="checkbox"></p-listbox>
-                    </div><!--
-                    <div class= col-md-6>
-                        <b>Restaurant picture:</b><br/>
-                        <img [src]="editingRestaurant.image" (error)="editingRestaurant.image = '/assets/pictures/no_image_found.jpg'" alt="..." height="150" width="150"/><br/>
-                        <b>Upload new:</b><br/>
-                        url="http://localhost:4400/restaurantPictureUpload"
-                        <i>Work in progress....</i>
-                    </div>-->
+                    </div>
+                    <div class="col-md-8">
+                        <h4>Restaurant Location</h4>
+                        <p-gmap [options]="google_map_options" [overlays]="google_maps_overlays" 
+                            (onOverlayDragEnd)="handleDragEnd($event)" [style]="{'width':'100%','height':'320px'}" ></p-gmap>
+                        {{editingRestaurant.lat}} - {{editingRestaurant.lng}}
+                    </div>
                 </div>
 
             </div>
         </p-tabPanel>
 
-        <!--PRODUCT INFORMATION-->
-            <!--List of all available food and drink items that the restaurant can serve-->
-            <!--And a list of currently selected food and drink items-->
         <p-tabPanel header="Food and Drinks">
 
             <!--FOOD PICKLIST-->
@@ -838,10 +834,10 @@
                     Date From:
                     <p-calendar [(ngModel)]="order_date_from" (onSelect)="check_order_dates()" [readonlyInput]="true"></p-calendar>
                     Date To :
-                    <p-calendar [(ngModel)]="order_date_to" (onSelect)="check_order_dates()" [readonlyInput]="true"></p-calendar>
+                    <p-calendar [(ngModel)]="order_date_to" [minDate]="min_order_date" [readonlyInput]="true"></p-calendar>
                     <br/>
                     <button type="button" pButton (click)="send_order()" label="Send Order" 
-                            [disabled]="(order_with_items.length == 0) || order_dates_invalid" 
+                            [disabled]="(order_with_items.length == 0) || order_date_to==null" 
                             icon="fa-check" style="width:100%;"></button>
                 </p-footer>
             </p-dataTable>
@@ -872,8 +868,7 @@
         <div class="ui-g-6">
             <p-dataTable [value]="order_presentation" sortField="belongs_to_order"
                          rowGroupMode="subheader" groupField="belongs_to_order" expandableRowGroups="true"
-                         [sortableRowGroup]="false" selectionMode="single"
-                         (onRowSelect)="onRowSelect($event)">
+                         [sortableRowGroup]="false" selectionMode="single">
                 <p-header>All Orders</p-header>
                 <template pTemplate="rowgroupheader" let-rowData>
                     <b>Order : </b><i>{{rowData['belongs_to_order']}}</i>, <b>Time Period :  </b><i>[{{rowData['from']}} - {{rowData['to']}}]</i>
