@@ -516,7 +516,7 @@ export class ViewRestaurantsComponent implements OnInit{
         }
         else
         {
-              this.reservationLoadingBar = 35;
+              this.reservationLoadingBar = 45;
 
              //za sad za zonu jedan, posle za zonu trenutno kliknutog restorana
             this.viewRestaurantsService.getAllTables(this.reservation.restaurantZone, this.reservation.startDate.getTime(), this.reservation.endDate.getTime())
@@ -622,7 +622,7 @@ export class ViewRestaurantsComponent implements OnInit{
                       return ;
                   }
 
-                  this.reservationLoadingBar = 80;
+                  this.reservationLoadingBar = 100;
                   this.reservationActiveStep = 2;
               }
           });
@@ -631,7 +631,7 @@ export class ViewRestaurantsComponent implements OnInit{
    reservationBackStep2()
    {
         this.reservationSelectedTables = [];
-        this.reservationLoadingBar = 35;
+        this.reservationLoadingBar = 45;
         this.reservationStep1();
         this.reservationActiveStep = 1;
    }

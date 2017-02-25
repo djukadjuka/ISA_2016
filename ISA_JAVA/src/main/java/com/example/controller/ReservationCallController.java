@@ -3,6 +3,7 @@ package com.example.controller;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -21,8 +22,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.domain.FriendshipBean;
+import com.example.domain.ProductBean;
 import com.example.domain.ReservationCallBean;
 import com.example.domain.ReservationCallBean.ReservationStatus;
+import com.example.service.ProductServiceBean;
 import com.example.service.ReservationCallServiceBean;
 import com.example.service.UserServiceBean;
 
@@ -34,6 +38,9 @@ public class ReservationCallController {
 	
 	@Autowired
 	public UserServiceBean userService = new UserServiceBean();
+	
+	@Autowired
+	public ProductServiceBean productService = new ProductServiceBean();
 	
 	@Autowired
 	private final JavaMailSender mailSender = new JavaMailSenderImpl();
@@ -51,6 +58,33 @@ public class ReservationCallController {
 		Long time = date.getTime() + 1800000; //30 min pre pocetka rez moze da otkaze
 		
 		Collection<ReservationCallBean> calls = reservationCallService.findByOriginatorOriginator(id);
+		ArrayList<ReservationCallBean> retVal = new ArrayList<>();
+		
+		Iterator<ReservationCallBean> iterator = calls.iterator();
+		
+		while(iterator.hasNext())
+		{
+			ReservationCallBean rcb = iterator.next();
+			if(time < rcb.getReservation().getStartDate())
+				retVal.add(rcb);
+		}
+		
+		return retVal;
+	}
+	
+	synchronized
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value="/getReservationsForRecipient/{id}",
+			method = RequestMethod.GET,
+			produces=MediaType.APPLICATION_JSON_VALUE
+			)
+	public ArrayList<ReservationCallBean> getReservationsForRecipient(@PathVariable("id") Long id)
+	{
+		Date date = new Date();
+		Long time = date.getTime() + 1800000; //30 min pre pocetka rez moze da otkaze jelo
+		
+		Collection<ReservationCallBean> calls = reservationCallService.findByRecipient(id);
 		ArrayList<ReservationCallBean> retVal = new ArrayList<>();
 		
 		Iterator<ReservationCallBean> iterator = calls.iterator();
@@ -123,4 +157,109 @@ public class ReservationCallController {
 		
 		return true;
 	}
+	
+	synchronized
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value = "/declineInvite",
+			method = RequestMethod.PUT,
+			produces = MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE
+			)
+	@ResponseBody
+	public boolean declineInvite(@RequestBody Long call_id){
+		
+		reservationCallService.updateStatus("DECLINED",call_id);
+		return true;
+	}
+	
+	synchronized
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value = "/acceptInvite",
+			method = RequestMethod.PUT,
+			produces = MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE
+			)
+	@ResponseBody
+	public boolean acceptInvite(@RequestBody Long call_id){
+		
+		reservationCallService.updateStatus("ACCEPTED",call_id);
+		return true;
+	}
+	
+	synchronized
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value = "/updateFoodAndDrink",
+			method = RequestMethod.PUT,
+			produces = MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE
+			)
+	@ResponseBody
+	public boolean updateFoodAndDrink(@RequestBody FoodAndDrinkWrapper foodAndDrink){
+		
+		ProductBean food = productService.findOne(foodAndDrink.getFood());
+		ProductBean drink = productService.findOne(foodAndDrink.getDrink());
+		
+		int value = 0;
+		
+		if(foodAndDrink.isMakeOrderReady())
+			value = 1;
+		
+		reservationCallService.updateFoodAndDrink(foodAndDrink.getReservation_call_id(), food, drink, value);
+		
+		return true;
+	}
+	
+	synchronized
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value = "/cancelFoodAndDrink",
+			method = RequestMethod.PUT,
+			produces = MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE
+			)
+	@ResponseBody
+	public boolean cancelFoodAndDrink(@RequestBody Long id){
+		
+		reservationCallService.cancelFoodAndDrink(id);
+		
+		return true;
+	}
 }
+
+class FoodAndDrinkWrapper
+{
+	Long reservation_call_id;
+	Long food;
+	Long drink;
+	boolean makeOrderReady;
+	
+	public Long getReservation_call_id() {
+		return reservation_call_id;
+	}
+	public void setReservation_call_id(Long reservation_call_id) {
+		this.reservation_call_id = reservation_call_id;
+	}
+
+	public Long getFood() {
+		return food;
+	}
+	public void setFood(Long food) {
+		this.food = food;
+	}
+	public Long getDrink() {
+		return drink;
+	}
+	public void setDrink(Long drink) {
+		this.drink = drink;
+	}
+	public boolean isMakeOrderReady() {
+		return makeOrderReady;
+	}
+	public void setMakeOrderReady(boolean makeOrderReady) {
+		this.makeOrderReady = makeOrderReady;
+	}
+}
+

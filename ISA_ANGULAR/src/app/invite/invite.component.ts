@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ReservationService } from '../reservations/reservation.service';
 import { SharedService } from '../shared/shared.service';
+import { Message } from 'primeng/primeng';
 
 @Component({
   selector: 'app-invite',
@@ -12,9 +13,10 @@ export class InviteComponent implements OnInit, OnDestroy {
 
   private keygen;
   private sub: any;
-  private inviteData = {};
+  private inviteData: any;
   private showInvite = false;
   private showOrderDialog = false;
+  private msgs: Message[] = [];
 
   foodMenu = [];
   drinkMenu = [];
@@ -73,7 +75,32 @@ export class InviteComponent implements OnInit, OnDestroy {
 
   declineInvite()
   {
+      //update the invite to decline it
+      this._reservationService.declineInvite(this.inviteData.id)
+                              .subscribe(
+                                res => {
+                                      if(res)
+                                      {
+                                           this.msgs = [];
+                                           this.msgs.push({severity:'success', summary:'Invite succesfully declined!'});
+                                      }
+                                  }
+                              )
+  }
 
+  acceptInvite()
+  {
+      this._reservationService.acceptInvite(this.inviteData.id)
+                              .subscribe(
+                                  res => 
+                                  {
+                                      if(res)
+                                      {
+                                          this.msgs = [];
+                                          this.msgs.push({severity:'success', summary:'Invite succesfully accepted!'});
+                                      }
+                                  }
+                              )
   }
 
 }

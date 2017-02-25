@@ -43,7 +43,17 @@ public class ReservationCallBean {
 	@Column(nullable = true)
 	private Long keygen;
 	
-	//food
+	@Column(nullable = true)
+	private int makeOrderFast;
+	
+	//food and drinks
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "food", nullable = true)
+    private ProductBean food;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "drink", nullable = true)
+    private ProductBean drink;
 	 
 	 public ReservationCallBean() {
 	    }
@@ -98,5 +108,29 @@ public class ReservationCallBean {
 
 	public void setKeygen(Long keygen) {
 		this.keygen = keygen;
+	}
+
+	public int getMakeOrderFast() {
+		return makeOrderFast;
+	}
+
+	public void setMakeOrderFast(int makeOrderFast) {
+		this.makeOrderFast = makeOrderFast;
+	}
+
+	public ProductBean getFood() {
+		return food;
+	}
+
+	public void setFood(ProductBean food) {
+		this.food = food;
+	}
+
+	public ProductBean getDrink() {
+		return drink;
+	}
+
+	public void setDrink(ProductBean drink) {
+		this.drink = drink;
 	}
 }

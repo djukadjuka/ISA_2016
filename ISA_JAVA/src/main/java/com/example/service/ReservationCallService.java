@@ -2,6 +2,7 @@ package com.example.service;
 
 import java.util.Collection;
 
+import com.example.domain.ProductBean;
 import com.example.domain.ReservationCallBean;
 
 public interface ReservationCallService {
@@ -12,10 +13,18 @@ public interface ReservationCallService {
 	
 	Collection<ReservationCallBean> findByOriginatorOriginator(Long originator);
 	
+	Collection<ReservationCallBean> findByRecipient(Long recipient);
+	
 	void delete(Long reservation_id, Long reservation_call_id);
 	
 	ReservationCallBean findByKeygenAndId(Long keygen);
 	
+	//**** for invites and emails
 	
+	int updateStatus(String status, Long call_id );
+	
+	int updateFoodAndDrink(Long id, ProductBean food, ProductBean drink, int makeOrderFast);
+
+	int cancelFoodAndDrink(Long id);
 
 }

@@ -19,6 +19,24 @@ export class ReservationsComponent implements OnInit {
   friends = [];
   friendsCols = [];
 
+  recipientReservations = [];
+  recipientReservationsCols = [];
+
+  //food and drink choosing
+  showOrderDialog = false;
+  selectedReservationCallId: any;
+
+  foodMenu = [];
+  drinkMenu = [];
+
+  makeOrderFast : boolean = false;
+
+  foodMenuCols = [];
+  drinkMenuCols = [];
+
+  selectedFood : any;
+  selectedDrink : any;
+
   msgs: Message[] = [];
 
 
@@ -33,6 +51,8 @@ export class ReservationsComponent implements OnInit {
       this.selectedReservation = {};
 
       this.getOriginatorReservationData();
+
+      this.getRecipientReservationData();
       
       this._editUserService.getFriendships(this._sharedService.userId)
                           .subscribe(
@@ -41,11 +61,20 @@ export class ReservationsComponent implements OnInit {
     
       this.originatorReservationsCols = [
             {field: 'id', header: 'Reservation ID'},
-            {field: 'originator.username', header: 'Made by'},
             {field: 'reservation.table_id.restaurant_zone_id.restaurant.name', header: 'Restaurant'},
             {field: 'reservation.table_id.restaurant_zone_id.name', header: 'Zone'},
             {field: 'reservation.table_id.id', header: 'Table ID'},
             {field: 'reservation.table_id.maxPeople', header: 'Table seats'}
+        ];
+
+        this.recipientReservationsCols = [
+            {field: 'id', header: 'Reservation ID'},
+            {field: 'reservation.table_id.restaurant_zone_id.restaurant.name', header: 'Restaurant'},
+            {field: 'reservation.table_id.restaurant_zone_id.name', header: 'Zone'},
+            {field: 'reservation.table_id.id', header: 'Table ID'},
+            {field: 'reservation.table_id.maxPeople', header: 'Table seats'},
+            {field: 'food.name', header: 'Ordered food'},
+            {field: 'drink.name', header: 'Ordered drink'}
         ];
 
        this.friendsCols = [
@@ -53,6 +82,12 @@ export class ReservationsComponent implements OnInit {
             {field: 'recipient.lastName', header: 'Last name'},
             {field: 'recipient.username', header: 'Username'},
             {field: 'recipient.email', header: 'Email'}
+        ];
+
+         this.foodMenuCols = [
+            {field: 'name', header: 'Name'},
+            {field: 'price', header: 'Product price $'},
+            {field: 'description', header: 'Description'}
         ];
   }
 
@@ -71,6 +106,15 @@ export class ReservationsComponent implements OnInit {
                             );
   }
 
+  getRecipientReservationData()
+  {
+       this._reservationService.getRecipientReservationCalls(this._sharedService.userId)
+                            .subscribe(
+                              res => this.recipientReservations = res
+                            );
+  }
+  
+
   cancelReservation(reservationCall)
   {
       this._reservationService.cancelReservation(reservationCall)
@@ -80,6 +124,7 @@ export class ReservationsComponent implements OnInit {
                                         this.msgs = [];
                                         this.msgs.push({severity:'success', summary:'Reservation canceled!'});
                                         this.getOriginatorReservationData();
+                                        this.getRecipientReservationData();
                                   }
                               );
   }
@@ -102,6 +147,60 @@ export class ReservationsComponent implements OnInit {
                                         }
                                     )
       }
+  }
+
+  chooseFoodAndDrink(reservationCall)
+  {
+        this.selectedReservationCallId = reservationCall.id;
+        this.foodMenu = reservationCall.reservation.table_id.restaurant_zone_id.restaurant.foodMenu;
+        this.drinkMenu = reservationCall.reservation.table_id.restaurant_zone_id.restaurant.drinksMenu;
+
+        this.showOrderDialog = true;
+  }
+
+  declineShowOrderDialog()
+  {
+      this.selectedReservationCallId = "";
+      this.selectedFood = {};
+      this.selectedDrink = {};
+      this.makeOrderFast = false;
+
+      this.showOrderDialog = false;
+  }
+
+  acceptShowOrderDialog()
+  {
+      this._reservationService.updateFoodAndDrink(+this.selectedReservationCallId, +this.selectedFood.id, +this.selectedDrink.id, this.makeOrderFast)
+                            .subscribe(
+                                res =>
+                                {
+                                     this.msgs = [];
+                                     this.msgs.push({severity:'success', summary:'Your food and drink order is set succesfully!'});
+
+                                     this.selectedFood = {};
+                                     this.selectedDrink = {};
+                                     this.makeOrderFast = false;
+                                     this.selectedReservationCallId = "";
+
+                                     this.showOrderDialog = false;
+
+                                     this.getRecipientReservationData();
+                                }
+                            );
+  }
+
+  cancelFoodAndDrinkOrder(reservationCall)
+  {
+      this._reservationService.cancelFoodAndDrink(reservationCall.id)
+                            .subscribe(
+                                res => 
+                                {
+                                    this.msgs = [];
+                                     this.msgs.push({severity:'success', summary:'Your food and drink order is canceled succesfully!'});
+                                     
+                                      this.getRecipientReservationData();
+                                }
+                            );
   }
 
 }

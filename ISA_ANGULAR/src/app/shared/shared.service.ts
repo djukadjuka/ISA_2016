@@ -13,7 +13,7 @@ export class SharedService {
   public isManager : boolean = false;
   public isDeliverer : boolean = false;
 
-  public userId : String = "20";
+  public userId : String = "1";
   public userEmail : String = "";
 
 
