@@ -34,4 +34,12 @@ export class ReservationService {
         return this._http.post(this._baseURL+"/reservationInvite",JSON.stringify(reservationCall),options)
                             .map(res=>res.json().data);
     }
+
+    //FOR EMAIL INVITE
+    inviteData(keygen)
+    {
+        return this._http.get(this._baseURL + "/inviteData/" + keygen)
+            .map(res => res.json());
+    }
+    
 }

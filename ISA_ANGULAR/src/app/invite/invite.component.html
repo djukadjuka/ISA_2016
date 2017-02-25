@@ -1,3 +1,50 @@
-<p>
-  invite works!
-</p>
+<p-panel *ngIf="showInvite" header="Reservation invite" >
+    <p> 
+      You have been invited to join your friend 
+     <b> {{inviteData.originator.firstName}} {{inviteData.originator.lastName}} ({{inviteData.originator.username}}) </b>
+     on the table reservations he made.
+    </p>
+    <p>
+      Restaurant name: <b> {{inviteData.reservation.table_id.restaurant_zone_id.restaurant.name}} </b>
+    </p>
+    <p>
+      Restaurant zone: <b> {{inviteData.reservation.table_id.restaurant_zone_id.name}} </b>
+    </p>
+   <p>
+      Start time: <b> {{getDate(inviteData.reservation.startDate)}} </b>
+    </p>
+    <button pButton type="button" class="ui-button-success" (click)="acceptInvite()" icon="fa-check" label="Accept"></button> 
+    <button pButton type="button" class="ui-button-info" (click)="showOrderDialog=true" icon="fa-cutlery" label="Choose food and drink"></button>
+    <button pButton type="button" class="ui-button-danger" (click)="declineInvite()" icon="fa-times" label="Decline"></button>
+
+    <p-dialog header="Choose food and drink" [(visible)]="showOrderDialog" [responsive]=true [resizable]=false [draggable]=false width="700" [modal]=true>
+        <p-dataTable [value]="foodMenu" selectionMode="single" [(selection)]="selectedFood" [rows]="5" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
+              <p-header>Food menu</p-header>
+              <p-column *ngFor="let col of foodMenuCols" [field]="col.field" [filter]="true" filterPlaceholder="Search" [header]="col.header"></p-column>
+        </p-dataTable>
+        <p></p>
+        <p-dataTable [value]="drinkMenu" selectionMode="single" [(selection)]="selectedDrink" [rows]="5" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
+              <p-header>Drinks menu</p-header>
+              <p-column *ngFor="let col of foodMenuCols" [field]="col.field" [filter]="true" filterPlaceholder="Search" [header]="col.header"></p-column>
+        </p-dataTable>
+
+        <h4 class="first">Make my food ready when I get there</h4>
+        <div class="ui-g" style="width:250px;margin-bottom:10px">
+            <p-checkbox [(ngModel)]="makeOrderReady" binary="true"></p-checkbox>
+        </div>
+        
+        <div>
+            <div class="ui-g">
+                <div class="ui-g-3">
+                    <button pButton style="float: left" (click)="showOrderDialog=false" class="ui-button-success" type="text"  icon="fa-check" label="Confirm"></button>
+                </div>
+                <div class="ui-g-3"></div>
+                <div class="ui-g-3"></div>
+                <div class="ui-g-3">
+                    <button pButton style="float: right" (click)="declineShowOrderDialog()" class="ui-button-danger" type="text"  icon="fa-times" label="Decline"></button>
+                </div>
+            </div>
+        </div>
+  </p-dialog>
+</p-panel>
+

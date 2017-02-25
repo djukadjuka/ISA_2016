@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.domain.ReservationCallBean;
@@ -73,21 +77,38 @@ public class ReservationCallController {
 	{	
 		ReservationCallBean call = new ReservationCallBean(ReservationStatus.PENDING, rcb.getOriginator(), rcb.getRecipient(), rcb.getReservation());
 		
-		reservationCallService.create(call);
+		Random r = new Random();
+		Long keygen = r.nextLong();
+		boolean emailSent = true;
 		
 		try {
 			SimpleMailMessage email = new SimpleMailMessage();
 			email.setFrom("stkosijer@gmail.com");
 			email.setTo("secimasubre@gmail.com");
 			email.setSubject("Restaurant invitation from " + rcb.getOriginator().getFirstName() + " " + rcb.getOriginator().getLastName());
-			email.setText("Hello, you have been invited.");
+			email.setText("Hello, you have been invited to a restaurant reservation. Follow the link to answer http://localhost:4200/invite/" + keygen);
 
 			mailSender.send(email);
 		} catch (Exception ex) {
 			System.out.println("Email nije poslat.");
+			emailSent = false;
 		}
 		
+			call.setKeygen(keygen);
+			reservationCallService.create(call);
+		
 		return true;
+	}
+	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value="/inviteData/{keygen}",
+			method = RequestMethod.GET,
+			produces=MediaType.APPLICATION_JSON_VALUE
+			)
+	public ResponseEntity<ReservationCallBean> inviteData(@PathVariable("keygen") Long keygen)
+	{
+		return new ResponseEntity<ReservationCallBean> (reservationCallService.findByKeygenAndId(keygen), HttpStatus.OK);
 	}
 	
 	@CrossOrigin(origins = "http://localhost:4200")

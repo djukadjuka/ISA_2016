@@ -17,7 +17,7 @@ export const routing = RouterModule.forRoot([
     { path: '', component: HomeComponent },
     { path: 'account', component: EditUserComponent},
     { path: 'reservations', component: ReservationsComponent},
-    { path: 'invite/:key', component: InviteComponent},
+    { path: 'invite/:keygen', component: InviteComponent},
     { path: 'restaurants', component: ViewRestaurantsComponent},
     { path: 'chef',component : EditChefComponent},
     { path: 'waiter',component : EditWaiterComponent},

@@ -18,6 +18,8 @@ private displayScheduleeButton: boolean = false;
     private userUpdate = {username: "", id: ""};
     private msgs: Message[] = [];
     private formEditUser: FormGroup;
+      reservation = { Date : new Date};
+  formReservation : FormGroup;
   constructor(
 
      private _editUserService: EditUserService,
@@ -50,12 +52,19 @@ private displayScheduleeButton: boolean = false;
       );
 
     console.log(this.userUpdate);
+
     */
+
+    this.formReservation = this._fb.group({
+        Date: ['', Validators.required]
+        });
   }
 
 
 
-  
+   all_schedules_for_employee;
+   all_users;
+
 
 
   displaySchedule(){
@@ -64,6 +73,35 @@ private displayScheduleeButton: boolean = false;
   }
 
   displaySchedulee(){
+        console.log(this.reservation.Date.getTime());
+    this._restaurantService.getCookScheduleByDate(this.reservation.Date.getTime()).subscribe(
+      res => {
+
+         this.all_schedules_for_employee = [];
+          for(let item in res){
+           let start_time = new Date(res[item].from);
+           let end_time = new Date(res[item].to);
+           let date = new Date(res[item].date);
+           let fName = res[item].for_employee.user.firstName;
+           let lName = res[item].for_employee.user.lastName
+          
+
+           console.log(res);
+
+            this.all_schedules_for_employee.push(
+             { first_name:""+fName, last_name:""+lName,  from:""+start_time.getHours() + " : " + start_time.getMinutes(),
+               to:""+end_time.getHours() + " : " + end_time.getMinutes(),
+               date:""+date.getDate()+" : "+ (date.getMonth()+1) + " : " + date.getFullYear()}
+             );
+       // this.schedule =res;
+       
+      }
+      
+      }   
+    );
+
+
+
 
     this.displayScheduleeButton = true;
 
