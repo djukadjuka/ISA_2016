@@ -78,4 +78,31 @@ public interface DeliveryBidRepository extends JpaRepository<DeliveryOrderBid, L
 			+ " set dob.bid_status = null"
 			+ " where dob.id = :dob_id",nativeQuery=true)
 	public void setBidToBeExpired(@Param("dob_id") Long dob_id);
+	
+	/**check if bid exists*/
+	@Query(value = "select * from delivery_order_bid"
+			+ " where made_by_deliverer_user_id = :user_id and made_for_order_id = :order_id", nativeQuery=true)
+	public DeliveryOrderBid checkIfDeliveryOrderExists(@Param("user_id") Long user_id, @Param("order_id") Long order_id);
+	
+	/**Update existing bid*/
+	@Transactional
+	@Modifying
+	@Query(value = "update delivery_order_bid set bidding_price = :price"
+			+ " where made_by_deliverer_user_id = :user_id and made_for_order_id = :order_id",nativeQuery=true)
+	public void updateCashForDeliveryBid(@Param("price") Long price,@Param("user_id") Long user_id, @Param("order_id") Long order_id);
+	
+	/**update new bid*/
+	@Transactional
+	@Modifying
+	@Query(value = "update delivery_order_bid set "
+			+ " bid_status='PENDING', bidding_price=:price,seen_status=0,made_by_deliverer_user_id=:user_id"
+			+ " ,made_for_order_id=:order_id,made_for_restaurant_id=:restaurant_id"
+			+ " where id=:bid_id",nativeQuery=true)
+	public void updateNewBidInformation(
+			@Param("price") Long price,
+			@Param("user_id") Long user_id,
+			@Param("order_id") Long order_id,
+			@Param("restaurant_id") Long restaurant_id,
+			@Param("bid_id") Long bid_id
+			);
 }

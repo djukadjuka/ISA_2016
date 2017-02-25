@@ -720,17 +720,17 @@ values(18,'ACCEPTED');
 --==orders
 
 insert into delivery_order(id,date_from,date_to,made_by,for_restaurant_id,accepted_user_id,price_accepted)
-values(1,969660000000,969746400000,1,1,17,null);
+values(1,1487718000000,1493071200000,1,1,17,null);
 insert into delivery_order(id,date_from,date_to,made_by,for_restaurant_id,accepted_user_id,price_accepted)
-values(2,1487718000000,1487977200000,1,1,17,null);
+values(2,1487718000000,1493071200000,1,1,17,null);
 insert into delivery_order(id,date_from,date_to,made_by,for_restaurant_id,accepted_user_id,price_accepted)
-values(3,1487718000000,1487977200000,1,1,18,null);
+values(3,1487718000000,1493071200000,1,1,18,null);
 insert into delivery_order(id,date_from,date_to,made_by,for_restaurant_id,accepted_user_id,price_accepted)
-values(4,1487718000000,1487977200000,1,1,18,null);
+values(4,1487718000000,1493071200000,1,1,18,null);
 insert into delivery_order(id,date_from,date_to,made_by,for_restaurant_id,accepted_user_id,price_accepted)
-values(5,1487718000000,1487977200000,1,1,null,null);
+values(5,1487718000000,1493071200000,1,1,null,null);
 insert into delivery_order(id,date_from,date_to,made_by,for_restaurant_id,accepted_user_id,price_accepted)
-values(6,969660000000,969746400000,1,1,null,null);
+values(6,1487718000000,1493071200000,1,1,null,null);
 
 --==order items
 --==(1)
@@ -903,3 +903,8 @@ insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) val
 insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(59	,	155,	1483225199000,	6,	1);--12/31/2016 23:59:59
 insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(60	,	155,	1483225199000,	6,	1);
 insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) values(61	,	155,	1483225199000,	6,	1);
+
+--nije validan test podatak
+--potrebno obrisati kada se bude radila odbrana....
+insert into deliverer values('ACCEPTED',1);
+

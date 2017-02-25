@@ -122,4 +122,11 @@ export class EditUserService {
       return this._http.post(this._baseURL+"/delivery_controller/userToDeliverer",JSON.stringify(user),options)
                         .map(res=>"finished...");
   }
+  send_new_bid(bid){
+      var headers = new Headers({'Content-Type':'application/json'});
+      var options = new RequestOptions({headers:headers});
+
+      return this._http.post(this._baseURL+"/deliveryController/sendNewBid",JSON.stringify(bid),options)
+                        .map(res=>"finished...");
+  }
 }

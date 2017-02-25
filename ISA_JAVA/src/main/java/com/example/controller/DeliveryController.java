@@ -144,6 +144,26 @@ public class DeliveryController {
 		return new ResponseEntity<HashMap<String,Object>>(payload,HttpStatus.OK);
 	}
 	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value="/deliveryController/sendNewBid",
+			method=RequestMethod.POST,
+			consumes=MediaType.APPLICATION_JSON_VALUE
+			)
+	public synchronized void sendNewBid(@RequestBody BidRequestWrapper bid){
+		if(this.delivery_bid_service.checkIfDeliveryOrderExists(bid.getMade_by_user(), bid.getMade_for_order())==null){
+			DeliveryOrderBid new_bid= new DeliveryOrderBid();
+			new_bid = this.delivery_bid_service.create(new_bid);
+			this.delivery_bid_service.updateNewBidInformation(bid.getBid_in_dollars(), 
+																bid.getMade_by_user(),
+																bid.getMade_for_order(), 
+																this.delivery_order_service.findOne(bid.getMade_for_order()).getFor_restaurant().getId(), 
+																new_bid.getId());
+		}else{
+			this.delivery_bid_service.updateCashForDeliveryBid(bid.getBid_in_dollars(), bid.getMade_by_user(), bid.getMade_for_order());
+		}
+	}
+	
 	/////////////////////////////////////////////
 	/////SPECIFIC FOR USER
 	/////////////////////////////////////////////
@@ -183,6 +203,29 @@ class RequestWrapper{
 	public void setOrder(DeliveryOrderBean order) {
 		this.order = order;
 	}
+}
+
+class BidRequestWrapper{
+	private Long bid_in_dollars;
+	private Long made_for_order;
+	private Long made_by_user;
 	
-	
+	public Long getBid_in_dollars() {
+		return bid_in_dollars;
+	}
+	public void setBid_in_dollars(Long bid_in_dollars) {
+		this.bid_in_dollars = bid_in_dollars;
+	}
+	public Long getMade_for_order() {
+		return made_for_order;
+	}
+	public void setMade_for_order(Long made_for_order) {
+		this.made_for_order = made_for_order;
+	}
+	public Long getMade_by_user() {
+		return made_by_user;
+	}
+	public void setMade_by_user(Long made_by_user) {
+		this.made_by_user = made_by_user;
+	}
 }

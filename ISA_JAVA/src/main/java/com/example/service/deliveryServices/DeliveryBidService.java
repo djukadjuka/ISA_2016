@@ -2,8 +2,6 @@ package com.example.service.deliveryServices;
 
 import java.util.Collection;
 
-import org.springframework.data.repository.query.Param;
-
 import com.example.domain.deliveryBeans.DeliveryOrderBid;
 
 public interface DeliveryBidService {
@@ -30,4 +28,15 @@ public interface DeliveryBidService {
 	
 	/**SETS THE BIDS STATUS TO NULL SO THAT IT IS EXPIRED IN THE FRONT END*/
 	public void setBidToBeExpired(Long dob_id);
+	
+	public DeliveryOrderBid checkIfDeliveryOrderExists(Long user_id, Long order_id);
+	public void updateCashForDeliveryBid(Long price,Long user_id, Long order_id);
+	
+	public void updateNewBidInformation(
+			Long price,
+			Long user_id,
+			Long order_id,
+			Long restaurant_id,
+			Long bid_id
+			);
 }
