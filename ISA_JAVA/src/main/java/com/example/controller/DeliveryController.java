@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -63,9 +64,29 @@ public class DeliveryController {
 	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(
+			value = "/delivery_controller/acceptBid",
+			method = RequestMethod.POST,
+			consumes = MediaType.APPLICATION_JSON_VALUE
+			)
+	public synchronized void acceptBid(@RequestBody AcceptedBidWrapper wrapper){
+		
+		//set bid accepted
+		this.delivery_bid_service.setBidAccepted(wrapper.getBid_id());
+		
+		Long user_accepted_id = this.delivery_bid_service.findOne(wrapper.getBid_id()).getMade_by_deliverer().getId();
+		
+		//set order accepted_by and cash_accepted
+		this.delivery_order_service.setDeliveryOrderAccepted(user_accepted_id, wrapper.getCash_accepted_id(), wrapper.getOrder_id());
+		
+		//set all other bids for that order to declined
+		this.delivery_bid_service.setOtherBidsDeclined(wrapper.getOrder_id());
+	}
+	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
 			value = "/delivery_controller/sendNewDelivery",
 			method = RequestMethod.POST,
-			produces = MediaType.APPLICATION_JSON_VALUE
+			consumes = MediaType.APPLICATION_JSON_VALUE
 			)
 	@ResponseBody
 	public synchronized void sendNewDelivery(@RequestBody RequestWrapper wrapper){
@@ -114,6 +135,15 @@ public class DeliveryController {
 	///////////////////////////////////////////////////////////
 	///////SPECIFIC FOR DELIVERER
 	//////////////////////////////////////////////////////////
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value="/delivery_controller/delivererSawStatus",
+			method=RequestMethod.POST,
+			consumes = MediaType.APPLICATION_JSON_VALUE
+			)
+	public synchronized void SeenBidStatus(@RequestBody SeenStatusPayload seenStatus){
+		this.delivery_bid_service.setSeenStatus(seenStatus.getBid_seen_id());
+	}
 	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(
@@ -144,6 +174,7 @@ public class DeliveryController {
 		return new ResponseEntity<HashMap<String,Object>>(payload,HttpStatus.OK);
 	}
 	
+	@MessageMapping("/hello")
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(
 			value="/deliveryController/sendNewBid",
@@ -228,4 +259,43 @@ class BidRequestWrapper{
 	public void setMade_by_user(Long made_by_user) {
 		this.made_by_user = made_by_user;
 	}
+}
+
+class AcceptedBidWrapper{
+	private Long bid_id;
+	private Long order_id;
+	private Long cash_accepted_id;
+	
+	public Long getCash_accepted_id() {
+		return cash_accepted_id;
+	}
+	public void setCash_accepted_id(Long cash_accepted_id) {
+		this.cash_accepted_id = cash_accepted_id;
+	}
+	public Long getBid_id() {
+		return bid_id;
+	}
+	public void setBid_id(Long bid_id) {
+		this.bid_id = bid_id;
+	}
+	public Long getOrder_id() {
+		return order_id;
+	}
+	public void setOrder_id(Long order_id) {
+		this.order_id = order_id;
+	}
+	
+}
+
+class SeenStatusPayload{
+	private Long bid_seen_id;
+
+	public Long getBid_seen_id() {
+		return bid_seen_id;
+	}
+
+	public void setBid_seen_id(Long bid_seen_id) {
+		this.bid_seen_id = bid_seen_id;
+	}
+	
 }

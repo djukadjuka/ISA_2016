@@ -1320,6 +1320,41 @@ export class ViewRestaurantsComponent implements OnInit{
 
       accept_bid(bid){
         console.log(bid);
+        let payload = {
+          bid_id:bid.id,
+          order_id:bid.made_for_order.id,
+          cash_accepted_id:bid.bidding_price
+        };
+        this.viewRestaurantsService.acceptBid(payload).subscribe(res=>{
+          this.viewRestaurantsService.getDeliveryOrdersForRestaurant(this.restaurant_23.id).subscribe(
+            res=>{
+              this.restaurant_orders = res;
+              let curr_date = new Date();
+              this.order_presentation = [];
+              this.order_bids = [];
+              for(let order in this.restaurant_orders){ 
+                  let from = new Date(this.restaurant_orders[order].date_from);
+                  let to = new Date(this.restaurant_orders[order].date_to);
+                  let from_milis = from.getTime()
+                  let to_milis = to.getTime();
+
+                  for(let item in this.restaurant_orders[order].contains_items){
+
+                    if(from_milis < curr_date.getTime() && to_milis > curr_date.getTime()){  
+                      this.order_presentation.push({
+                          belongs_to_order:this.restaurant_orders[order].id,
+                          item_name:this.restaurant_orders[order].contains_items[item].item_name,
+                          item_amount:this.restaurant_orders[order].contains_items[item].item_amount,
+                          from: from.getDate() + "/" + (from.getMonth() + 1) + "/" + from.getFullYear(),
+                          to: to.getDate() + "/" + (to.getMonth() + 1) + "/" + to.getFullYear()
+                      });
+                    }
+                  }
+              }
+            }
+          )
+        }
+        )
       }
 
       close_check_delivery_notifications(){

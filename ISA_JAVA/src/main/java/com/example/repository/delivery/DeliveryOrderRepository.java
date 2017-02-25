@@ -32,9 +32,12 @@ public interface DeliveryOrderRepository extends JpaRepository<DeliveryOrderBean
 			+ " and d.date_to > :current_date",nativeQuery=true)
 	public Collection<DeliveryOrderBean> getAllFreeDeliveries(@Param("current_date") Long current_date);
 	
-	/*@Transactional
+	@Transactional
 	@Modifying
-	@Query(value = "insert into delivery_order(id,date_from,date_to,made_by,for_restaurant_id,accepted_user_id,price_accepted)"
-					+" values(1,969660000000,969746400000,1,1,17,null)" ,nativeQuery=true)
-	public void createNewDeliveryCustom();*/
+	@Query(value="update delivery_order"
+			+ " set accepted_user_id = :user_id, price_accepted=:price"
+			+ " where id = :order_id",nativeQuery=true)
+	public void setDeliveryOrderAccepted(@Param("user_id") Long user_id,
+										 @Param("price") Long price,
+										 @Param("order_id") Long order_id);
 }

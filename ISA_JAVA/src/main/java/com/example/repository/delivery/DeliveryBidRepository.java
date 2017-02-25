@@ -105,4 +105,24 @@ public interface DeliveryBidRepository extends JpaRepository<DeliveryOrderBid, L
 			@Param("restaurant_id") Long restaurant_id,
 			@Param("bid_id") Long bid_id
 			);
+	
+	/**accept bid*/
+	@Transactional
+	@Modifying
+	@Query(value="update delivery_order_bid "
+			+ " set bid_status = 'ACCEPTED' where id=:bid_id",nativeQuery=true)
+	public void setBidAccepted(@Param("bid_id") Long bid_id);
+	
+	/**decline other bids*/
+	@Transactional
+	@Modifying
+	@Query(value="update delivery_order_bid "
+			+ " set bid_status = 'DECLINED' where "
+			+ " bid_status = 'PENDING' and made_for_order_id = :order_id",nativeQuery=true)
+	public void setOtherBidsDeclined(@Param("order_id") Long order_id);
+	
+	@Transactional
+	@Modifying
+	@Query(value="update delivery_order_bid set seen_status = 1 where id=:id",nativeQuery=true)
+	public void setSeenStatus(@Param("id") Long id);
 }

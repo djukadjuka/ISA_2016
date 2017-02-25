@@ -517,6 +517,10 @@ export class EditUserComponent implements OnInit {
 
     dismiss_order_notification(item){
         console.log(item);
+        let payload = {bid_seen_id:item.id};
+        this._editUserService.update_seen_status(payload).subscribe(
+            res=>{}
+        );
     }
 
     /**registering as deliverer */

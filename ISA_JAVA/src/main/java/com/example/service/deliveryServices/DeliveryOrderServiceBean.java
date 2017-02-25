@@ -52,4 +52,9 @@ public class DeliveryOrderServiceBean implements DeliveryOrderService{
 		return this.repository.getAllFreeDeliveries(current_date);
 	}
 
+	@Override
+	public void setDeliveryOrderAccepted(Long user_id, Long price, Long order_id) {
+		this.repository.setDeliveryOrderAccepted(user_id, price, order_id);
+	}
+
 }

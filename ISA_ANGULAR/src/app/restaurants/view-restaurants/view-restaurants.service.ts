@@ -277,4 +277,11 @@ export class ViewRestaurantsService {
       res=>"finished..."
     );
   }
+  acceptBid(payload){
+    var headers = new Headers({'Content-Type':'application/json'});
+    var options = new RequestOptions({headers:headers});
+    return this._http.post(this._baseURL+"/delivery_controller/acceptBid",JSON.stringify(payload),options).map(
+      res=>"finished..."
+    );
+  }
 }

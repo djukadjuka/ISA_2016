@@ -407,27 +407,21 @@
 
                 <!--ROW FOR FOOD TYPES AND IMAGE -->
                 <div class="row">
-                    <div class= col-md-12>
+                    <div class= "col-md-4">
                         <b>Available Cuisines:</b>
                             <p-listbox  [options]="availableCuisines" [(ngModel)]="selectedCuisines"
                                         (onChange)="showChange()" 
                                         multiple="multiple" checkbox="checkbox"></p-listbox>
-                    </div><!--
-                    <div class= col-md-6>
-                        <b>Restaurant picture:</b><br/>
-                        <img [src]="editingRestaurant.image" (error)="editingRestaurant.image = '/assets/pictures/no_image_found.jpg'" alt="..." height="150" width="150"/><br/>
-                        <b>Upload new:</b><br/>
-                        url="http://localhost:4400/restaurantPictureUpload"
-                        <i>Work in progress....</i>
-                    </div>-->
+                    </div>
+                    <div class="col-md-8">
+                        <h4>Restaurant Location</h4>
+                        
+                    </div>
                 </div>
 
             </div>
         </p-tabPanel>
 
-        <!--PRODUCT INFORMATION-->
-            <!--List of all available food and drink items that the restaurant can serve-->
-            <!--And a list of currently selected food and drink items-->
         <p-tabPanel header="Food and Drinks">
 
             <!--FOOD PICKLIST-->
