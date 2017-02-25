@@ -3,9 +3,11 @@ package com.example.repository;
 import java.util.Collection;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.domain.BillBean;
 
@@ -31,4 +33,8 @@ public interface BillRepository extends JpaRepository<BillBean, Long>{
 																@Param("date_from") Long date_from,
 																@Param("date_to") Long date_to);
 	
+	@Transactional
+	@Modifying
+	@Query(value="delete from bill where employee_user_id = :emp_id",nativeQuery=true)
+	public void delete_employee_bills(@Param("emp_id") Long emp_id);
 }

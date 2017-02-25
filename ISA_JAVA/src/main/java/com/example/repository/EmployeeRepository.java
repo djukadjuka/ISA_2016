@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.domain.EmployeeBean;
+import com.example.domain.EmployeeEnum;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<EmployeeBean, Long> {
@@ -67,4 +68,39 @@ public interface EmployeeRepository extends JpaRepository<EmployeeBean, Long> {
 	@Modifying
 	@Query(value = "insert into manages_restaurants(manager_id,rest_id) values(:manager_id,:rest_id)",nativeQuery=true)
 	public void create_new_manager_relation(@Param("manager_id") Long manager_id, @Param("rest_id") Long rest_id);
+	
+	/**create new employee*/
+	@Transactional
+	@Modifying
+	@Query(value="insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)"
+			+ " values(:date_of_birth,:role,:shoe_size,:suit_size,:user_id,:works_in_restaurant)",nativeQuery=true)
+	public void create_new_worker_for_restaurant(	@Param("date_of_birth") Long date_of_birth,
+													@Param("role") String role,
+													@Param("shoe_size") Float shoe_size,
+													@Param("suit_size") Float suit_size,
+													@Param("user_id") Long user_id,
+													@Param("works_in_restaurant") Long works_in_restaurant);
+	
+	/**Discontinue an employees fate ...*/
+	@Transactional
+	@Modifying
+	@Query(value="delete from employee where user_id = :user_id",nativeQuery=true)
+	public void fire_an_employee(@Param("user_id") Long user_id);
+	
+	@Transactional
+	@Modifying
+	@Query(value="delete from review where for_employee = :user_id",nativeQuery=true)
+	public void delete_his_reviews(@Param("user_id") Long user_id);
+	
+	@Transactional
+	@Modifying
+	@Query(value="delete from restaurant_table where served_by = :user_id",nativeQuery=true)
+	public void delete_his_tables(@Param("user_id") Long user_id);
+	
+	@Transactional
+	@Modifying
+	@Query(value="delete from employee_schedule where for_employee = :user_id",nativeQuery=true)
+	public void delete_his_schedules(@Param("user_id") Long user_id);
+	
+	
 }

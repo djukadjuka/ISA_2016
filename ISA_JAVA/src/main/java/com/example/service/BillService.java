@@ -28,4 +28,6 @@ public interface BillService {
 	
 	/**get all bills for a restaurant in a time period*/
 	public Collection<BillBean> getAllBillsRestaurantTimePeriod(Long rest_id,Long date_from,Long date_to);
+	
+	public void delete_employee_bills(Long emp_id);
 }

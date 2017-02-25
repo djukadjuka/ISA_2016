@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.springframework.data.repository.query.Param;
 
+import com.example.domain.EmployeeEnum;
 import com.example.domain.UserBean;
 
 public interface UserService {

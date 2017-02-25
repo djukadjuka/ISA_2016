@@ -564,18 +564,18 @@
                     <p-selectButton [options]="employee_roles" [(ngModel)]="registering_employee.role"></p-selectButton>
                 </i><br/>
             <!--EMPLOYEE SHOE SIZE-->
-                <b>Shoe Size : </b>
+                <b>Shoe Size : {{registering_employee.shoeSize}}</b>
                 <!--<input type="text" pInputText [(ngModel)]="registering_employee.shoeSize" style="width:190px"/>-->
-                <p-slider [(ngModel)]="registering_employee.shoeSize" [style]="{'width':'200px'}">{{registering_employee.shoeSize}}</p-slider><br/>
+                <p-slider [(ngModel)]="registering_employee.shoeSize" [style]="{'width':'200px'}"></p-slider><br/>
             <!--EMPLOYEE SUIT SIZE-->
-                <b>Suit Size : </b>
+                <b>Suit Size : {{registering_employee.suitSize}}</b>
                 <!--<input type="text" pInputText [(ngModel)]="registering_employee.suitSize" style="width:190px"/>-->
-                <p-slider [(ngModel)]="registering_employee.suitSize" [style]="{'width':'200px'}">{{registering_employee.suitSize}}</p-slider><br/>
+                <p-slider [(ngModel)]="registering_employee.suitSize" [style]="{'width':'200px'}"></p-slider><br/>
             <!--EMPLOYEE DATE OF BIRTH-->
                 <b>Date of Birth : </b>
-                <p-calendar [(ngModel)]="registering_employee.dateOfBirth" [minDate]="minDate" 
-                [monthNavigator]="true" [yearNavigator]="true" yearRange="1940:2030"
-                [maxDate]="maxDate" [readonlyInput]="true"></p-calendar><br/>
+                <p-calendar [(ngModel)]="registering_employee_dob" [minDate]="min_employee_date_of_birth" 
+                [monthNavigator]="true" [yearNavigator]="true" yearRange="1971:2030"
+                [maxDate]="max_employee_date_of_birth" [readonlyInput]="true"></p-calendar><br/>
         </p> 
         <p-footer>
             <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
@@ -583,7 +583,25 @@
             </div>
         </p-footer>
     </p-dialog>
-
+    
+    <p-dataTable [value]="restaurant_workers"
+                [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" [responsive]="true">
+        <p-header><h4>Employees Working for this Restaurant</h4></p-header>
+        <p-column field="user.username" header="Username"></p-column>
+        <p-column field="user.firstName" header="First Name"></p-column>
+        <p-column field="user.lastName" header="Last Name"></p-column>
+        <p-column field="role" header="Role"></p-column>
+        <p-column field="shoeSize" header="Shoe Size"></p-column>
+        <p-column field="suitSize" header="Suit Size"></p-column>
+        <p-column field="user.email" header="Email"></p-column>
+        <p-column styleClass="col-button">
+            <template let-worker="rowData" pTemplate="body">
+                <button pButton class="ui-button-danger" icon="fa-close" label="Fire this Employee"
+                        (click)="fire_employee(worker)"></button>
+            </template>
+        </p-column>
+    </p-dataTable>
+    <!--
     <p-pickList [source]="free_workers" [target]="restaurant_workers" 
                         [showSourceControls]="false" [showTargetControls]="false" 
                         [sourceStyle]="{'height':'300px'}" [targetStyle]="{'height':'300px'}" 
@@ -591,12 +609,12 @@
                         sourceHeader="Free Workers" targetHeader="Assigned Workers">
         <template let-worker pTemplate="item">
             <div class="media">
-                <!--USERS IMAGE-->
+       
                 <div class="media-left">
                     <img class="media-object" src="http://lorempixel.com/100/100/sports/?">
                 </div>
                 <div class="media-body">
-                    <!--USERS NAME for the title-->
+       
                     <h4 class="media-heading"><b>{{worker.user?.username}}</b></h4>
                     <b>First Name : </b><i>{{worker.user?.firstName}}</i><br/>
                     <b>Last Name : </b><i>{{worker.user?.lastName}}</i><br/>
@@ -609,7 +627,7 @@
             </div><hr/>
         </template>
     </p-pickList>
-
+    -->
 
 </p-panel>
 

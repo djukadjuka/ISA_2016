@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.domain.EmployeeEnum;
 import com.example.domain.UserBean;
 import com.example.repository.UserRepository;
 

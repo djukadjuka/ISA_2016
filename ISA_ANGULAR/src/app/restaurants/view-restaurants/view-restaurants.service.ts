@@ -223,4 +223,20 @@ export class ViewRestaurantsService {
       res=>"finished..."
     );
   }
+
+  registerNewEmployee(employee,rest_id){
+    var headers = new Headers({'Content-Type':'application/json'});
+    var options = new RequestOptions({headers:headers});
+    return this._http.post(this._baseURL+"/EmployeeController/registerNewEmployee/"+rest_id,JSON.stringify(employee),options).map(
+      res=>"finished..."
+    );
+  }
+
+  fireAnEmployee(emp_id){
+    var headers = new Headers({'Content-Type':'application/json'});
+    var options = new RequestOptions({headers:headers});
+    return this._http.post(this._baseURL+"/EmployeeController/fireEmployee/"+emp_id,null,options).map(
+      res=>"finished..."
+    );
+  }
 }

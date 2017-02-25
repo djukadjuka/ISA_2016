@@ -597,39 +597,39 @@ values (10, 10);
 --MANAGERS
 --=============================================
 insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)
-values ('2030-1-1','MANAGER',null,null,1,null);
+values (766879200000,'MANAGER',null,null,1,null);
 insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)
-values ('2040-1-1','MANAGER',null,null,2,null);
+values (766879200000,'MANAGER',null,null,2,null);
 insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)
-values ('2050-1-1','MANAGER',null,null,3,null);
+values (766879200000,'MANAGER',null,null,3,null);
 insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)
-values ('2010-1-1','MANAGER',null,null,4,null);
+values (766879200000,'MANAGER',null,null,4,null);
 
 --=============================================
 --OTHER EMPLOYEES
 --=============================================
 insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)
-values ('2010-1-1','WAITER',null,null,5,1);
+values (766879200000,'WAITER',null,null,5,1);
 insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)
-values ('2010-1-1','WAITER',null,null,6,1);
+values (766879200000,'WAITER',null,null,6,1);
 insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)
-values ('2010-1-1','WAITER',null,null,7,1);
+values (766879200000,'WAITER',null,null,7,1);
 insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)
-values ('2010-1-1','WAITER',null,null,8,1);
+values (766879200000,'WAITER',null,null,8,1);
 insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)
-values ('2010-1-1','WAITER',null,null,9,2);
+values (766879200000,'WAITER',null,null,9,2);
 insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)
-values ('2010-1-1','WAITER',null,null,10,2);
+values (766879200000,'WAITER',null,null,10,2);
 insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)
-values ('2010-1-1','COOK',null,null,11,2);
+values (766879200000,'COOK',null,null,11,2);
 insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)
-values ('2010-1-1','COOK',null,null,12,2);
+values (766879200000,'COOK',null,null,12,2);
 insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)
-values ('2010-1-1','BARTENDER',null,null,13,3);
+values (766879200000,'BARTENDER',null,null,13,3);
 insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)
-values ('2010-1-1','BARTENDER',null,null,14,3);
+values (766879200000,'BARTENDER',null,null,14,3);
 insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)
-values ('2010-1-1','BARTENDER',null,null,15,3);
+values (766879200000,'BARTENDER',null,null,15,3);
 
 --=====================================
 --STOLOVI

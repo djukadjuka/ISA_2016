@@ -12,10 +12,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.domain.EmployeeBean;
 import com.example.domain.UserBean;
+import com.example.service.BillService;
+import com.example.service.BillServiceBean;
 import com.example.service.EmployeeService;
 import com.example.service.EmployeeServiceBean;
 import com.example.service.UserService;
@@ -24,11 +27,57 @@ import com.example.service.UserServiceBean;
 @RestController
 public class EmployeeController {
 
+	@Autowired
+	private BillService billService = new BillServiceBean();
+	
 	@Autowired 
 	private EmployeeService employeeService = new EmployeeServiceBean();
 	
 	@Autowired
 	private UserService userService = new UserServiceBean();
+	
+	/**FIRING EMPLOYEE*/
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value="/EmployeeController/fireEmployee/{user_id}",
+			method = RequestMethod.POST,
+			consumes = MediaType.APPLICATION_JSON_VALUE)
+	public synchronized void fireEmployee(@PathVariable("user_id") Long user_id){
+		this.employeeService.delete_his_schedules(user_id);
+		
+		this.employeeService.delete_his_tables(user_id);
+		
+		this.employeeService.delete_his_reviews(user_id);
+		
+		this.billService.delete_employee_bills(user_id);
+		
+		this.employeeService.fire_an_employee(user_id);
+	}
+	
+	/**REGISTER NEW EMPLOYEE*/
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value="/EmployeeController/registerNewEmployee/{rest_id}",
+			method = RequestMethod.POST,
+			consumes = MediaType.APPLICATION_JSON_VALUE)
+	public synchronized void registerNewEmployee(@RequestBody EmployeeBean employee,@PathVariable("rest_id") Long rest_id){
+		String str = "";
+		switch(employee.getRole()){
+		case BARTENDER:	str = "BARTENDER";break;
+		case COOK: str = "COOK";break;
+		case MANAGER : str = "MANAGER";break;
+		case WAITER : str = "WAITER";break;
+		}
+		System.out.println(employee.getDateOfBirth());
+		
+		this.employeeService.create_new_worker_for_restaurant(employee.getDateOfBirth(), 
+									str, 
+									employee.getShoeSize(), 
+									employee.getSuitSize(), 
+									employee.getId(), 
+									rest_id);
+		this.employeeService.delete_deliverer_that_became_manager(employee.getId());
+	}
 	
 	/**REMOVE MANAGER FROM RESTAURANT*/
 	@CrossOrigin(origins = "http://localhost:4200")
