@@ -20,4 +20,5 @@ public interface TableService {
 	
 	//DJ_CUSTOM
 	public Collection<TableBean> findAllTablesFromRestaurant(Long rest_id);
+	public void update_served_by_employee(Long served_by, Long table_id);
 }

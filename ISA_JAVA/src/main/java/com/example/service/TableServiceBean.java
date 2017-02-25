@@ -48,4 +48,9 @@ public class TableServiceBean implements TableService{
 		return repository.updateTableStatus(id,status);
 	}
 
+	@Override
+	public void update_served_by_employee(Long served_by, Long table_id) {
+		this.repository.update_served_by_employee(served_by, table_id);
+	}
+
 }

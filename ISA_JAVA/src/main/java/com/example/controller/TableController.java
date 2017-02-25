@@ -1,7 +1,6 @@
 package com.example.controller;
 
 import java.util.Collection;
-import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,11 +8,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.domain.EmployeeBean;
 import com.example.domain.ReservationBean;
 import com.example.domain.TableBean;
 import com.example.domain.TableBean.TableStatus;
@@ -92,4 +93,14 @@ public class TableController {
 		return new ResponseEntity<Collection<TableBean>>(tableService.findAllTablesFromRestaurant(rest_id),HttpStatus.OK);
 	}
 	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value="/tableController/setTableForEmployee/{employee_id}",
+			method = RequestMethod.POST,
+			produces=MediaType.APPLICATION_JSON_VALUE
+			)
+	@ResponseBody
+	public synchronized void change_served_by_employee(@RequestBody TableBean table_id, @PathVariable("employee_id") Long employee_id){
+		this.tableService.update_served_by_employee(employee_id, table_id.getId());
+	}
 }

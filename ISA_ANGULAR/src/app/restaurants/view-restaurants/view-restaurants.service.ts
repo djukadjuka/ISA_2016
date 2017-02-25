@@ -254,4 +254,12 @@ export class ViewRestaurantsService {
       res=>"finished..."
     );
   }
+  //////////////////////////////////////////////////////////////REGION SERVICES
+  change_served_by(empl_id,table){
+    var headers = new Headers({'Content-Type':'application/json'});
+    var options = new RequestOptions({headers:headers});
+    return this._http.post(this._baseURL+"/tableController/setTableForEmployee/"+empl_id,JSON.stringify(table),options).map(
+      res=>"finished..."
+    );
+  }
 }

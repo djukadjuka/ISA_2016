@@ -1073,7 +1073,6 @@ export class ViewRestaurantsComponent implements OnInit{
 
         this.viewRestaurantsService.getTablesForRestaurant(this.restaurant_23.id).subscribe(
           res=>{
-            console.log(res);
             this.selected_restaurant_tables = res;
             this.creating_employee_region_open = true;
             this.check_visibility();
@@ -1123,9 +1122,16 @@ export class ViewRestaurantsComponent implements OnInit{
       console.log("------------------------");
       console.log(this.configuring_for_table);
       console.log(selected_guy);
-
-      //this after rest call...
-      this.changing_table_server = false;
+      this.viewRestaurantsService.change_served_by(selected_guy.id,this.configuring_for_table).subscribe(
+        res=>{
+          this.viewRestaurantsService.getTablesForRestaurant(this.restaurant_23.id).subscribe(
+            res=>{
+              this.selected_restaurant_tables = res;
+              this.changing_table_server = false;
+            }
+          )
+        }
+      )
      }
 
      close_edit_employee_region(){
