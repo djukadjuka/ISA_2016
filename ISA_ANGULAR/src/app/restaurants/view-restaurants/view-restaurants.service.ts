@@ -6,6 +6,7 @@ import {RestaurantClass} from '../view-restaurants/restaurant-class';
 import {RestaurantsProductsClass} from '../restaurants-products-class';
 import {Observable} from 'rxjs/Rx';
 import {RestaurantZone} from '../view-restaurants/zone-class';
+import {EmployeeClass} from '../../edit-barman/employee-class';
 
 
 @Injectable()
@@ -76,6 +77,14 @@ export class ViewRestaurantsService {
           .map(res=>res.json());
 
   }
+
+  getEmployeeById(worker_id){
+    return this._http.get(this._baseURL + "/EmployeeControler/getEmployeeById/" + worker_id)
+          .map(res=><EmployeeClass[]>res.json());
+
+  }
+
+
 
 
   getFreeManagers_AndUserManagers(manager_id,restaurant_id){

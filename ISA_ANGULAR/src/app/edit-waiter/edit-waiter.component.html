@@ -14,6 +14,10 @@
   
  <p>
           <input class="btn btn-primary" value="Tables" (click)="showTables()" type="button">
+
+        <p>
+          <input class="btn btn-primary" value="EditPersonal" type="button" (click)="showEditDialog()">
+ </p>
   </div>
 
 
@@ -81,7 +85,8 @@
   </p-panel>
 
   <!-- edit form column -->
-  <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
+<p-dialog header="Edit personal:" [responsive]=true [resizable]=false [draggable]=false width="1000" [modal]=true [(visible)]="displayEditButton">
+  <div class="col-md-8 col-sm-6 col-xs-12 personal-info" >
     <h3>Personal info</h3>
     <form class="form-horizontal" [formGroup]="formEditUser">
       <div class="form-group">
@@ -103,6 +108,12 @@
         </div>
       </div>
        <div class="form-group">
+        <label class="col-md-3 control-label">Password:</label>
+        <div class="col-md-8">
+          <input class="form-control" [(ngModel)]="userUpdate.password" formControlName="password" type="password">
+        </div>
+      </div>
+       <div class="form-group">
         <label class="col-md-3 control-label"></label>
         <div class="col-md-8">
           <button pButton [disabled]="!formEditUser.valid" class="ui-button-success" type="text" (click)="updateUser()" icon="fa-check" label="Save changes"></button>
@@ -110,4 +121,5 @@
       </div>
     </form>
   </div>
+    </p-dialog>
 </div>

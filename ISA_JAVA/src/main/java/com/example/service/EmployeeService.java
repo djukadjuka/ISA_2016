@@ -25,6 +25,7 @@ public interface EmployeeService {
 	
 	//CUSTOM
 	public Collection<EmployeeBean> getWorkersThatWorkForARestaurant(Long rest_id);
+	public Collection<EmployeeBean> getEmployeeById(Long worker_id);
 	public Collection<EmployeeBean> getWorkersThatDoNotWorkForARestaurant();
 	public Collection<EmployeeBean> getWaitersForARestaurant(Long rest_id);
 	public void delete_deliverer_that_became_manager(Long user_id);

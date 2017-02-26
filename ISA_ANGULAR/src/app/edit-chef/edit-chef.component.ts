@@ -14,6 +14,7 @@ export class EditChefComponent implements OnInit {
 
 private displayScheduleeButton: boolean = false;
   private displayScheduleButton: boolean =false;
+  private displayEditButton :boolean = false ;
    private user = {};
     private userUpdate = {username: "", id: ""};
     private msgs: Message[] = [];
@@ -34,7 +35,8 @@ private displayScheduleeButton: boolean = false;
        this.formEditUser = this._fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      username: ['', Validators.required]
+      username: ['', Validators.required],
+      password: ['', Validators.required]
     });
     
 
@@ -59,6 +61,12 @@ private displayScheduleeButton: boolean = false;
         Date: ['', Validators.required]
         });
   }
+
+  showEditDialog(){
+
+    this.displayEditButton = true ; 
+  }
+
 
 
 
@@ -122,7 +130,7 @@ private displayScheduleeButton: boolean = false;
                                                         .subscribe(
                                                                  res => 
                                                                   {
-                                                                  
+                                                                    this.displayEditButton = false;
                                                                     this.user = this.userUpdate;
                                                                   }
                                                                 );  

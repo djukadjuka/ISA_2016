@@ -34,6 +34,12 @@ public interface EmployeeRepository extends JpaRepository<EmployeeBean, Long> {
 	public Collection<EmployeeBean> getWorkersThatWorkForARestaurant(@Param("rest_id") Long rest_id);
 	
 	/**
+	 * SELECT EMPLOYEES by id 
+	 * */
+	@Query(value ="SELECT * FROM employee e WHERE e.user_id = :worker_id",nativeQuery=true)
+	public Collection<EmployeeBean> getEmployeeById(@Param("worker_id") Long worker_id);
+	
+	/**
 	 * SELECT ALL WAITERS for a restaurant
 	 * */
 	@Query(value = "SELECT * from employee e where e.works_in_restaurant = :rest_id and e.role = 'WAITER'",nativeQuery=true)
