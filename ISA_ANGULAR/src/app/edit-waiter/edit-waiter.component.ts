@@ -16,6 +16,7 @@ export class EditWaiterComponent implements OnInit {
 
   private displayScheduleeButton: boolean = false;
    private displayScheduleButton: boolean = false;
+   private displayEditButton: boolean = false ;
    private showTablesButton: boolean = false ;
    user ;
    schedule = [];
@@ -42,7 +43,7 @@ export class EditWaiterComponent implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       username: ['', Validators.required],
-      pasword : ['', Validators.required],
+      password : ['', Validators.required],
       
     });
     
@@ -68,6 +69,13 @@ export class EditWaiterComponent implements OnInit {
     
   
       }
+
+ showEditDialog(){
+
+    this.displayEditButton = true ; 
+  }
+
+
    all_schedules_for_employee;
    all_users;
    all_tables;
@@ -160,7 +168,7 @@ export class EditWaiterComponent implements OnInit {
                                                         .subscribe(
                                                                  res => 
                                                                   {
-                                                                  
+                                                                    this.displayEditButton = false;
                                                                     this.user = this.userUpdate;
                                                                   }
                                                                 );  
