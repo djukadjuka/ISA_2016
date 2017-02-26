@@ -10,6 +10,7 @@ import javax.persistence.Table;
 
 import com.example.domain.EmployeeBean;
 import com.example.domain.ProductBean;
+import com.example.domain.ReservationCallBean;
 import com.example.domain.RestaurantBean;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

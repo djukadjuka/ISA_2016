@@ -54,6 +54,16 @@ public class ReservationCallBean {
 	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "drink", nullable = true)
     private ProductBean drink;
+	
+	//ratings
+	@Column(nullable = true)
+	private int restaurant_rate;
+	
+	@Column(nullable = true)
+	private int waiter_rate;
+	
+	@Column(nullable = true)
+	private int food_rate;
 	 
 	 public ReservationCallBean() {
 	    }
@@ -124,6 +134,30 @@ public class ReservationCallBean {
 
 	public void setFood(ProductBean food) {
 		this.food = food;
+	}
+
+	public int getRestaurant_rate() {
+		return restaurant_rate;
+	}
+
+	public void setRestaurant_rate(int restaurant_rate) {
+		this.restaurant_rate = restaurant_rate;
+	}
+
+	public int getWaiter_rate() {
+		return waiter_rate;
+	}
+
+	public void setWaiter_rate(int waiter_rate) {
+		this.waiter_rate = waiter_rate;
+	}
+
+	public int getFood_rate() {
+		return food_rate;
+	}
+
+	public void setFood_rate(int food_rate) {
+		this.food_rate = food_rate;
 	}
 
 	public ProductBean getDrink() {

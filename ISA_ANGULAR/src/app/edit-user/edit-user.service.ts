@@ -83,6 +83,34 @@ export class EditUserService {
                         .map(res=>res.json().data);
   }
 
+  /////////// RESTAURANTS VISIT HISTORY /////////////////////////////////////////
+
+  getRestaurantVisitHistory(id)
+  {
+       return this._http.get(this._baseURL + "/getRestaurantVisitHistory/" + id)
+            .map(res => res.json());
+  }
+
+//   rateRestaurant(restaurant_id, waiter_id, food_id, restaurant_rate, waiter_rate, food_rate)
+//   {
+//        var headers = new Headers({'Content-Type':'application/json'});
+//        var options = new RequestOptions({headers:headers});
+
+//        return this._http.post(this._baseURL+"/rateRestaurant",
+//        JSON.stringify({"restaurant_id" : restaurant_id, "waiter_id" : waiter_id, "food_id" : food_id, "restaurant_rate" : restaurant_rate, "waiter_rate" : waiter_rate, "food_rate" : food_rate}),options)
+//                         .map(res=>res.json().data);
+//   }
+
+  rateRestaurant(call_id, restaurant_rate, waiter_rate, food_rate)
+  {
+       var headers = new Headers({'Content-Type':'application/json'});
+       var options = new RequestOptions({headers:headers});
+
+       return this._http.put(this._baseURL+"/rateRestaurant",
+       JSON.stringify({"call_id" : call_id, "restaurant_rate" : restaurant_rate, "waiter_rate" : waiter_rate, "food_rate" : food_rate}),options)
+                        .map(res=>res.json().data);
+  }
+
   ///////////////////////////////////////////////////////////////////////////////
 
   checkUsername(username, id)

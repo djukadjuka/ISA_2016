@@ -75,4 +75,10 @@ public class ReservationCallServiceBean implements ReservationCallService{
 		// TODO Auto-generated method stub
 		return repository.cancelFoodAndDrink(id);
 	}
+
+	@Override
+	public int updateRate(Long call_id, Long rest_rate, Long waiter_rate, Long food_rate) {
+		// TODO Auto-generated method stub
+		return repository.updateRate(call_id,rest_rate,waiter_rate,food_rate);
+	}
 }

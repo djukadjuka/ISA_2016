@@ -26,5 +26,9 @@ public interface ReservationCallService {
 	int updateFoodAndDrink(Long id, ProductBean food, ProductBean drink, int makeOrderFast);
 
 	int cancelFoodAndDrink(Long id);
+	
+	//**** history and rates
+	
+	int updateRate(Long call_id, Long rest_rate, Long waiter_rate, Long food_rate);
 
 }

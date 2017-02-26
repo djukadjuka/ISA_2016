@@ -219,8 +219,28 @@
 
         </p-accordion>
     </p-tabPanel>
+    <!--HISTORY TAB-->
     <p-tabPanel header="History" leftIcon="fa-history">
-       History of restaurants visit - in the making.
+       <p-dataTable [value]="restaurantVisitHistory" [responsive]="true" [stacked]="true" [rows]="5" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
+              <p-header> Restaurant visit history </p-header>
+                  <p-column *ngFor="let col of restaurantVisitHistoryCols" [field]="col.field" [filter]="true" filterPlaceholder="Search" [header]="col.header"></p-column>
+                  <p-column styleClass="col-button">
+                    <template pTemplate="header">
+                        <header>Date and time</header>
+                    </template>
+                    <template let-reservationCall="rowData" pTemplate="body">
+                        {{getDate(reservationCall)}}
+                    </template>
+                </p-column>
+                  <p-column styleClass="col-button">
+                      <template pTemplate="header">
+                          <header>Rate restaurant</header>
+                      </template>
+                      <template let-reservationCall="rowData" pTemplate="body">
+                          <button type="button" label="Rate" class="ui-button-success" (click)="rateClick(reservationCall)" pButton style="float:center; width: 100%;" icon="fa-star-o" iconPos="left"></button>
+                      </template>
+                  </p-column>
+              </p-dataTable>
     </p-tabPanel>
   </p-tabView>
   </div>
@@ -302,6 +322,20 @@
 
 <!-- Warning message for Facebook/Google signed users trying to change password -->
 <p-growl [value]="msgs"></p-growl>
+
+<!--RATE DIALOG-->
+<p-dialog header="Restaurant rating" [responsive]=true [resizable]=false [draggable]=false [modal]=true [(visible)]="showRateDialog">
+    <h3 class="first">Restaurant: {{restaurantRate}}</h3> 
+    <p-rating [(ngModel)]="restaurantRate"></p-rating>
+    <h3 class="first">Waiter: {{waiterRate}}</h3> 
+    <p-rating [(ngModel)]="waiterRate"></p-rating>
+    <h3 class="first">Food: {{foodRate}}</h3> 
+    <p-rating [(ngModel)]="foodRate"></p-rating>
+    <div class="ui-g-12">
+          <button pButton class="ui-button-success" type="text" (click)="confirmRates()" icon="fa-check" label="Confirm rates"></button>
+          <button pButton class="ui-button-danger" type="text" (click)="showRateDialog=false" icon="fa-close" label="Cancel"></button>
+    </div>
+</p-dialog>
 
 <!-- Old password changing
 

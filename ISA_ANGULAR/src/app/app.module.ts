@@ -57,6 +57,7 @@ import {ChartModule} from 'primeng/primeng';
 import {SpinnerModule} from 'primeng/primeng';
 import {CheckboxModule} from 'primeng/primeng';
 import {GMapModule} from 'primeng/primeng';
+import {RatingModule} from 'primeng/primeng';
 
 //Service imports
 
@@ -125,6 +126,7 @@ import { InviteComponent } from './invite/invite.component';
     AgmCoreModule.forRoot({
       apiKey:'AIzaSyBBKgIXEhpHGY3tdQIkKx0edit3QLMyZBw'
     }),
+    RatingModule,
     routing
   ],
   providers: [

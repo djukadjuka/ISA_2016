@@ -134,6 +134,7 @@ public class ReservationCallController {
 		return true;
 	}
 	
+	synchronized
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(
 			value="/inviteData/{keygen}",
@@ -226,6 +227,56 @@ public class ReservationCallController {
 		reservationCallService.cancelFoodAndDrink(id);
 		
 		return true;
+	}
+	 
+	// **************************************** HISTORY AND RATINGS ***********************************************
+	
+	synchronized
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value = "/rateRestaurant",
+			method = RequestMethod.PUT,
+			produces = MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE
+			)
+	@ResponseBody
+	public boolean rateRestaurant(@RequestBody HashMap<String,String> rates){
+		
+		Long rest_rate = Long.decode(rates.get("restaurant_rate"));
+		Long call_id = Long.decode(rates.get("call_id"));
+		Long waiter_rate = Long.decode(rates.get("waiter_rate"));
+		Long food_rate = Long.decode(rates.get("food_rate"));
+		
+		reservationCallService.updateRate(call_id, rest_rate, waiter_rate, food_rate);
+		
+		return true;
+	}
+	
+	synchronized
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value="/getRestaurantVisitHistory/{id}",
+			method = RequestMethod.GET,
+			produces=MediaType.APPLICATION_JSON_VALUE
+			)
+	public ResponseEntity<ArrayList<ReservationCallBean>> getRestaurantVisitHistory(@PathVariable("id") Long recipient_id)
+	{
+		Date d = new Date();
+		Long time = d.getTime();
+		
+		Collection<ReservationCallBean> calls = reservationCallService.findByRecipient(recipient_id);
+		ArrayList<ReservationCallBean> retVal = new ArrayList<>();
+		
+		Iterator<ReservationCallBean> iterator = calls.iterator();
+		
+		while(iterator.hasNext())
+		{
+			ReservationCallBean rcb = iterator.next();
+			if(time > rcb.getReservation().getEndDate())
+				retVal.add(rcb);
+		}
+		
+		return new ResponseEntity<ArrayList<ReservationCallBean>> (retVal, HttpStatus.OK);
 	}
 }
 

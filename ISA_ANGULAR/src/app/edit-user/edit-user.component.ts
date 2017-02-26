@@ -40,6 +40,16 @@ export class EditUserComponent implements OnInit {
   //modal dialog for editing profile
   private displayEditProfile: boolean = false;
 
+  //restaurant history and rating
+  private showRateDialog = false;
+  private restaurantVisitHistory = [];
+  private restaurantVisitHistoryCols = [];
+  private reservationBeingRatedId = "";
+
+  private restaurantRate : number;
+  private waiterRate : number;
+  private foodRate : number;
+
   constructor(
     private _editUserService : EditUserService,
     private _confirmationService: ConfirmationService,
@@ -117,6 +127,8 @@ export class EditUserComponent implements OnInit {
 
     this.myFriendsData();
 
+    this.getRestaurantVisitHistoryData();
+
     //svakih 15 sekundi povlacenje notifikacija
     Observable.timer(0, 15000).subscribe(
                res => this.notificationsData()
@@ -168,6 +180,16 @@ export class EditUserComponent implements OnInit {
             {field: 'recipient.username', header: 'Username'},
             {field: 'recipient.email', header: 'Email'}
         ];
+    
+     this.restaurantVisitHistoryCols = [
+            {field: 'id', header: 'Reservation ID'},
+            {field: 'reservation.table_id.restaurant_zone_id.restaurant.name', header: 'Restaurant'},
+            {field: 'reservation.table_id.restaurant_zone_id.name', header: 'Zone'},
+            {field: 'reservation.table_id.id', header: 'Table ID'},
+            {field: 'reservation.table_id.maxPeople', header: 'Table seats'},
+            {field: 'food.name', header: 'Ordered food'},
+            {field: 'drink.name', header: 'Ordered drink'}
+        ];
 
     this.restaurant_types = [{label:'Fine Dining', value: 'Fine Dining'},
                               {label:'Fast Food', value: 'Fast Food'},
@@ -182,6 +204,46 @@ export class EditUserComponent implements OnInit {
     //      {label: 'Friends', value: "ACCEPTED"},
     //       {label: 'Pending', value: "PENDING"}
     // ];
+  }
+
+  //Restaurant history and rates
+  getRestaurantVisitHistoryData()
+  {
+      this._editUserService.getRestaurantVisitHistory(this._sharedService.userId)
+                            .subscribe(
+                                res => this.restaurantVisitHistory = res
+                            );
+  }
+
+  rateClick(reservationCall)
+  {
+      this.showRateDialog = true;
+      this.reservationBeingRatedId = reservationCall.id;
+  }
+
+  confirmRates()
+  {
+      this._editUserService.rateRestaurant(this.reservationBeingRatedId, this.restaurantRate, this.waiterRate, this.foodRate)
+                            .subscribe(
+                                res => 
+                                {
+                                    this.msgs = [];
+                                    this.msgs.push({severity:'success', summary:'Thanks for rating!'});
+
+                                    this.waiterRate = null;
+                                    this.foodRate = null;
+                                    this.restaurantRate = null;
+                                }
+                            )
+
+      this.showRateDialog = false;
+  }
+
+  getDate(reservationCall)
+  {
+     let d = new Date(reservationCall.reservation.startDate);
+
+     return d.toLocaleString();
   }
 
   myFriendsData()
