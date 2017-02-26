@@ -142,10 +142,18 @@
 
     <p-dataTable [value]="allFoodProduct" selectionMode="single" 
                 [(selection)]="selected_user_for_work" (onRowSelect)="selected_a_user_for_work($event)">
-        <p-header>Product</p-header>
+        <p-header>Food</p-header>
         <p-column field="food_name" header="Name"></p-column>
         <p-column field="food_price" header="Price"></p-column>
     </p-dataTable><br/>
+
+     <p-dataTable [value]="allDrinkProduct" selectionMode="single" 
+                [(selection)]="selected_user_for_work" (onRowSelect)="selected_a_user_for_work($event)">
+        <p-header>Drink</p-header>
+        <p-column field="drink_name" header="Name"></p-column>
+        <p-column field="drink_price" header="Price"></p-column>
+    </p-dataTable><br/>
+
 
    
 

@@ -376,4 +376,11 @@ export class ViewRestaurantsService {
 
   }
 
+  getAllDrinks()
+  {
+    return this._http.get(this._baseURL + "/getAllDrinks" )
+      .map(res=>res.json()); 
+
+  }
+
 }

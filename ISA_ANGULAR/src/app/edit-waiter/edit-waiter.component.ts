@@ -72,6 +72,7 @@ export class EditWaiterComponent implements OnInit {
       }
 
       allFoodProduct;
+      allDrinkProduct;
 
       creatingOrder(){
 
@@ -88,6 +89,28 @@ export class EditWaiterComponent implements OnInit {
 
             this.allFoodProduct.push(
              { food_name:""+name,food_price:""+price}
+             );
+       // this.schedule =res;
+       
+      }
+      
+      }   
+    );
+
+
+ this.viewRestaurantsService.getAllDrinks().subscribe(
+      res => {
+
+         this.allDrinkProduct = [];
+          for(let item in res){
+           let name = res[item].name;
+           let price = res[item].price;
+          
+
+           console.log(res);
+
+            this.allDrinkProduct.push(
+             { drink_name:""+name,drink_price:""+price}
              );
        // this.schedule =res;
        
