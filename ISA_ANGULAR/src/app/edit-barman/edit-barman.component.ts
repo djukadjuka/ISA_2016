@@ -6,6 +6,7 @@ import { TablesService } from '../tables/tables.service';
 import { Message } from 'primeng/primeng';
 import { SharedService } from '../shared/shared.service';
 import {ViewRestaurantsService} from '../restaurants/view-restaurants/view-restaurants.service';
+import {EmployeeClass} from '../edit-barman/employee-class'
 
 @Component({
   selector: 'app-edit-barman',
@@ -20,6 +21,7 @@ export class EditBarmanComponent implements OnInit, OnChanges {
    user ;
   private userUpdate = {username: "", id: ""};
   private msgs: Message[] = [];
+  private employee = {};
 
   private displayScheduleeButton : boolean = false;
   private displaySchedule: boolean = false;
@@ -27,6 +29,9 @@ export class EditBarmanComponent implements OnInit, OnChanges {
    private formEditUser: FormGroup;
      reservation = { Date : new Date};
   formReservation : FormGroup;
+
+  //employee : EmployeeClass[];
+  
 
 
 
@@ -89,7 +94,7 @@ export class EditBarmanComponent implements OnInit, OnChanges {
                                                         .subscribe(
                                                                  res => 
                                                                   {
-                                                                  
+                                                                  this.displayEditButton = false;
                                                                     this.user = this.userUpdate;
                                                                   }
                                                                 );  
@@ -103,35 +108,18 @@ export class EditBarmanComponent implements OnInit, OnChanges {
     this.formEditUser = this._fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      username: ['', Validators.required]
+      username: ['', Validators.required],
+      password : ['', Validators.required]
     });
     
 
 
 
-    this._restaurantService.getEmployeeById(1)
+    this._editUserService.getUserById(this._sharedService.userId)
       .subscribe(
-      res => { this.userUpdate=res;
-
-         this.user = [];
-          for(let item in res){
-           let Eusername =res[item].user_id.username;
-           let Efirstname = res[item].user_id.first_name;
-           let Elastname = res[item].user_id.last_name;
-           let Eshoesize = res[item].shoesize;
-           let Epassword = res[item].user_id.password;
-          
-
-           console.log(res);
-
-            this.user.push(
-             { first_name:""+Efirstname, last_name:""+Elastname,  user_name:""+ Eusername,shoesize:""+Eshoesize,password:""+Epassword}
-             );
-       // this.schedule =res;
-       
-      }
+      res => this.userUpdate = res
       
-      }   
+      
     );
 
     
