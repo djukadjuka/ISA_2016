@@ -297,4 +297,67 @@ export class ViewRestaurantsService {
       res=>"finished..."
     );
   }
+
+  //*********************************** SERVICES FOR ALL RESTAURANT RATES ********************************************** */
+
+  //RESTAURANT
+  
+  getRestaurantAverageRateAll(restaurant_id)
+  {
+       return this._http.get(this._baseURL + "/getRestaurantAverageRateAll/" + restaurant_id)
+      .map(res=>res.json());  
+  }
+
+  getRestaurantAverageRateFriends(restaurant_id, user_id)
+  {
+       return this._http.get(this._baseURL + "/getRestaurantAverageRateFriends/" + restaurant_id + "/" + user_id)
+      .map(res=>res.json());  
+  }
+
+  getRestaurantAverageRateMe(restaurant_id, user_id)
+  {
+       return this._http.get(this._baseURL + "/getRestaurantAverageRateMe/" + restaurant_id + "/" + user_id)
+      .map(res=>res.json());  
+  }
+
+  //FOOD
+  
+  getFoodAverageRateAll(restaurant_id)
+  {
+       return this._http.get(this._baseURL + "/getFoodAverageRateAll/" + restaurant_id)
+      .map(res=>res.json());  
+  }
+
+  getFoodAverageRateFriends(restaurant_id, user_id)
+  {
+       return this._http.get(this._baseURL + "/getFoodAverageRateFriends/" + restaurant_id + "/" + user_id)
+      .map(res=>res.json());  
+  }
+
+  getFoodAverageRateMe(restaurant_id, user_id)
+  {
+       return this._http.get(this._baseURL + "/getFoodAverageRateMe/" + restaurant_id + "/" + user_id)
+      .map(res=>res.json());  
+  }
+
+  //WAITER
+  
+  getWaiterAverageRateAll(restaurant_id)
+  {
+       return this._http.get(this._baseURL + "/getWaiterAverageRateAll/" + restaurant_id)
+      .map(res=>res.json());  
+  }
+
+  getWaiterAverageRateFriends(restaurant_id, user_id)
+  {
+       return this._http.get(this._baseURL + "/getWaiterAverageRateFriends/" + restaurant_id + "/" + user_id)
+      .map(res=>res.json());  
+  }
+
+  getWaiterAverageRateMe(restaurant_id, user_id)
+  {
+       return this._http.get(this._baseURL + "/getWaiterAverageRateMe/" + restaurant_id + "/" + user_id)
+      .map(res=>res.json());  
+  }
+
 }

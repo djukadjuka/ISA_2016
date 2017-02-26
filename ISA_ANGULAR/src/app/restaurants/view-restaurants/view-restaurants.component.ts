@@ -96,6 +96,11 @@ export class ViewRestaurantsComponent implements OnInit{
     private _confirmationService : ConfirmationService)
     {
 
+      this.viewRestaurantsService.getRestaurantAverageRateAll(1)
+                                .subscribe(
+                                  res => console.log(res)
+                                );
+
       this.allFoodTypes = {"Serbian":{"id":1,"name":"Serbian"},
         "Spanish":{"id":2,"name":"Spanish"},
         "Mexian":{"id":3,"name":"Mexian"},
