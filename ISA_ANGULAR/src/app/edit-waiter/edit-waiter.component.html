@@ -81,25 +81,31 @@
   </p-panel>
 
   <!-- edit form column -->
-  <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
+  <div class="col-md-8 col-sm-6 col-xs-12 personal-info" >
     <h3>Personal info</h3>
     <form class="form-horizontal" [formGroup]="formEditUser">
       <div class="form-group">
         <label class="col-lg-3 control-label">First name:</label>
         <div class="col-lg-8">
-          <input class="form-control" [(ngModel)]="userUpdate.firstName" formControlName="firstName" type="text">
+          <input class="form-control" [(ngModel)]="userUpdate.role" formControlName="firstName" type="text">
         </div>
       </div>
       <div class="form-group">
         <label class="col-lg-3 control-label">Last name:</label>
         <div class="col-lg-8">
-          <input class="form-control" [(ngModel)]="userUpdate.lastName" formControlName="lastName" type="text">
+          <input class="form-control" [(ngModel)]="userUpdate.role" formControlName="lastName" type="text">
         </div>
       </div>
       <div class="form-group">
         <label class="col-md-3 control-label">Username:</label>
         <div class="col-md-8">
-          <input class="form-control" [(ngModel)]="userUpdate.username" formControlName="username" type="text">
+          <input class="form-control" [(ngModel)]="userUpdate.role" formControlName="username" type="text">
+        </div>
+      </div>
+       <div class="form-group">
+        <label class="col-md-3 control-label">Password:</label>
+        <div class="col-md-8">
+          <input class="form-control" [(ngModel)]="userUpdate.pasword" formControlName="pasword" type="password">
         </div>
       </div>
        <div class="form-group">

@@ -19,6 +19,10 @@
  <p>
           <input class="btn btn-primary" value="Orders" type="button">
  </p>
+
+ <p>
+          <input class="btn btn-primary" value="EditStuff" type="button" (click)="showEditDialog()">
+ </p>
     
   </div>
 
@@ -56,33 +60,22 @@
 
 
   <!-- edit form column -->
-  <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
-    <h3>Personal info</h3>
-    <form class="form-horizontal" [formGroup]="formEditUser">
-      <div class="form-group">
-        <label class="col-lg-3 control-label">First name:</label>
-        <div class="col-lg-8">
-          <input class="form-control" [(ngModel)]="userUpdate.firstName" formControlName="firstName" type="text">
+  
+<p-dialog header="Edit personal:" [responsive]=true [resizable]=false [draggable]=false width="500" [modal]=true [(visible)]="displayEditButton">
+<div class="ui-g-8">
+            <p-dataTable [value]="user" rows="20" 
+                        [paginator]="true" [pageLinks]="5" 
+                        [rowsPerPageOptions]="[5,10,20]">
+                <p-header>Personal</p-header>
+                     <p-column field="first_name" header="First Name " item-width="50"></p-column>
+                    <p-column field="last_name" header="Last Name "></p-column>
+                    <p-column field="user_name" header="Username"></p-column>
+                    <p-column field="shoesize" header="Shoesize"></p-column>
+                    <p-column field="password" header="Password"></p-column>
+            </p-dataTable><br/>
         </div>
-      </div>
-      <div class="form-group">
-        <label class="col-lg-3 control-label">Last name:</label>
-        <div class="col-lg-8">
-          <input class="form-control" [(ngModel)]="userUpdate.lastName" formControlName="lastName" type="text">
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="col-md-3 control-label">Username:</label>
-        <div class="col-md-8">
-          <input class="form-control" [(ngModel)]="userUpdate.username" formControlName="username" type="text">
-        </div>
-      </div>
-       <div class="form-group">
-        <label class="col-md-3 control-label"></label>
-        <div class="col-md-8">
-          <button pButton [disabled]="!formEditUser.valid" class="ui-button-success" type="text" (click)="updateUser()" icon="fa-check" label="Save changes"></button>
-        </div>
-      </div>
-    </form>
-  </div>
+</p-dialog>
+
+
+
 </div>

@@ -17,12 +17,13 @@ export class EditBarmanComponent implements OnInit, OnChanges {
   showEdit = false;
 
   noImageFound: string = "/assets/pictures/no_image_found.jpg";
-  private user = {};
+   user ;
   private userUpdate = {username: "", id: ""};
   private msgs: Message[] = [];
 
   private displayScheduleeButton : boolean = false;
   private displaySchedule: boolean = false;
+  private displayEditButton : boolean = false ; 
    private formEditUser: FormGroup;
      reservation = { Date : new Date};
   formReservation : FormGroup;
@@ -108,12 +109,32 @@ export class EditBarmanComponent implements OnInit, OnChanges {
 
 
 
-    this._editUserService.getUserById(this._sharedService.userId)
+    this._restaurantService.getEmployeeById(1)
       .subscribe(
-      res => this.userUpdate = res
-      );
+      res => { this.userUpdate=res;
 
-    console.log(this.userUpdate);
+         this.user = [];
+          for(let item in res){
+           let Eusername =res[item].user_id.username;
+           let Efirstname = res[item].user_id.first_name;
+           let Elastname = res[item].user_id.last_name;
+           let Eshoesize = res[item].shoesize;
+           let Epassword = res[item].user_id.password;
+          
+
+           console.log(res);
+
+            this.user.push(
+             { first_name:""+Efirstname, last_name:""+Elastname,  user_name:""+ Eusername,shoesize:""+Eshoesize,password:""+Epassword}
+             );
+       // this.schedule =res;
+       
+      }
+      
+      }   
+    );
+
+    
 
 
     this.formReservation = this._fb.group({
@@ -127,6 +148,11 @@ export class EditBarmanComponent implements OnInit, OnChanges {
     
 
     this.displaySchedule = true;
+  }
+
+  showEditDialog(){
+
+    this.displayEditButton = true ; 
   }
 
  all_schedules_for_employee;

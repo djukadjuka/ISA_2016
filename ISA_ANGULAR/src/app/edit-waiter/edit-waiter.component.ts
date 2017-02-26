@@ -17,7 +17,7 @@ export class EditWaiterComponent implements OnInit {
   private displayScheduleeButton: boolean = false;
    private displayScheduleButton: boolean = false;
    private showTablesButton: boolean = false ;
-   private user = {};
+   user ;
    schedule = [];
     private userUpdate = {username: "", id: ""};
     private msgs: Message[] = [];
@@ -41,27 +41,33 @@ export class EditWaiterComponent implements OnInit {
        this.formEditUser = this._fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      username: ['', Validators.required]
+      username: ['', Validators.required],
+      pasword : ['', Validators.required],
+      
     });
     
 
 
-
+    
 
     this._editUserService.getUserById(this._sharedService.userId)
       .subscribe(
-      res => this.userUpdate = res
-      );
+      res =>  this.userUpdate=res
+     );
 
-    console.log(JSON.stringify(this.userUpdate));
+      
+      
+    
+      
+   
 
      //reservation form builder
        this.formReservation = this._fb.group({
         Date: ['', Validators.required]
         });
     
-  }
-
+  
+      }
    all_schedules_for_employee;
    all_users;
    all_tables;

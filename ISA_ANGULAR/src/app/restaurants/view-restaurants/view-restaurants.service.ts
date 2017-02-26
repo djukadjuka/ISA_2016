@@ -77,6 +77,14 @@ export class ViewRestaurantsService {
 
   }
 
+  getEmployeeById(worker_id){
+    return this._http.get(this._baseURL + "/EmployeeControler/getEmployeeById/{worker_id}" + worker_id)
+          .map(res=>res.json());
+
+  }
+
+
+
 
   getFreeManagers_AndUserManagers(manager_id,restaurant_id){
     return this._http.get(this._baseURL + "/userRepo/getManagers/" + manager_id + "/forRestaurant/"+restaurant_id)
