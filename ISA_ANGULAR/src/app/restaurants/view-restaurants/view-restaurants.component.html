@@ -1,10 +1,14 @@
 <!-- Filtering restaurants -->
-<button pButton type="button" class="ui-button-secondary" label="Filter restaurants" style="margin-bottom: 15px" icon="fa fa-filter" (click)="showFilterDialog=true"></button>
-<button *ngIf="showFilterCancelButton" pButton type="button" class="ui-button-danger" pTooltip="Cancel filter" tooltipPosition="bottom" style="margin-bottom: 15px" icon="fa-times" (click)="cancelFilter()"></button>
-<div *ngIf="showFilterCancelButton">
-    <p> Showing results for: </p>
-    <p *ngIf="filterData.restaurantName.trim() != ''"> Name containing: <b>{{filterData.restaurantName.trim()}} </b></p>
-    <p *ngIf="filterData.restaurantType != ''"> Type of restaurant: <b>{{filterData.restaurantType}} </b></p>
+<div [hidden]="showRatingsDialog">
+    <div class="row">
+        <button pButton type="button" class="ui-button-secondary" label="Filter restaurants" style="margin-bottom: 15px" icon="fa fa-filter" (click)="showFilterDialog=true"></button>
+        <button *ngIf="showFilterCancelButton" pButton type="button" class="ui-button-danger" pTooltip="Cancel filter" tooltipPosition="bottom" style="margin-bottom: 15px" icon="fa-times" (click)="cancelFilter()"></button>
+    </div>
+    <div *ngIf="showFilterCancelButton">
+        <p> Showing results for: </p>
+        <p *ngIf="filterData.restaurantName.trim() != ''"> Name containing: <b>{{filterData.restaurantName.trim()}} </b></p>
+        <p *ngIf="filterData.restaurantType != ''"> Type of restaurant: <b>{{filterData.restaurantType}} </b></p>
+    </div>
 </div>
 
 <p-growl [value]="growl"></p-growl>
@@ -143,9 +147,22 @@
 <!-- Dialog for questions to user -->
 <p-confirmDialog icon="fa fa-question-circle" width="425"></p-confirmDialog>
 
+<!-- Panel for showing ratings -->
+
+<p-panel [hidden]="!showRatingsDialog">
+    <p-header>
+        <div class="ui-helper-clearfix">
+            <span class="ui-panel-title" style="font-size:16px;display:inline-block;margin-top:2px">Ratings for <b> {{ratingsTitle}} </b></span>
+             <button pButton type="button" style="float: right" label='Close' class="ui-button-danger" icon='fa-close' (click)="showRatingsDialog=false"></button>
+        </div>
+    </p-header>
+     <p-chart #chart type="bar" [data]="ratings"></p-chart>
+</p-panel>
+
 <!--DATA GRID OF ALL RESTAURANTS-->
 <!--Shown if the user is not editing a restaurant-->
 <!--8 Items per page-->
+<div class="row" [hidden]="showRatingsDialog">
 <p-dataGrid *ngIf="!editing && !editingZones && !editing_something" [value]="restaurants" [paginator]="true" [rows]="8">
     
     <!--Datagrid header-->
@@ -254,14 +271,19 @@
                 </p-accordion>
                 
                 <!--RESERVATION BUTTON -->
-                <button style="width:100%" pButton type="button" label="Reservation"
+                <button style="width:100%" class="ui-button-success" pButton type="button" label="Reservation"
                         icon="fa-book" (click)="restaurantReservation(restaurant)"> 
                         </button><br/>
-                
+
+                <button style="width:100%" pButton class="ui-button-info" type="button" label="Ratings"
+                        icon="fa-star-o" (click)="restaurantRatings(restaurant)"> 
+                        </button><br/>
+               
             </p-panel>
         </div>
     </template>
 </p-dataGrid><br/>
+</div>
 
 <!--IMAGE UPLOAD DIALOG-->
 <p-dialog   header="Upload Picture" [responsive]=true 

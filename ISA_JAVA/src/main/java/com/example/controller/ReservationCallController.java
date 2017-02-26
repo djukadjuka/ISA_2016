@@ -319,7 +319,10 @@ public class ReservationCallController {
 			}
 		}
 		
-		return sumOfVotes / numberOfVotes;
+		if(numberOfVotes != 0)
+			return sumOfVotes / numberOfVotes;
+		else
+			return 0;
 	}
 	
 	synchronized
@@ -362,7 +365,10 @@ public class ReservationCallController {
 			}
 		}
 		
-		return sumOfVotes / numberOfVotes;
+		if(numberOfVotes != 0)
+			return sumOfVotes / numberOfVotes;
+		else
+			return 0;
 	}
 	
 	synchronized
@@ -398,7 +404,10 @@ public class ReservationCallController {
 			}
 		}
 		
-		return sumOfVotes / numberOfVotes;
+		if(numberOfVotes != 0)
+			return sumOfVotes / numberOfVotes;
+		else
+			return 0;
 	}
 	
 	//********** Food rates
@@ -435,7 +444,10 @@ public class ReservationCallController {
 			}
 		}
 		
-		return sumOfVotes / numberOfVotes;
+		if(numberOfVotes != 0)
+			return sumOfVotes / numberOfVotes;
+		else
+			return 0;
 	}
 	
 	synchronized
@@ -478,7 +490,10 @@ public class ReservationCallController {
 			}
 		}
 		
-		return sumOfVotes / numberOfVotes;
+		if(numberOfVotes != 0)
+			return sumOfVotes / numberOfVotes;
+		else
+			return 0;
 	}
 	
 	synchronized
@@ -514,7 +529,10 @@ public class ReservationCallController {
 			}
 		}
 		
-		return sumOfVotes / numberOfVotes;
+		if(numberOfVotes != 0)
+			return sumOfVotes / numberOfVotes;
+		else
+			return 0;
 	}
 	
 	
@@ -552,7 +570,10 @@ public class ReservationCallController {
 			}
 		}
 		
-		return sumOfVotes / numberOfVotes;
+		if(numberOfVotes != 0)
+			return sumOfVotes / numberOfVotes;
+		else
+			return 0;
 	}
 	
 	synchronized
@@ -595,7 +616,10 @@ public class ReservationCallController {
 			}
 		}
 		
-		return sumOfVotes / numberOfVotes;
+		if(numberOfVotes != 0)
+			return sumOfVotes / numberOfVotes;
+		else
+			return 0;
 	}
 	
 	synchronized
@@ -631,7 +655,10 @@ public class ReservationCallController {
 			}
 		}
 		
-		return sumOfVotes / numberOfVotes;
+		if(numberOfVotes != 0)
+			return sumOfVotes / numberOfVotes;
+		else
+			return 0;
 	}
 }
 

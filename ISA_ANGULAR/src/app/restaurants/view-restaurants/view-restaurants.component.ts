@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import {ViewRestaurantsService} from './view-restaurants.service';
 import {NgForm, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {RestaurantClass} from '../view-restaurants/restaurant-class';
@@ -17,6 +17,7 @@ import {BarChartWeeks} from './BarChartWeeks';
 import {BarChartDaysMoney} from './BarChartDaysMoney';
 import {UIChart} from 'primeng/primeng'
 import {GMapOptions} from './GMapOptions'
+import {Observable} from 'rxjs/Observable';
 
 declare var google: any;
 
@@ -87,6 +88,35 @@ export class ViewRestaurantsComponent implements OnInit{
   drinkProducts : ProductClass[] = [];
 
   allFoodTypes : {};
+
+  //restaurant ratings
+  showRatingsDialog = false;
+  ratingsTitle = "";
+  @ViewChild('chart') chart : UIChart;
+
+  ratings = {
+            labels: ['Restaurant', 'Food', 'Service'],
+            datasets: [
+                {
+                    label: 'Me',
+                    backgroundColor: '#42A5F5',
+                    borderColor: '#1E88E5',
+                    data: [1, 5, 3]
+                },
+                {
+                    label: 'Friends',
+                    backgroundColor: '#9CCC65',
+                    borderColor: '#7CB342',
+                    data: [5, 5, 4]
+                },
+                 {
+                    label: 'Others',
+                    backgroundColor: '#FFCE56',
+                    borderColor: '#FFCE56',
+                    data: [2, 3, 4]
+                }
+            ]
+        }
 
   constructor(
     private viewRestaurantsService : ViewRestaurantsService, 
@@ -449,7 +479,47 @@ export class ViewRestaurantsComponent implements OnInit{
      this.editingZones = false;
    }
 
-   //filtering restaurants functions
+   //ratings restaurant fuctions ************************************************************************
+
+   restaurantRatings(restaurant)
+   {
+
+         Observable.forkJoin([
+           this.viewRestaurantsService.getRestaurantAverageRateMe(restaurant.id, this._sharedService.userId),
+           this.viewRestaurantsService.getFoodAverageRateMe(restaurant.id, this._sharedService.userId),
+           this.viewRestaurantsService.getWaiterAverageRateMe(restaurant.id, this._sharedService.userId),
+
+           this.viewRestaurantsService.getRestaurantAverageRateFriends(restaurant.id, this._sharedService.userId),
+           this.viewRestaurantsService.getFoodAverageRateFriends(restaurant.id, this._sharedService.userId),
+           this.viewRestaurantsService.getWaiterAverageRateFriends(restaurant.id, this._sharedService.userId),
+
+           this.viewRestaurantsService.getRestaurantAverageRateAll(restaurant.id),
+           this.viewRestaurantsService.getFoodAverageRateAll(restaurant.id),
+           this.viewRestaurantsService.getWaiterAverageRateAll(restaurant.id),
+           ])
+        .subscribe(data => {
+
+              this.ratings.datasets[0].data[0] = data[0];
+              this.ratings.datasets[0].data[1] = data[1];
+              this.ratings.datasets[0].data[2] = data[2];
+
+              this.ratings.datasets[1].data[0] = data[3];
+              this.ratings.datasets[1].data[1] = data[4];
+              this.ratings.datasets[1].data[2] = data[5];
+
+              this.ratings.datasets[2].data[0] = data[6];
+              this.ratings.datasets[2].data[1] = data[7];
+              this.ratings.datasets[2].data[2] = data[8];
+
+              this.chart.refresh();
+
+              this.ratingsTitle = restaurant.name;
+
+              this.showRatingsDialog = true;
+        });
+   }
+
+   //filtering restaurants functions *********************************************************************
 
    filterRestaurants()
    {

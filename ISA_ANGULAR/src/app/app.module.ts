@@ -58,6 +58,7 @@ import {SpinnerModule} from 'primeng/primeng';
 import {CheckboxModule} from 'primeng/primeng';
 import {GMapModule} from 'primeng/primeng';
 import {RatingModule} from 'primeng/primeng';
+import {LightboxModule} from 'primeng/primeng';
 
 //Service imports
 
@@ -127,6 +128,7 @@ import { InviteComponent } from './invite/invite.component';
       apiKey:'AIzaSyBBKgIXEhpHGY3tdQIkKx0edit3QLMyZBw'
     }),
     RatingModule,
+    LightboxModule,
     routing
   ],
   providers: [
