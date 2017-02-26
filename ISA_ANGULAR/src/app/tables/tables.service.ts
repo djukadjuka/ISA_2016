@@ -13,10 +13,10 @@ constructor(private _http : Http) { }
 
 
 
-getTables(zone_id)
+getTables(res_id)
 {
 
-return this._http.get(this._baseURL + "/getAllTables/" + zone_id)
+return this._http.get(this._baseURL + "/tableController/getTablesForRestaurant/" + res_id)
             .map(res =><TablesClass[]> res.json());
 
 }
