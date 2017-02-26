@@ -52,7 +52,7 @@
 </p-dialog>
 
 
-<p-panel *ngIf="showTablesButton">
+<p-panel *ngIf="showTablesButton && !creating_new_order">
 
 
 <p-dataGrid  [value]="tables" [paginator]="true" [rows]="8"> 
@@ -75,7 +75,7 @@
                 <i>{{tables.served_by.user.lastName}}</i><br/>
                 
                 
-                <button pButton type="button" label="Take order!" icon="fa-edit" ></button>
+                <button pButton type="button" label="Take order!" (click)=creatingOrder() icon="fa-edit" ></button>
                 <button pButton type="button" label="Money!!!" icon="fa-edit" ></button>
             </p-panel>
         </div>
@@ -122,4 +122,39 @@
     </form>
   </div>
     </p-dialog>
+
+<!--ORDER  -->
+
+<p-panel *ngIf="creating_new_order" >
+    <p-header>
+        <div class="ui-g">
+            <div class="ui-g-6">
+                <h3 style="float: left;"> Creating new order :  </h3>
+            </div>
+            <div class="ui-g-6">
+                <button pButton icon="fa-close" label="Close" style="float: right;height : 100%" (click)="close_new_order_panel()"></button>
+            </div>
+        </div>
+    </p-header>
+
+    <p>Select a product from the data table to include in order.<br/>
+   </p><br/>
+
+    <p-dataTable [value]="allFoodProduct" selectionMode="single" 
+                [(selection)]="selected_user_for_work" (onRowSelect)="selected_a_user_for_work($event)">
+        <p-header>Product</p-header>
+        <p-column field="food_name" header="Name"></p-column>
+        <p-column field="food_price" header="Price"></p-column>
+    </p-dataTable><br/>
+
+   
+
+</p-panel>
+
+
+
+
+
+
+
 </div>

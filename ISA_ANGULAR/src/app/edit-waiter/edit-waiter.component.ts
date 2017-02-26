@@ -18,6 +18,7 @@ export class EditWaiterComponent implements OnInit {
    private displayScheduleButton: boolean = false;
    private displayEditButton: boolean = false ;
    private showTablesButton: boolean = false ;
+   private creating_new_order: boolean = false ; 
    user ;
    schedule = [];
     private userUpdate = {username: "", id: ""};
@@ -68,6 +69,38 @@ export class EditWaiterComponent implements OnInit {
         });
     
   
+      }
+
+      allFoodProduct;
+
+      creatingOrder(){
+
+          this.viewRestaurantsService.getAllFood().subscribe(
+      res => {
+
+         this.allFoodProduct = [];
+          for(let item in res){
+           let name = res[item].name;
+           let price = res[item].price;
+          
+
+           console.log(res);
+
+            this.allFoodProduct.push(
+             { food_name:""+name,food_price:""+price}
+             );
+       // this.schedule =res;
+       
+      }
+      
+      }   
+    );
+
+
+
+          this.creating_new_order = true;
+
+
       }
 
  showEditDialog(){
