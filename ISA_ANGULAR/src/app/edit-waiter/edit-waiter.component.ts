@@ -64,6 +64,7 @@ export class EditWaiterComponent implements OnInit {
 
    all_schedules_for_employee;
    all_users;
+   all_tables;
 
   displaySchedule(){
 
@@ -88,7 +89,7 @@ export class EditWaiterComponent implements OnInit {
            let lName = res[item].for_employee.user.lastName
           
 
-           console.log(res);
+          // console.log(res);
 
             this.all_schedules_for_employee.push(
              { first_name:""+fName, last_name:""+lName,  from:""+start_time.getHours() + " : " + start_time.getMinutes(),
@@ -110,7 +111,27 @@ export class EditWaiterComponent implements OnInit {
   showTables(){
     this.tablesService.getTables(1).subscribe(
       res => {
-        this.tables = res;
+        this.all_tables=[];
+          console.log(res);
+         for(let item in res){
+              let servedBy = res[item].id;
+              let image = res[item].image;
+             
+
+                
+
+                this.all_tables.push(
+                  { waiter:"" +servedBy , tImage:""+image
+
+                  }
+                )
+          console.log(this.all_tables);
+
+
+         }
+           this.tables = res;
+
+           
       }
     );
 

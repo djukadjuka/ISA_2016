@@ -31,6 +31,8 @@ public class TableBean {
 
 	@Column(name = "image",  nullable = true)
 	private String image;
+	
+	
 
 	@Column(name = "status", unique = false, nullable = false)
 	@Enumerated(EnumType.STRING)
@@ -89,6 +91,10 @@ public class TableBean {
 	public void setStatus(TableStatus status) {
 		this.status = status;
 	}
+	
+
+
+	
 
 	public RestaurantZoneBean getRestaurant_zone_id() {
 		return restaurant_zone_id;

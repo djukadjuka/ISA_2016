@@ -1,8 +1,8 @@
 export class TablesClass{
     id;
-    max_people;
-    segment;
-    smoking;
     image;
-    status_table;
+    max_people;
+    status;
+    restaurant_zone_id;
+    served_by;
 }
