@@ -47,7 +47,7 @@ public interface ReservationCallRepository extends JpaRepository<ReservationCall
 			+ " WHERE id = :id", nativeQuery = true)
 	public int cancelFoodAndDrink(@Param("id") Long id);
 	
-	// ************ HISTORY AND RATES
+	// ************ HISTORY AND RATES *******************************
 	
 	@Modifying
 	@Transactional
@@ -56,4 +56,7 @@ public interface ReservationCallRepository extends JpaRepository<ReservationCall
 			+ "SET food_rate = :food_rate, waiter_rate = :waiter_rate, restaurant_rate = :rest_rate"
 			+ " WHERE id = :call_id", nativeQuery = true)
 	int updateRate(@Param("call_id") Long call_id,@Param("rest_rate") Long rest_rate,@Param("waiter_rate") Long waiter_rate,@Param("food_rate") Long food_rate);
+	
+	@Query(value = "SELECT * FROM Reservation_call r WHERE r.status = \'ACCEPTED\'", nativeQuery = true)
+    public Collection<ReservationCallBean> findByStatusAccepted();
 }

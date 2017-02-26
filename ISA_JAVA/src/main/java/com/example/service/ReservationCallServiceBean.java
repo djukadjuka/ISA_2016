@@ -81,4 +81,10 @@ public class ReservationCallServiceBean implements ReservationCallService{
 		// TODO Auto-generated method stub
 		return repository.updateRate(call_id,rest_rate,waiter_rate,food_rate);
 	}
+
+	@Override
+	public Collection<ReservationCallBean> findByStatusAccepted() {
+		// TODO Auto-generated method stub
+		return repository.findByStatusAccepted();
+	}
 }

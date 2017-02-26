@@ -106,6 +106,15 @@ export class EditUserService {
        var headers = new Headers({'Content-Type':'application/json'});
        var options = new RequestOptions({headers:headers});
 
+       if(restaurant_rate == null)
+            restaurant_rate = 0;
+
+       if(waiter_rate == null)
+            waiter_rate = 0;
+        
+        if(food_rate == null)
+            food_rate = 0;
+
        return this._http.put(this._baseURL+"/rateRestaurant",
        JSON.stringify({"call_id" : call_id, "restaurant_rate" : restaurant_rate, "waiter_rate" : waiter_rate, "food_rate" : food_rate}),options)
                         .map(res=>res.json().data);
