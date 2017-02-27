@@ -42,7 +42,9 @@ public class ReservationCallServiceBean implements ReservationCallService{
 	@Override
 	public void delete(Long reservation_id, Long reservation_call_id) {
 		// TODO Auto-generated method stub
+		//moram obrisati sve pozive vezane za tu rezervaciju, pre brisanja same rezervacije
 		repository.delete(reservation_call_id);
+		repository.deleteCallsWithReservationId(reservation_id);
 		reservationRepository.delete(reservation_id);
 	}
 
@@ -86,5 +88,11 @@ public class ReservationCallServiceBean implements ReservationCallService{
 	public Collection<ReservationCallBean> findByStatusAccepted() {
 		// TODO Auto-generated method stub
 		return repository.findByStatusAccepted();
+	}
+
+	@Override
+	public ReservationCallBean findByRecipientAndReservation(Long recipient, Long reservation_id) {
+		// TODO Auto-generated method stub
+		return repository.findByRecipientAndReservation(recipient, reservation_id);
 	}
 }

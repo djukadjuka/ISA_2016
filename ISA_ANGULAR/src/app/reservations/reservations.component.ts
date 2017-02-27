@@ -140,10 +140,13 @@ export class ReservationsComponent implements OnInit {
       {
              this._reservationService.reservationInvite(this.selectedReservation, friend)
                                     .subscribe(
-                                        res =>
-                                        {
-                                             this.msgs = [];
-                                             this.msgs.push({severity:'success', summary:'Invite sent over e-mail.'});
+                                        res => {
+                                                this.msgs = [];
+                                                this.msgs.push({severity:'success', summary:'Invite sent over e-mail.'});
+                                            },
+                                        err => {
+                                                this.msgs = [];
+                                                this.msgs.push({severity:'error', summary:'Invitation is already sent.'});
                                         }
                                     )
       }

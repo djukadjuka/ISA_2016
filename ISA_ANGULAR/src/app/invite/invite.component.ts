@@ -29,6 +29,8 @@ export class InviteComponent implements OnInit, OnDestroy {
   selectedFood = {};
   selectedDrink = {};
 
+  message = "";
+
   constructor(private route: ActivatedRoute,
               private _reservationService : ReservationService,
               private _sharedService : SharedService) { }
@@ -41,9 +43,15 @@ export class InviteComponent implements OnInit, OnDestroy {
                                 .subscribe(
                                   res => {
                                     this.inviteData = res;
+                                    this.message = "";
                                     this.showInvite = true;
                                     this.foodMenu = this.inviteData.reservation.table_id.restaurant_zone_id.restaurant.foodMenu;
                                     this.drinkMenu = this.inviteData.reservation.table_id.restaurant_zone_id.restaurant.drinksMenu;
+                                  },
+                                  err => {
+                                      this.msgs = [];
+                                      this.msgs.push({severity:'error', summary:'Reservation is canceled.'});
+                                      this.message = "We are so sorry! Your friend canceled the reservation."
                                   }
                                 );
     });

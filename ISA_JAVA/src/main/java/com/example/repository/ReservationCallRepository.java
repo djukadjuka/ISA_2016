@@ -20,8 +20,16 @@ public interface ReservationCallRepository extends JpaRepository<ReservationCall
 	@Query(value = "SELECT * FROM Reservation_call r WHERE r.recipient_id = :rec_id and r.status = \'ACCEPTED\'", nativeQuery = true)
     public Collection<ReservationCallBean> findByRecipient(@Param("rec_id") Long recipient);
 	
+	@Query(value = "SELECT * FROM Reservation_call r WHERE r.recipient_id = :rec_id and r.reservation = :reservation_id ", nativeQuery = true)
+    public ReservationCallBean findByRecipientAndReservation(@Param("rec_id") Long recipient, @Param("reservation_id") Long reservation_id);
+	
 	@Query(value = "SELECT * FROM Reservation_call r WHERE r.keygen = :keygen", nativeQuery = true)
     public ReservationCallBean findByKeygenAndId(@Param("keygen") Long keygen);
+	
+	@Modifying
+	@Transactional
+	@Query(value = "DELETE FROM Reservation_call WHERE reservation = :reservation_id", nativeQuery = true)
+    public int deleteCallsWithReservationId(@Param("reservation_id") Long reservation_id);
 	
 	@Modifying
 	@Transactional
@@ -31,6 +39,8 @@ public interface ReservationCallRepository extends JpaRepository<ReservationCall
 			+ "WHERE id = :call_id", nativeQuery = true)
     public int updateStatus(@Param("status") String status, @Param("call_id") Long call_id);
 	
+	
+	//THE GIVEN ID MUST NOT BE NULL !!!!!!!!!!!!! check
 	@Modifying
 	@Transactional
 	@Query(value = 

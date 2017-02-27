@@ -111,17 +111,22 @@ public class ReservationCallController {
 			produces=MediaType.APPLICATION_JSON_VALUE,
 			consumes = MediaType.APPLICATION_JSON_VALUE
 			)
-	public boolean reservationInvite(@RequestBody ReservationCallBean rcb)
+	public ResponseEntity<Boolean> reservationInvite(@RequestBody ReservationCallBean rcb)
 	{	
 		ReservationCallBean call = new ReservationCallBean(ReservationStatus.PENDING, rcb.getOriginator(), rcb.getRecipient(), rcb.getReservation());
+		ReservationCallBean callExist = reservationCallService.findByRecipientAndReservation(rcb.getRecipient().getId(), rcb.getReservation().getId());
+		
+		Boolean bb = new Boolean(false);
+		
+		if(callExist != null)
+			return new ResponseEntity<Boolean> (bb, HttpStatus.NOT_FOUND);
 		
 		Random r = new Random();
 		Long keygen = r.nextLong();
-		boolean emailSent = true;
 		
 		try {
 			SimpleMailMessage email = new SimpleMailMessage();
-			email.setFrom("stkosijer@gmail.com");
+			email.setFrom("SoulFoodApp");
 			email.setTo("secimasubre@gmail.com");
 			email.setSubject("Restaurant invitation from " + rcb.getOriginator().getFirstName() + " " + rcb.getOriginator().getLastName());
 			email.setText("Hello, you have been invited to a restaurant reservation. Follow the link to answer http://localhost:4200/invite/" + keygen);
@@ -129,13 +134,14 @@ public class ReservationCallController {
 			mailSender.send(email);
 		} catch (Exception ex) {
 			System.out.println("Email nije poslat.");
-			emailSent = false;
 		}
 		
 			call.setKeygen(keygen);
 			reservationCallService.create(call);
+			
+			Boolean b = new Boolean(true);
 		
-		return true;
+		return new ResponseEntity<Boolean> (b, HttpStatus.OK);
 	}
 	
 	synchronized
@@ -147,7 +153,12 @@ public class ReservationCallController {
 			)
 	public ResponseEntity<ReservationCallBean> inviteData(@PathVariable("keygen") Long keygen)
 	{
-		return new ResponseEntity<ReservationCallBean> (reservationCallService.findByKeygenAndId(keygen), HttpStatus.OK);
+		ReservationCallBean rcb = reservationCallService.findByKeygenAndId(keygen);
+		
+		if(rcb != null)
+			return new ResponseEntity<ReservationCallBean> (rcb, HttpStatus.OK);
+		else
+			return new ResponseEntity<ReservationCallBean> (rcb, HttpStatus.NOT_FOUND);
 	}
 	
 	@CrossOrigin(origins = "http://localhost:4200")
@@ -250,8 +261,6 @@ public class ReservationCallController {
 		Long call_id = Long.decode(rates.get("call_id"));
 		Long waiter_rate = Long.decode(rates.get("waiter_rate"));
 		Long food_rate = Long.decode(rates.get("food_rate"));
-		
-		System.out.println("REST " + rest_rate + " ************************************************");
 		
 		reservationCallService.updateRate(call_id, rest_rate, waiter_rate, food_rate);
 		

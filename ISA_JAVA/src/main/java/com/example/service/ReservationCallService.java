@@ -2,6 +2,8 @@ package com.example.service;
 
 import java.util.Collection;
 
+import org.springframework.data.repository.query.Param;
+
 import com.example.domain.ProductBean;
 import com.example.domain.ReservationCallBean;
 
@@ -20,6 +22,8 @@ public interface ReservationCallService {
 	ReservationCallBean findByKeygenAndId(Long keygen);
 	
 	//**** for invites and emails
+	
+	ReservationCallBean findByRecipientAndReservation(Long recipient, Long reservation_id);
 	
 	int updateStatus(String status, Long call_id );
 	
