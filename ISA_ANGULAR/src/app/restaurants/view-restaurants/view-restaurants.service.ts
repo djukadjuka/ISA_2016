@@ -369,4 +369,18 @@ export class ViewRestaurantsService {
       .map(res=>res.json());  
   }
 
+  getAllFood()
+  {
+    return this._http.get(this._baseURL + "/getAllFood" )
+      .map(res=>res.json()); 
+
+  }
+
+  getAllDrinks()
+  {
+    return this._http.get(this._baseURL + "/getAllDrinks" )
+      .map(res=>res.json()); 
+
+  }
+
 }
