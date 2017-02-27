@@ -143,4 +143,7 @@ import { InviteComponent } from './invite/invite.component';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(private _sharedService : SharedService){}
+
+ }

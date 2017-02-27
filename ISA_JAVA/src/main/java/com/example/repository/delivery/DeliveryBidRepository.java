@@ -84,26 +84,28 @@ public interface DeliveryBidRepository extends JpaRepository<DeliveryOrderBid, L
 			+ " where made_by_deliverer_user_id = :user_id and made_for_order_id = :order_id", nativeQuery=true)
 	public DeliveryOrderBid checkIfDeliveryOrderExists(@Param("user_id") Long user_id, @Param("order_id") Long order_id);
 	
-	/**Update existing bid*/
+	/**Update existing bid
+	 * @param date_of_delivery */
 	@Transactional
 	@Modifying
-	@Query(value = "update delivery_order_bid set bidding_price = :price"
+	@Query(value = "update delivery_order_bid set bidding_price = :price, date_of_delivery=:date_del "
 			+ " where made_by_deliverer_user_id = :user_id and made_for_order_id = :order_id",nativeQuery=true)
-	public void updateCashForDeliveryBid(@Param("price") Long price,@Param("user_id") Long user_id, @Param("order_id") Long order_id);
+	public void updateCashForDeliveryBid(@Param("price") Long price,@Param("user_id") Long user_id, @Param("order_id") Long order_id,@Param("date_del") Long date_of_delivery);
 	
-	/**update new bid*/
+	/**update new bid
+	 * @param date_of_delivery */
 	@Transactional
 	@Modifying
 	@Query(value = "update delivery_order_bid set "
 			+ " bid_status='PENDING', bidding_price=:price,seen_status=0,made_by_deliverer_user_id=:user_id"
-			+ " ,made_for_order_id=:order_id,made_for_restaurant_id=:restaurant_id"
+			+ " ,made_for_order_id=:order_id,made_for_restaurant_id=:restaurant_id, date_of_delivery=:date_del "
 			+ " where id=:bid_id",nativeQuery=true)
 	public void updateNewBidInformation(
 			@Param("price") Long price,
 			@Param("user_id") Long user_id,
 			@Param("order_id") Long order_id,
 			@Param("restaurant_id") Long restaurant_id,
-			@Param("bid_id") Long bid_id
+			@Param("bid_id") Long bid_id,@Param("date_del") Long date_of_delivery
 			);
 	
 	/**accept bid*/

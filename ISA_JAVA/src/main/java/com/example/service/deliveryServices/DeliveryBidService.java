@@ -35,14 +35,14 @@ public interface DeliveryBidService {
 	public void setBidToBeExpired(Long dob_id);
 	
 	public DeliveryOrderBid checkIfDeliveryOrderExists(Long user_id, Long order_id);
-	public void updateCashForDeliveryBid(Long price,Long user_id, Long order_id);
+	public void updateCashForDeliveryBid(Long price,Long user_id, Long order_id, Long date_of_delivery);
 	
 	public void updateNewBidInformation(
 			Long price,
 			Long user_id,
 			Long order_id,
 			Long restaurant_id,
-			Long bid_id
+			Long bid_id, Long date_of_delivery
 			);
 	
 	public void setBidAccepted(Long bid_id);

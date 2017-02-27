@@ -174,7 +174,6 @@ public class DeliveryController {
 		return new ResponseEntity<HashMap<String,Object>>(payload,HttpStatus.OK);
 	}
 	
-	@MessageMapping("/hello")
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(
 			value="/deliveryController/sendNewBid",
@@ -189,9 +188,10 @@ public class DeliveryController {
 																bid.getMade_by_user(),
 																bid.getMade_for_order(), 
 																this.delivery_order_service.findOne(bid.getMade_for_order()).getFor_restaurant().getId(), 
-																new_bid.getId());
+																new_bid.getId(),
+																bid.getMade_for_date());
 		}else{
-			this.delivery_bid_service.updateCashForDeliveryBid(bid.getBid_in_dollars(), bid.getMade_by_user(), bid.getMade_for_order());
+			this.delivery_bid_service.updateCashForDeliveryBid(bid.getBid_in_dollars(), bid.getMade_by_user(), bid.getMade_for_order(),bid.getMade_for_date());
 		}
 	}
 	
@@ -240,7 +240,16 @@ class BidRequestWrapper{
 	private Long bid_in_dollars;
 	private Long made_for_order;
 	private Long made_by_user;
+	private Long made_for_date;
 	
+	
+	
+	public Long getMade_for_date() {
+		return made_for_date;
+	}
+	public void setMade_for_date(Long made_for_date) {
+		this.made_for_date = made_for_date;
+	}
 	public Long getBid_in_dollars() {
 		return bid_in_dollars;
 	}

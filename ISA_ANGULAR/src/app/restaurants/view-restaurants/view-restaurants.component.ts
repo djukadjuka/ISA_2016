@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild, ElementRef } from '@angular/core';
 import {ViewRestaurantsService} from './view-restaurants.service';
 import {NgForm, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {RestaurantClass} from '../view-restaurants/restaurant-class';
@@ -17,8 +17,14 @@ import {BarChartWeeks} from './BarChartWeeks';
 import {BarChartDaysMoney} from './BarChartDaysMoney';
 import {UIChart} from 'primeng/primeng'
 import {GMapOptions} from './GMapOptions'
+import { Observable } from 'rxjs/Rx';
 
 declare var google: any;
+
+
+
+var Stomp = require('stompjs');
+var SockJS = require('sockjs-client');
 
 @Component({
   selector: 'app-view-restaurants',
@@ -27,7 +33,7 @@ declare var google: any;
 })
 export class ViewRestaurantsComponent implements OnInit{
 
-  levat = parseInt;
+  private stompClient;
 
   //things for presentation
 
@@ -88,6 +94,8 @@ export class ViewRestaurantsComponent implements OnInit{
 
   allFoodTypes : {};
 
+  private asdf = "ajmo ajmo";
+
   constructor(
     private viewRestaurantsService : ViewRestaurantsService, 
     private productService : ProductService,
@@ -95,6 +103,23 @@ export class ViewRestaurantsComponent implements OnInit{
     private _fb: FormBuilder,
     private _confirmationService : ConfirmationService)
     {
+
+      let socket= new SockJS('http://localhost:4400/chat');
+
+      this.stompClient = Stomp.over(socket);
+      this.stompClient.connect({});
+      /**
+       * ,function(frame){
+        console.log(this);
+        stomp.subscribe('/message/recieveMessage/1',res=>{
+          //console.log(this);
+        });
+
+        stomp.subscribe('/message/recieveMessage/2',res=>{
+          console.log(res.body);
+        });
+      })
+       */
 
       this.allFoodTypes = {"Serbian":{"id":1,"name":"Serbian"},
         "Spanish":{"id":2,"name":"Spanish"},
@@ -778,6 +803,7 @@ export class ViewRestaurantsComponent implements OnInit{
      * ADDING NEW MANAGER CONFIG
      * =============================*/
      //should be user list ...
+
      possible_managers; assigned_managers;
      create_new_manager_clicked(restaurant : RestaurantClass){
         this.restaurant_23 = restaurant;
@@ -1281,6 +1307,7 @@ export class ViewRestaurantsComponent implements OnInit{
      /**
       * CHECK DELIVERY NOTIFICATIONS CONFIG
       */
+      
       //all possible restaurant orders
       restaurant_orders;
 
@@ -1290,12 +1317,14 @@ export class ViewRestaurantsComponent implements OnInit{
       //all bids for the other data table
       order_bids = [];
 
+      //subscription to delivery orders;
+      delivery_bid_subscription;
+
       check_delivery_notifications_clicked(restaurant : RestaurantClass){
         this.restaurant_23 = restaurant;
 
         this.viewRestaurantsService.getDeliveryOrdersForRestaurant(this.restaurant_23.id).subscribe(
           res=>{
-            console.log(res);
             this.restaurant_orders = res;
             let curr_date = new Date();
 
@@ -1317,7 +1346,7 @@ export class ViewRestaurantsComponent implements OnInit{
                     });
                   }
                 }
-                console.log(this.order_presentation);
+                //console.log(this.order_presentation);
 
             }
 
@@ -1328,11 +1357,26 @@ export class ViewRestaurantsComponent implements OnInit{
 
       }
 
-      check_bids(data){
+      /////////////////////////////////////
+      /**REST CALL TO GET DELIVERY ORDERS */
+      /////////////////////////////////////
+      get_all_bids_for_order(data){
         this.viewRestaurantsService.getDeliveryBidsForDeliveryId(data).subscribe(
           res=>{
             this.order_bids = res;
           }
+        )
+      }
+
+      /**if(this._sharedService.isManager){
+        Observable.timer(0,5000).subscribe(
+            res=> this.refresh_managerData(this._sharedService.userId)
+        );
+    } */
+
+      check_bids(data){
+        this.delivery_bid_subscription = Observable.timer(0,1000).subscribe(
+          res=> this.get_all_bids_for_order(data) 
         )
       }
 
@@ -1376,7 +1420,9 @@ export class ViewRestaurantsComponent implements OnInit{
       }
 
       close_check_delivery_notifications(){
-
+        if(this.delivery_bid_subscription != null){
+          this.delivery_bid_subscription.unsubscribe();
+        }
         this.checking_delivery_notifications_open = false;
         this.check_visibility();
       }
@@ -1630,5 +1676,12 @@ export class ViewRestaurantsComponent implements OnInit{
 
         this.checking_restaurant_statistics = false;
         this.check_visibility();
+      }
+
+      test1(){
+        this.stompClient.send("/app/testDeliveries/"+1,{},null);
+      }
+      test2(){
+        this.stompClient.send("/app/sendMessageHere/"+2,{},JSON.stringify({'from':"from",'text':"text"}));
       }
 }
