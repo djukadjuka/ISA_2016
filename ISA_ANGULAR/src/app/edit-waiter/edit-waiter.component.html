@@ -14,6 +14,10 @@
   
  <p>
           <input class="btn btn-primary" value="Tables" (click)="showTables()" type="button">
+
+        <p>
+          <input class="btn btn-primary" value="EditPersonal" type="button" (click)="showEditDialog()">
+ </p>
   </div>
 
 
@@ -48,7 +52,7 @@
 </p-dialog>
 
 
-<p-panel *ngIf="showTablesButton">
+<p-panel *ngIf="showTablesButton && !creating_new_order">
 
 
 <p-dataGrid  [value]="tables" [paginator]="true" [rows]="8"> 
@@ -63,10 +67,15 @@
    <!--Style of one cell in the datagrid-->
         <div style="padding:3px" class="ui-g-12 ui-md-3">
             <p-panel [header]="tables.id" [style]="{'text-align':'center'}">
-                <img [src]="tables.image" (error)="tables.image = '/assets/pictures/no_image_found.jpg'" width="150" height="150">
-                <hr class="ui-widget-content" style="border-top:0">
+                <img [src]="tables.image" (error)="tables.image = '/assets/pictures/no_image_found.jpg'" width="150" height="150"> 
                 
-                <button pButton type="button" label="Take order!" icon="fa-edit" ></button>
+                
+                <hr class="ui-widget-content" style="border-top:0">
+                <i>{{tables.served_by.user.firstName}}</i><br/>
+                <i>{{tables.served_by.user.lastName}}</i><br/>
+                
+                
+                <button pButton type="button" label="Take order!" (click)=creatingOrder() icon="fa-edit" ></button>
                 <button pButton type="button" label="Money!!!" icon="fa-edit" ></button>
             </p-panel>
         </div>
@@ -76,7 +85,8 @@
   </p-panel>
 
   <!-- edit form column -->
-  <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
+<p-dialog header="Edit personal:" [responsive]=true [resizable]=false [draggable]=false width="1000" [modal]=true [(visible)]="displayEditButton">
+  <div class="col-md-8 col-sm-6 col-xs-12 personal-info" >
     <h3>Personal info</h3>
     <form class="form-horizontal" [formGroup]="formEditUser">
       <div class="form-group">
@@ -98,6 +108,12 @@
         </div>
       </div>
        <div class="form-group">
+        <label class="col-md-3 control-label">Password:</label>
+        <div class="col-md-8">
+          <input class="form-control" [(ngModel)]="userUpdate.password" formControlName="password" type="password">
+        </div>
+      </div>
+       <div class="form-group">
         <label class="col-md-3 control-label"></label>
         <div class="col-md-8">
           <button pButton [disabled]="!formEditUser.valid" class="ui-button-success" type="text" (click)="updateUser()" icon="fa-check" label="Save changes"></button>
@@ -105,4 +121,48 @@
       </div>
     </form>
   </div>
+    </p-dialog>
+
+<!--ORDER  -->
+
+<p-panel *ngIf="creating_new_order" >
+    <p-header>
+        <div class="ui-g">
+            <div class="ui-g-6">
+                <h3 style="float: left;"> Creating new order :  </h3>
+            </div>
+            <div class="ui-g-6">
+                <button pButton icon="fa-close" label="Close" style="float: right;height : 100%" (click)="close_new_order_panel()"></button>
+            </div>
+        </div>
+    </p-header>
+
+    <p>Select a product from the data table to include in order.<br/>
+   </p><br/>
+
+    <p-dataTable [value]="allFoodProduct" selectionMode="single" 
+                [(selection)]="selected_user_for_work" (onRowSelect)="selected_a_user_for_work($event)">
+        <p-header>Food</p-header>
+        <p-column field="food_name" header="Name"></p-column>
+        <p-column field="food_price" header="Price"></p-column>
+    </p-dataTable><br/>
+
+     <p-dataTable [value]="allDrinkProduct" selectionMode="single" 
+                [(selection)]="selected_user_for_work" (onRowSelect)="selected_a_user_for_work($event)">
+        <p-header>Drink</p-header>
+        <p-column field="drink_name" header="Name"></p-column>
+        <p-column field="drink_price" header="Price"></p-column>
+    </p-dataTable><br/>
+
+
+   
+
+</p-panel>
+
+
+
+
+
+
+
 </div>

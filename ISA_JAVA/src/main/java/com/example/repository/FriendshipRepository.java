@@ -22,5 +22,8 @@ public interface FriendshipRepository extends JpaRepository<FriendshipBean, Long
 	
 	@Query(value = "SELECT * FROM Friendship f WHERE f.originator_id = :ori_id", nativeQuery = true)
     public Collection<FriendshipBean> findByOriginator_id(@Param("ori_id") Long originator_id);
+	
+	@Query(value = "SELECT * FROM Friendship f WHERE (f.originator_id = :orig and f.recipient_id = :rec) or (f.originator_id = :rec and f.recipient_id = :orig) ", nativeQuery = true)
+	public FriendshipBean findByRecipientOrOriginatorCombination(@Param("orig") Long orig, @Param("rec") Long rec);
 
 }

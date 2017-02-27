@@ -143,6 +143,18 @@ public class EmployeeController {
 	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(
+			value = "/EmployeeControler/getEmployeeById/{worker_id}",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE
+			)
+	public ResponseEntity<Collection<EmployeeBean>> getEmployeesById(@PathVariable("worker_id") Long worker_id){
+		System.out.println("TEST:"+worker_id);
+		return new ResponseEntity<Collection<EmployeeBean>>(employeeService.getEmployeeById(worker_id),HttpStatus.OK);
+	}
+	
+	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
 			value = "/EmployeeControler/getWaitersForRestaurant/{rest_id}",
 			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE

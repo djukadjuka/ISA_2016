@@ -4,11 +4,11 @@
     
     <h1> Welcome back </h1>
 
- 
+
     <p>First name:{{userUpdate.firstName}} </p>
-    <p>Last name:{{userUpdate.lastName}} </p>
-    <p>Username:{{userUpdate.username}} </p>
-    
+    <p>Last name: {{userUpdate.lastName}}</p>
+    <p>Username: {{userUpdate.username}}</p>
+  
   
       
       <p>
@@ -18,6 +18,10 @@
   
  <p>
           <input class="btn btn-primary" value="Orders" type="button">
+ </p>
+
+ <p>
+          <input class="btn btn-primary" value="EditStuff" type="button" (click)="showEditDialog()">
  </p>
     
   </div>
@@ -56,7 +60,9 @@
 
 
   <!-- edit form column -->
-  <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
+  
+<p-dialog header="Edit personal:" [responsive]=true [resizable]=false [draggable]=false width="1000" [modal]=true [(visible)]="displayEditButton">
+<div class="col-md-8 col-sm-6 col-xs-12 personal-info">
     <h3>Personal info</h3>
     <form class="form-horizontal" [formGroup]="formEditUser">
       <div class="form-group">
@@ -73,16 +79,26 @@
       </div>
       <div class="form-group">
         <label class="col-md-3 control-label">Username:</label>
-        <div class="col-md-8">
+        <div class="col-lg-8">
           <input class="form-control" [(ngModel)]="userUpdate.username" formControlName="username" type="text">
         </div>
       </div>
+      <div class="form-group">
+        <label class="col-lg-3 control-label">Password:</label>
+        <div class="col-lg-8">
+          <input class="form-control" [(ngModel)]="userUpdate.password" formControlName="password" type="password">
+        </div>
+      </div>
        <div class="form-group">
-        <label class="col-md-3 control-label"></label>
-        <div class="col-md-8">
+        <label class="col-lg-3 control-label"></label>
+        <div class="col-lg-8">
           <button pButton [disabled]="!formEditUser.valid" class="ui-button-success" type="text" (click)="updateUser()" icon="fa-check" label="Save changes"></button>
         </div>
       </div>
     </form>
   </div>
+</p-dialog>
+
+
+
 </div>

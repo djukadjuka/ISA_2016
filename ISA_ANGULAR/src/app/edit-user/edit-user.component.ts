@@ -366,6 +366,11 @@ export class EditUserComponent implements OnInit {
                                              
                                              this.msgs = [];
                                              this.msgs.push({severity:'success', summary:'Friend request sent.', detail:'Please wait for '+user.firstName + ' ' + user.lastName + ' to respond.'});  
+                                          },
+                                          err => {
+                                              this.findNewPeopleData();
+                                              this.msgs = [];
+                                             this.msgs.push({severity:'error', summary:'Friend request already pending'});
                                           }
                                       );
               }

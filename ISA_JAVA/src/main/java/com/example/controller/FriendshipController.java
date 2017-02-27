@@ -1,7 +1,9 @@
 package com.example.controller;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +22,6 @@ import com.example.domain.FriendshipBean.FriendshipStatus;
 import com.example.domain.UserBean;
 import com.example.service.FriendshipService;
 import com.example.service.FriendshipServiceBean;
-import com.example.service.UserServiceBean;
 
 @RestController
 public class FriendshipController {
@@ -36,17 +37,26 @@ public class FriendshipController {
 			consumes = MediaType.APPLICATION_JSON_VALUE
 			)
 	@ResponseBody
-	public boolean sendFriendRequest(@RequestBody HashMap<String,UserBean> bp){
+	public ResponseEntity<Boolean> sendFriendRequest(@RequestBody HashMap<String,UserBean> bp){
+		
+		UserBean orig = bp.get("originator");
+		UserBean rec = bp.get("recipient");
+		
+		//prvo provera da li je mozda vec poslat zahtev
+		FriendshipBean friendship = friendshipService.findByRecipientOrOriginatorCombination(orig.getId(), rec.getId());
+		
+		if(friendship != null)
+			return new ResponseEntity<Boolean> (HttpStatus.NOT_FOUND);
 		
 		FriendshipBean f = new FriendshipBean();
 		
-		f.setOriginator(bp.get("originator"));
-		f.setRecipient(bp.get("recipient"));
+		f.setOriginator(orig);
+		f.setRecipient(rec);
 		f.setStatus(FriendshipStatus.PENDING);
 		
 		friendshipService.create(f);
 		
-		return true;
+		return new ResponseEntity<Boolean> (true, HttpStatus.OK);
 	}
 	
 	@CrossOrigin(origins = "http://localhost:4200")
@@ -55,13 +65,30 @@ public class FriendshipController {
 			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE
 			)
-	public ResponseEntity<Collection<FriendshipBean>> getFriendships(@PathVariable("id") Long id){
+	public ResponseEntity<ArrayList<FriendshipBean>> getFriendships(@PathVariable("id") Long id){
 		Collection<FriendshipBean> friendships = friendshipService.findByRecipient_idOrOriginator_idAndStatusAccepted(id);
 		
-		if(friendships == null){
-			return new ResponseEntity<Collection<FriendshipBean>>(HttpStatus.NOT_FOUND);
+		//Dobio sam sve friendshipe, ali cu namestiti da su prijatelji korisnika koji je zatrazio ovaj servis
+		//postavljeni u friendship-u na recipient, kako bi tamo mogao da ih prikazem skladno tome
+		ArrayList<FriendshipBean> retVal = new ArrayList<>();
+		
+		retVal.addAll(friendships); 
+		
+		for(FriendshipBean fb : retVal)
+		{
+			if(fb.getRecipient().getId().equals(id))
+			{
+				UserBean temp = fb.getOriginator();
+				fb.setOriginator(fb.getRecipient());
+				fb.setRecipient(temp);
+			}
 		}
-		return new ResponseEntity<Collection<FriendshipBean>>(friendships,HttpStatus.OK);
+		
+		
+		if(friendships == null){
+			return new ResponseEntity<ArrayList<FriendshipBean>>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<ArrayList<FriendshipBean>>(retVal,HttpStatus.OK);
 	}
 	
 	@CrossOrigin(origins = "http://localhost:4200")

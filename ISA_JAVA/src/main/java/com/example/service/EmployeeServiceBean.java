@@ -59,6 +59,12 @@ public class EmployeeServiceBean  implements EmployeeService{
 	public Collection<EmployeeBean> getWaitersForARestaurant(Long rest_id) {
 		return empRepo.getWaitersForARestaurant(rest_id);
 	}
+	
+	@Override
+	public Collection<EmployeeBean> getEmployeeById(Long worker_id) {
+		return empRepo.getEmployeeById(worker_id);
+	}
+
 
 	@Override
 	public void delete_deliverer_that_became_manager(Long user_id) {

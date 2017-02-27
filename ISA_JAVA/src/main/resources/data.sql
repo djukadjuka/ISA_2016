@@ -714,9 +714,9 @@ values(17,'ACCEPTED');
 insert into deliverer(user_id,request_status)
 values(18,'ACCEPTED');
 
---===================================================
+--==============================================================================================
 --RESERVATION 
---===================================================
+--==============================================================================================
 
 insert into reservation(id, end_date, start_date, table_id)
 values('1', '1488078216869', '1488074616869', '3');
@@ -747,7 +747,9 @@ values('12', '1486632827162', '1486622027000', '3');
 insert into reservation(id, end_date, start_date, table_id)
 values('13', '1486632827162', '1486622027000', '5');
 
+--==============================================================================================
 --RESERVATION CALLS
+--==============================================================================================
 
 insert into reservation_call(id, food_rate, keygen, make_order_fast, restaurant_rate, status, waiter_rate, drink, food, originator_id, recipient_id, reservation)
 values('1', '0', NULL, '0', '0', 'ACCEPTED', '0', NULL, NULL, '1', '1', '1');
@@ -771,12 +773,14 @@ insert into reservation_call(id, food_rate, keygen, make_order_fast, restaurant_
 values('10', '0', NULL, '0', '0', 'ACCEPTED', '0', NULL, NULL, '1', '1', '10');
 
 
+--reservation calls that passed
+
 insert into reservation_call(id, food_rate, keygen, make_order_fast, restaurant_rate, status, waiter_rate, drink, food, originator_id, recipient_id, reservation)
-values('11', '0', NULL, '0', '0', 'ACCEPTED', '0', NULL, NULL, '1', '1', '11');
+values('11', '3', NULL, '0', '5', 'ACCEPTED', '5', NULL, NULL, '1', '1', '11');
 insert into reservation_call(id, food_rate, keygen, make_order_fast, restaurant_rate, status, waiter_rate, drink, food, originator_id, recipient_id, reservation)
-values('12', '0', NULL, '0', '0', 'ACCEPTED', '0', NULL, NULL, '1', '1', '12');
+values('12', '4', NULL, '0', '3', 'ACCEPTED', '4', NULL, NULL, '1', '1', '12');
 insert into reservation_call(id, food_rate, keygen, make_order_fast, restaurant_rate, status, waiter_rate, drink, food, originator_id, recipient_id, reservation)
-values('13', '0', NULL, '0', '0', 'ACCEPTED', '0', NULL, NULL, '1', '1', '13');
+values('13', '5', NULL, '0', '3', 'ACCEPTED', '2', NULL, NULL, '1', '1', '13');
 
 
 --===================================================

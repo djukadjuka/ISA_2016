@@ -42,7 +42,9 @@ public class ReservationCallServiceBean implements ReservationCallService{
 	@Override
 	public void delete(Long reservation_id, Long reservation_call_id) {
 		// TODO Auto-generated method stub
+		//moram obrisati sve pozive vezane za tu rezervaciju, pre brisanja same rezervacije
 		repository.delete(reservation_call_id);
+		repository.deleteCallsWithReservationId(reservation_id);
 		reservationRepository.delete(reservation_id);
 	}
 
@@ -65,7 +67,7 @@ public class ReservationCallServiceBean implements ReservationCallService{
 	}
 	
 	@Override
-	public int updateFoodAndDrink(Long id, ProductBean food, ProductBean drink, int makeOrderFast) {
+	public int updateFoodAndDrink(Long id, Long food, Long drink, int makeOrderFast) {
 		// TODO Auto-generated method stub
 		return repository.updateFoodAndDrink(id, food, drink, makeOrderFast);
 	}
@@ -80,5 +82,17 @@ public class ReservationCallServiceBean implements ReservationCallService{
 	public int updateRate(Long call_id, Long rest_rate, Long waiter_rate, Long food_rate) {
 		// TODO Auto-generated method stub
 		return repository.updateRate(call_id,rest_rate,waiter_rate,food_rate);
+	}
+
+	@Override
+	public Collection<ReservationCallBean> findByStatusAccepted() {
+		// TODO Auto-generated method stub
+		return repository.findByStatusAccepted();
+	}
+
+	@Override
+	public ReservationCallBean findByRecipientAndReservation(Long recipient, Long reservation_id) {
+		// TODO Auto-generated method stub
+		return repository.findByRecipientAndReservation(recipient, reservation_id);
 	}
 }

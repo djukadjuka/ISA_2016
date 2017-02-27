@@ -6,6 +6,7 @@ import { TablesService } from '../tables/tables.service';
 import { Message } from 'primeng/primeng';
 import { SharedService } from '../shared/shared.service';
 import {ViewRestaurantsService} from '../restaurants/view-restaurants/view-restaurants.service';
+import {EmployeeClass} from '../edit-barman/employee-class'
 
 @Component({
   selector: 'app-edit-barman',
@@ -17,15 +18,20 @@ export class EditBarmanComponent implements OnInit, OnChanges {
   showEdit = false;
 
   noImageFound: string = "/assets/pictures/no_image_found.jpg";
-  private user = {};
+   user ;
   private userUpdate = {username: "", id: ""};
   private msgs: Message[] = [];
+  private employee = {};
 
   private displayScheduleeButton : boolean = false;
   private displaySchedule: boolean = false;
+  private displayEditButton : boolean = false ; 
    private formEditUser: FormGroup;
      reservation = { Date : new Date};
   formReservation : FormGroup;
+
+  //employee : EmployeeClass[];
+  
 
 
 
@@ -88,7 +94,7 @@ export class EditBarmanComponent implements OnInit, OnChanges {
                                                         .subscribe(
                                                                  res => 
                                                                   {
-                                                                  
+                                                                  this.displayEditButton = false;
                                                                     this.user = this.userUpdate;
                                                                   }
                                                                 );  
@@ -102,7 +108,8 @@ export class EditBarmanComponent implements OnInit, OnChanges {
     this.formEditUser = this._fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      username: ['', Validators.required]
+      username: ['', Validators.required],
+      password : ['', Validators.required]
     });
     
 
@@ -111,9 +118,11 @@ export class EditBarmanComponent implements OnInit, OnChanges {
     this._editUserService.getUserById(this._sharedService.userId)
       .subscribe(
       res => this.userUpdate = res
-      );
+      
+      
+    );
 
-    console.log(this.userUpdate);
+    
 
 
     this.formReservation = this._fb.group({
@@ -127,6 +136,11 @@ export class EditBarmanComponent implements OnInit, OnChanges {
     
 
     this.displaySchedule = true;
+  }
+
+  showEditDialog(){
+
+    this.displayEditButton = true ; 
   }
 
  all_schedules_for_employee;

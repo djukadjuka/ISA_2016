@@ -16,8 +16,10 @@ export class EditWaiterComponent implements OnInit {
 
   private displayScheduleeButton: boolean = false;
    private displayScheduleButton: boolean = false;
+   private displayEditButton: boolean = false ;
    private showTablesButton: boolean = false ;
-   private user = {};
+   private creating_new_order: boolean = false ; 
+   user ;
    schedule = [];
     private userUpdate = {username: "", id: ""};
     private msgs: Message[] = [];
@@ -41,29 +43,98 @@ export class EditWaiterComponent implements OnInit {
        this.formEditUser = this._fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      username: ['', Validators.required]
+      username: ['', Validators.required],
+      password : ['', Validators.required],
+      
     });
     
 
 
-
+    
 
     this._editUserService.getUserById(this._sharedService.userId)
       .subscribe(
-      res => this.userUpdate = res
-      );
+      res =>  this.userUpdate=res
+     );
 
-    console.log(JSON.stringify(this.userUpdate));
+      
+      
+    
+      
+   
 
      //reservation form builder
        this.formReservation = this._fb.group({
         Date: ['', Validators.required]
         });
     
+  
+      }
+
+      allFoodProduct;
+      allDrinkProduct;
+
+      creatingOrder(){
+
+          this.viewRestaurantsService.getAllFood().subscribe(
+      res => {
+
+         this.allFoodProduct = [];
+          for(let item in res){
+           let name = res[item].name;
+           let price = res[item].price;
+          
+
+           console.log(res);
+
+            this.allFoodProduct.push(
+             { food_name:""+name,food_price:""+price}
+             );
+       // this.schedule =res;
+       
+      }
+      
+      }   
+    );
+
+
+ this.viewRestaurantsService.getAllDrinks().subscribe(
+      res => {
+
+         this.allDrinkProduct = [];
+          for(let item in res){
+           let name = res[item].name;
+           let price = res[item].price;
+          
+
+           console.log(res);
+
+            this.allDrinkProduct.push(
+             { drink_name:""+name,drink_price:""+price}
+             );
+       // this.schedule =res;
+       
+      }
+      
+      }   
+    );
+
+
+
+          this.creating_new_order = true;
+
+
+      }
+
+ showEditDialog(){
+
+    this.displayEditButton = true ; 
   }
+
 
    all_schedules_for_employee;
    all_users;
+   all_tables;
 
   displaySchedule(){
 
@@ -88,7 +159,7 @@ export class EditWaiterComponent implements OnInit {
            let lName = res[item].for_employee.user.lastName
           
 
-           console.log(res);
+          // console.log(res);
 
             this.all_schedules_for_employee.push(
              { first_name:""+fName, last_name:""+lName,  from:""+start_time.getHours() + " : " + start_time.getMinutes(),
@@ -110,7 +181,27 @@ export class EditWaiterComponent implements OnInit {
   showTables(){
     this.tablesService.getTables(1).subscribe(
       res => {
-        this.tables = res;
+        this.all_tables=[];
+          console.log(res);
+         for(let item in res){
+              let servedBy = res[item].id;
+              let image = res[item].image;
+             
+
+                
+
+                this.all_tables.push(
+                  { waiter:"" +servedBy , tImage:""+image
+
+                  }
+                )
+          console.log(this.all_tables);
+
+
+         }
+           this.tables = res;
+
+           
       }
     );
 
@@ -133,7 +224,7 @@ export class EditWaiterComponent implements OnInit {
                                                         .subscribe(
                                                                  res => 
                                                                   {
-                                                                  
+                                                                    this.displayEditButton = false;
                                                                     this.user = this.userUpdate;
                                                                   }
                                                                 );  

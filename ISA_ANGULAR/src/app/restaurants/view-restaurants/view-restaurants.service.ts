@@ -6,6 +6,7 @@ import {RestaurantClass} from '../view-restaurants/restaurant-class';
 import {RestaurantsProductsClass} from '../restaurants-products-class';
 import {Observable} from 'rxjs/Rx';
 import {RestaurantZone} from '../view-restaurants/zone-class';
+import {EmployeeClass} from '../../edit-barman/employee-class';
 
 
 @Injectable()
@@ -76,6 +77,14 @@ export class ViewRestaurantsService {
           .map(res=>res.json());
 
   }
+
+  getEmployeeById(worker_id){
+    return this._http.get(this._baseURL + "/EmployeeControler/getEmployeeById/" + worker_id)
+          .map(res=><EmployeeClass[]>res.json());
+
+  }
+
+
 
 
   getFreeManagers_AndUserManagers(manager_id,restaurant_id){
@@ -297,4 +306,81 @@ export class ViewRestaurantsService {
       res=>"finished..."
     );
   }
+
+  //*********************************** SERVICES FOR ALL RESTAURANT RATES ********************************************** */
+
+  //RESTAURANT
+  
+  getRestaurantAverageRateAll(restaurant_id)
+  {
+       return this._http.get(this._baseURL + "/getRestaurantAverageRateAll/" + restaurant_id)
+      .map(res=>res.json());  
+  }
+
+  getRestaurantAverageRateFriends(restaurant_id, user_id)
+  {
+       return this._http.get(this._baseURL + "/getRestaurantAverageRateFriends/" + restaurant_id + "/" + user_id)
+      .map(res=>res.json());  
+  }
+
+  getRestaurantAverageRateMe(restaurant_id, user_id)
+  {
+       return this._http.get(this._baseURL + "/getRestaurantAverageRateMe/" + restaurant_id + "/" + user_id)
+      .map(res=>res.json());  
+  }
+
+  //FOOD
+  
+  getFoodAverageRateAll(restaurant_id)
+  {
+       return this._http.get(this._baseURL + "/getFoodAverageRateAll/" + restaurant_id)
+      .map(res=>res.json());  
+  }
+
+  getFoodAverageRateFriends(restaurant_id, user_id)
+  {
+       return this._http.get(this._baseURL + "/getFoodAverageRateFriends/" + restaurant_id + "/" + user_id)
+      .map(res=>res.json());  
+  }
+
+  getFoodAverageRateMe(restaurant_id, user_id)
+  {
+       return this._http.get(this._baseURL + "/getFoodAverageRateMe/" + restaurant_id + "/" + user_id)
+      .map(res=>res.json());  
+  }
+
+  //WAITER
+  
+  getWaiterAverageRateAll(restaurant_id)
+  {
+       return this._http.get(this._baseURL + "/getWaiterAverageRateAll/" + restaurant_id)
+      .map(res=>res.json());  
+  }
+
+  getWaiterAverageRateFriends(restaurant_id, user_id)
+  {
+       return this._http.get(this._baseURL + "/getWaiterAverageRateFriends/" + restaurant_id + "/" + user_id)
+      .map(res=>res.json());  
+  }
+
+  getWaiterAverageRateMe(restaurant_id, user_id)
+  {
+       return this._http.get(this._baseURL + "/getWaiterAverageRateMe/" + restaurant_id + "/" + user_id)
+      .map(res=>res.json());  
+  }
+
+  getAllFood()
+  {
+    return this._http.get(this._baseURL + "/getAllFood" )
+      .map(res=>res.json()); 
+
+  }
+
+  getAllDrinks()
+  {
+    return this._http.get(this._baseURL + "/getAllDrinks" )
+      .map(res=>res.json()); 
+
+  }
+
 }

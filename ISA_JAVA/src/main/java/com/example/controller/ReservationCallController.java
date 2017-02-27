@@ -26,6 +26,7 @@ import com.example.domain.FriendshipBean;
 import com.example.domain.ProductBean;
 import com.example.domain.ReservationCallBean;
 import com.example.domain.ReservationCallBean.ReservationStatus;
+import com.example.service.FriendshipServiceBean;
 import com.example.service.ProductServiceBean;
 import com.example.service.ReservationCallServiceBean;
 import com.example.service.UserServiceBean;
@@ -41,6 +42,9 @@ public class ReservationCallController {
 	
 	@Autowired
 	public ProductServiceBean productService = new ProductServiceBean();
+	
+	@Autowired
+	public FriendshipServiceBean friendshipService = new FriendshipServiceBean();
 	
 	@Autowired
 	private final JavaMailSender mailSender = new JavaMailSenderImpl();
@@ -107,17 +111,22 @@ public class ReservationCallController {
 			produces=MediaType.APPLICATION_JSON_VALUE,
 			consumes = MediaType.APPLICATION_JSON_VALUE
 			)
-	public boolean reservationInvite(@RequestBody ReservationCallBean rcb)
+	public ResponseEntity<Boolean> reservationInvite(@RequestBody ReservationCallBean rcb)
 	{	
 		ReservationCallBean call = new ReservationCallBean(ReservationStatus.PENDING, rcb.getOriginator(), rcb.getRecipient(), rcb.getReservation());
+		ReservationCallBean callExist = reservationCallService.findByRecipientAndReservation(rcb.getRecipient().getId(), rcb.getReservation().getId());
+		
+		Boolean bb = new Boolean(false);
+		
+		if(callExist != null)
+			return new ResponseEntity<Boolean> (bb, HttpStatus.NOT_FOUND);
 		
 		Random r = new Random();
 		Long keygen = r.nextLong();
-		boolean emailSent = true;
 		
 		try {
 			SimpleMailMessage email = new SimpleMailMessage();
-			email.setFrom("stkosijer@gmail.com");
+			email.setFrom("SoulFoodApp");
 			email.setTo("secimasubre@gmail.com");
 			email.setSubject("Restaurant invitation from " + rcb.getOriginator().getFirstName() + " " + rcb.getOriginator().getLastName());
 			email.setText("Hello, you have been invited to a restaurant reservation. Follow the link to answer http://localhost:4200/invite/" + keygen);
@@ -125,13 +134,14 @@ public class ReservationCallController {
 			mailSender.send(email);
 		} catch (Exception ex) {
 			System.out.println("Email nije poslat.");
-			emailSent = false;
 		}
 		
 			call.setKeygen(keygen);
 			reservationCallService.create(call);
+			
+			Boolean b = new Boolean(true);
 		
-		return true;
+		return new ResponseEntity<Boolean> (b, HttpStatus.OK);
 	}
 	
 	synchronized
@@ -143,7 +153,12 @@ public class ReservationCallController {
 			)
 	public ResponseEntity<ReservationCallBean> inviteData(@PathVariable("keygen") Long keygen)
 	{
-		return new ResponseEntity<ReservationCallBean> (reservationCallService.findByKeygenAndId(keygen), HttpStatus.OK);
+		ReservationCallBean rcb = reservationCallService.findByKeygenAndId(keygen);
+		
+		if(rcb != null)
+			return new ResponseEntity<ReservationCallBean> (rcb, HttpStatus.OK);
+		else
+			return new ResponseEntity<ReservationCallBean> (rcb, HttpStatus.NOT_FOUND);
 	}
 	
 	@CrossOrigin(origins = "http://localhost:4200")
@@ -200,15 +215,22 @@ public class ReservationCallController {
 	@ResponseBody
 	public boolean updateFoodAndDrink(@RequestBody FoodAndDrinkWrapper foodAndDrink){
 		
-		ProductBean food = productService.findOne(foodAndDrink.getFood());
-		ProductBean drink = productService.findOne(foodAndDrink.getDrink());
+		System.out.println("FOOOOOOOOOD" + foodAndDrink.getFood());
+//		ProductBean food = null;
+//		ProductBean drink = null;
+//		
+//		if(!foodAndDrink.getFood().equals(null))
+//			food = productService.findOne(foodAndDrink.getFood());
+//		
+//		if(!foodAndDrink.getDrink().equals(null))
+//			drink = productService.findOne(foodAndDrink.getDrink());
 		
 		int value = 0;
 		
 		if(foodAndDrink.isMakeOrderReady())
 			value = 1;
 		
-		reservationCallService.updateFoodAndDrink(foodAndDrink.getReservation_call_id(), food, drink, value);
+		reservationCallService.updateFoodAndDrink(foodAndDrink.getReservation_call_id(), foodAndDrink.getFood(), foodAndDrink.getDrink(), value);
 		
 		return true;
 	}
@@ -278,7 +300,385 @@ public class ReservationCallController {
 		
 		return new ResponseEntity<ArrayList<ReservationCallBean>> (retVal, HttpStatus.OK);
 	}
+	
+	//***************** Restaurant rates
+	
+	synchronized
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value="/getRestaurantAverageRateAll/{restaurant_id}",
+			method = RequestMethod.GET,
+			produces=MediaType.APPLICATION_JSON_VALUE
+			)
+	public float getRestaurantAverageRateAll(@PathVariable("restaurant_id") Long restaurant_id)
+	{
+		Date d = new Date();
+		Long time = d.getTime();
+		
+		Collection<ReservationCallBean> calls = reservationCallService.findByStatusAccepted();
+		
+		float numberOfVotes = 0;
+		float sumOfVotes = 0;
+		
+		Iterator<ReservationCallBean> iterator = calls.iterator();
+		
+		while(iterator.hasNext())
+		{
+			//Ako je rezervacija prosla, ako je to restoran koji trazimo i ako ima postavljenu ocenu - sracunaj je
+			ReservationCallBean rcb = iterator.next();
+			if(time > rcb.getReservation().getEndDate() && 
+					rcb.getReservation().getTable_id().getRestaurant_zone_id().getRestaurant().getId() == restaurant_id &&
+					rcb.getRestaurant_rate() != 0)
+			{
+				sumOfVotes += rcb.getRestaurant_rate();
+				numberOfVotes += 1;
+			}
+		}
+		
+		if(numberOfVotes != 0)
+			return sumOfVotes / numberOfVotes;
+		else
+			return 0;
+	}
+	
+	synchronized
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value="/getRestaurantAverageRateFriends/{restaurant_id}/{user_id}",
+			method = RequestMethod.GET,
+			produces=MediaType.APPLICATION_JSON_VALUE
+			)
+	public float getRestaurantAverageRateFriends(@PathVariable("restaurant_id") Long restaurant_id, @PathVariable("user_id") Long user_id)
+	{
+		Date d = new Date();
+		Long time = d.getTime();
+		
+		Collection<ReservationCallBean> calls = reservationCallService.findByStatusAccepted();
+		Collection<FriendshipBean> friendships = friendshipService.findByRecipient_idOrOriginator_idAndStatusAccepted(user_id);
+		
+		float numberOfVotes = 0;
+		float sumOfVotes = 0;
+		
+		Iterator<ReservationCallBean> iterator = calls.iterator();
+		Iterator<FriendshipBean> iteratorFriends = friendships.iterator();
+		
+		while(iteratorFriends.hasNext())
+		{
+			FriendshipBean fsb = iteratorFriends.next();
+			iterator = calls.iterator();
+			while(iterator.hasNext())
+			{
+				//Ako je rezervacija prosla, ako je to restoran koji trazimo, ako ga je ocenio prijatelj i ako ima postavljenu ocenu - sracunaj je
+				ReservationCallBean rcb = iterator.next();
+				if(time > rcb.getReservation().getEndDate() && 
+						rcb.getReservation().getTable_id().getRestaurant_zone_id().getRestaurant().getId() == restaurant_id &&
+						rcb.getRestaurant_rate() != 0 &&
+						rcb.getRecipient().getId() == fsb.getId())
+				{
+					sumOfVotes += rcb.getRestaurant_rate();
+					numberOfVotes += 1;
+				}
+			}
+		}
+		
+		if(numberOfVotes != 0)
+			return sumOfVotes / numberOfVotes;
+		else
+			return 0;
+	}
+	
+	synchronized
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value="/getRestaurantAverageRateMe/{restaurant_id}/{user_id}",
+			method = RequestMethod.GET,
+			produces=MediaType.APPLICATION_JSON_VALUE
+			)
+	public float getRestaurantAverageRateMe(@PathVariable("restaurant_id") Long restaurant_id, @PathVariable("user_id") Long user_id)
+	{
+		Date d = new Date();
+		Long time = d.getTime();
+		
+		Collection<ReservationCallBean> calls = reservationCallService.findByStatusAccepted();
+		
+		float numberOfVotes = 0;
+		float sumOfVotes = 0;
+		
+		Iterator<ReservationCallBean> iterator = calls.iterator();
+		
+		while(iterator.hasNext())
+		{
+			//Ako je rezervacija prosla, ako je to restoran koji trazimo, ako sam ja ocenio i ako ima postavljenu ocenu - sracunaj je
+			ReservationCallBean rcb = iterator.next();
+			if(time > rcb.getReservation().getEndDate() && 
+					rcb.getReservation().getTable_id().getRestaurant_zone_id().getRestaurant().getId() == restaurant_id &&
+					rcb.getRestaurant_rate() != 0 &&
+					rcb.getRecipient().getId() == user_id)
+			{
+				sumOfVotes += rcb.getRestaurant_rate();
+				numberOfVotes += 1;
+			}
+		}
+		
+		if(numberOfVotes != 0)
+			return sumOfVotes / numberOfVotes;
+		else
+			return 0;
+	}
+	
+	//********** Food rates
+	
+	synchronized
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value="/getFoodAverageRateAll/{restaurant_id}",
+			method = RequestMethod.GET,
+			produces=MediaType.APPLICATION_JSON_VALUE
+			)
+	public float getFoodAverageRateAll(@PathVariable("restaurant_id") Long restaurant_id)
+	{
+		Date d = new Date();
+		Long time = d.getTime();
+		
+		Collection<ReservationCallBean> calls = reservationCallService.findByStatusAccepted();
+		
+		float numberOfVotes = 0;
+		float sumOfVotes = 0;
+		
+		Iterator<ReservationCallBean> iterator = calls.iterator();
+		
+		while(iterator.hasNext())
+		{
+			//Ako je rezervacija prosla, ako je to restoran koji trazimo i ako ima postavljenu ocenu - sracunaj je
+			ReservationCallBean rcb = iterator.next();
+			if(time > rcb.getReservation().getEndDate() && 
+					rcb.getReservation().getTable_id().getRestaurant_zone_id().getRestaurant().getId() == restaurant_id &&
+					rcb.getFood_rate() != 0)
+			{
+				sumOfVotes += rcb.getFood_rate();
+				numberOfVotes += 1;
+			}
+		}
+		
+		if(numberOfVotes != 0)
+			return sumOfVotes / numberOfVotes;
+		else
+			return 0;
+	}
+	
+	synchronized
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value="/getFoodAverageRateFriends/{restaurant_id}/{user_id}",
+			method = RequestMethod.GET,
+			produces=MediaType.APPLICATION_JSON_VALUE
+			)
+	public float getFoodAverageRateFriends(@PathVariable("restaurant_id") Long restaurant_id, @PathVariable("user_id") Long user_id)
+	{
+		Date d = new Date();
+		Long time = d.getTime();
+		
+		Collection<ReservationCallBean> calls = reservationCallService.findByStatusAccepted();
+		Collection<FriendshipBean> friendships = friendshipService.findByRecipient_idOrOriginator_idAndStatusAccepted(user_id);
+		
+		float numberOfVotes = 0;
+		float sumOfVotes = 0;
+		
+		Iterator<ReservationCallBean> iterator = calls.iterator();
+		Iterator<FriendshipBean> iteratorFriends = friendships.iterator();
+		
+		while(iteratorFriends.hasNext())
+		{
+			FriendshipBean fsb = iteratorFriends.next();
+			iterator = calls.iterator();
+			while(iterator.hasNext())
+			{
+				//Ako je rezervacija prosla, ako je to restoran koji trazimo, ako ga je ocenio prijatelj i ako ima postavljenu ocenu - sracunaj je
+				ReservationCallBean rcb = iterator.next();
+				if(time > rcb.getReservation().getEndDate() && 
+						rcb.getReservation().getTable_id().getRestaurant_zone_id().getRestaurant().getId() == restaurant_id &&
+						rcb.getFood_rate() != 0 &&
+						rcb.getRecipient().getId() == fsb.getId())
+				{
+					sumOfVotes += rcb.getFood_rate();
+					numberOfVotes += 1;
+				}
+			}
+		}
+		
+		if(numberOfVotes != 0)
+			return sumOfVotes / numberOfVotes;
+		else
+			return 0;
+	}
+	
+	synchronized
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value="/getFoodAverageRateMe/{restaurant_id}/{user_id}",
+			method = RequestMethod.GET,
+			produces=MediaType.APPLICATION_JSON_VALUE
+			)
+	public float getFoodAverageRateMe(@PathVariable("restaurant_id") Long restaurant_id, @PathVariable("user_id") Long user_id)
+	{
+		Date d = new Date();
+		Long time = d.getTime();
+		
+		Collection<ReservationCallBean> calls = reservationCallService.findByStatusAccepted();
+		
+		float numberOfVotes = 0;
+		float sumOfVotes = 0;
+		
+		Iterator<ReservationCallBean> iterator = calls.iterator();
+		
+		while(iterator.hasNext())
+		{
+			//Ako je rezervacija prosla, ako je to restoran koji trazimo, ako sam ja ocenio i ako ima postavljenu ocenu - sracunaj je
+			ReservationCallBean rcb = iterator.next();
+			if(time > rcb.getReservation().getEndDate() && 
+					rcb.getReservation().getTable_id().getRestaurant_zone_id().getRestaurant().getId() == restaurant_id &&
+					rcb.getFood_rate() != 0 &&
+					rcb.getRecipient().getId() == user_id)
+			{
+				sumOfVotes += rcb.getFood_rate();
+				numberOfVotes += 1;
+			}
+		}
+		
+		if(numberOfVotes != 0)
+			return sumOfVotes / numberOfVotes;
+		else
+			return 0;
+	}
+	
+	
+	//********** Waiter rates
+	
+	synchronized
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value="/getWaiterAverageRateAll/{restaurant_id}",
+			method = RequestMethod.GET,
+			produces=MediaType.APPLICATION_JSON_VALUE
+			)
+	public float getWaiterAverageRateAll(@PathVariable("restaurant_id") Long restaurant_id)
+	{
+		Date d = new Date();
+		Long time = d.getTime();
+		
+		Collection<ReservationCallBean> calls = reservationCallService.findByStatusAccepted();
+		
+		float numberOfVotes = 0;
+		float sumOfVotes = 0;
+		
+		Iterator<ReservationCallBean> iterator = calls.iterator();
+		
+		while(iterator.hasNext())
+		{
+			//Ako je rezervacija prosla, ako je to restoran koji trazimo i ako ima postavljenu ocenu - sracunaj je
+			ReservationCallBean rcb = iterator.next();
+			if(time > rcb.getReservation().getEndDate() && 
+					rcb.getReservation().getTable_id().getRestaurant_zone_id().getRestaurant().getId() == restaurant_id &&
+					rcb.getWaiter_rate() != 0)
+			{
+				sumOfVotes += rcb.getWaiter_rate();
+				numberOfVotes += 1;
+			}
+		}
+		
+		if(numberOfVotes != 0)
+			return sumOfVotes / numberOfVotes;
+		else
+			return 0;
+	}
+	
+	synchronized
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value="/getWaiterAverageRateFriends/{restaurant_id}/{user_id}",
+			method = RequestMethod.GET,
+			produces=MediaType.APPLICATION_JSON_VALUE
+			)
+	public float getWaiterAverageRateFriends(@PathVariable("restaurant_id") Long restaurant_id, @PathVariable("user_id") Long user_id)
+	{
+		Date d = new Date();
+		Long time = d.getTime();
+		
+		Collection<ReservationCallBean> calls = reservationCallService.findByStatusAccepted();
+		Collection<FriendshipBean> friendships = friendshipService.findByRecipient_idOrOriginator_idAndStatusAccepted(user_id);
+		
+		float numberOfVotes = 0;
+		float sumOfVotes = 0;
+		
+		Iterator<ReservationCallBean> iterator = calls.iterator();
+		Iterator<FriendshipBean> iteratorFriends = friendships.iterator();
+		
+		while(iteratorFriends.hasNext())
+		{
+			FriendshipBean fsb = iteratorFriends.next();
+			iterator = calls.iterator();
+			while(iterator.hasNext())
+			{
+				//Ako je rezervacija prosla, ako je to restoran koji trazimo, ako ga je ocenio prijatelj i ako ima postavljenu ocenu - sracunaj je
+				ReservationCallBean rcb = iterator.next();
+				if(time > rcb.getReservation().getEndDate() && 
+						rcb.getReservation().getTable_id().getRestaurant_zone_id().getRestaurant().getId() == restaurant_id &&
+						rcb.getWaiter_rate() != 0 &&
+						rcb.getRecipient().getId() == fsb.getId())
+				{
+					sumOfVotes += rcb.getWaiter_rate();
+					numberOfVotes += 1;
+				}
+			}
+		}
+		
+		if(numberOfVotes != 0)
+			return sumOfVotes / numberOfVotes;
+		else
+			return 0;
+	}
+	
+	synchronized
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value="/getWaiterAverageRateMe/{restaurant_id}/{user_id}",
+			method = RequestMethod.GET,
+			produces=MediaType.APPLICATION_JSON_VALUE
+			)
+	public float getWaiterAverageRateMe(@PathVariable("restaurant_id") Long restaurant_id, @PathVariable("user_id") Long user_id)
+	{
+		Date d = new Date();
+		Long time = d.getTime();
+		
+		Collection<ReservationCallBean> calls = reservationCallService.findByStatusAccepted();
+		
+		float numberOfVotes = 0;
+		float sumOfVotes = 0;
+		
+		Iterator<ReservationCallBean> iterator = calls.iterator();
+		
+		while(iterator.hasNext())
+		{
+			//Ako je rezervacija prosla, ako je to restoran koji trazimo, ako sam ja ocenio i ako ima postavljenu ocenu - sracunaj je
+			ReservationCallBean rcb = iterator.next();
+			if(time > rcb.getReservation().getEndDate() && 
+					rcb.getReservation().getTable_id().getRestaurant_zone_id().getRestaurant().getId() == restaurant_id &&
+					rcb.getWaiter_rate() != 0 &&
+					rcb.getRecipient().getId() == user_id)
+			{
+				sumOfVotes += rcb.getWaiter_rate();
+				numberOfVotes += 1;
+			}
+		}
+		
+		if(numberOfVotes != 0)
+			return sumOfVotes / numberOfVotes;
+		else
+			return 0;
+	}
 }
+
+// ********** Wrapper class **********
 
 class FoodAndDrinkWrapper
 {
