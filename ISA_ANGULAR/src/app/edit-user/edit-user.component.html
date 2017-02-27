@@ -28,7 +28,7 @@
   <div class="col-md-8 col-sm-6 col-xs-12">
   <p-tabView>
     <p-tabPanel header="Friends" leftIcon="fa-user-plus">
-       <p-accordion [multiple]="true">
+       <p-accordion [multiple]="true" (onClose)="accordion_closed($event)" (onOpen)="accordion_opened($event)">
          <p-header>
              SoulFoodApp Network
           </p-header>

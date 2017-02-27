@@ -130,6 +130,7 @@ export class ViewRestaurantsService {
       return this._http.put(this._baseURL+"/updateRestaurant",JSON.stringify(data),options)
       .map(res=>res.json().data);
   }
+
   basicRestaurantUpdate(data){
     var headers = new Headers({'Content-Type':'application/json'});
       var options = new RequestOptions({headers:headers});
@@ -140,14 +141,7 @@ export class ViewRestaurantsService {
   getZonesForRestaurant(restaurant){
       return this._http.get(this._baseURL+"/getZoneByRestaurantId/"+restaurant.id).map(res => <RestaurantZone[]>res.json());
   }
-/*
-  updateZone(zone){
-    var headers = new Headers({'Content-Type':'application/json'});
-    var options = new RequestOptions({headers:headers});
-    return this._http.put(this._baseURL+"/editZone",JSON.stringify(zone),options).map(
-      res=>res.json()
-    );
-  }*/
+
   updateZoneFIX(zone){
     var headers = new Headers({'Content-Type':'application/json'});
     var options = new RequestOptions({headers:headers});
@@ -188,7 +182,6 @@ export class ViewRestaurantsService {
         .subscribe(data=>console.log('success'),error=>console.log(error));
     }
   }
-
 
   getAllRestaurantGrades(rest_id){
     return this._http.get(this._baseURL + "/restaurant_statistics/getAllRestaurantGrades/" + rest_id)

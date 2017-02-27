@@ -77,11 +77,11 @@ export class EditUserComponent implements OnInit {
                                        this._restaurantRegistryService.getUnseenRegistersForAdmin().subscribe(
                                            res=>{
                                                     this.visible_registries_admin = res;
-                                                    this._restaurantRegistryService.getUnseenRegisterForManager(this._sharedService.userId).subscribe(
-                                                        res=>{
-                                                            this.visible_registries_manager = res;
-                                                        }
-                                                    );
+                                                    //this._restaurantRegistryService.getUnseenRegisterForManager(this._sharedService.userId).subscribe(
+                                                    //    res=>{
+                                                    //        this.visible_registries_manager = res;
+                                                    //    }
+                                                    //);
                                                 }
                                         );
                                 }else if(this._sharedService.isManager){
@@ -125,32 +125,6 @@ export class EditUserComponent implements OnInit {
     this.myFriendsData();
 
     this.getRestaurantVisitHistoryData();
-
-    //svakih 15 sekundi povlacenje notifikacija
-    Observable.timer(0, 15000).subscribe(
-               res => this.notificationsData()
-    );
-    
-    if(this._sharedService.isAdmin){
-        Observable.timer(0,5000).subscribe(
-            res=>{
-              this.refresh_adminData();
-              this.refresh_managerData(this._sharedService.userId);  
-            } 
-        );
-    }
-
-    if(this._sharedService.isManager){
-        Observable.timer(0,5000).subscribe(
-            res=> this.refresh_managerData(this._sharedService.userId)
-        );
-    }
-
-    if(this._sharedService.isDeliverer){
-        Observable.timer(0,5000).subscribe(
-            res=>this.refresh_deliverer_data()
-        );
-    }
 
     this.setColumnsForDataLists();
     
@@ -602,4 +576,124 @@ export class EditUserComponent implements OnInit {
             res=>{}
         )
     }
-}   
+
+
+    /*=================================================
+        SUBSCRIBE HERE
+        UNSUBSCRIBE HERE
+    =================================================
+    */
+
+    
+    
+    /*if(this._sharedService.isAdmin){
+        Observable.timer(0,5000).subscribe(
+            res=>{
+              this.refresh_adminData();
+              this.refresh_managerData(this._sharedService.userId);  
+            } 
+        );
+    }
+*/
+
+    //friends notifications
+    notification_subscription = null;
+    //deliveries for deliverer
+    delivery_subscription = null;
+    //registering restaurants
+    registry_subscription= null;
+
+    accordion_opened(event){
+        switch(event.index){
+            //tab za notifikacije
+            case 2:{
+                //ako postoji subs onda unsubs
+                if(this.notification_subscription != null){
+                    this.notification_subscription.unsubscribe();
+                }
+                //napravi novi subs
+                this.notification_subscription = Observable.timer(0, 1000).subscribe(
+                    res => this.notificationsData()
+                );
+                break;
+            }
+            //tab za registar restorana
+            case 3:{
+                //ako postoji subs onda unsubs
+                if(this.registry_subscription != null){
+                    this.registry_subscription.unsubscribe();
+                }
+                //napravi novi subs
+                if(this._sharedService.isAdmin){
+                    this.registry_subscription =  Observable.timer(0,5000).subscribe(
+                        res=>{
+                            this.refresh_adminData();  
+                        } 
+                    );
+                }else{
+                    this.registry_subscription = Observable.timer(0,1000).subscribe(
+                        res=>  this.refresh_managerData(this._sharedService.userId)
+                    );
+                }
+                break;
+            }
+            //tab za porudzbine i stvari
+            case 4:{
+                //ako postoji subs onda unsubs
+                if(this.delivery_subscription != null){
+                    this.delivery_subscription.unsubscribe();
+                }
+                //napravi novi subs
+                this.delivery_subscription = Observable.timer(0,1000).subscribe(
+                    res=>this.refresh_deliverer_data()
+                );
+                break;
+            }
+        }
+    }
+
+    accordion_closed(event){
+        switch(event.index){
+            //tab za notifikacije
+            case 2:{
+                if(this.notification_subscription != null){
+                    this.notification_subscription.unsubscribe();
+                    this.notification_subscription = null;
+                }
+                break;
+            }
+            //tab za registar restorana
+            case 3:{
+                if(this.registry_subscription != null){
+                    this.registry_subscription.unsubscribe();
+                    this.registry_subscription = null;
+                }
+                break;
+            }
+            //tab za porudzbine i stvari
+            case 4:{
+                if(this.delivery_subscription != null){
+                    this.delivery_subscription.unsubscribe();
+                    this.delivery_subscription = null;
+                }
+                break;
+            }
+        }
+    }
+
+    ngOnDestroy() {
+        if(this.notification_subscription != null){
+                    this.notification_subscription.unsubscribe();
+                    this.notification_subscription = null;
+                }
+        if(this.registry_subscription != null){
+                    this.registry_subscription.unsubscribe();
+                    this.registry_subscription = null;
+                }
+        if(this.delivery_subscription != null){
+                    this.delivery_subscription.unsubscribe();
+                    this.delivery_subscription = null;
+                }
+    } 
+
+}

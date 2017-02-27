@@ -24,7 +24,5 @@ public interface RestaurantRegistryService {
 	public int updateRestaurantSeen(Long rest_id);
 	public int updateRestaurantStatus_ACCEPTED(Long rest_id);
 	public int updateRestaurantStatus_DECLINED(Long rest_id);
-	public void addNewRelationsLOL(Long rest_id, Long mgr_id);
-	//public EmployeeBean getMANAGER_byIDOFHISREG(Long registry_id);
 	
 }

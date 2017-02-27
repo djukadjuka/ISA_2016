@@ -89,26 +89,6 @@ public class RegistryController {
 			this.restaurant_service.createManagerRelation(reg.getRegistering_by().getId(), new_rest.getId());
 			
 			return new ResponseEntity<RestaurantRegistry>(reg,HttpStatus.OK);
-			//this.restaurant_service.createManagerRelation(reg.get, rest_id);
-			/*
-			RestaurantRegistry reg = service.findOne(rest_id);
-			EmployeeBean emp = employee_service.getMGR_fromRestaurantREGISTRY(rest_id);
-			
-			reg.setStatus(RestaurantRegistry.RegistryStatus.ACCEPTED);
-			
-			service.update(reg);
-			
-			RestaurantBean restaurant = new RestaurantBean();
-			restaurant.setName(reg.getRestaurant_name());
-			restaurant.setType(reg.getType());
-			Set<EmployeeBean> managers = new HashSet<EmployeeBean>();
-			managers.add(emp);
-			restaurant.setManagers(managers);
-			restaurant = restaurant_service.create(restaurant);
-			restaurant.setImage("/assets/pictures/restaurant_pictures/"+restaurant.getId()+".jpg");
-			restaurant_service.update(restaurant);
-			
-			return new ResponseEntity<RestaurantRegistry>(reg,HttpStatus.OK);*/
 		}
 		
 		/**
@@ -161,15 +141,8 @@ public class RegistryController {
 		@ResponseBody
 		public ResponseEntity<RestaurantRegistry> newRegistry(@RequestBody RestaurantRegistry registry,
 															  @PathVariable("mgr_id") Long mgr_id){
-			EmployeeBean emp = employee_service.findOne(mgr_id);
-
-			//registry.setRegistered_by(new HashSet<EmployeeBean>());
-			//registry.getRegistereb_by().add(emp);
+			registry.setRegistering_by(this.employee_service.findOne(mgr_id));
 			RestaurantRegistry reg = service.create(registry);
-			
-			service.addNewRelationsLOL(reg.getId(), emp.getId());
-			
-			//System.out.println(reg.getRegistered_by());
 			
 			return new ResponseEntity<RestaurantRegistry>(reg,HttpStatus.OK);
 		}
