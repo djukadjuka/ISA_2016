@@ -28,7 +28,7 @@
   <div class="col-md-8 col-sm-6 col-xs-12">
   <p-tabView>
     <p-tabPanel header="Friends" leftIcon="fa-user-plus">
-       <p-accordion [multiple]="true">
+       <p-accordion [multiple]="true" (onClose)="accordion_closed($event)" (onOpen)="accordion_opened($event)">
          <p-header>
              SoulFoodApp Network
           </p-header>
@@ -66,8 +66,7 @@
                 </p-column>
               </p-dataTable>
           </p-accordionTab>
-          <p-accordionTab header="Notifications"
-                  (onClose)="notifications_tab_closed()" (onOpen)="notifications_tab_opened()">
+          <p-accordionTab header="Notifications">
                 <p-dataTable [value]="allFriendRequests" [responsive]="true" [stacked]="true" [rows]="5"  [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
                   <p-header> Active notifications </p-header>
                   <p-column *ngFor="let col of allFriendRequestsCols" [field]="col.field" [filter]="true" filterPlaceholder="Search" [header]="col.header"></p-column>
@@ -86,8 +85,7 @@
           <!--REGISTERING RESTAURANTS NOTIFICATIONS-->
             <!--FOR ADMIN TO SEE NEW REGISTRIES-->
             <!--FOR MANAGER TO SEE STATUS ON REGISTRIES -->
-          <p-accordionTab *ngIf="_sharedService.isAdmin || _sharedService.isManager" header="Restaurant Registry"
-                  (onClose)="registry_tab_closed()" (onOpen)="registry_tab_opened()">
+          <p-accordionTab *ngIf="_sharedService.isAdmin || _sharedService.isManager" header="Restaurant Registry">
             
             <!--ADMIN DATA-->
             <p-dataTable *ngIf="_sharedService.isAdmin" [value]="visible_registries_admin" [responsive]="true" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20,25,30]">
@@ -135,8 +133,7 @@
           <!--============================================================-->
           <!--=================DELIVERER THINGS-->
           <!--============================================================-->
-          <p-accordionTab *ngIf="_sharedService.isDeliverer" header="Deliveries And Orders"
-                          (onClose)="deliverer_tab_closed()" (onOpen)="deliverer_tab_opened()">
+          <p-accordionTab *ngIf="_sharedService.isDeliverer" header="Deliveries And Orders">
             
             <!--ALL AVAILABLE ORDERS-->
             <p-dataTable [value]="free_orders_presentation" sortField="belongs_to_order" 

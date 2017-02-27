@@ -126,22 +126,6 @@ export class EditUserComponent implements OnInit {
 
     this.getRestaurantVisitHistoryData();
 
-    //svakih 15 sekundi povlacenje notifikacija
-    Observable.timer(0, 15000).subscribe(
-               res => this.notificationsData()
-    );
-    
-    if(this._sharedService.isAdmin){
-        Observable.timer(0,5000).subscribe(
-            res=>{
-              this.refresh_adminData();
-              this.refresh_managerData(this._sharedService.userId);  
-            } 
-        );
-    }
-
-    
-
     this.setColumnsForDataLists();
     
   }
@@ -600,59 +584,101 @@ export class EditUserComponent implements OnInit {
     =================================================
     */
 
-      /*
-   * if(this._sharedService.isManager){
+    
+    
+    /*if(this._sharedService.isAdmin){
         Observable.timer(0,5000).subscribe(
-            res=> this.refresh_managerData(this._sharedService.userId)
+            res=>{
+              this.refresh_adminData();
+              this.refresh_managerData(this._sharedService.userId);  
+            } 
         );
     }
-
-    if(this._sharedService.isDeliverer){
-        Observable.timer(0,5000).subscribe(
-            res=>this.refresh_deliverer_data()
-        );
-    }
-   */
-
-    //registering restaurants
-    registry_subscription;
-    registry_tab_closed(){
-        if(this.registry_subscription != null){
-            this.registry_subscription.unsubscribe();
-            this.registry_subscription = null;
-        }
-    }
-    registry_tab_opened(){
-        if(this.registry_subscription == null){
-            this.registry_subscription = Observable.timer(0,5000).subscribe(
-                res=> this.refresh_managerData(this._sharedService.userId)
-            );
-        }
-    }
-
-    //deliveries for deliverer
-    delivery_subscription;    
-    deliverer_tab_closed(){
-        if(this.delivery_subscription != null){
-            this.delivery_subscription.unsubscribe();
-            this.delivery_subscription = null;
-        }
-    }
-    deliverer_tab_opened(){
-        if(this.delivery_subscription == null){
-            this.delivery_subscription = Observable.timer(0,5000).subscribe(
-                 res=>this.refresh_deliverer_data()
-            );
-        }
-    }
+*/
 
     //friends notifications
-    notification_subscription;
-    notifications_tab_closed(){
+    notification_subscription = null;
+    //deliveries for deliverer
+    delivery_subscription = null;
+    //registering restaurants
+    registry_subscription= null;
 
+    accordion_opened(event){
+        switch(event.index){
+            //tab za notifikacije
+            case 2:{
+                //ako postoji subs onda unsubs
+                if(this.notification_subscription != null){
+                    this.notification_subscription.unsubscribe();
+                }
+                //napravi novi subs
+                this.notification_subscription = Observable.timer(0, 1000).subscribe(
+                    res => this.notificationsData()
+                );
+                break;
+            }
+            //tab za registar restorana
+            case 3:{
+                //ako postoji subs onda unsubs
+                if(this.registry_subscription != null){
+                    this.registry_subscription.unsubscribe();
+                }
+                //napravi novi subs
+                if(this._sharedService.isAdmin){
+                    this.registry_subscription =  Observable.timer(0,5000).subscribe(
+                        res=>{
+                            this.refresh_adminData();  
+                        } 
+                    );
+                }else{
+                    this.registry_subscription = Observable.timer(0,1000).subscribe(
+                        res=>  this.refresh_managerData(this._sharedService.userId)
+                    );
+                }
+                break;
+            }
+            //tab za porudzbine i stvari
+            case 4:{
+                //ako postoji subs onda unsubs
+                if(this.delivery_subscription != null){
+                    this.delivery_subscription.unsubscribe();
+                }
+                //napravi novi subs
+                this.delivery_subscription = Observable.timer(0,1000).subscribe(
+                    res=>this.refresh_deliverer_data()
+                );
+                break;
+            }
+        }
     }
-    notifications_tab_opened(){
 
+    accordion_closed(event){
+        switch(event.index){
+            //tab za notifikacije
+            case 2:{
+                if(this.notification_subscription != null){
+                    this.notification_subscription.unsubscribe();
+                    this.notification_subscription = null;
+                }
+                break;
+            }
+            //tab za registar restorana
+            case 3:{
+                if(this.registry_subscription != null){
+                    this.registry_subscription.unsubscribe();
+                    this.registry_subscription = null;
+                }
+                break;
+            }
+            //tab za porudzbine i stvari
+            case 4:{
+                if(this.delivery_subscription != null){
+                    this.delivery_subscription.unsubscribe();
+                    this.delivery_subscription = null;
+                }
+                break;
+            }
+        }
     }
 
 }
