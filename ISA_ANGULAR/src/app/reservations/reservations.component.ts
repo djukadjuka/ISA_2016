@@ -56,7 +56,9 @@ export class ReservationsComponent implements OnInit {
       
       this._editUserService.getFriendships(this._sharedService.userId)
                           .subscribe(
-                            res => this.friends = res
+                            res => {this.friends = res;
+                                    console.log(res);
+                            }
                           );
     
       this.originatorReservationsCols = [
@@ -129,7 +131,7 @@ export class ReservationsComponent implements OnInit {
                               );
   }
 
-  reservationInvite(friend)
+  reservationInvite(friendship)
   {
       if(Object.keys(this.selectedReservation).length === 0)
       {
@@ -138,7 +140,7 @@ export class ReservationsComponent implements OnInit {
       }
       else
       {
-             this._reservationService.reservationInvite(this.selectedReservation, friend)
+             this._reservationService.reservationInvite(this.selectedReservation, friendship.recipient)
                                     .subscribe(
                                         res => {
                                                 this.msgs = [];

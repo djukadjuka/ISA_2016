@@ -74,4 +74,10 @@ public class FriendshipServiceBean implements FriendshipService{
 		return friendshipRepository.findByRecipient_idOrOriginator_idAndStatusAccepted(id);
 	}
 
+	@Override
+	public FriendshipBean findByRecipientOrOriginatorCombination(Long orig, Long rec) {
+		// TODO Auto-generated method stub
+		return friendshipRepository.findByRecipientOrOriginatorCombination(orig, rec);
+	}
+
 }

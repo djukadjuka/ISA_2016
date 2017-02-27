@@ -73,12 +73,14 @@ public class UserController {
 			)
 	public ResponseEntity<Collection<UserBean>> getUsersFriends(@PathVariable("id") Long id){
 		Collection<UserBean> users = userService.findAll();
-		Collection<FriendshipBean> friendships = friendshipService.findByOriginator_id(id);
+		Collection<FriendshipBean> friendshipsOrig = friendshipService.findByOriginator_id(id);
+		Collection<FriendshipBean> friendshipsRec = friendshipService.findByRecipient_id(id);
 		
 		if(users == null){
 			return new ResponseEntity<Collection<UserBean>>(HttpStatus.NOT_FOUND);
 		}
 		
+		//izbacim sam sebe
 		for(UserBean user : users)
 		{
 			if(user.getId().equals(id))
@@ -88,10 +90,16 @@ public class UserController {
 			}
 		}
 		
-		for(FriendshipBean fs : friendships)
+		//izbacujem ako bilo gde vec postoji formiran poziv za prijateljstvo -> prihvacen, odbijen ili na cekanju
+		for(FriendshipBean fs : friendshipsRec)
 		{
-			if(!fs.getStatus().equals("DECLINED"))
-				users.remove(fs.getRecipient());
+			users.remove(fs.getOriginator());
+		}
+		
+
+		for(FriendshipBean fs : friendshipsOrig)
+		{
+			users.remove(fs.getRecipient());
 		}
 		
 		return new ResponseEntity<Collection<UserBean>>(users,HttpStatus.OK);

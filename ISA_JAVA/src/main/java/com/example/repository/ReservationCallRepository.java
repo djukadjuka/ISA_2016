@@ -47,7 +47,7 @@ public interface ReservationCallRepository extends JpaRepository<ReservationCall
 	  		"UPDATE Reservation_call " 
 			+ "SET food = :food, drink = :drink, make_order_fast = :makeOrderFast"
 			+ " WHERE id = :id", nativeQuery = true)
-	public int updateFoodAndDrink(@Param("id") Long id, @Param("food") ProductBean food, @Param("drink") ProductBean drink, @Param("makeOrderFast") int makeOrderFast);
+	public int updateFoodAndDrink(@Param("id") Long id, @Param("food") Long food, @Param("drink") Long drink, @Param("makeOrderFast") int makeOrderFast);
 	
 	@Modifying
 	@Transactional

@@ -27,7 +27,7 @@ public interface ReservationCallService {
 	
 	int updateStatus(String status, Long call_id );
 	
-	int updateFoodAndDrink(Long id, ProductBean food, ProductBean drink, int makeOrderFast);
+	int updateFoodAndDrink(Long id, Long food, Long drink, int makeOrderFast);
 
 	int cancelFoodAndDrink(Long id);
 	

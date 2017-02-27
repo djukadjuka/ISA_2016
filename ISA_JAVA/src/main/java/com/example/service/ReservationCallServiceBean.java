@@ -67,7 +67,7 @@ public class ReservationCallServiceBean implements ReservationCallService{
 	}
 	
 	@Override
-	public int updateFoodAndDrink(Long id, ProductBean food, ProductBean drink, int makeOrderFast) {
+	public int updateFoodAndDrink(Long id, Long food, Long drink, int makeOrderFast) {
 		// TODO Auto-generated method stub
 		return repository.updateFoodAndDrink(id, food, drink, makeOrderFast);
 	}

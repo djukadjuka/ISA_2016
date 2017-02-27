@@ -215,15 +215,22 @@ public class ReservationCallController {
 	@ResponseBody
 	public boolean updateFoodAndDrink(@RequestBody FoodAndDrinkWrapper foodAndDrink){
 		
-		ProductBean food = productService.findOne(foodAndDrink.getFood());
-		ProductBean drink = productService.findOne(foodAndDrink.getDrink());
+		System.out.println("FOOOOOOOOOD" + foodAndDrink.getFood());
+//		ProductBean food = null;
+//		ProductBean drink = null;
+//		
+//		if(!foodAndDrink.getFood().equals(null))
+//			food = productService.findOne(foodAndDrink.getFood());
+//		
+//		if(!foodAndDrink.getDrink().equals(null))
+//			drink = productService.findOne(foodAndDrink.getDrink());
 		
 		int value = 0;
 		
 		if(foodAndDrink.isMakeOrderReady())
 			value = 1;
 		
-		reservationCallService.updateFoodAndDrink(foodAndDrink.getReservation_call_id(), food, drink, value);
+		reservationCallService.updateFoodAndDrink(foodAndDrink.getReservation_call_id(), foodAndDrink.getFood(), foodAndDrink.getDrink(), value);
 		
 		return true;
 	}
