@@ -19,8 +19,13 @@ export class EditWaiterComponent implements OnInit {
    private displayEditButton: boolean = false ;
    private showTablesButton: boolean = false ;
    private creating_new_order: boolean = false ; 
+   private selected_food_button: boolean = false;
+   private selected_drink_button: boolean = false ;
    user ;
    schedule = [];
+
+   selected_food : any;
+  selected_drink : any;
     private userUpdate = {username: "", id: ""};
     private msgs: Message[] = [];
     private formEditUser: FormGroup;
@@ -28,6 +33,8 @@ export class EditWaiterComponent implements OnInit {
      reservation = { Date : new Date};
   formReservation : FormGroup;
    tables: TablesClass[];
+
+   
 
   constructor(
     private viewRestaurantsService : ViewRestaurantsService,
@@ -74,21 +81,24 @@ export class EditWaiterComponent implements OnInit {
       allFoodProduct;
       allDrinkProduct;
 
-      creatingOrder(){
+      creatingOrder(tablesId){
+
+        console.log(tablesId);
 
           this.viewRestaurantsService.getAllFood().subscribe(
       res => {
 
          this.allFoodProduct = [];
           for(let item in res){
+            let id = tablesId;
            let name = res[item].name;
            let price = res[item].price;
           
 
-           console.log(res);
+           
 
             this.allFoodProduct.push(
-             { food_name:""+name,food_price:""+price}
+             { food_name:""+name,food_price:""+price, table_id:""+id}
              );
        // this.schedule =res;
        
@@ -103,6 +113,7 @@ export class EditWaiterComponent implements OnInit {
 
          this.allDrinkProduct = [];
           for(let item in res){
+             let id = tablesId;
            let name = res[item].name;
            let price = res[item].price;
           
@@ -110,7 +121,7 @@ export class EditWaiterComponent implements OnInit {
            console.log(res);
 
             this.allDrinkProduct.push(
-             { drink_name:""+name,drink_price:""+price}
+             { drink_name:""+name,drink_price:""+price,table_id:""+id}
              );
        // this.schedule =res;
        
@@ -231,5 +242,46 @@ export class EditWaiterComponent implements OnInit {
                                 }
                             )           
   }
+
+  food_show ; 
+
+  selected_food_dialog(event){
+       
+      this.food_show=[];
+       
+           
+
+
+           this.food_show.push({
+              food_name:""+this.selected_food.food_name,food_price:""+this.selected_food.food_price,
+              food_id:""+this.selected_food.table_id
+
+           });
+            console.log(this.food_show);
+       
+
+       this.selected_food_button = true;
+     }
+
+    drink_show;
+
+     selected_drink_dialog(event){
+       
+      this.drink_show=[];
+       
+           
+
+
+           this.drink_show.push({
+              drink_name:""+this.selected_drink.drink_name,drink_price:""+this.selected_drink.drink_price,
+              drink_id:""+this.selected_drink.table_id
+
+           });
+            console.log(this.drink_show);
+       
+
+       this.selected_drink_button = true;
+     }
+
 
 }
