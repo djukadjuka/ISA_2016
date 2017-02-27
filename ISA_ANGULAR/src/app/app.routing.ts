@@ -10,17 +10,18 @@ import { EditWaiterComponent } from './edit-waiter/edit-waiter.component';
 import { EditBarmanComponent } from './edit-barman/edit-barman.component';
 import { ReservationsComponent } from './reservations/reservations.component';
 import { InviteComponent } from './invite/invite.component';
+import { SharedService } from './shared/shared.service';
 //Router is providing our application with different routes and controls
 //the rendering/instantianting of the components depending of the route you hit
 
 export const routing = RouterModule.forRoot([
-    { path: '', component: HomeComponent },
-    { path: 'account', component: EditUserComponent},
-    { path: 'reservations', component: ReservationsComponent},
-    { path: 'invite/:keygen', component: InviteComponent},
-    { path: 'restaurants', component: ViewRestaurantsComponent},
-    { path: 'chef',component : EditChefComponent},
-    { path: 'waiter',component : EditWaiterComponent},
-    { path: 'barman',component : EditBarmanComponent},
+    { path: '', component: HomeComponent},
+    { path: 'account', component: EditUserComponent, canActivate: [SharedService] },
+    { path: 'reservations', component: ReservationsComponent, canActivate: [SharedService] },
+    { path: 'invite/:keygen', component: InviteComponent, canActivate: [SharedService] },
+    { path: 'restaurants', component: ViewRestaurantsComponent, canActivate: [SharedService] },
+    { path: 'chef',component : EditChefComponent, canActivate: [SharedService] },
+    { path: 'waiter',component : EditWaiterComponent, canActivate: [SharedService] },
+    { path: 'barman',component : EditBarmanComponent, canActivate: [SharedService] },
     { path: '**', component: NotFoundComponent }
 ]);

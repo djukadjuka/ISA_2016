@@ -1,6 +1,7 @@
 import { Injectable }      from '@angular/core';
 import { tokenNotExpired, JwtHelper } from 'angular2-jwt';
 import { myConfig }        from './auth.config';
+import { Router } from '@angular/router';
 //import { Auth0 } from 'auth0-lock';
 
 //only for HashLocationStrategy
@@ -34,7 +35,7 @@ export class Auth {
 
   jwtHelper : JwtHelper = new JwtHelper();
 
-  constructor() {
+  constructor(public router: Router) {
     // Add callback for lock `authenticated` event
     this.lock.on('authenticated', (authResult) => {
       localStorage.setItem('id_token', authResult.idToken);
@@ -72,5 +73,6 @@ export class Auth {
   public logout() {
     // Remove token from localStorage
     localStorage.removeItem('id_token');
+    this.router.navigateByUrl("/");
   };
 }

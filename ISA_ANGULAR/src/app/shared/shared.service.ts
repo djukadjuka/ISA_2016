@@ -1,8 +1,18 @@
 import { Injectable } from '@angular/core';
-
+import { CanActivate }    from '@angular/router';
+import { Auth } from '../auth.service';
 
 @Injectable()
-export class SharedService {
+export class SharedService implements CanActivate {
+
+  constructor(private auth: Auth) {}
+
+   canActivate() {
+    
+    this.userId = "5";
+
+    return this.auth.authenticated();
+  }
 
   //Data about currently logged user
   public isAdmin : boolean = true;
@@ -14,14 +24,8 @@ export class SharedService {
   public isManager : boolean = true;
   public isDeliverer : boolean = true;
 
-  public userId : String = "1";
+  public userId : String = "";
   public userEmail : String = "";
-
-  constructor() { 
-    
-
-  }
-
 
 }
 

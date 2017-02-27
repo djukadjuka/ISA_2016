@@ -21,6 +21,10 @@
         <li routerLinkActive="active"><a routerLink="barman">Bartender</a></li>
         <li routerLinkActive="active"><a routerLink="chef">Chef</a></li>
       </ul>
+    
+      <ul class="nav navbar-nav navbar-right">
+        <li routerLinkActive="active" (click)="auth.logout()" style="cursor: pointer" *ngIf="auth.authenticated()"><a>Log out</a></li>
+      </ul> 
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
