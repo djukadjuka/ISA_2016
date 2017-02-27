@@ -150,7 +150,7 @@
               <template pTemplate="rowgroupfooter" let-item>
                 <td colspan="2">
                   <button pButton icon="fa-dollar"
-                          label="Enter Bid" (click)="enter_bid_dollars(item.belongs_to_order)" 
+                          label="Enter Bid" (click)="enter_bid_dollars(item)" 
                           style="width:100%" type="button"></button>
                 </td>
               </template>
@@ -167,6 +167,13 @@
                 <div class="ui-g-2">
                   <button pButton icon="fa-dollar"></button>
                 </div>
+                <!--DATE OF DELIVERY-->
+                <div class="ui-g-12"><h5>Date of Delivery</h5></div>
+                <div class="ui-g-12">
+                  <p-calendar [(ngModel)]="date_of_delivery" 
+                              [minDate]="min_date_of_delivery" [maxDate]="max_date_of_delivery" [readonlyInput]="true" 
+                              [showTime]="true"></p-calendar>
+                </div>
                 <div class="ui-g-12">
                   <button pButton icon="fa-check" label="Submit Bid!" (click)="bid_submitted()" style="width:100%;"
                           [disabled]="!bid_valid"></button>
@@ -181,6 +188,7 @@
               <p-column field="id" header="Bid ID"></p-column>
               <p-column field="bidding_price" header="Price ($)"></p-column>
               <p-column field="made_for_order.id" header="For Order"></p-column>
+              <p-column field="date_of_delivery" header="Delivery Date"></p-column>
               <p-column styleClass="col-button">
                 <template pTemplate="header">Status</template>
                 <template let-item="rowData" pTemplate="body">
@@ -204,6 +212,7 @@
               <p-column field="id" header="Bid ID"></p-column>
               <p-column field="bidding_price" header="Price Bid ($)"></p-column>
               <p-column field="made_for_order.id" header="Made For Order"></p-column>
+              <p-column field="date_of_delivery" header="Delivery Date"></p-column>
               <p-column styleClass="col-button">
                 <template pTemplate="header">Outcome</template>
                 <template let-item="rowData" pTemplate="body">

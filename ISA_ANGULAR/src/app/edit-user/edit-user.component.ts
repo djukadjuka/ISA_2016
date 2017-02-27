@@ -77,11 +77,9 @@ export class EditUserComponent implements OnInit {
                                        this._restaurantRegistryService.getUnseenRegistersForAdmin().subscribe(
                                            res=>{
                                                     this.visible_registries_admin = res;
-                                                    //console.log(this.visible_registries_admin);
                                                     this._restaurantRegistryService.getUnseenRegisterForManager(this._sharedService.userId).subscribe(
                                                         res=>{
                                                             this.visible_registries_manager = res;
-                                                            //console.log(this.visible_registries_manager);
                                                         }
                                                     );
                                                 }
@@ -90,7 +88,6 @@ export class EditUserComponent implements OnInit {
                                     this._restaurantRegistryService.getUnseenRegisterForManager(this._sharedService.userId).subscribe(
                                         res=>{
                                             this.visible_registries_manager = res;
-                                            //console.log(this.visible_registries_manager);
                                         }
                                     );
                                 }else if(this._sharedService.isDeliverer){
@@ -286,6 +283,16 @@ export class EditUserComponent implements OnInit {
                 this.all_deliverer_bids = res.all_bids;
                 this.free_orders = res.free_orders;
                 this.not_seen_bid_statuses = res.status_bids;
+                for(let idx in this.not_seen_bid_statuses){
+                    let date = new Date(this.not_seen_bid_statuses[idx].date_of_delivery);
+                    let date_pres = ""+date.getDate() + "/"+(date.getMonth()+1)+"/"+date.getFullYear();
+                    this.not_seen_bid_statuses[idx].date_of_delivery = date_pres;
+                }
+                for(let idx in this.all_deliverer_bids){
+                    let date = new Date(this.all_deliverer_bids[idx].date_of_delivery);
+                    let date_pres = ""+date.getDate() + "/"+(date.getMonth()+1)+"/"+date.getFullYear();
+                    this.all_deliverer_bids[idx].date_of_delivery = date_pres;
+                }
                 this.free_orders_presentation = [];
                 for(let idx in this.free_orders){
                     let order = this.free_orders[idx];
@@ -464,8 +471,7 @@ export class EditUserComponent implements OnInit {
                 this.visible_registries_admin.splice(i,1);
             }
         }
-        this._restaurantRegistryService.updateRegistration_ACCEPTED(id).subscribe(res=>{console.log(res);});
-        //console.log("Accepted restaurant : " + id);
+        this._restaurantRegistryService.updateRegistration_ACCEPTED(id).subscribe(res=>{});
     }
 
     //called when admin denies a restaurant for registry
@@ -476,8 +482,7 @@ export class EditUserComponent implements OnInit {
                 this.visible_registries_admin.splice(i,1);
             }
         }
-        this._restaurantRegistryService.updateRegistration_DECLINED(id).subscribe(res=>console.log(res));
-        //console.log("Declined restaurant : " + id);
+        this._restaurantRegistryService.updateRegistration_DECLINED(id).subscribe(res=>{});
     }
 
     //caled when manager sees an updated restaurant status
@@ -488,8 +493,7 @@ export class EditUserComponent implements OnInit {
                 this.visible_registries_admin.splice(i,1);
             }
         }
-        this._restaurantRegistryService.updateRegistration_SEEN(id).subscribe(res=>console.log(res));
-        //console.log("Disbanded row : " + id);
+        this._restaurantRegistryService.updateRegistration_SEEN(id).subscribe(res=>{});
     }
 
     //when a manager wants to register a new restaurant
@@ -512,11 +516,8 @@ export class EditUserComponent implements OnInit {
         this.new_restaurant_registry.type = this.selected_restaurant_type;
         this.new_restaurant_registry.registered_by=null;
 
-        //console.log(this.new_restaurant_registry);
-
         this._restaurantRegistryService.registerNewRestaurant(this.new_restaurant_registry,+this._sharedService.userId).subscribe(   
             res=>{
-                //console.log(res);
                 this.visible_registries_manager.push(res);
                 this.new_restaurant_dialog_showing = false;
             }
@@ -528,7 +529,6 @@ export class EditUserComponent implements OnInit {
         let str = this.restaurant_name_input.trim();
 
         if(str === ""){
-            //console.log("String is empty!");
             this.restaurant_name_valid = false;
         }else{
             this.restaurant_name_valid = true;
@@ -556,8 +556,18 @@ export class EditUserComponent implements OnInit {
     //the entered bid in dollars from the dialog;
     bid_in_dollars;
 
-    enter_bid_dollars(belongs_to_order){
-        this.entering_for_order = belongs_to_order;
+    date_of_delivery:Date;
+    min_date_of_delivery = new Date();
+    max_date_of_delivery;
+
+    enter_bid_dollars(order){
+        this.entering_for_order = order.belongs_to_order;
+
+        var parts = order.to.split("/");
+        var dt = new Date(parseInt(parts[2], 10),
+                  parseInt(parts[1], 10) - 1,
+                  parseInt(parts[0], 10));
+        this.max_date_of_delivery = dt;
 
         this.entering_bid=true;
     }
@@ -568,22 +578,17 @@ export class EditUserComponent implements OnInit {
     }
 
     bid_submitted(){
-        console.log("Bid in dollars : " + this.bid_in_dollars);
-        console.log("Made for order with id : " + this.entering_for_order);
-        console.log("Made by user : " + this._sharedService.userId);
         let bid = {
             bid_in_dollars: this.bid_in_dollars,
             made_for_order:+this.entering_for_order,
-            made_by_user: +this._sharedService.userId
+            made_by_user: +this._sharedService.userId,
+            made_for_date: this.date_of_delivery.getTime()
         };
-        this._editUserService.send_new_bid(bid).subscribe(res=>{
-            console.log(res);
-        })
+        this._editUserService.send_new_bid(bid).subscribe(res=>{})
         this.entering_bid = false;
     }
 
     dismiss_order_notification(item){
-        console.log(item);
         let payload = {bid_seen_id:item.id};
         this._editUserService.update_seen_status(payload).subscribe(
             res=>{}
@@ -594,9 +599,7 @@ export class EditUserComponent implements OnInit {
     register_as_deliverer(){
         let user = {id:+this._sharedService.userId};
         this._editUserService.register_as_deliverer(user).subscribe(
-            res=>{
-                console.log(res);
-            }
+            res=>{}
         )
     }
 }   

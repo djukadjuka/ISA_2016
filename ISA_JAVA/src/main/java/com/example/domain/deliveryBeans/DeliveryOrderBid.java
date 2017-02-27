@@ -45,7 +45,17 @@ public class DeliveryOrderBid {
 	@OneToOne(cascade = CascadeType.ALL)
 	private DeliveryOrderBean made_for_order;
 	
+	@Column(name="date_of_delivery",nullable=true)
+	private Long date_of_delivery;
 	
+	public Long getDate_of_delivery() {
+		return date_of_delivery;
+	}
+
+	public void setDate_of_delivery(Long date_of_delivery) {
+		this.date_of_delivery = date_of_delivery;
+	}
+
 	public RestaurantBean getMade_for_restaurant() {
 		return made_for_restaurant;
 	}

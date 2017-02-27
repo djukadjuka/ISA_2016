@@ -71,13 +71,13 @@ public class DeliveryBidServiceBean implements DeliveryBidService{
 	}
 
 	@Override
-	public void updateCashForDeliveryBid(Long price, Long user_id, Long order_id) {
-		this.repository.updateCashForDeliveryBid(price, user_id, order_id);
+	public void updateCashForDeliveryBid(Long price, Long user_id, Long order_id, Long date_of_delivery) {
+		this.repository.updateCashForDeliveryBid(price, user_id, order_id,date_of_delivery);
 	}
 
 	@Override
-	public void updateNewBidInformation(Long price, Long user_id, Long order_id, Long restaurant_id, Long bid_id) {
-		this.repository.updateNewBidInformation(price, user_id, order_id, restaurant_id, bid_id);
+	public void updateNewBidInformation(Long price, Long user_id, Long order_id, Long restaurant_id, Long bid_id, Long date_of_delivery) {
+		this.repository.updateNewBidInformation(price, user_id, order_id, restaurant_id, bid_id,date_of_delivery);
 	}
 
 	@Override

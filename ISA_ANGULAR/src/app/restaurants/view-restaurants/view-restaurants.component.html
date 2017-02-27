@@ -509,7 +509,7 @@
     <p>Users that are not managers will be upgraded to Manager status. Existing Managers will simply be added to the manager list.</p>
     
     <!--POSSIBLE MANAGERS PICKLIST-->
-    <p-pickList [source]="possible_managers" [target]="assigned_managers" 
+    <p-pickList id="tabela_1" [source]="possible_managers" [target]="assigned_managers" 
                         [showSourceControls]="false" [showTargetControls]="false" 
                         [sourceStyle]="{'height':'300px'}" [targetStyle]="{'height':'300px'}" 
                         [responsive]="true"
@@ -888,7 +888,7 @@
     <div class="ui-g">
         <!--ALL ORDERS DIV-->
         <div class="ui-g-6">
-            <p-dataTable [value]="order_presentation" sortField="belongs_to_order"
+            <p-dataTable id="order_table" [value]="order_presentation" sortField="belongs_to_order"
                          rowGroupMode="subheader" groupField="belongs_to_order" expandableRowGroups="true"
                          [sortableRowGroup]="false" selectionMode="single">
                 <p-header>All Orders</p-header>

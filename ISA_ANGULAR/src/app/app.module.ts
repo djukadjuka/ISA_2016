@@ -150,4 +150,7 @@ import { Auth } from './auth.service';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(private _sharedService : SharedService){}
+
+ }
