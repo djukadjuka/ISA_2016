@@ -154,6 +154,7 @@
         <p-column field="drink_name" header="Name"></p-column>
         <p-column field="drink_price" header="Price"></p-column>
         <p-column field="table_id" header="ID of table"></p-column> 
+       
     </p-dataTable><br/>
 
 
@@ -174,7 +175,7 @@
         <p-column field="food_price" header="Price"></p-column>
         <p-column field="food_id" header="ID of table"></p-column> 
     </p-dataTable><br/>
-
+       <button pButton icon="fa-close" label="Confirm" style="float: right;height : 100%" (click)="acceptShowOrderDialog(food_show)"></button>
 
 
 
