@@ -681,4 +681,19 @@ export class EditUserComponent implements OnInit {
         }
     }
 
+    ngOnDestroy() {
+        if(this.notification_subscription != null){
+                    this.notification_subscription.unsubscribe();
+                    this.notification_subscription = null;
+                }
+        if(this.registry_subscription != null){
+                    this.registry_subscription.unsubscribe();
+                    this.registry_subscription = null;
+                }
+        if(this.delivery_subscription != null){
+                    this.delivery_subscription.unsubscribe();
+                    this.delivery_subscription = null;
+                }
+    } 
+
 }

@@ -1724,4 +1724,11 @@ export class ViewRestaurantsComponent implements OnInit{
         this.check_visibility();
       }
 
+      ngOnDestroy() {
+        if(this.delivery_bid_subscription!=null){
+          this.delivery_bid_subscription.unsubscribe();
+          this.delivery_bid_subscription = null;
+        }
+    }
+
 }
