@@ -22,19 +22,12 @@ import { Observable } from 'rxjs/Rx';
 
 declare var google: any;
 
-
-
-var Stomp = require('stompjs');
-var SockJS = require('sockjs-client');
-
 @Component({
   selector: 'app-view-restaurants',
   templateUrl: './view-restaurants.component.html',
   styleUrls: ['./view-restaurants.component.css']
 })
 export class ViewRestaurantsComponent implements OnInit{
-
-  private stompClient;
 
   //things for presentation
 
@@ -131,22 +124,6 @@ export class ViewRestaurantsComponent implements OnInit{
     private _fb: FormBuilder,
     private _confirmationService : ConfirmationService)
     {
-      //let socket= new SockJS('http://localhost:4400/chat');
-
-      //this.stompClient = Stomp.over(socket);
-      //this.stompClient.connect({});
-      /**
-       * ,function(frame){
-        console.log(this);
-        stomp.subscribe('/message/recieveMessage/1',res=>{
-          //console.log(this);
-        });
-
-        stomp.subscribe('/message/recieveMessage/2',res=>{
-          console.log(res.body);
-        });
-      })
-       */
       this.viewRestaurantsService.getRestaurantAverageRateAll(1)
                                 .subscribe(
                                   res => console.log(res)
@@ -1438,13 +1415,10 @@ export class ViewRestaurantsComponent implements OnInit{
         )
       }
 
-      /**if(this._sharedService.isManager){
-        Observable.timer(0,5000).subscribe(
-            res=> this.refresh_managerData(this._sharedService.userId)
-        );
-    } */
-
       check_bids(data){
+        if(this.delivery_bid_subscription != null){
+          this.delivery_bid_subscription.unsubscribe();
+        }
         this.delivery_bid_subscription = Observable.timer(0,1000).subscribe(
           res=> this.get_all_bids_for_order(data) 
         )
@@ -1548,6 +1522,7 @@ export class ViewRestaurantsComponent implements OnInit{
 
         this.viewRestaurantsService.getAllRestaurantGrades(this.restaurant_23.id).subscribe(
           res=>{
+            console.log(res);
             this.all_restaurant_reviews = res;
             this.restaurant_avg_grade = 0;
             for(let item in this.all_restaurant_reviews){
@@ -1588,6 +1563,7 @@ export class ViewRestaurantsComponent implements OnInit{
       selected_food_list_item(event){
         this.viewRestaurantsService.getGradesForProductInRestaurant(this.restaurant_23.id,this.selected_23_food_item).subscribe(
           res=>{
+            console.log(res);
             this.food_item_reviews = res;
             for(let item in this.food_item_reviews){
                 if(this.food_item_reviews[item].short_description == null){
@@ -1748,10 +1724,4 @@ export class ViewRestaurantsComponent implements OnInit{
         this.check_visibility();
       }
 
-      test1(){
-        this.stompClient.send("/app/testDeliveries/"+1,{},null);
-      }
-      test2(){
-        this.stompClient.send("/app/sendMessageHere/"+2,{},JSON.stringify({'from':"from",'text':"text"}));
-      }
 }

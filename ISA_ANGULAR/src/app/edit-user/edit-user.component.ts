@@ -77,11 +77,11 @@ export class EditUserComponent implements OnInit {
                                        this._restaurantRegistryService.getUnseenRegistersForAdmin().subscribe(
                                            res=>{
                                                     this.visible_registries_admin = res;
-                                                    this._restaurantRegistryService.getUnseenRegisterForManager(this._sharedService.userId).subscribe(
-                                                        res=>{
-                                                            this.visible_registries_manager = res;
-                                                        }
-                                                    );
+                                                    //this._restaurantRegistryService.getUnseenRegisterForManager(this._sharedService.userId).subscribe(
+                                                    //    res=>{
+                                                    //        this.visible_registries_manager = res;
+                                                    //    }
+                                                    //);
                                                 }
                                         );
                                 }else if(this._sharedService.isManager){
@@ -140,17 +140,7 @@ export class EditUserComponent implements OnInit {
         );
     }
 
-    if(this._sharedService.isManager){
-        Observable.timer(0,5000).subscribe(
-            res=> this.refresh_managerData(this._sharedService.userId)
-        );
-    }
-
-    if(this._sharedService.isDeliverer){
-        Observable.timer(0,5000).subscribe(
-            res=>this.refresh_deliverer_data()
-        );
-    }
+    
 
     this.setColumnsForDataLists();
     
@@ -602,4 +592,67 @@ export class EditUserComponent implements OnInit {
             res=>{}
         )
     }
-}   
+
+
+    /*=================================================
+        SUBSCRIBE HERE
+        UNSUBSCRIBE HERE
+    =================================================
+    */
+
+      /*
+   * if(this._sharedService.isManager){
+        Observable.timer(0,5000).subscribe(
+            res=> this.refresh_managerData(this._sharedService.userId)
+        );
+    }
+
+    if(this._sharedService.isDeliverer){
+        Observable.timer(0,5000).subscribe(
+            res=>this.refresh_deliverer_data()
+        );
+    }
+   */
+
+    //registering restaurants
+    registry_subscription;
+    registry_tab_closed(){
+        if(this.registry_subscription != null){
+            this.registry_subscription.unsubscribe();
+            this.registry_subscription = null;
+        }
+    }
+    registry_tab_opened(){
+        if(this.registry_subscription == null){
+            this.registry_subscription = Observable.timer(0,5000).subscribe(
+                res=> this.refresh_managerData(this._sharedService.userId)
+            );
+        }
+    }
+
+    //deliveries for deliverer
+    delivery_subscription;    
+    deliverer_tab_closed(){
+        if(this.delivery_subscription != null){
+            this.delivery_subscription.unsubscribe();
+            this.delivery_subscription = null;
+        }
+    }
+    deliverer_tab_opened(){
+        if(this.delivery_subscription == null){
+            this.delivery_subscription = Observable.timer(0,5000).subscribe(
+                 res=>this.refresh_deliverer_data()
+            );
+        }
+    }
+
+    //friends notifications
+    notification_subscription;
+    notifications_tab_closed(){
+
+    }
+    notifications_tab_opened(){
+
+    }
+
+}
