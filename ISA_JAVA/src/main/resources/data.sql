@@ -652,14 +652,14 @@ values (5, 6, 'FREE', 1,'/assets/pictures/restaurant_pictures/10.jpg',5);
 --=====================================
 --EMPLOYEE SCHEDZZZ
 --=====================================
-insert into employee_schedule(id,to_date,from_date,date_date,for_employee)
-values(1,1000000100000,1000000000000,1000000100000,5);
-insert into employee_schedule(id,to_date,from_date,date_date,for_employee)
-values(2,1000000100000,1000000000000,1000000100000,6);
-insert into employee_schedule(id,to_date,from_date,date_date,for_employee)
-values(3,1000000100000,1000000000000,1000000100000,7);
-insert into employee_schedule(id,to_date,from_date,date_date,for_employee)
-values(4,1000000100000,1000000000000,1000000100000,8);
+insert into employee_schedule(id,to_date,from_date,date_date,for_employee,table_table_id)
+values(1,1000000100000,1000000000000,1000000100000,5,1);
+insert into employee_schedule(id,to_date,from_date,date_date,for_employee,table_table_id)
+values(2,1000000100000,1000000000000,1000000100000,6,1);
+insert into employee_schedule(id,to_date,from_date,date_date,for_employee,table_table_id)
+values(3,1000000100000,1000000000000,1000000100000,7,1);
+insert into employee_schedule(id,to_date,from_date,date_date,for_employee,table_table_id)
+values(4,1000000100000,1000000000000,1000000100000,8,1);
 
 --=====================================
 --MANAGERS MANAGING RESTAURANTS
@@ -713,6 +713,7 @@ insert into deliverer(user_id,request_status)
 values(17,'ACCEPTED');
 insert into deliverer(user_id,request_status)
 values(18,'ACCEPTED');
+insert into deliverer(user_id,request_status,first_login) values(1,'ACCEPTED',1);
 
 --==============================================================================================
 --RESERVATION 
@@ -975,5 +976,4 @@ insert into bill(id,cash,date_of_transaction,employee_user_id,restaurant_id) val
 
 --nije validan test podatak
 --potrebno obrisati kada se bude radila odbrana....
-insert into deliverer values('ACCEPTED',1);
 

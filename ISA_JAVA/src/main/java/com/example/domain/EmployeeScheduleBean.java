@@ -1,11 +1,13 @@
 package com.example.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -25,6 +27,9 @@ public class EmployeeScheduleBean {
 	@Column(name="date_date")
 	private Long date;
 	
+	@OneToOne(cascade=CascadeType.ALL)
+	private TableBean table;
+	
 	@ManyToOne
 	@JoinColumn(name = "for_employee", nullable = true)
 	private EmployeeBean for_employee;
@@ -39,6 +44,14 @@ public class EmployeeScheduleBean {
 
 	public Long getId() {
 		return id;
+	}
+
+	public TableBean getTable() {
+		return table;
+	}
+
+	public void setTable(TableBean table) {
+		this.table = table;
 	}
 
 	public void setId(Long id) {

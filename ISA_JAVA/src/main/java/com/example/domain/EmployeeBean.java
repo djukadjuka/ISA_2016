@@ -42,8 +42,7 @@ public class EmployeeBean{
 	private UserBean user;
 	
 	@Column(nullable = false)
-	@Enumerated(EnumType.STRING)
-	private EmployeeEnum role;
+	private String role;
 	
 	@Column(nullable = true)
 	private Long dateOfBirth;
@@ -79,9 +78,6 @@ public class EmployeeBean{
 	@OneToMany(mappedBy = "for_employee", cascade = CascadeType.ALL)
 	private Set<EmployeeScheduleBean> shcedule = new HashSet<>();
 	
-	@OneToMany(mappedBy = "served_by", cascade = CascadeType.ALL)
-	private Set<TableBean> serves_tables = new HashSet<>();
-	
 	@OneToMany(mappedBy = "made_by", cascade = CascadeType.ALL)
 	private Set<DeliveryOrderBean> orders;
 	
@@ -92,15 +88,6 @@ public class EmployeeBean{
 
 	public void setOrders(Set<DeliveryOrderBean> orders) {
 		this.orders = orders;
-	}
-
-	@JsonIgnore
-	public Set<TableBean> getServes_tables() {
-		return serves_tables;
-	}
-
-	public void setServes_tables(Set<TableBean> serves_tables) {
-		this.serves_tables = serves_tables;
 	}
 
 	@JsonIgnore
@@ -145,11 +132,11 @@ public class EmployeeBean{
 		this.user = user;
 	}
 
-	public EmployeeEnum getRole() {
+	public String getRole() {
 		return role;
 	}
 
-	public void setRole(EmployeeEnum role) {
+	public void setRole(String role) {
 		this.role = role;
 	}
 
@@ -194,7 +181,7 @@ public class EmployeeBean{
 		this.manages = manages;
 	}
 
-	public EmployeeBean(long id, UserBean user, EmployeeEnum role, Long dateOfBirth, Float shoeSize, Float suitSize,
+	public EmployeeBean(long id, UserBean user, String role, Long dateOfBirth, Float shoeSize, Float suitSize,
 			Set<RestaurantRegistry> has_registered, Set<RestaurantBean> manages) {
 		super();
 		this.id = id;

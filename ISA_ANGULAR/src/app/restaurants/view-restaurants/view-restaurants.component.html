@@ -243,9 +243,9 @@
                                 </button><br/>
                         
                         <!--EDIT EMPLOYEE REGION BUTTON -->
-                        <button style="width:100%" pButton type="button" label="Edit Employee Region"
+                        <!--<button style="width:100%" pButton type="button" label="Edit Employee Region"
                                 icon="fa-calculator" (click)="edit_employee_region_clicked(restaurant)" [disabled]=false> 
-                                </button><br/>
+                                </button><br/>-->
 
                         <!--REGISTER DELIVERER BUTTON-->
                         <button style="width:100%" pButton type="button" label="Register New Deliverer"
@@ -651,6 +651,7 @@
                     <p-column field="from" header="From (h)"></p-column>
                     <p-column field="to" header="To (h)"></p-column>
                     <p-column field="date" header="On Date"></p-column>
+                    <p-column field="table_id" header="On Table"></p-column>
                     <p-column styleClass="col-button">
                         <template let-schedz="rowData" pTemplate="body">
                             <button pButton class="ui-button-danger" icon="fa-close" label="Remove Shedule"
@@ -696,6 +697,10 @@
                     <p-calendar [(ngModel)]="new_schedz_day" [minDate]="min_schedz_day" [maxDate]="max_schedz_day" 
                                 [readonlyInput]="true"></p-calendar><br/><br/><br/><br/>
                 </div>
+                <div class="ui-g-4">Select table:</div>
+                <div class="ui-g-8">
+                    <p-listbox [options]="available_tables_for_schedz" [(ngModel)]="chosen_table_id"></p-listbox>
+                </div>
             </div>
 
 
@@ -711,6 +716,7 @@
 <!--=====================================================================-->
 <!--================= EDIT EMPLOYEE REGION PANEL-->
 <!--=====================================================================-->
+<!--
 <p-panel *ngIf="creating_employee_region_open" >
     <p-header>
         <div class="ui-g">
@@ -722,7 +728,7 @@
             </div>
         </div>
     </p-header>
-    <!--DATA TABLE WITH ALL TABLES BELONGING TO THIS RESTAURANT-->
+    
     <p-dataTable [value]="selected_restaurant_tables"
                 [rows]="10" [paginator]="true" [pageLinks]="6" 
                 [rowsPerPageOptions]="[5,10,15]">
@@ -741,7 +747,6 @@
         </p-column>
     </p-dataTable>
 
-    <!--DIALOG FOR SELECTED EMPLOYEES INFO-->
     <p-dialog header="Employee Info" modal="modal" 
               width="400" responsive="true" 
               [(visible)]="checking_table_server">
@@ -756,7 +761,6 @@
         </div>
     </p-dialog>
 
-    <!--DIALOG FOR CHANGING SERVER-->
     <p-dialog header="Assign Different Waiter to this Table" modal="modal"
               width="400" responsive="true"
               [(visible)]="changing_table_server">
@@ -767,7 +771,7 @@
     </p-dialog>
 
 </p-panel>
-
+-->
 
 <!--=====================================================================-->
 <!--================= REGISTER DELIVERER PANEL-->

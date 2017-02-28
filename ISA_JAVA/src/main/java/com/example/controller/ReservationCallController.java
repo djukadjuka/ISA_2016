@@ -303,6 +303,37 @@ public class ReservationCallController {
 	
 	//***************** Restaurant rates
 	
+//	//dj_restaurant_rate
+//	synchronized
+//	@CrossOrigin(origins = "http://localhost:4200")
+//	@RequestMapping(
+//			value="/dj/getReviewsFor/{restaurant_id}/whatFor/{what_for}",
+//			method = RequestMethod.GET,
+//			produces=MediaType.APPLICATION_JSON_VALUE
+//			)
+//	public RestaurantDataWrapper getSomeReviews(@PathVariable("restaurant_id") Long restaurant_id,
+//														   @PathVariable("what_for") Long what_for){
+//		
+//		Long time = new Date().getTime();
+//		
+//		ArrayList<ReservationCallBean> calls = (ArrayList<ReservationCallBean>) reservationCallService.findByStatusAccepted();
+//		ArrayList<RevDataWrapper> inside_payload = new ArrayList<>();
+//		RestaurantDataWrapper payload = new RestaurantDataWrapper();
+//		payload.setRestaurant_stats(inside_payload);
+//		
+//		for(int i=0;	i<calls.size();	i++){
+//			
+//			if(	time < calls.get(i).getReservation().getEndDate() &&
+//				calls.get(i).getReservation().getTable_id().getRestaurant_zone_id().getRestaurant().getId() == restaurant_id &&
+//			   	calls.get(i).getRestaurant_rate() != 0){
+//				
+//				
+//				
+//			}
+//			
+//		}
+//	}
+	
 	synchronized
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(
@@ -714,3 +745,49 @@ class FoodAndDrinkWrapper
 	}
 }
 
+// **************** DJ Data wrapper *****************************
+class RestaurantDataWrapper{
+	private Float restaurant_avg_grade;
+	private ArrayList<RevDataWrapper> restaurant_stats;
+	
+	public ArrayList<RevDataWrapper> getRestaurant_stats() {
+		return restaurant_stats;
+	}
+
+	public void setRestaurant_stats(ArrayList<RevDataWrapper> restaurant_stats) {
+		this.restaurant_stats = restaurant_stats;
+	}
+
+	public Float getRestaurant_avg_grade() {
+		return restaurant_avg_grade;
+	}
+
+	public void setRestaurant_avg_grade(Float restaurant_avg_grade) {
+		this.restaurant_avg_grade = restaurant_avg_grade;
+	}
+	
+}
+class RevDataWrapper{
+	private String username;
+	private Float grade;
+	private Long id;
+	
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public Float getGrade() {
+		return grade;
+	}
+	public void setGrade(Float grade) {
+		this.grade = grade;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+}

@@ -19,10 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.domain.EmployeeBean;
 import com.example.domain.FriendshipBean;
 import com.example.domain.UserBean;
+import com.example.domain.deliveryBeans.DelivererBean;
 import com.example.service.EmployeeService;
 import com.example.service.EmployeeServiceBean;
 import com.example.service.FriendshipService;
 import com.example.service.UserService;
+import com.example.service.deliveryServices.DelivererService;
+import com.example.service.deliveryServices.DelivererServiceBean;
 
 @RestController
 public class UserController {
@@ -34,6 +37,44 @@ public class UserController {
 	FriendshipService friendshipService;
 	
 	@Autowired EmployeeService employeeService = new EmployeeServiceBean();
+	
+	@Autowired
+	DelivererService deliverer_service = new DelivererServiceBean();
+	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value = "/erect/a/monument/to/me/{user_id}",
+			method = RequestMethod.GET
+			)
+	public synchronized String getUserString(@PathVariable("user_id") Long user_id){
+		System.out.println("https://www.youtube.com/watch?v=UNZvuNCHq0M");
+
+		String return_flag = "USER";
+		
+		UserBean user = this.userService.findOne(user_id);
+		
+		//check if employee
+		EmployeeBean empl;
+		if((empl = this.employeeService.findOne(user_id)) != null){
+			
+			//what kind of employee;
+			return empl.getRole();
+		}
+		
+		DelivererBean del;
+		if((del = deliverer_service.findOne(user_id)) != null){
+			
+			if(del.getRequest_status().equals("ACCEPTED")){
+				if(del.getFirst_login() == null){
+					return "DELIVERER 0";
+				}else{
+					return "DELIVERER 1";
+				}
+			}
+		}
+		
+		return return_flag;
+	}
 	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(

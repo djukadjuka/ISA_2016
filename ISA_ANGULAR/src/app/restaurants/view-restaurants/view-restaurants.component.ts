@@ -1009,6 +1009,7 @@ export class ViewRestaurantsComponent implements OnInit{
      =========================================*/
 
      employee_usernames_schedule : SelectItem[]; schedule_employee;
+     
 
      all_schedules_for_employee;
 
@@ -1022,6 +1023,10 @@ export class ViewRestaurantsComponent implements OnInit{
      schedz_time_start;
      schedz_time_end;
      min_time_end;
+
+     chosen_table_id;
+
+     available_tables_for_schedz : SelectItem[];
 
      edit_employee_schedule_clicked(restaurant : RestaurantClass){
         this.restaurant_23 = restaurant;
@@ -1039,6 +1044,7 @@ export class ViewRestaurantsComponent implements OnInit{
 
      schedule_selected(event){
        this.viewRestaurantsService.getSpecificWorkersSchedules(this.schedule_employee.id).subscribe(res=>{
+         console.log(res);
          this.all_schedules_for_employee = [];
          for(let item in res){
            let start_time = new Date(res[item].from);
@@ -1048,7 +1054,8 @@ export class ViewRestaurantsComponent implements OnInit{
              {from:""+start_time.getHours() + " : " + start_time.getMinutes(),
                to:""+end_time.getHours() + " : " + end_time.getMinutes(),
                date:""+date.getDate()+" : "+ (date.getMonth()+1) + " : " + date.getFullYear(),
-               id:res[item].id}
+               id:res[item].id,
+               table_id:res[item].table.id}
              );
          }
        });
@@ -1078,21 +1085,27 @@ export class ViewRestaurantsComponent implements OnInit{
      /**when creating a new schedule in the schedz dialog */
      add_new_schedule_clicked(){
         //set current time for schedz start
-        this.schedz_time_start = new Date();
-        
-        //set current time + 1h for schedz end and min schedz
-        this.schedz_time_end = new Date(this.schedz_time_start.getTime() + 1000*60*60);
-        this.min_time_end = new Date(this.schedz_time_end.getTime());
-        
-        //set current date for the new schedz day
-        this.new_schedz_day = new Date();
-        //min max days one year apart
-        this.min_schedz_day = new Date();
-        this.max_schedz_day = new Date(new Date().getTime() + 1000*60*60*24*365);
+        this.viewRestaurantsService.getTablesForRestaurant(this.restaurant_23.id).subscribe(res=>{
+            this.available_tables_for_schedz = [];
+            for(let idx in res){
+              let item = res[idx];
+              this.available_tables_for_schedz.push({label:item.id,value:item.id});
+            }
+            this.chosen_table_id = this.available_tables_for_schedz[0].value;
+            this.schedz_time_start = new Date();
+            
+            //set current time + 1h for schedz end and min schedz
+            this.schedz_time_end = new Date(this.schedz_time_start.getTime() + 1000*60*60);
+            this.min_time_end = new Date(this.schedz_time_end.getTime());
+            
+            //set current date for the new schedz day
+            this.new_schedz_day = new Date();
+            //min max days one year apart
+            this.min_schedz_day = new Date();
+            this.max_schedz_day = new Date(new Date().getTime() + 1000*60*60*24*365);
 
-        this.adding_new_shedule = true;
-
-        console.log(this.schedule_employee);
+            this.adding_new_shedule = true;
+        });
      }
      changed_shedz_start(){
        this.schedz_time_end = new Date(this.schedz_time_start.getTime() + 1000*60*60);
@@ -1106,15 +1119,13 @@ export class ViewRestaurantsComponent implements OnInit{
      }
 
      close_new_schedule_dialog(){
-        console.log(this.schedule_employee);
         let post_schedz = {
           from:this.schedz_time_start.getTime(),
           to:this.schedz_time_end.getTime(),
           date:this.new_schedz_day.getTime(),
-          for_employee:this.schedule_employee
+          for_employee:this.schedule_employee,
+          table:{id:this.chosen_table_id}
         };
-
-        console.log(post_schedz);
 
         this.viewRestaurantsService.create_new_schedule(post_schedz).subscribe(
           res=>{
@@ -1128,7 +1139,8 @@ export class ViewRestaurantsComponent implements OnInit{
                       {from:""+start_time.getHours() + " : " + start_time.getMinutes(),
                         to:""+end_time.getHours() + " : " + end_time.getMinutes(),
                         date:""+date.getDate()+" : "+ (date.getMonth()+1) + " : " + date.getFullYear(),
-                        id:res[item].id}
+                        id:res[item].id,
+                        table_id:res[item].table.id}
                       );
                   }
                 this.adding_new_shedule = false;
@@ -1142,95 +1154,6 @@ export class ViewRestaurantsComponent implements OnInit{
         this.creating_employee_schedule_open = false;
         this.check_visibility();
      }
-    /**
-     * ADDING EMPLOYEE REGION CONFIG
-     */
-     //all restaurants tables
-     selected_restaurant_tables;
-     //employee selected to view the data;
-     employee_serving_data;
-     //table selected to change server;
-
-     //dialog about the server serving concrete table
-     checking_table_server = false;
-     //dialog about changing the employee serving a table
-     changing_table_server = false;
-
-     //employees that are not serving the selected table
-     all_servers; all_servers_select_item:SelectItem[];selected_server_id;
-
-     edit_employee_region_clicked(restaurant : RestaurantClass){
-        this.restaurant_23 = restaurant;
-
-        this.viewRestaurantsService.getTablesForRestaurant(this.restaurant_23.id).subscribe(
-          res=>{
-            this.selected_restaurant_tables = res;
-            this.creating_employee_region_open = true;
-            this.check_visibility();
-          }
-        )
-
-     }
-
-     //view details about employee serving this table
-     view_table_serving(table){
-        this.employee_serving_data = table.served_by;
-        this.checking_table_server = true;
-     }
-
-     configuring_for_table;
-     //change employee serving table
-     change_table_serving(table){
-       this.configuring_for_table = table;
-      this.viewRestaurantsService.getWaitersForRestaurant(this.restaurant_23.id).subscribe(
-        res=>{
-          this.all_servers = res;
-          this.all_servers_select_item = [];
-          for(let server in this.all_servers){
-            this.all_servers_select_item.push({label:this.all_servers[server].user.username,value:this.all_servers[server].id});
-          }
-          if(table.served_by == null){
-            this.selected_server_id = null;
-          }else{
-            this.selected_server_id = table.served_by.id;
-          }
-          this.changing_table_server  = true;
-        }
-      )
-     }
-
-     //called after button is clicked changing the employee who serves table;
-     //dialog should be closed after Save is clicked
-     changed_table_server(){
-      let selected_guy;
-      for(let server in this.all_servers){
-        if(this.all_servers[server].id == this.selected_server_id){
-          selected_guy = this.all_servers[server];
-        }
-      }
-
-      //who is selected to be the new server for this table...
-      console.log("------------------------");
-      console.log(this.configuring_for_table);
-      console.log(selected_guy);
-      this.viewRestaurantsService.change_served_by(selected_guy.id,this.configuring_for_table).subscribe(
-        res=>{
-          this.viewRestaurantsService.getTablesForRestaurant(this.restaurant_23.id).subscribe(
-            res=>{
-              this.selected_restaurant_tables = res;
-              this.changing_table_server = false;
-            }
-          )
-        }
-      )
-     }
-
-     close_edit_employee_region(){
-
-       this.creating_employee_region_open = false;
-       this.check_visibility();
-     }
-
     /**
      * REGISTER DELIVERER CONFIG
      */
@@ -1732,3 +1655,95 @@ export class ViewRestaurantsComponent implements OnInit{
     }
 
 }
+
+
+    /**
+     * ADDING EMPLOYEE REGION CONFIG
+     */
+    /*
+     //all restaurants tables
+     selected_restaurant_tables;
+     //employee selected to view the data;
+     employee_serving_data;
+     //table selected to change server;
+
+     //dialog about the server serving concrete table
+     checking_table_server = false;
+     //dialog about changing the employee serving a table
+     changing_table_server = false;
+
+     //employees that are not serving the selected table
+     all_servers; all_servers_select_item:SelectItem[];selected_server_id;
+
+     edit_employee_region_clicked(restaurant : RestaurantClass){
+        this.restaurant_23 = restaurant;
+
+        this.viewRestaurantsService.getTablesForRestaurant(this.restaurant_23.id).subscribe(
+          res=>{
+            this.selected_restaurant_tables = res;
+            this.creating_employee_region_open = true;
+            this.check_visibility();
+          }
+        )
+
+     }
+
+     //view details about employee serving this table
+     view_table_serving(table){
+        this.employee_serving_data = table.served_by;
+        this.checking_table_server = true;
+     }
+
+     configuring_for_table;
+     //change employee serving table
+     change_table_serving(table){
+       this.configuring_for_table = table;
+      this.viewRestaurantsService.getWaitersForRestaurant(this.restaurant_23.id).subscribe(
+        res=>{
+          this.all_servers = res;
+          this.all_servers_select_item = [];
+          for(let server in this.all_servers){
+            this.all_servers_select_item.push({label:this.all_servers[server].user.username,value:this.all_servers[server].id});
+          }
+          if(table.served_by == null){
+            this.selected_server_id = null;
+          }else{
+            this.selected_server_id = table.served_by.id;
+          }
+          this.changing_table_server  = true;
+        }
+      )
+     }
+
+     //called after button is clicked changing the employee who serves table;
+     //dialog should be closed after Save is clicked
+     changed_table_server(){
+      let selected_guy;
+      for(let server in this.all_servers){
+        if(this.all_servers[server].id == this.selected_server_id){
+          selected_guy = this.all_servers[server];
+        }
+      }
+
+      //who is selected to be the new server for this table...
+      console.log("------------------------");
+      console.log(this.configuring_for_table);
+      console.log(selected_guy);
+      this.viewRestaurantsService.change_served_by(selected_guy.id,this.configuring_for_table).subscribe(
+        res=>{
+          this.viewRestaurantsService.getTablesForRestaurant(this.restaurant_23.id).subscribe(
+            res=>{
+              this.selected_restaurant_tables = res;
+              this.changing_table_server = false;
+            }
+          )
+        }
+      )
+     }
+
+     close_edit_employee_region(){
+
+       this.creating_employee_region_open = false;
+       this.check_visibility();
+     }
+*/

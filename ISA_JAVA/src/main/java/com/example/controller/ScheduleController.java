@@ -17,10 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.domain.EmployeeBean;
 import com.example.domain.EmployeeScheduleBean;
+import com.example.domain.TableBean;
 import com.example.service.EmployeeScheduleService;
 import com.example.service.EmployeeScheduleServiceBean;
 import com.example.service.EmployeeService;
 import com.example.service.EmployeeServiceBean;
+import com.example.service.TableService;
+import com.example.service.TableServiceBean;
 import com.example.service.UserService;
 import com.example.service.UserServiceBean;
 
@@ -33,6 +36,9 @@ public class ScheduleController {
 	@Autowired
 	private EmployeeService employee_service = new EmployeeServiceBean();
 	
+	@Autowired 
+	private TableService table_service = new TableServiceBean();
+	
 	@Autowired
 	private UserService user_service = new UserServiceBean();
 	
@@ -41,7 +47,7 @@ public class ScheduleController {
 					method = RequestMethod.POST,
 					produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public synchronized void createNewSchedule(@PathVariable("sc_id") Long sc_id){
+	public synchronized void deleteSchedule(@PathVariable("sc_id") Long sc_id){
 		this.schedule_service.delete(sc_id);
 	}
 	
@@ -51,6 +57,13 @@ public class ScheduleController {
 					produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public synchronized void createNewSchedule(@RequestBody EmployeeScheduleBean schedz){
+		if(schedz.getTable()==null){
+			System.out.println("Its null :((((");
+		}else{
+			System.out.println("Table id : ");
+			System.out.println(schedz.getTable().getId());
+		}
+		schedz.setTable(this.table_service.findOne(schedz.getTable().getId()));
 		this.schedule_service.create(schedz);
 	}
 	
@@ -80,8 +93,6 @@ public class ScheduleController {
 					produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public  ResponseEntity<ArrayList<EmployeeScheduleBean>> getScheduleByDate(@PathVariable("date") Long date){
-		//Long Date = Long.decode("date");
-		System.out.println("TEST"+date);
 		return new ResponseEntity<ArrayList<EmployeeScheduleBean>>(
 				(ArrayList<EmployeeScheduleBean>)schedule_service.getSchedduleForEmployee(date), HttpStatus.OK);
 	}
@@ -104,8 +115,6 @@ public class ScheduleController {
 					produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public  ResponseEntity<ArrayList<EmployeeScheduleBean>> getBarmanScheduleByDate(@PathVariable("date") Long date){
-		//Long Date = Long.decode("date");
-		System.out.println("TEST"+date);
 		return new ResponseEntity<ArrayList<EmployeeScheduleBean>>(
 				(ArrayList<EmployeeScheduleBean>)schedule_service.getSchedduleForBarmanEmployee(date), HttpStatus.OK);
 	}

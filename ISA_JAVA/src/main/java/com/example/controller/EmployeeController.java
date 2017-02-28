@@ -63,10 +63,10 @@ public class EmployeeController {
 	public synchronized void registerNewEmployee(@RequestBody EmployeeBean employee,@PathVariable("rest_id") Long rest_id){
 		String str = "";
 		switch(employee.getRole()){
-		case BARTENDER:	str = "BARTENDER";break;
-		case COOK: str = "COOK";break;
-		case MANAGER : str = "MANAGER";break;
-		case WAITER : str = "WAITER";break;
+		case "BARTENDER":	str = "BARTENDER";break;
+		case "COOK": str = "COOK";break;
+		case "MANAGER": str = "MANAGER";break;
+		case "WAITER": str = "WAITER";break;
 		}
 		System.out.println(employee.getDateOfBirth());
 		

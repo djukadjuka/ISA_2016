@@ -20,22 +20,19 @@ import com.example.domain.UserBean;
 @Entity
 @Table(name="deliverer")
 public class DelivererBean {
-
-	enum DEL_STATUS{
-		PENDING,
-		ACCEPTED
-	}
 	
 	@Id
 	private long id;
+	
+	@Column(name = "first_login", nullable = true)
+	private Long first_login;
 	
 	@OneToOne(cascade = CascadeType.ALL) @MapsId
 	@PrimaryKeyJoinColumn
 	private UserBean user;
 
 	@Column(name = "request_status",nullable = true)
-	@Enumerated(EnumType.STRING)
-	private DEL_STATUS request_status;
+	private String request_status;
 	
 	public long getId() {
 		return id;
@@ -45,16 +42,24 @@ public class DelivererBean {
 		this.id = id;
 	}
 
-	public DEL_STATUS getRequest_status() {
+	public String getRequest_status() {
 		return request_status;
 	}
 
-	public void setRequest_status(DEL_STATUS request_status) {
+	public void setRequest_status(String request_status) {
 		this.request_status = request_status;
 	}
 
 	public UserBean getUser() {
 		return user;
+	}
+
+	public Long getFirst_login() {
+		return first_login;
+	}
+
+	public void setFirst_login(Long first_login) {
+		this.first_login = first_login;
 	}
 
 	public void setUser(UserBean user) {
