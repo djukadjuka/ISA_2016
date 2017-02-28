@@ -86,4 +86,9 @@ public interface UserRepository extends JpaRepository<UserBean, Long>{
 	@Modifying
 	@Query(value="delete from employee where user_id = :user_id",nativeQuery=true)
 	public void fireManagerAllTogether(@Param("user_id") Long user_id);
+	
+	//**************** auth0 Queries
+	
+	@Query(value="select * from user u where u.auth_code = :auth_code",nativeQuery=true)
+	public UserBean findUserByAuthCodeYo(@Param("auth_code") String auth_code);
 }

@@ -234,28 +234,100 @@ public class UserController {
 	////////////////////////////////////////////////////////
 	/////////// AUTH SERVICES
 	////////////////////////////////////////////////////////
+	
+	//da li postoji korisnik sa auth id
+		//ako NE postoji ->
+			//dodajes novog korisnika (BASIC)
+			//postavis user id
+			//rola
+			// password na 0
+	
+		//ako postoji->
+			//nadjes vratis :
+				//user ID
+				//rola
+				//password na 1
+	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping(value = "/auth/addNewUser",
 					method = RequestMethod.POST,
 					produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public synchronized void AUTHAddNewUser(@RequestBody AUTHUserWrapper auth_user){
+	public synchronized AUTHReturnUserWrapper AUTHAddNewUser(@RequestBody AUTHUserWrapper auth_user){
 		
-		UserBean user = new UserBean();
+		UserBean user = this.userService.findUserByAuthCodeYo(auth_user.getAuth_id());
+		AUTHReturnUserWrapper wrapper = new AUTHReturnUserWrapper();
 		
-		user.setFirstName(auth_user.getFirst_name());
-		user.setLastName(auth_user.getLast_name());
-		user.setEmail(auth_user.getEmail());
-		user.setProfilePicture(auth_user.getPicture());
-		user.setAuth_code(auth_user.getAuth_id());
-		user.setUsername(auth_user.getUsername());
+		if(user == null){
+			user = new UserBean();
+			
+			user.setFirstName(auth_user.getFirst_name());
+			user.setLastName(auth_user.getLast_name());
+			user.setEmail(auth_user.getEmail());
+			user.setProfilePicture(auth_user.getPicture());
+			user.setAuth_code(auth_user.getAuth_id());
+			user.setUsername(auth_user.getUsername());
+			
+			user = this.userService.create(user);
+			
+			wrapper.setPassword(null);
+			wrapper.setUser_id(""+user.getId());
+			wrapper.setUser_role("USER");
+			
+		}else{
+			
+			EmployeeBean radnik = this.employeeService.findOne(user.getId());
+			wrapper.setUser_id(""+user.getId());
+			wrapper.setPassword(user.getPassword()==null?null:1L);	// -.-
+			
+			if(radnik == null){
+				DelivererBean del = this.deliverer_service.findOne(user.getId());
+				
+				if(del == null || del.getRequest_status().equals("PENDING")){
+					wrapper.setUser_role("USER");
+				}else{
+					wrapper.setUser_role("DELIVERER");
+				}
+				
+			}else{
+				wrapper.setUser_role(radnik.getRole());
+			}
+			
+		}
 		
-		this.userService.create(user);
+		return wrapper;
+		
 	}
 	
 }
 
 //*************** auth user wrapper
+class AUTHReturnUserWrapper{
+	private String user_role;
+	private String user_id;
+	private Long password;
+	
+	public String getUser_role() {
+		return user_role;
+	}
+	public void setUser_role(String user_role) {
+		this.user_role = user_role;
+	}
+	public String getUser_id() {
+		return user_id;
+	}
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+	public Long getPassword() {
+		return password;
+	}
+	public void setPassword(Long password) {
+		this.password = password;
+	}
+	
+}
+
 class AUTHUserWrapper{
 	private String first_name;
 	private String last_name;
