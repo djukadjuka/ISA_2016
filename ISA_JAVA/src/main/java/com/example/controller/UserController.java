@@ -279,12 +279,10 @@ public class UserController {
 			
 			EmployeeBean radnik = this.employeeService.findOne(user.getId());
 			wrapper.setUser_id(""+user.getId());
-<<<<<<< HEAD
+
 			wrapper.setPassword(user.getPassword()==null?0:1L);	// -.-
-=======
-			wrapper.setPassword(user.getPassword()==null?null:1L);	// -.-
 			wrapper.setManages_restaurants(new ArrayList<Long>());
->>>>>>> e18c9aa601aaec4edfad8ec8339b9742645e6bfe
+
 			
 			if(radnik == null){
 				DelivererBean del = this.deliverer_service.findOne(user.getId());
