@@ -15,11 +15,11 @@ import com.example.domain.OrderBean;
 @Repository
 public interface OrderRepository extends JpaRepository<OrderBean, Long> {
 
-	
-	@Modifying
 	@Transactional
-	@Query(value="INSERT INTO Order VALUES (1,:price,:name,null,:table_id,:waiter_id,1,1)" ,nativeQuery=true)
-	public Collection<OrderBean> updateOrder(@Param("price") float price,
+	@Modifying
+	@Query(value="INSERT INTO restaurant_order (id,price,name,type,from_table,served_by,cook_notification,waiter_notification)"
+			+ " VALUES (1,:price,:name,null,:table_id,:waiter_id,1,1)" ,nativeQuery=true)
+	public void updateOrder(@Param("price") float price,
 			@Param("name") String name, 
 			@Param("table_id") Long table_id ,
 			@Param("waiter_id") Long waiter_id );

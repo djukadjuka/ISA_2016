@@ -287,22 +287,21 @@ export class EditWaiterComponent implements OnInit {
 
 order;
 
-      acceptShowOrderDialog(event)
+      acceptShowOrderDialog()
   {
     
       
-    
+    console.log(this.selected_food.food_id);
    
-      this.viewRestaurantsService.updateOrder(this.selected_food.name, this.selected_food.price, this.selected_food.table_id,1)
+      this.viewRestaurantsService.updateOrder(this.selected_food.food_name, this.selected_food.food_price, this.selected_food.table_id,1)
                             .subscribe(
                                 res =>
                                 {
-                                     this.msgs = [];
-                                     this.msgs.push({severity:'success', summary:'Your food and drink order is set succesfully!'});
-
-                                     this.selected_food = {};
                                     
 
+                                    
+                                    
+                                      this.selected_food_button = false;
                                      
                                 }
                             );

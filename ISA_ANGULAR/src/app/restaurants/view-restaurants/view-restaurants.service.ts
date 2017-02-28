@@ -121,7 +121,7 @@ export class ViewRestaurantsService {
   {
        var headers = new Headers({'Content-Type':'application/json'});
       var options = new RequestOptions({headers:headers});
-      return this._http.post(this._baseURL+"order/updateOrder/"+food_name+"/"+food_price+"/"+table_id+"/"+waiter_id,options)
+      return this._http.post(this._baseURL+"/order/updateOrder/"+food_name+"/"+food_price+"/"+table_id+"/"+waiter_id,null,options)
                         .map(res => res.json());
   }
 

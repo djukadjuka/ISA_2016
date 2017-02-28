@@ -8,6 +8,6 @@ public interface OrderService {
 
 	
 	
-	public Collection<OrderBean> updateOrder(float price,String name ,Long table,Long waiter );
+	public void updateOrder(float price,String name ,Long table,Long waiter );
 	
 }
