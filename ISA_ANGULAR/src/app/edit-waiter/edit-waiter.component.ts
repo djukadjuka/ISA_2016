@@ -86,6 +86,7 @@ export class EditWaiterComponent implements OnInit {
       creatingOrder(tablesId){
 
         console.log(tablesId);
+         this.food_show=[];
 
           this.viewRestaurantsService.getAllFood().subscribe(
       res => {
@@ -146,13 +147,13 @@ export class EditWaiterComponent implements OnInit {
   }
 
   send_order(){
-        this.food_show=[];
+       
        
            
 
 
            this.food_show.push({
-              food_name:""+this.selected_food.food_name,food_price:""+this.selected_food.food_price,
+              food_name:this.selected_food.food_name,food_price:""+this.selected_food.food_price,
               food_id:""+this.selected_food.table_id
 
            });
