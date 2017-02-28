@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.domain.EmployeeBean;
 import com.example.domain.FriendshipBean;
+import com.example.domain.RestaurantBean;
 import com.example.domain.UserBean;
 import com.example.domain.deliveryBeans.DelivererBean;
 import com.example.service.EmployeeService;
@@ -278,7 +279,10 @@ public class UserController {
 			
 			EmployeeBean radnik = this.employeeService.findOne(user.getId());
 			wrapper.setUser_id(""+user.getId());
-			wrapper.setPassword(user.getPassword()==null?null:1L);	// -.-
+
+			wrapper.setPassword(user.getPassword()==null?0:1L);	// -.-
+			wrapper.setManages_restaurants(new ArrayList<Long>());
+
 			
 			if(radnik == null){
 				DelivererBean del = this.deliverer_service.findOne(user.getId());
@@ -291,6 +295,11 @@ public class UserController {
 				
 			}else{
 				wrapper.setUser_role(radnik.getRole());
+				if(radnik.getRole().equals("MANAGER")){
+					for(RestaurantBean rest : radnik.getManages()){
+						wrapper.getManages_restaurants().add(rest.getId());
+					}
+				}				
 			}
 			
 		}
@@ -306,7 +315,14 @@ class AUTHReturnUserWrapper{
 	private String user_role;
 	private String user_id;
 	private Long password;
+	private ArrayList<Long> manages_restaurants;
 	
+	public ArrayList<Long> getManages_restaurants() {
+		return manages_restaurants;
+	}
+	public void setManages_restaurants(ArrayList<Long> manages_restaurants) {
+		this.manages_restaurants = manages_restaurants;
+	}
 	public String getUser_role() {
 		return user_role;
 	}

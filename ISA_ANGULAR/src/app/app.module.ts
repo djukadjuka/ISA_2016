@@ -61,6 +61,7 @@ import {RatingModule} from 'primeng/primeng';
 import {LightboxModule} from 'primeng/primeng';
 
 //Service imports
+import { Auth } from './auth.service';
 
 import {ViewRestaurantsService} from './restaurants/view-restaurants/view-restaurants.service';
 import { TestService } from './test/test.service';
@@ -75,7 +76,9 @@ import { InviteComponent } from './invite/invite.component';
 
 //Auth0
 
-import { Auth } from './auth.service';
+
+
+import { PleaseService } from './shared/please.service';
 
 @NgModule({
   declarations: [
@@ -136,6 +139,7 @@ import { Auth } from './auth.service';
     routing
   ],
   providers: [
+      Auth,
     TestService,
     ViewRestaurantsService,
     EditUserService,
@@ -146,7 +150,7 @@ import { Auth } from './auth.service';
     RestaurantRegistryService,
     TablesService,
     ReservationService,
-    Auth
+    PleaseService
   ],
   bootstrap: [AppComponent]
 })
