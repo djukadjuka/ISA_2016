@@ -147,7 +147,23 @@
 <!-- Dialog for questions to user -->
 <p-confirmDialog icon="fa fa-question-circle" width="425"></p-confirmDialog>
 
-<!-- Panel for showing ratings -->
+<!-- SHOW LOCATION OF RESTAURANT AASDFASFASDFASDAFSA-->
+<p-panel *ngIf="show_global_map">
+    <p-header>
+        <div class="ui-helper-clearfix">
+            <span class="ui-panel-title" style="font-size:16px;display:inline-block;margin-top:2px">Location</span>
+             <button pButton type="button" style="float: right" label='Close' class="ui-button-danger" icon='fa-close' (click)="show_global_map=false"></button>
+        </div>
+    </p-header>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <p-gmap [options]="global_map_options" [overlays]="global_map_overlays"  [style]="{'width':'100%','height':'500px'}"  
+                    (onOverlayDragEnd)="handle_drag_end($event)"></p-gmap>
+            </div>
+        </div>
+    </div>
+</p-panel>
 
 <p-panel [hidden]="!showRatingsDialog">
     <p-header>
@@ -162,7 +178,7 @@
 <!--DATA GRID OF ALL RESTAURANTS-->
 <!--Shown if the user is not editing a restaurant-->
 <!--8 Items per page-->
-<div class="row" [hidden]="showRatingsDialog">
+<div class="row" [hidden]="showRatingsDialog || show_global_map">
 <p-dataGrid *ngIf="!editing && !editingZones && !editing_something" [value]="restaurants" [paginator]="true" [rows]="8">
     
     <!--Datagrid header-->
@@ -270,6 +286,10 @@
                     </p-accordionTab>
                 </p-accordion>
                 
+                <button pButton (click)="show_location(restaurant)" label="Show Location" 
+                        icon="fa-map-marker" style="width:100%">
+                </button>
+
                 <!--RESERVATION BUTTON -->
                 <button style="width:100%" class="ui-button-success" pButton type="button" label="Reservation"
                         icon="fa-book" (click)="restaurantReservation(restaurant)"> 
