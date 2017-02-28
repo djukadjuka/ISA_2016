@@ -175,6 +175,8 @@ export class ReservationsComponent implements OnInit {
 
   acceptShowOrderDialog()
   {
+
+      
       this._reservationService.updateFoodAndDrink(+this.selectedReservationCallId, +this.selectedFood.id, +this.selectedDrink.id, this.makeOrderFast)
                             .subscribe(
                                 res =>

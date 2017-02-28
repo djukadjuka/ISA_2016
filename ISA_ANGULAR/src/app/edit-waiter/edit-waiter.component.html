@@ -169,13 +169,13 @@
             
 
    <p-dataTable [value]="food_show"  
-               [rows]="1" >
+               [rows]="1" selectionMode="single" [(selection)]="selected_food">
         <p-header>Do you want to include in order :</p-header>
         <p-column field="food_name" header="Name"></p-column>
         <p-column field="food_price" header="Price"></p-column>
         <p-column field="food_id" header="ID of table"></p-column> 
     </p-dataTable><br/>
-       <button pButton icon="fa-close" label="Confirm" style="float: right;height : 100%" (click)="acceptShowOrderDialog(food_show)"></button>
+       <button pButton icon="fa-close" label="Confirm" style="float: right;height : 100%" (click)="acceptShowOrderDialog()"></button>
 
 
 
