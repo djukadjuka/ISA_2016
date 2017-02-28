@@ -264,14 +264,17 @@ public class UserController {
 			
 			user.setFirstName(auth_user.getFirst_name());
 			user.setLastName(auth_user.getLast_name());
-			user.setEmail(auth_user.getEmail());
+			if(!auth_user.getEmail().equals(null))
+				user.setEmail(auth_user.getEmail());
+			else
+				user.setEmail("Hidden email");
 			user.setProfilePicture(auth_user.getPicture());
 			user.setAuth_code(auth_user.getAuth_id());
 			user.setUsername(auth_user.getUsername());
 			
 			user = this.userService.create(user);
 			
-			wrapper.setPassword(null);
+			wrapper.setPassword(0L);
 			wrapper.setUser_id(""+user.getId());
 			wrapper.setUser_role("USER");
 			
@@ -280,7 +283,8 @@ public class UserController {
 			EmployeeBean radnik = this.employeeService.findOne(user.getId());
 			wrapper.setUser_id(""+user.getId());
 
-			wrapper.setPassword(user.getPassword()==null?0:1L);	// -.-
+			wrapper.setPassword(1L);	// -.- Vrati 1L // ne loguje se vise prvi put!
+																		
 			wrapper.setManages_restaurants(new ArrayList<Long>());
 
 			

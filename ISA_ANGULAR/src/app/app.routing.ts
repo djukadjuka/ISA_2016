@@ -18,10 +18,10 @@ export const routing = RouterModule.forRoot([
     { path: '', component: HomeComponent},
     { path: 'account', component: EditUserComponent, canActivate: [SharedService] },
     { path: 'reservations', component: ReservationsComponent, canActivate: [SharedService] },
-    { path: 'invite/:keygen', component: InviteComponent, canActivate: [SharedService] },
+    { path: 'invite/:keygen', component: InviteComponent },
     { path: 'restaurants', component: ViewRestaurantsComponent, canActivate: [SharedService] },
     { path: 'chef',component : EditChefComponent, canActivate: [SharedService] },
     { path: 'waiter',component : EditWaiterComponent, canActivate: [SharedService] },
     { path: 'barman',component : EditBarmanComponent, canActivate: [SharedService] },
-    { path: '**', component: NotFoundComponent }
+    { path: '**', component: HomeComponent }
 ]);

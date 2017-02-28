@@ -65,10 +65,10 @@ export class EditUserComponent implements OnInit {
       lastName: ['', Validators.required],
       username: ['', Validators.required]
     });
-    
+
     //TO-DO
     //Uvezati Auth0 korisnike sa DB korisnicima i vuci korisnika po tom ID-u
-    this._editUserService.getUserById(this._sharedService.userId).debounceTime(5000)
+    this._editUserService.getUserById(this._sharedService.userId)
                          .subscribe(
                            res => {
                                this.user = res;

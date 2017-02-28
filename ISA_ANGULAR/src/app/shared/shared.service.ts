@@ -19,7 +19,7 @@ export class SharedService implements CanActivate {
   canActivate() {
 
     let canActivate = this.auth.authenticated();
-
+    
     return canActivate;
   }
 
@@ -28,12 +28,18 @@ export class SharedService implements CanActivate {
        var headers = new Headers({'Content-Type':'application/json'});
        var options = new RequestOptions({headers:headers});
        var userValue;
+       var emailValue;
+       //ako je email prazan slucajno
+       if(user.email == null)
+            emailValue = "Hidden email."
+        else
+            emailValue = user.email;
        
        if(user.user_id.substring(0, 5) != "auth0")
        {
             userValue = JSON.stringify({first_name: user.given_name ,
                                         last_name : user.family_name, 
-                                        email : user.email, 
+                                        email : emailValue, 
                                         username : user.nickname,
                                         picture : user.picture,
                                         auth_id : user.user_id})
@@ -42,7 +48,7 @@ export class SharedService implements CanActivate {
        {
             userValue = JSON.stringify({first_name: user.user_metadata.name ,
                                         last_name : user.user_metadata.lastname, 
-                                        email : user.email, 
+                                        email : emailValue, 
                                         username : user.nickname,
                                         picture : user.picture,
                                         auth_id : user.user_id})
@@ -52,33 +58,9 @@ export class SharedService implements CanActivate {
                         .map(res=>res.json());
   }
 
-  getUserData()
+  setRoles(res)
   {
-       if(this.pullUserData && localStorage.getItem('profile') != null)
-    {
-        this.userProfile = JSON.parse(localStorage.getItem('profile'));
-
-        this.isSocialAccount = this.userProfile.identities[0].isSocial;
-        
-        //ako nije verifikovao mail, saljem ga napolje
-        if(!this.userProfile.email_verified)
-        {
-            this.message = "Please verify your account over email."
-            this.auth.logout();
-        }
-        else
-            this.message = "";
-
-        this.addNewUser(this.userProfile)
-              .subscribe(
-                res => {
-                    this.userId = res.user_id;
-                    this.userEmail = this.userProfile.email;
-
-                    this.managesRestaurants = res.manages_restaurants;
-                    console.log(this.managesRestaurants);
-
-                    if(res.user_role == "MANAGER")
+      if(res.user_role == "MANAGER")
                     {
                        this.isAdmin = false;
                        this.isChef = false;
@@ -143,17 +125,74 @@ export class SharedService implements CanActivate {
                        this.isManager = false;
                        this.isDeliverer = false;
                     }
+  }
 
-                    
-                    this.pullUserData = false;
+  getUserData()
+  {
+       if(localStorage.getItem('profile') != null)
+    {
+        this.userProfile = JSON.parse(localStorage.getItem('profile'));
+        
+        //ako nije verifikovao mail, saljem ga napolje
+        if(!this.userProfile.email_verified)
+        {
+            this.message = "Please verify your account over email."
+            this.auth.logout();
+            return false;
+        }
+        else
+            this.message = "";
+
+        this.addNewUser(this.userProfile)
+              .subscribe(
+                res => {
+                    this.userId = res.user_id;
+
+                    if(this.userProfile.email == null)
+                        this.userEmail = "Hidden email";
+                    else
+                        this.userEmail = this.userProfile.email;
+
+                    this.managesRestaurants = res.manages_restaurants;
+                   
+                    this.isSocialAccount = this.userProfile.identities[0].isSocial;
+
+                    this.setRoles(res);
                     
                     //if res.password = 0, logout uz poruku da promeni pass i saljemo menjanje pass-a
+                    if(res.password == 0 && this.isSocialAccount == false)
+                    {
+                        this.message = "First login. Please change your password!"
+                        this.updateUserPassword();
+                    }
+
                 }
                 ); 
                 //Vratiti ovde id novog registrovanog
         //this.userProfile.email_verified true false
         console.log(this.userProfile);
     }
+  }
+
+  updateUserPassword()
+  {
+      
+    var request = require("request");
+
+    var options = { method: 'POST',
+    url: 'https://stkosijer.eu.auth0.com/dbconnections/change_password',
+    headers: { 'content-type': 'application/json' },
+    body: 
+    { client_id: '8WD2ZYu8u0Y5ZcfhTqgANX7Gt8FBEHpU',
+        email: this.userEmail,
+        connection: 'Username-Password-Authentication' },
+    json: true };
+
+    request(options, function (error, response, body) {
+        
+    });
+
+    this.auth.logout();
   }
 
   //Data about currently logged user
