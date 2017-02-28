@@ -264,7 +264,7 @@ values(13, 'All Oriental');
 --insert into product(id, name, description, price, is_food,type)
 --values (, '', '', );
 --=========================================================
-/*
+
 insert into product(id, name, description, price, is_food,prod_type)
 values (100001, 'Capricciosa, Italy', 'Most popular, standard pizza.', 5, TRUE,'Italian cook');
 
@@ -384,7 +384,7 @@ values (500014, 'Lemonade', 'Ice cold drink made from fresh lemons.', 3, FALSE,'
 
 insert into product(id, name, description, price, is_food,prod_type)
 values (500015, 'Orangina', 'Best soft drink from wherever the hell it is.', 999, FALSE,'Drink');
-*/
+
 --========================================
 --Table
 
