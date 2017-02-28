@@ -116,6 +116,15 @@ export class ViewRestaurantsService {
                         .map(res => res.json());
   }
 
+   updateOrder(food_name, food_price, table_id,waiter_id)
+
+  {
+       var headers = new Headers({'Content-Type':'application/json'});
+      var options = new RequestOptions({headers:headers});
+      return this._http.post(this._baseURL+"/order/updateOrder/"+food_name+"/"+food_price+"/"+table_id+"/"+waiter_id,null,options)
+                        .map(res => res.json());
+  }
+
   makeReservation(reservation)
   {
       var headers = new Headers({'Content-Type':'application/json'});

@@ -73,6 +73,10 @@ import {RestaurantRegistryService} from './restaurant_registry/restaurant-regist
 import { ReservationService } from './reservations/reservation.service';
 import { InviteComponent } from './invite/invite.component';
 
+//Auth0
+
+import { Auth } from './auth.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -141,7 +145,8 @@ import { InviteComponent } from './invite/invite.component';
     SharedService,
     RestaurantRegistryService,
     TablesService,
-    ReservationService
+    ReservationService,
+    Auth
   ],
   bootstrap: [AppComponent]
 })

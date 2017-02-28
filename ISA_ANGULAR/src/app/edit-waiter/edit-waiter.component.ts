@@ -52,6 +52,7 @@ export class EditWaiterComponent implements OnInit {
       lastName: ['', Validators.required],
       username: ['', Validators.required],
       password : ['', Validators.required],
+    
       
     });
     
@@ -113,6 +114,7 @@ export class EditWaiterComponent implements OnInit {
 
          this.allDrinkProduct = [];
           for(let item in res){
+            let waiter = this.userUpdate.id;
              let id = tablesId;
            let name = res[item].name;
            let price = res[item].price;
@@ -121,7 +123,7 @@ export class EditWaiterComponent implements OnInit {
            console.log(res);
 
             this.allDrinkProduct.push(
-             { drink_name:""+name,drink_price:""+price,table_id:""+id}
+             { drink_name:""+name,drink_price:""+price,table_id:""+id,served_by:""+waiter}
              );
        // this.schedule =res;
        
@@ -282,6 +284,28 @@ export class EditWaiterComponent implements OnInit {
 
        this.selected_drink_button = true;
      }
+
+order;
+
+      acceptShowOrderDialog()
+  {
+    
+      
+    console.log(this.selected_food.food_id);
+   
+      this.viewRestaurantsService.updateOrder(this.selected_food.food_name, this.selected_food.food_price, this.selected_food.table_id,1)
+                            .subscribe(
+                                res =>
+                                {
+                                    
+
+                                    
+                                    
+                                      this.selected_food_button = false;
+                                     
+                                }
+                            );
+  }
 
 
 }

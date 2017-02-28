@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="Order")
+@Table(name="Restaurant_order")
 public class OrderBean implements Serializable {
 
 	private static final long serialVersionUID = -8354852449631783895L;
@@ -25,7 +25,7 @@ public class OrderBean implements Serializable {
 	@Column(nullable = false , name = "name")
 	private String name;
 	
-	@Column(nullable = false , name = "type")
+	@Column(nullable = true , name = "type")
 	private String type;
 	
 	@Column(nullable = false , name = "from_table")
