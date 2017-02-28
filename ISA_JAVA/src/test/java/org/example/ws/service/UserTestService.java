@@ -1,7 +1,5 @@
 package org.example.ws.service;
 
-import java.util.Collection;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,7 +10,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.domain.UserBean;
 import com.example.service.UserService;
 import com.example.service.UserServiceBean;
 

@@ -169,6 +169,7 @@ export class ViewRestaurantsComponent implements OnInit{
 
    //get all restaurants from the database
    ngOnInit(){
+     
      this.viewRestaurantsService.getRestaurants().subscribe(
         res =>{
           this.restaurants = res;

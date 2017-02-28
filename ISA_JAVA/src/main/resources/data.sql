@@ -100,6 +100,9 @@ values (32, 'josephine.mendoza21@example.com', 'Josephine', 'Mendoza', 'test', '
 insert into user(id, email, first_name, last_name, password, profile_picture, username) 
 values (33, 'mae.henderson84@example.com', 'Mae', 'Henderson', 'test', 'NA', 'jack1');
 
+insert into user values(34, 'google-oauth2|110314511839859925553', 'milanns@live.com', 'djuka', 'djuka', NULL, 'https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg', NULL, 'milanns'
+);
+
 --=============================================
 --FRIENDSHIPS
 
@@ -604,6 +607,8 @@ insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_res
 values (766879200000,'MANAGER',null,null,3,null);
 insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)
 values (766879200000,'MANAGER',null,null,4,null);
+insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)
+values (766879200000,'MANAGER',null,null,34,null);
 
 --=============================================
 --OTHER EMPLOYEES
@@ -634,20 +639,20 @@ values (766879200000,'BARTENDER',null,null,15,3);
 --=====================================
 --STOLOVI
 --=====================================
-insert into restaurant_table(table_id, max_people,status,restaurant_zone_id,image,served_by)
-values (1, 4, 'FREE', 1,'/assets/pictures/restaurant_pictures/10.jpg',5);
+insert into restaurant_table(table_id, max_people,status,restaurant_zone_id,image)
+values (1, 4, 'FREE', 1,'/assets/pictures/restaurant_pictures/10.jpg');
 
-insert into restaurant_table(table_id, max_people,status,restaurant_zone_id,image,served_by)
-values (2, 2, 'FREE', 1,'/assets/pictures/restaurant_pictures/10.jpg',6);
+insert into restaurant_table(table_id, max_people,status,restaurant_zone_id,image)
+values (2, 2, 'FREE', 1,'/assets/pictures/restaurant_pictures/10.jpg');
 
-insert into restaurant_table(table_id, max_people,status,restaurant_zone_id,image,served_by)
-values (3, 6, 'FREE', 1,'/assets/pictures/restaurant_pictures/10.jpg',5);
+insert into restaurant_table(table_id, max_people,status,restaurant_zone_id,image)
+values (3, 6, 'FREE', 1,'/assets/pictures/restaurant_pictures/10.jpg');
 
-insert into restaurant_table(table_id, max_people,status,restaurant_zone_id,image,served_by)
-values (4, 4, 'FREE', 1,'/assets/pictures/restaurant_pictures/10.jpg',7);
+insert into restaurant_table(table_id, max_people,status,restaurant_zone_id,image)
+values (4, 4, 'FREE', 1,'/assets/pictures/restaurant_pictures/10.jpg');
 
-insert into restaurant_table(table_id, max_people,status,restaurant_zone_id,image,served_by)
-values (5, 6, 'FREE', 1,'/assets/pictures/restaurant_pictures/10.jpg',5);
+insert into restaurant_table(table_id, max_people,status,restaurant_zone_id,image)
+values (5, 6, 'FREE', 1,'/assets/pictures/restaurant_pictures/10.jpg');
 
 --=====================================
 --EMPLOYEE SCHEDZZZ
@@ -670,6 +675,15 @@ values(4,1000000100000,1000000000000,1000000100000,8,1);
 --=====================================
 --MANAGERS MANAGING RESTAURANTS
 --=====================================
+
+insert into manages_restaurants(rest_id,manager_id)
+values(1,34);
+insert into manages_restaurants(rest_id,manager_id)
+values(2,34);
+insert into manages_restaurants(rest_id,manager_id)
+values(3,34);
+insert into manages_restaurants(rest_id,manager_id)
+values(4,34);
 
 --==1,2,3 holds 1,2,3
 insert into manages_restaurants(rest_id,manager_id)
