@@ -230,4 +230,75 @@ public class UserController {
 	public ResponseEntity<Collection<UserBean>> getIdleUsers(){
 		return new ResponseEntity<Collection<UserBean>>(userService.getPossibleDeliverers(),HttpStatus.OK);
 	}
+	
+	////////////////////////////////////////////////////////
+	/////////// AUTH SERVICES
+	////////////////////////////////////////////////////////
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(value = "/auth/addNewUser",
+					method = RequestMethod.POST,
+					produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public synchronized void AUTHAddNewUser(@RequestBody AUTHUserWrapper auth_user){
+		
+		UserBean user = new UserBean();
+		
+		user.setFirstName(auth_user.getFirst_name());
+		user.setLastName(auth_user.getLast_name());
+		user.setEmail(auth_user.getEmail());
+		user.setProfilePicture(auth_user.getPicture());
+		user.setAuth_code(auth_user.getAuth_id());
+		user.setUsername(auth_user.getUsername());
+		
+		this.userService.create(user);
+	}
+	
+}
+
+//*************** auth user wrapper
+class AUTHUserWrapper{
+	private String first_name;
+	private String last_name;
+	private String email;
+	private String picture;
+	private String auth_id;
+	private String username;
+	
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getFirst_name() {
+		return first_name;
+	}
+	public void setFirst_name(String first_name) {
+		this.first_name = first_name;
+	}
+	public String getLast_name() {
+		return last_name;
+	}
+	public void setLast_name(String last_name) {
+		this.last_name = last_name;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getPicture() {
+		return picture;
+	}
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
+	public String getAuth_id() {
+		return auth_id;
+	}
+	public void setAuth_id(String auth_id) {
+		this.auth_id = auth_id;
+	}
+	
 }
