@@ -68,7 +68,7 @@ export class EditUserComponent implements OnInit {
     
     //TO-DO
     //Uvezati Auth0 korisnike sa DB korisnicima i vuci korisnika po tom ID-u
-    this._editUserService.getUserById(this._sharedService.userId)
+    this._editUserService.getUserById(this._sharedService.userId).debounceTime(5000)
                          .subscribe(
                            res => {
                                this.user = res;

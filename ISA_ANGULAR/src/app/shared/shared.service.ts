@@ -16,35 +16,11 @@ export class SharedService implements CanActivate {
   }
   
 
-// MOZDA PODESITI DA CIM POGODI 4200 da mu se postavlja login aaaaaal msm.. hmm
   canActivate() {
 
-    if(this.pullUserData)
-    {
-        this.userProfile = JSON.parse(localStorage.getItem('profile'));
-        
-        //ako nije verifikovao mail, saljem ga napolje
-        if(!this.userProfile.email_verified)
-        {
-            this.message = "Please verify your account over email."
-            this.auth.logout();
-        }
-        else
-            this.message = "";
+    let canActivate = this.auth.authenticated();
 
-        this.addNewUser(this.userProfile)
-              .subscribe(
-                res => {
-                    this.userId = res.id;
-                    this.
-                }
-                ); 
-                //Vratiti ovde id novog registrovanog
-        //this.userProfile.email_verified true false
-        console.log(this.userProfile);
-    }
-
-    return this.auth.authenticated();
+    return canActivate;
   }
 
    addNewUser(user)
@@ -78,20 +54,116 @@ export class SharedService implements CanActivate {
 
   getUserData()
   {
+       if(this.pullUserData && localStorage.getItem('profile') != null)
+    {
+        this.userProfile = JSON.parse(localStorage.getItem('profile'));
 
+        this.isSocialAccount = this.userProfile.identities[0].isSocial;
+        
+        //ako nije verifikovao mail, saljem ga napolje
+        if(!this.userProfile.email_verified)
+        {
+            this.message = "Please verify your account over email."
+            this.auth.logout();
+        }
+        else
+            this.message = "";
+
+        this.addNewUser(this.userProfile)
+              .subscribe(
+                res => {
+                    this.userId = res.user_id;
+                    this.userEmail = this.userProfile.email;
+
+                    if(res.user_role == "MANAGER")
+                    {
+                       this.isAdmin = false;
+                       this.isChef = false;
+                       this.isBartender = false;
+                       this.isWaiter = false;
+                       this.isManager = true;
+                       this.isDeliverer = false;
+                    }
+                    if(res.user_role == "WAITER")
+                    {
+                       this.isAdmin = false;
+                       this.isChef = false;
+                       this.isBartender = false;
+                       this.isWaiter = true;
+                       this.isManager = false;
+                       this.isDeliverer = false;
+                    }
+                    if(res.user_role == "BARTENDER")
+                    {
+                       this.isAdmin = false;
+                       this.isChef = false;
+                       this.isBartender = true;
+                       this.isWaiter = false;
+                       this.isManager = false;
+                       this.isDeliverer = false;
+                    }
+                    if(res.user_role == "COOK")
+                    {
+                       this.isAdmin = false;
+                       this.isChef = true;
+                       this.isBartender = false;
+                       this.isWaiter = false;
+                       this.isManager = false;
+                       this.isDeliverer = false;
+                    }
+                    if(res.user_role == "DELIVERER")
+                    {
+                       this.isAdmin = false;
+                       this.isChef = false;
+                       this.isBartender = false;
+                       this.isWaiter = false;
+                       this.isManager = false;
+                       this.isDeliverer = true;
+                    }
+
+                    if(res.user_role == "ADMIN")
+                    {
+                       this.isAdmin = true;
+                       this.isChef = false;
+                       this.isBartender = false;
+                       this.isWaiter = false;
+                       this.isManager = false;
+                       this.isDeliverer = false;
+                    }
+
+                    if(res.user_role == "USER")
+                    {
+                       this.isAdmin = true;
+                       this.isChef = false;
+                       this.isBartender = false;
+                       this.isWaiter = false;
+                       this.isManager = false;
+                       this.isDeliverer = false;
+                    }
+
+                    
+                    this.pullUserData = false;
+                    
+                    //if res.password = 0, logout uz poruku da promeni pass i saljemo menjanje pass-a
+                }
+                ); 
+                //Vratiti ovde id novog registrovanog
+        //this.userProfile.email_verified true false
+        console.log(this.userProfile);
+    }
   }
 
   //Data about currently logged user
-  public isAdmin : boolean = true;
-  public isChef : boolean = false;
-  public isCustomer : boolean = true;
-  public isBartender : boolean = false;
-  public isWaiter : boolean = false;
-  public isSocialAccount : boolean = false;
-  public isManager : boolean = true;
-  public isDeliverer : boolean = true;
+  public isAdmin : boolean;
+  public isChef : boolean;
+  public isCustomer : boolean;
+  public isBartender : boolean;
+  public isWaiter : boolean;
+  public isSocialAccount : boolean;
+  public isManager : boolean;
+  public isDeliverer : boolean;
 
-  public userId : String = "1";
+  public userId : String = "";
   public userEmail : String = "";
 
   public userProfile : any;

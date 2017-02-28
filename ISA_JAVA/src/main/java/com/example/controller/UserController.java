@@ -278,7 +278,7 @@ public class UserController {
 			
 			EmployeeBean radnik = this.employeeService.findOne(user.getId());
 			wrapper.setUser_id(""+user.getId());
-			wrapper.setPassword(user.getPassword()==null?null:1L);	// -.-
+			wrapper.setPassword(user.getPassword()==null?0:1L);	// -.-
 			
 			if(radnik == null){
 				DelivererBean del = this.deliverer_service.findOne(user.getId());
