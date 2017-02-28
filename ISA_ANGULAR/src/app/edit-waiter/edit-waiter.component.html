@@ -144,6 +144,8 @@
             <p-dataTable header="Orders" [value]="allFoodProduct" selectionMode="single" [(selection)]="selected_food" >
                 <p-column field="food_name" header="Name"></p-column>
                 <p-column field="food_price" header="Amount"></p-column>
+                <p-column field="table_id" header="Table_id"></p-column>
+                <p-column field="prod_type" header="Type"></p-column>
                 
                 <p-footer>
                     <button type="button" pButton (click)="send_order()" label="Send Order"  
@@ -154,15 +156,18 @@
         </div>
         <!--THE ENTIRE ORDER LIST-->
         <div class="ui-g-6">
+           
             <p-dataTable header="Items" [value]="food_show">
+             
                 <p-column field="item_name" header="Name"></p-column>
                 <p-column field="item_price" header="Amount"></p-column>
+                  <p-column field="table_id" header="Table_id"></p-column>
                 
                  <p-footer>
                     <button type="button" pButton (click)="send_order_test()" label="Send Order"  
                             icon="fa-check" style="width:100%;"></button>
                 </p-footer>
-               
+              
             </p-dataTable>
         </div>
     </div>

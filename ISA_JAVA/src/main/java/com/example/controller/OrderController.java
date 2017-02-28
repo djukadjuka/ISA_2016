@@ -1,9 +1,12 @@
 package com.example.controller;
 
+import java.util.Collection;
 import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.domain.deliveryBeans.DeliveryOrderBean;
 import com.example.domain.orderBeans.RestaurantOrderBean;
 import com.example.domain.orderBeans.RestaurantOrderItem;
 import com.example.service.OrderService;
@@ -59,6 +61,7 @@ public class OrderController {
 		order.setTable_id(wrapper.getRest_id());
 		order.setWaiter_id(wrapper.getUser_id());
 		HashSet<RestaurantOrderItem> items = (HashSet<RestaurantOrderItem>) order.getContains_items();
+		
 		order.setContains_items(null);
 		order.setId(this.orderService.create(order).getId());
 		for(RestaurantOrderItem item : items){
@@ -67,9 +70,20 @@ public class OrderController {
 		
 		}
 		
-		System.out.println(order.getCook_c_status());
+		System.out.println(order.getTable_id());
 	}
 	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(
+			value="/getAllTypeProd/{prod_type}",
+			method = RequestMethod.GET,
+			produces=MediaType.APPLICATION_JSON_VALUE
+			)
+	
+		public ResponseEntity<Collection<RestaurantOrderItem>> getAllTypeProd(@PathVariable("prod_type") String prod_type){
+		
+		return new ResponseEntity<Collection<RestaurantOrderItem>>(itemOrderService.getAllTypeProd(prod_type),HttpStatus.OK);
+	}
 	
 	
 }
