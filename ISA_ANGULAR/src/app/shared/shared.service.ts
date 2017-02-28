@@ -75,6 +75,9 @@ export class SharedService implements CanActivate {
                     this.userId = res.user_id;
                     this.userEmail = this.userProfile.email;
 
+                    this.managesRestaurants = res.manages_restaurants;
+                    console.log(this.managesRestaurants);
+
                     if(res.user_role == "MANAGER")
                     {
                        this.isAdmin = false;
@@ -162,6 +165,7 @@ export class SharedService implements CanActivate {
   public isSocialAccount : boolean;
   public isManager : boolean;
   public isDeliverer : boolean;
+  public managesRestaurants : any;
 
   public userId : String = "";
   public userEmail : String = "";
