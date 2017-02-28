@@ -84,4 +84,9 @@ public class UserServiceBean implements UserService{
 		this.userRepo.fireManagerAllTogether(user_id);
 	}
 
+	@Override
+	public UserBean findUserByAuthCodeYo(String auth_code) {
+		return this.userRepo.findUserByAuthCodeYo(auth_code);
+	}
+
 }

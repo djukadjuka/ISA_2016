@@ -21,6 +21,7 @@ export class EditWaiterComponent implements OnInit {
    private creating_new_order: boolean = false ; 
    private selected_food_button: boolean = false;
    private selected_drink_button: boolean = false ;
+   private oznaka =0;
    user ;
    schedule = [];
 
@@ -85,6 +86,7 @@ export class EditWaiterComponent implements OnInit {
       creatingOrder(tablesId){
 
         console.log(tablesId);
+         this.food_show=[];
 
           this.viewRestaurantsService.getAllFood().subscribe(
       res => {
@@ -137,11 +139,59 @@ export class EditWaiterComponent implements OnInit {
           this.creating_new_order = true;
 
 
+
+
       }
 
  showEditDialog(){
 
     this.displayEditButton = true ; 
+  }
+
+
+  send_order_test(){
+
+    console.log(this.food_show);
+
+
+     let order_api = {
+         cook_c_status:"1",
+         cook_i_status:"1",
+         order_status:"1",
+         price:20,
+         waiter_status:"1",
+         contains_items:this.food_show
+       }
+       let wrapper = {
+         order:order_api,
+         rest_id:1,
+         user_id:1
+         
+       }
+       console.log(wrapper);
+       
+        this.viewRestaurantsService.createNewOrder(wrapper).subscribe(
+         res=>{
+         //  this.order_with_items = [];
+          // this.fake_key = 0;
+         }
+       );
+
+  }
+
+  send_order(){
+       
+       
+           
+
+
+           this.food_show.push({
+              item_name:this.selected_food.food_name,item_price:""+this.selected_food.food_price,
+              table_id:""+this.selected_food.table_id,item_type:"cook"
+
+           });
+         //   console.log(this.food_show);
+
   }
 
 
@@ -255,7 +305,7 @@ export class EditWaiterComponent implements OnInit {
 
 
            this.food_show.push({
-              food_name:""+this.selected_food.food_name,food_price:""+this.selected_food.food_price,
+              item_name:""+this.selected_food.food_name,item_price:""+this.selected_food.food_price,
               food_id:""+this.selected_food.table_id
 
            });
@@ -289,7 +339,7 @@ order;
 
       acceptShowOrderDialog()
   {
-    
+    this.oznaka= this.oznaka +1 ;
       
     console.log(this.selected_food.food_id);
    

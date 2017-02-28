@@ -301,6 +301,15 @@ export class ViewRestaurantsService {
       res=>"finished..."
     );
   }
+
+  createNewOrder(deliveryOrder){
+        var headers = new Headers({'Content-Type':'application/json'});
+    var options = new RequestOptions({headers:headers});
+    return this._http.post(this._baseURL+"/order_controller/sendNewOrder",JSON.stringify(deliveryOrder),options).map(
+      res=>"finished..."
+    );
+
+  }
   acceptBid(payload){
     var headers = new Headers({'Content-Type':'application/json'});
     var options = new RequestOptions({headers:headers});

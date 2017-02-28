@@ -123,44 +123,54 @@
   </div>
     </p-dialog>
 
-<!--ORDER  -->
-
+<!--=====================================================================-->
+<!--================= CREATE ORDER-->
+<!--=====================================================================-->
 <p-panel *ngIf="creating_new_order" >
     <p-header>
         <div class="ui-g">
             <div class="ui-g-6">
-                <h3 style="float: left;"> Creating new order for :   </h3>
+                <h3 style="float: left;"> Create New  Order </h3>
             </div>
             <div class="ui-g-6">
-                <button pButton icon="fa-close" label="Close" style="float: right;height : 100%" (click)="close_new_order_panel()"></button>
+                <button pButton icon="fa-close" label="Close" style="float: right;height : 100%" (click)="close_create_new_delivery()"></button>
             </div>
         </div>
     </p-header>
+    <div class="ui-g">
+        <!--SPECIFY ONE ITEM AND ADD TO LIST-->
+        <div class="ui-g-6">
+            <div class="ui-g-6">
+            <p-dataTable header="Orders" [value]="allFoodProduct" selectionMode="single" [(selection)]="selected_food" >
+                <p-column field="food_name" header="Name"></p-column>
+                <p-column field="food_price" header="Amount"></p-column>
+                
+                <p-footer>
+                    <button type="button" pButton (click)="send_order()" label="Send Order"  
+                            icon="fa-check" style="width:100%;"></button>
+                </p-footer>
+            </p-dataTable>
+        </div>
+        </div>
+        <!--THE ENTIRE ORDER LIST-->
+        <div class="ui-g-6">
+            <p-dataTable header="Items" [value]="food_show">
+                <p-column field="item_name" header="Name"></p-column>
+                <p-column field="item_price" header="Amount"></p-column>
+                
+                 <p-footer>
+                    <button type="button" pButton (click)="send_order_test()" label="Send Order"  
+                            icon="fa-check" style="width:100%;"></button>
+                </p-footer>
+               
+            </p-dataTable>
+        </div>
+    </div>
 
-    <p>Select a product from the data table to include in order.<br/>
-   </p><br/>
-
-    <p-dataTable [value]="allFoodProduct" selectionMode="single" 
-                [(selection)]="selected_food" [rows]="5" [paginator]="true" [pageLinks]="3" (onRowSelect)="selected_food_dialog($event)">
-        <p-header>Food</p-header>
-        <p-column field="food_name" header="Name"></p-column>
-        <p-column field="food_price" header="Price"></p-column>
-        <p-column field="table_id" header="ID of table"></p-column>
-    </p-dataTable><br/>
-
-     <p-dataTable [value]="allDrinkProduct" selectionMode="single" 
-                [(selection)]="selected_drink" [rows]="5" [paginator]="true" [pageLinks]="3" (onRowSelect)="selected_drink_dialog($event)">
-        <p-header>Drink</p-header>
-        <p-column field="drink_name" header="Name"></p-column>
-        <p-column field="drink_price" header="Price"></p-column>
-        <p-column field="table_id" header="ID of table"></p-column> 
-       
-    </p-dataTable><br/>
-
-
-   
 
 </p-panel>
+
+
 
 
 
