@@ -40,7 +40,7 @@ public class UserBean implements Serializable{
 	@Column(nullable = false)
 	private String username;
 	
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String password;
 	
 	@Column(nullable = false)
@@ -141,7 +141,7 @@ public class UserBean implements Serializable{
 		this.profilePicture = profilePicture;
 	}
 	
-	protected UserBean(){
+	public UserBean(){
 		
 	}
 	
