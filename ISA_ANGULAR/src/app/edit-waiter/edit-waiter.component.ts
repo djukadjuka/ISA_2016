@@ -21,6 +21,7 @@ export class EditWaiterComponent implements OnInit {
    private creating_new_order: boolean = false ; 
    private selected_food_button: boolean = false;
    private selected_drink_button: boolean = false ;
+   private oznaka =0;
    user ;
    schedule = [];
 
@@ -85,6 +86,7 @@ export class EditWaiterComponent implements OnInit {
       creatingOrder(tablesId){
 
         console.log(tablesId);
+         this.food_show=[];
 
           this.viewRestaurantsService.getAllFood().subscribe(
       res => {
@@ -142,6 +144,21 @@ export class EditWaiterComponent implements OnInit {
  showEditDialog(){
 
     this.displayEditButton = true ; 
+  }
+
+  send_order(){
+       
+       
+           
+
+
+           this.food_show.push({
+              food_name:this.selected_food.food_name,food_price:""+this.selected_food.food_price,
+              food_id:""+this.selected_food.table_id
+
+           });
+            console.log(this.food_show);
+
   }
 
 
@@ -289,7 +306,7 @@ order;
 
       acceptShowOrderDialog()
   {
-    
+    this.oznaka= this.oznaka +1 ;
       
     console.log(this.selected_food.food_id);
    
