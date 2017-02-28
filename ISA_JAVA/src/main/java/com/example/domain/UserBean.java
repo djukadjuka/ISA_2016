@@ -46,8 +46,11 @@ public class UserBean implements Serializable{
 	@Column(nullable = false)
 	private String email;
 	
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String profilePicture;
+	
+	@Column(nullable = true)
+	private String auth_code;
 	
 	@Column(name="requested_deliverer",nullable = true)
 	private Integer requested_deliverer;
@@ -142,6 +145,14 @@ public class UserBean implements Serializable{
 		
 	}
 	
+	public String getAuth_code() {
+		return auth_code;
+	}
+
+	public void setAuth_code(String auth_code) {
+		this.auth_code = auth_code;
+	}
+
 	public UserBean(long id){
 		super();
 		this.id = id;

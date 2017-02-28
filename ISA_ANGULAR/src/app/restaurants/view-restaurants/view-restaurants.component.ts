@@ -268,7 +268,6 @@ export class ViewRestaurantsComponent implements OnInit{
     this.editing = true;
    }
 
-   google_maps;
    google_map_options;
 
    saveUpdate(){
@@ -1652,6 +1651,21 @@ export class ViewRestaurantsComponent implements OnInit{
           this.delivery_bid_subscription.unsubscribe();
           this.delivery_bid_subscription = null;
         }
+    }
+
+    show_global_map;
+    global_map_options;
+    global_map_overlays : any[];
+    show_location(restaurant){
+      this.global_map_options = new GMapOptions(+restaurant.lng,+restaurant.lat).options;
+      this.global_map_overlays = [
+        new google.maps.Marker({position:{lat:restaurant.lat,lng:restaurant.lng},title:"Restaurants Position",draggable:false})
+      ];
+      this.show_global_map  = true;
+    }
+
+    handle_drag_end($event){
+
     }
 
 }
