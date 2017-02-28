@@ -225,7 +225,7 @@
 <!--==============================================================================-->
 <!--================ ACCORDION TO SHOW EDITING OPTIONS-->
 <!--==============================================================================-->
-                <p-accordion>
+                <p-accordion *ngIf="_sharedService.managesRestaurants.indexOf(restaurant.id) != -1">
                     <p-accordionTab header="Options">
                         
                         <!--EDIT RESTAURANT BUTTON-->

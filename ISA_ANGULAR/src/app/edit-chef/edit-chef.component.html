@@ -14,7 +14,7 @@
       </p>
   
  <p>
-          <input class="btn btn-primary" value="Orders" type="button">
+          <input class="btn btn-primary" value="Orders" type="button"  (click)="displayOrder()">
 
      <p>
           <input class="btn btn-primary" value="EditPersonal" type="button" (click)="showEditDialog()">
@@ -47,6 +47,19 @@
                     <p-column field="from" header="From (h)"></p-column>
                     <p-column field="to" header="To (h)"></p-column>
                     <p-column field="date" header="On Date"></p-column>
+            </p-dataTable><br/>
+        </div>
+</p-dialog>
+
+<p-dialog header="Pending orders" [responsive]=true [resizable]=false [draggable]=false width="1000" [modal]=true [(visible)]="displayOrderButton">
+<div class="ui-g-8">
+            <p-dataTable [value]="allPendingProd" rows="20" 
+                        [paginator]="true" [pageLinks]="5" 
+                        [rowsPerPageOptions]="[5,10,20]">
+                <p-header>Pending orders : </p-header>
+                    <p-column field="name" header="Food name " item-width="50"></p-column>
+                    <p-column field="price" header="Amount "></p-column>
+                  
             </p-dataTable><br/>
         </div>
 </p-dialog>

@@ -100,6 +100,9 @@ values (32, 'josephine.mendoza21@example.com', 'Josephine', 'Mendoza', 'test', '
 insert into user(id, email, first_name, last_name, password, profile_picture, username) 
 values (33, 'mae.henderson84@example.com', 'Mae', 'Henderson', 'test', 'NA', 'jack1');
 
+insert into user values(34, 'google-oauth2|110314511839859925553', 'milanns@live.com', 'djuka', 'djuka', NULL, 'https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg', NULL, 'milanns'
+);
+
 --=============================================
 --FRIENDSHIPS
 
@@ -258,128 +261,129 @@ values(13, 'All Oriental');
 --PRODUCTS
 --FOOD FROM 10001 TO 50000
 --DRINKS FROM 50001
---insert into product(id, name, description, price, is_food)
+--insert into product(id, name, description, price, is_food,type)
 --values (, '', '', );
 --=========================================================
-insert into product(id, name, description, price, is_food)
-values (100001, 'Capricciosa, Italy', 'Most popular, standard pizza.', 5, TRUE);
 
-insert into product(id, name, description, price, is_food)
-values (100002, 'Quattro Formaggi, Italy', 'Pizza with four different types of cheese.', 7, TRUE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (100001, 'Capricciosa, Italy', 'Most popular, standard pizza.', 5, TRUE,'Italian cook');
 
-insert into product(id, name, description, price, is_food)
-values (100003, 'Beef Wellington, Italy', 'Famous bread crusted beef dish.', 15, TRUE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (100002, 'Quattro Formaggi, Italy', 'Pizza with four different types of cheese.', 7, TRUE,'Italian cook');
 
-insert into product(id, name, description, price, is_food)
-values (100004, 'Seafood paella, Spain', 'Shrimp, lobster, mussels and cuttlefish combine with white rice and various herbs.', 14, TRUE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (100003, 'Beef Wellington, Italy', 'Famous bread crusted beef dish.', 15, TRUE,'Italian cook');
 
-insert into product(id, name, description, price, is_food)
-values (100005, 'Som tam, Thailand', ' Thailands most famous salad, pound garlic and chilies with a mortar and pestle. ',14 , TRUE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (100004, 'Seafood paella, Spain', 'Shrimp, lobster, mussels and cuttlefish combine with white rice and various herbs.', 14, TRUE,'Spanish cook');
 
-insert into product(id, name, description, price, is_food)
-values (100006, 'Chicken rice, Singapore', 'Boiled chicken is served atop fragrant oily rice, with sliced cucumber.', 10, TRUE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (100005, 'Som tam, Thailand', ' Thailands most famous salad, pound garlic and chilies with a mortar and pestle. ',14 , TRUE,'Asian cook');
 
-insert into product(id, name, description, price, is_food)
-values (100007, 'Tacos, Mexico', 'A fresh, handmade tortilla stuffed with small chunks of grilled beef.', 3, TRUE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (100006, 'Chicken rice, Singapore', 'Boiled chicken is served atop fragrant oily rice, with sliced cucumber.', 10, TRUE,'Asian cook');
 
-insert into product(id, name, description, price, is_food)
-values (100008, 'Buttered toast with Marmite, Britain', 'Marmelade and toast soaked in butter.', 4, TRUE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (100007, 'Tacos, Mexico', 'A fresh, handmade tortilla stuffed with small chunks of grilled beef.', 3, TRUE,'Spanish cook');
 
-insert into product(id, name, description, price, is_food)
-values (100009, 'Marzipan, Germany', 'Ground almonds with sugar.', 10, TRUE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (100008, 'Buttered toast with Marmite, Britain', 'Marmelade and toast soaked in butter.', 4, TRUE,'Britain cook');
 
-insert into product(id, name, description, price, is_food)
-values (100010, 'French toast, Hong Kong', 'Hong Kong-style French toast.', 11, TRUE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (100009, 'Marzipan, Germany', 'Ground almonds with sugar.', 10, TRUE,'Britain cook');
 
-insert into product(id, name, description, price, is_food)
-values (100011, 'Chicken parm, Australia', 'Melted Parmesan and mozzarella cheese, and a peppery, garlicky tomato sauce.', 6, TRUE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (100010, 'French toast, Hong Kong', 'Hong Kong-style French toast.', 11, TRUE,'Asian cook');
 
-insert into product(id, name, description, price, is_food)
-values (100012, 'Chili crab, Singapore', 'Spicy, sloppy, meaty specialty.', 11, TRUE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (100011, 'Chicken parm, Australia', 'Melted Parmesan and mozzarella cheese, and a peppery, garlicky tomato sauce.', 6, TRUE,'Asian cook');
 
-insert into product(id, name, description, price, is_food)
-values (100013, 'Fish ‘n’ chips, Britain', 'Sprinkled with salt, vinegar and dollops of tartar sauce.', 10, TRUE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (100012, 'Chili crab, Singapore', 'Spicy, sloppy, meaty specialty.', 11, TRUE,'Asian cook');
 
-insert into product(id, name, description, price, is_food)
-values (100014, 'Ankimo, Japan', 'The monkfish/anglerfish that unknowingly bestows its liver upon upscale sushi fans.', 11, TRUE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (100013, 'Fish ‘n’ chips, Britain', 'Sprinkled with salt, vinegar and dollops of tartar sauce.', 10, TRUE,'Britain cook');
 
-insert into product(id, name, description, price, is_food)
-values (100015, 'Montreal-style smoked meat, Canada', 'smoked beef sandwich medium-lean, heavy on the mustard.', 12, TRUE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (100014, 'Ankimo, Japan', 'The monkfish/anglerfish that unknowingly bestows its liver upon upscale sushi fans.', 11, TRUE,'Asian cook');
 
-insert into product(id, name, description, price, is_food)
-values (100016, ' Fajitas, Mexico', 'Meat, throw side servings of capsicum, onion, guacamole, sour cream.', 13, TRUE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (100015, 'Montreal-style smoked meat, Canada', 'smoked beef sandwich medium-lean, heavy on the mustard.', 12, TRUE,'Britain cook');
 
-insert into product(id, name, description, price, is_food)
-values (100017, 'Champ, Ireland', ' Mashed potato with spring onions.', 4, TRUE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (100016, ' Fajitas, Mexico', 'Meat, throw side servings of capsicum, onion, guacamole, sour cream.', 13, TRUE,'Spanish cook');
 
-insert into product(id, name, description, price, is_food)
-values (100018, ' Lasagna, Italy', ' pasta-layered, tomato-sauce-infused, minced-meat.', 10, TRUE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (100017, 'Champ, Ireland', ' Mashed potato with spring onions.', 4, TRUE,'Britain cook');
 
-insert into product(id, name, description, price, is_food)
-values (100019, 'Croissant, France', 'Flaky pastry smothered in butter.', 2, TRUE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (100018, ' Lasagna, Italy', ' pasta-layered, tomato-sauce-infused, minced-meat.', 10, TRUE,'Italian cook');
 
-insert into product(id, name, description, price, is_food)
-values (100020, 'Arepas, Venezuela', 'A corn-dough patty that provides a savory canvas .', 4, TRUE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (100019, 'Croissant, France', 'Flaky pastry smothered in butter.', 2, TRUE,'French cook');
 
-insert into product(id, name, description, price, is_food)
-values (100021, 'Kebab, Iran', 'REMOVE!', 1, TRUE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (100020, 'Arepas, Venezuela', 'A corn-dough patty that provides a savory canvas .', 4, TRUE,'Spanish cook');
 
-insert into product(id, name, description, price, is_food)
-values (100022, 'Kalua pig, United States', 'Whole pig roasted in an underground sand pit for six or seven hours.', 25, TRUE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (100021, 'Kebab, Iran', 'REMOVE!', 1, TRUE,null);
 
-insert into product(id, name, description, price, is_food)
-values (100023, 'Donuts, United States', 'Well known US snack.', 2, TRUE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (100022, 'Kalua pig, United States', 'Whole pig roasted in an underground sand pit for six or seven hours.', 25, TRUE,'Britain cook');
 
-insert into product(id, name, description, price, is_food)
-values (100024, 'Shepherd’s pie, Britain', 'Minced lamb topped with mashed potato', 13, TRUE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (100023, 'Donuts, United States', 'Well known US snack.', 2, TRUE,'Britain cook');
 
-insert into product(id, name, description, price, is_food)
-values (100025, 'Chicken muamba, Gabon', 'Chicken, hot chili, garlic, tomato, pepper, salt, okra and palm butter', 10, TRUE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (100024, 'Shepherd’s pie, Britain', 'Minced lamb topped with mashed potato', 13, TRUE,'Britain cook');
 
-insert into product(id, name, description, price, is_food)
-values (500001, 'Geil Trocken Spätburgunder', 'Famous Wine 2015', 22, FALSE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (100025, 'Chicken muamba, Gabon', 'Chicken, hot chili, garlic, tomato, pepper, salt, okra and palm butter', 10, TRUE,'African cook');
 
-insert into product(id, name, description, price, is_food)
-values (500002, 'Domaine Jorel, La Garrigue', 'Rare Wine 2003', 32, FALSE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (500001, 'Geil Trocken Spätburgunder', 'Famous Wine 2015', 22, FALSE,'Drink');
 
-insert into product(id, name, description, price, is_food)
-values (500003, 'Stoller Reserve Chardonnay', 'Famous Chardonnay 2014', 33, FALSE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (500002, 'Domaine Jorel, La Garrigue', 'Rare Wine 2003', 32, FALSE,'Drink');
 
-insert into product(id, name, description, price, is_food)
-values (500004, 'Omero Cellars Pinot Gris', 'Well known Pinot, 2014', 22, FALSE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (500003, 'Stoller Reserve Chardonnay', 'Famous Chardonnay 2014', 33, FALSE,'Drink');
 
-insert into product(id, name, description, price, is_food)
-values (500005, 'Ghost Pines Zinfandel', 'Excellent German Wine 2014', 16, FALSE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (500004, 'Omero Cellars Pinot Gris', 'Well known Pinot, 2014', 22, FALSE,'Drink');
 
-insert into product(id, name, description, price, is_food)
-values (500006, 'Guinness', 'Irelands famous beer.', 10, FALSE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (500005, 'Ghost Pines Zinfandel', 'Excellent German Wine 2014', 16, FALSE,'Drink');
 
-insert into product(id, name, description, price, is_food)
-values (500007, 'Bud Light', 'US famous beer.', 4, FALSE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (500006, 'Guinness', 'Irelands famous beer.', 10, FALSE,'Drink');
 
-insert into product(id, name, description, price, is_food)
-values (500008, 'Budweiser', 'US most popular beer.', 5, FALSE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (500007, 'Bud Light', 'US famous beer.', 4, FALSE,'Drink');
 
-insert into product(id, name, description, price, is_food)
-values (500009, 'Skol', 'Famous Brazillian beer.', 2, FALSE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (500008, 'Budweiser', 'US most popular beer.', 5, FALSE,'Drink');
 
-insert into product(id, name, description, price, is_food)
-values (500010, 'Heineken', 'Best beer from the Netherlands', 10, FALSE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (500009, 'Skol', 'Famous Brazillian beer.', 2, FALSE,'Drink');
 
-insert into product(id, name, description, price, is_food)
-values (500011, 'Coca-Cola', 'US famous soft drink.', 2, FALSE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (500010, 'Heineken', 'Best beer from the Netherlands', 10, FALSE,'Drink');
 
-insert into product(id, name, description, price, is_food)
-values (500012, 'Pepsi', 'US second famous soft drink.', 2, FALSE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (500011, 'Coca-Cola', 'US famous soft drink.', 2, FALSE,'Drink');
 
-insert into product(id, name, description, price, is_food)
-values (500013, 'Sprite', 'Refreshing soft drink.', 2, FALSE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (500012, 'Pepsi', 'US second famous soft drink.', 2, FALSE,'Drink');
 
-insert into product(id, name, description, price, is_food)
-values (500014, 'Lemonade', 'Ice cold drink made from fresh lemons.', 3, FALSE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (500013, 'Sprite', 'Refreshing soft drink.', 2, FALSE,'Drink');
 
-insert into product(id, name, description, price, is_food)
-values (500015, 'Orangina', 'Best soft drink from wherever the hell it is.', 999, FALSE);
+insert into product(id, name, description, price, is_food,prod_type)
+values (500014, 'Lemonade', 'Ice cold drink made from fresh lemons.', 3, FALSE,'Drink');
+
+insert into product(id, name, description, price, is_food,prod_type)
+values (500015, 'Orangina', 'Best soft drink from wherever the hell it is.', 999, FALSE,'Drink');
 
 --========================================
 --Table
@@ -604,6 +608,8 @@ insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_res
 values (766879200000,'MANAGER',null,null,3,null);
 insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)
 values (766879200000,'MANAGER',null,null,4,null);
+insert into employee(date_of_birth,role,shoe_size,suit_size,user_id,works_in_restaurant)
+values (766879200000,'MANAGER',null,null,34,null);
 
 --=============================================
 --OTHER EMPLOYEES
@@ -634,20 +640,20 @@ values (766879200000,'BARTENDER',null,null,15,3);
 --=====================================
 --STOLOVI
 --=====================================
-insert into restaurant_table(table_id, max_people,status,restaurant_zone_id,image,served_by)
-values (1, 4, 'FREE', 1,'/assets/pictures/restaurant_pictures/10.jpg',5);
+insert into restaurant_table(table_id, max_people,status,restaurant_zone_id,image)
+values (1, 4, 'FREE', 1,'/assets/pictures/restaurant_pictures/10.jpg');
 
-insert into restaurant_table(table_id, max_people,status,restaurant_zone_id,image,served_by)
-values (2, 2, 'FREE', 1,'/assets/pictures/restaurant_pictures/10.jpg',6);
+insert into restaurant_table(table_id, max_people,status,restaurant_zone_id,image)
+values (2, 2, 'FREE', 1,'/assets/pictures/restaurant_pictures/10.jpg');
 
-insert into restaurant_table(table_id, max_people,status,restaurant_zone_id,image,served_by)
-values (3, 6, 'FREE', 1,'/assets/pictures/restaurant_pictures/10.jpg',5);
+insert into restaurant_table(table_id, max_people,status,restaurant_zone_id,image)
+values (3, 6, 'FREE', 1,'/assets/pictures/restaurant_pictures/10.jpg');
 
-insert into restaurant_table(table_id, max_people,status,restaurant_zone_id,image,served_by)
-values (4, 4, 'FREE', 1,'/assets/pictures/restaurant_pictures/10.jpg',7);
+insert into restaurant_table(table_id, max_people,status,restaurant_zone_id,image)
+values (4, 4, 'FREE', 1,'/assets/pictures/restaurant_pictures/10.jpg');
 
-insert into restaurant_table(table_id, max_people,status,restaurant_zone_id,image,served_by)
-values (5, 6, 'FREE', 1,'/assets/pictures/restaurant_pictures/10.jpg',5);
+insert into restaurant_table(table_id, max_people,status,restaurant_zone_id,image)
+values (5, 6, 'FREE', 1,'/assets/pictures/restaurant_pictures/10.jpg');
 
 --=====================================
 --EMPLOYEE SCHEDZZZ
@@ -670,6 +676,15 @@ values(4,1000000100000,1000000000000,1000000100000,8,1);
 --=====================================
 --MANAGERS MANAGING RESTAURANTS
 --=====================================
+
+insert into manages_restaurants(rest_id,manager_id)
+values(1,34);
+insert into manages_restaurants(rest_id,manager_id)
+values(2,34);
+insert into manages_restaurants(rest_id,manager_id)
+values(3,34);
+insert into manages_restaurants(rest_id,manager_id)
+values(4,34);
 
 --==1,2,3 holds 1,2,3
 insert into manages_restaurants(rest_id,manager_id)

@@ -77,7 +77,7 @@ public class ZoneController {
 			TableBean table = new TableBean();
 			table.setMaxPeople(rzb.getTables_for_x());
 			table.setStatus(TableBean.TableStatus.FREE);
-			table.setServed_by(null);
+			//table.setServed_by(null);
 			table.setRestaurant_zone_id(rzb);
 			
 			this.table_service.create(table);
@@ -101,7 +101,7 @@ public class ZoneController {
 			TableBean table = new TableBean();
 			table.setMaxPeople(zone.getTables_for_x());
 			table.setStatus(TableBean.TableStatus.FREE);
-			table.setServed_by(null);
+			//table.setServed_by(null);
 			table.setRestaurant_zone_id(zone);
 			
 			this.table_service.create(table);
