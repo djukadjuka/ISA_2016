@@ -15,6 +15,7 @@ export class EditChefComponent implements OnInit {
 private displayScheduleeButton: boolean = false;
   private displayScheduleButton: boolean =false;
   private displayEditButton :boolean = false ;
+  private displayOrderButton: boolean = false ; 
    private user = {};
     private userUpdate = {username: "", id: ""};
     private msgs: Message[] = [];
@@ -65,6 +66,50 @@ private displayScheduleeButton: boolean = false;
   showEditDialog(){
 
     this.displayEditButton = true ; 
+  }
+
+  typeOfEmp;
+  allPendingProd;
+
+  displayOrder(){
+this.typeOfEmp="Italian cook";
+
+
+       this._restaurantService.getAllTypeProd(this.typeOfEmp).subscribe(
+      res => {
+            this.allPendingProd = [];
+
+        for(let item in res){
+         
+          let item_id = res[item].id;
+          let item_name = res[item].item_name;
+          let item_price = res[item].item_price;
+          let item_type = res[item].item_type;
+          let status = res[item].order_item_status;
+          let belong = res[item].belongs_to_order;
+
+console.log(res);
+         this.allPendingProd.push({
+
+              name:""+item_name,price:""+item_price
+
+
+         });
+
+           console.log(res);
+
+           
+       // this.schedule =res;
+       
+      }
+
+           console.log(res);
+      }
+
+       );
+
+
+    this.displayOrderButton = true ; 
   }
 
 

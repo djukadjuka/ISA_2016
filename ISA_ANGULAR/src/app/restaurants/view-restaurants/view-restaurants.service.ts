@@ -401,4 +401,11 @@ export class ViewRestaurantsService {
 
   }
 
+   getAllTypeProd(prod_type)
+  {
+    return this._http.get(this._baseURL + "/getAllTypeProd/"+prod_type )
+      .map(res=>res.json()); 
+
+  }
+
 }
