@@ -63,7 +63,7 @@ export class Auth {
 
   constructor(public router: Router) {
 
-    this.userProfile = JSON.parse(localStorage.getItem('profile'));
+    this.userProfile = localStorage.getItem(JSON.stringify('profile'));
 
     // Add callback for lock `authenticated` event
     this.lock.on('authenticated', (authResult) => {
@@ -71,12 +71,12 @@ export class Auth {
       
       this.lock.getProfile(authResult.idToken, function (err, profile) {
         if(err) {
-          // handle error
           return;
         }
 
         localStorage.setItem('profile', JSON.stringify(profile));
-        //PleaseService.userInfo = this.userProfile;
+
+        
       });
         });
   }

@@ -413,6 +413,9 @@ export class EditUserComponent implements OnInit {
               header: 'Change password',
               message: 'Email with instructions on how to change your password will be sent to you. Are you sure you want this?',
               accept: () => {
+                  
+                  this.msgs = [];
+                  this.msgs.push({severity:'success', summary:'Check your email.'});
                   this._editUserService.updateUserPassword();
               }
           });

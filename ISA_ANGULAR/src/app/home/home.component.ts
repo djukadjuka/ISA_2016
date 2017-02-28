@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Auth } from '../auth.service';
+import { SharedService } from '../shared/shared.service';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +9,7 @@ import { Auth } from '../auth.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private auth: Auth) { }
+  constructor(private auth: Auth, private sharedService : SharedService) { }
 
   ngOnInit() {
   }

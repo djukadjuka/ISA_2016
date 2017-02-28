@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Http,Headers,RequestOptions,RequestMethod,Request,Response} from '@angular/http';
 import 'rxjs/Rx';
 import { SharedService } from '../shared/shared.service';
+import { Auth } from '../auth.service';
 
 @Injectable()
 export class EditUserService {
@@ -10,7 +11,8 @@ export class EditUserService {
 
   constructor(
         private _http : Http,
-        private _sharedService : SharedService ) { }
+        private _sharedService : SharedService,
+        private _auth : Auth ) { }
 
   /**
    * Data for the deliverer
@@ -141,13 +143,15 @@ export class EditUserService {
     headers: { 'content-type': 'application/json' },
     body: 
     { client_id: '8WD2ZYu8u0Y5ZcfhTqgANX7Gt8FBEHpU',
-        email: 'stkosijer@gmail.com',
+        email: this._sharedService.userEmail,
         connection: 'Username-Password-Authentication' },
     json: true };
 
     request(options, function (error, response, body) {
-        if (error) throw new Error(error);
+        
     });
+
+    this._auth.logout();
   }
 
   //////////////////////////////////////////////////////deliverer things

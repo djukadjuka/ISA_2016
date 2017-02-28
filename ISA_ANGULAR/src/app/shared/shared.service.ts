@@ -12,8 +12,6 @@ export class SharedService implements CanActivate {
 
   constructor(private auth: Auth, private router : Router,  private _http : Http) {
 
-    alert("shared");
-    console.log(localStorage.getItem('profile'));
      this.getUserData();
   }
   
@@ -21,11 +19,30 @@ export class SharedService implements CanActivate {
 // MOZDA PODESITI DA CIM POGODI 4200 da mu se postavlja login aaaaaal msm.. hmm
   canActivate() {
 
-    this.userProfile = localStorage.getItem('profile');
+    if(this.pullUserData)
+    {
+        this.userProfile = JSON.parse(localStorage.getItem('profile'));
+        
+        //ako nije verifikovao mail, saljem ga napolje
+        if(!this.userProfile.email_verified)
+        {
+            this.message = "Please verify your account over email."
+            this.auth.logout();
+        }
+        else
+            this.message = "";
 
-    //this.userProfile.email_verified true false
-    console.log(this.userProfile);
-    console.log(localStorage.getItem('token_id'));
+        this.addNewUser(this.userProfile)
+              .subscribe(
+                res => {
+                    this.userId = res.id;
+                    this.
+                }
+                ); 
+                //Vratiti ovde id novog registrovanog
+        //this.userProfile.email_verified true false
+        console.log(this.userProfile);
+    }
 
     return this.auth.authenticated();
   }
@@ -34,14 +51,29 @@ export class SharedService implements CanActivate {
   {
        var headers = new Headers({'Content-Type':'application/json'});
        var options = new RequestOptions({headers:headers});
+       var userValue;
+       
+       if(user.user_id.substring(0, 5) != "auth0")
+       {
+            userValue = JSON.stringify({first_name: user.given_name ,
+                                        last_name : user.family_name, 
+                                        email : user.email, 
+                                        username : user.nickname,
+                                        picture : user.picture,
+                                        auth_id : user.user_id})
+       }
+       else
+       {
+            userValue = JSON.stringify({first_name: user.user_metadata.name ,
+                                        last_name : user.user_metadata.lastname, 
+                                        email : user.email, 
+                                        username : user.nickname,
+                                        picture : user.picture,
+                                        auth_id : user.user_id})
+       }
 
-       return this._http.post(this._baseURL+"/auth/addNewUser",JSON.stringify({first_name: user.given_name ,
-                                                                                last_name : user.family_name, 
-                                                                                email : user.email, 
-                                                                                username : user.nickname,
-                                                                                picture : user.picture,
-                                                                                auth_id : user.identities[0].user_id}),options)
-                        .map(res=>res.json().data);
+       return this._http.post(this._baseURL+"/auth/addNewUser",userValue,options)
+                        .map(res=>res.json());
   }
 
   getUserData()
@@ -55,16 +87,18 @@ export class SharedService implements CanActivate {
   public isCustomer : boolean = true;
   public isBartender : boolean = false;
   public isWaiter : boolean = false;
-  public isSocialAccount : boolean = true;
+  public isSocialAccount : boolean = false;
   public isManager : boolean = true;
   public isDeliverer : boolean = true;
 
-  public userId : String = "";
-  public userEmail : String = "1";
+  public userId : String = "1";
+  public userEmail : String = "";
 
   public userProfile : any;
 
-  public refresh = false;
+  public pullUserData = true;
+
+  public message = "";
 
 }
 
