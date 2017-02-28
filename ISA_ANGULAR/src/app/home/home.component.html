@@ -10,10 +10,5 @@
 </div>
 
 <button class="btn btn-primary btn-margin" (click)="auth.login()" *ngIf="!auth.authenticated()">Log In</button>
-<h4 *ngIf="auth.authenticated()">You are logged in</h4>
+<h4 *ngIf="auth.authenticated()">You are logged in.</h4>
 <h4 *ngIf="!auth.authenticated()">You are not logged in, please click 'Log in' button to login</h4>
-
-
-
-
-<!--<button class="btn btn-primary btn-margin" (click)="auth.logout()" *ngIf="auth.authenticated()">Log Out</button>-->

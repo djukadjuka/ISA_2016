@@ -1,15 +1,22 @@
 import { Injectable } from '@angular/core';
-import { CanActivate }    from '@angular/router';
+import { CanActivate, Router }    from '@angular/router';
 import { Auth } from '../auth.service';
 
 @Injectable()
 export class SharedService implements CanActivate {
 
-  constructor(private auth: Auth) {
+  constructor(private auth: Auth, private router : Router) {
+
+    alert("shared");
+    console.log(localStorage.getItem('profile'));
      this.getUserData();
   }
 
+// MOZDA PODESITI DA CIM POGODI 4200 da mu se postavlja login aaaaaal msm.. hmm
   canActivate() {
+
+    this.userProfile = localStorage.getItem('profile');
+    console.log(this.userProfile);
 
     return this.auth.authenticated();
   }
@@ -30,7 +37,11 @@ export class SharedService implements CanActivate {
   public isDeliverer : boolean = true;
 
   public userId : String = "";
-  public userEmail : String = "";
+  public userEmail : String = "1";
+
+  public userProfile : any;
+
+  public refresh = false;
 
 }
 
