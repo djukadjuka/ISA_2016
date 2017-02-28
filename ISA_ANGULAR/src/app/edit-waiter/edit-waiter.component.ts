@@ -82,13 +82,14 @@ export class EditWaiterComponent implements OnInit {
 
       allFoodProduct;
       allDrinkProduct;
+      help_table;
 
       creatingOrder(tablesId){
 
         console.log(tablesId);
          this.food_show=[];
-
-          this.viewRestaurantsService.getAllFood().subscribe(
+         this.help_table=tablesId;
+          this.viewRestaurantsService.getAllProducts().subscribe(
       res => {
 
          this.allFoodProduct = [];
@@ -96,12 +97,13 @@ export class EditWaiterComponent implements OnInit {
             let id = tablesId;
            let name = res[item].name;
            let price = res[item].price;
+           let p_type = res[item].type;
           
 
            
 
             this.allFoodProduct.push(
-             { food_name:""+name,food_price:""+price, table_id:""+id}
+             { food_name:""+name,food_price:""+price, table_id:""+id,prod_type:""+p_type}
              );
        // this.schedule =res;
        
@@ -151,7 +153,7 @@ export class EditWaiterComponent implements OnInit {
 
   send_order_test(){
 
-    console.log(this.food_show);
+    console.log(this.help_table);
 
 
      let order_api = {
@@ -164,7 +166,7 @@ export class EditWaiterComponent implements OnInit {
        }
        let wrapper = {
          order:order_api,
-         rest_id:1,
+         rest_id:this.help_table,
          user_id:1
          
        }
@@ -187,10 +189,10 @@ export class EditWaiterComponent implements OnInit {
 
            this.food_show.push({
               item_name:this.selected_food.food_name,item_price:""+this.selected_food.food_price,
-              table_id:""+this.selected_food.table_id,item_type:"cook"
+              table_id:""+this.selected_food.table_id,item_type:this.selected_food.prod_type
 
            });
-         //   console.log(this.food_show);
+            console.log(this.food_show);
 
   }
 

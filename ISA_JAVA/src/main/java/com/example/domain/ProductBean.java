@@ -35,6 +35,17 @@ public class ProductBean{
 	@Column(nullable = false)
 	private String name;
 	
+	@Column(nullable = true , name="prod_type" )
+	private String type;
+	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	@OneToMany(mappedBy = "for_product", cascade = CascadeType.ALL)
 	private Set<ReviewBean> reviews = new HashSet<>();
 	

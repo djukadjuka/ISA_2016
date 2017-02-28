@@ -394,4 +394,11 @@ export class ViewRestaurantsService {
 
   }
 
+  getAllProducts()
+  {
+    return this._http.get(this._baseURL + "/getAllProducts" )
+      .map(res=>res.json()); 
+
+  }
+
 }
