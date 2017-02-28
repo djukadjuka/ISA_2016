@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.domain.deliveryBeans.DeliveryOrderBean;
 import com.example.domain.orderBeans.RestaurantOrderBean;
 import com.example.domain.orderBeans.RestaurantOrderItem;
 import com.example.service.OrderService;
@@ -53,46 +54,55 @@ public class OrderController {
 			consumes = MediaType.APPLICATION_JSON_VALUE
 			)
 	@ResponseBody
-	public synchronized void sendNewDelivery(@RequestBody RequestWrapper wrapper){
+	public synchronized void createNewOrder(@RequestBody RequestOrderWrapper wrapper){
 		RestaurantOrderBean order = wrapper.getOrder();
-		//order.setFor_restaurant(this.restaurant_serivec.findOne(wrapper.getRest_id()));
-	//	order.setMade_by(this.employee_service.findOne(wrapper.getUser_id()));
+		order.setTable_id(wrapper.getRest_id());
+		order.setWaiter_id(wrapper.getUser_id());
 		HashSet<RestaurantOrderItem> items = (HashSet<RestaurantOrderItem>) order.getContains_items();
 		order.setContains_items(null);
 		order.setId(this.orderService.create(order).getId());
 		for(RestaurantOrderItem item : items){
 			item.setBelongs_to_order(order);
 			this.itemOrderService.create(item);
-		}
-	}
-	
-	
-	class RequestWrapper{
-		private Long rest_id;
-		private Long user_id;
-		private RestaurantOrderBean order;
 		
+		}
+		
+		System.out.println(order.getCook_c_status());
+	}
 	
 	
-	public Long getRest_id() {
-		return rest_id;
-	}
-	public void setRest_id(Long rest_id) {
-		this.rest_id = rest_id;
-	}
-	public Long getUser_id() {
-		return user_id;
-	}
-	public void setUser_id(Long user_id) {
-		this.user_id = user_id;
-	}
+	
+}
+
+
+
+class RequestOrderWrapper{
+	private Long rest_id;
+	private Long user_id;
+	private RestaurantOrderBean order;
+	
+	
 	public RestaurantOrderBean getOrder() {
 		return order;
 	}
 	public void setOrder(RestaurantOrderBean order) {
 		this.order = order;
 	}
-	}
 	
-	
+
+
+public Long getRest_id() {
+	return rest_id;
 }
+public void setRest_id(Long rest_id) {
+	this.rest_id = rest_id;
+}
+public Long getUser_id() {
+	return user_id;
+}
+public void setUser_id(Long user_id) {
+	this.user_id = user_id;
+}
+
+}
+
