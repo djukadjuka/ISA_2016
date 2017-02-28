@@ -155,9 +155,13 @@
         <!--THE ENTIRE ORDER LIST-->
         <div class="ui-g-6">
             <p-dataTable header="Items" [value]="food_show">
-                <p-column field="food_name" header="Name"></p-column>
-                <p-column field="food_amount" header="Amount"></p-column>
+                <p-column field="item_name" header="Name"></p-column>
+                <p-column field="item_price" header="Amount"></p-column>
                 
+                 <p-footer>
+                    <button type="button" pButton (click)="send_order_test()" label="Send Order"  
+                            icon="fa-check" style="width:100%;"></button>
+                </p-footer>
                
             </p-dataTable>
         </div>

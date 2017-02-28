@@ -139,11 +139,44 @@ export class EditWaiterComponent implements OnInit {
           this.creating_new_order = true;
 
 
+
+
       }
 
  showEditDialog(){
 
     this.displayEditButton = true ; 
+  }
+
+
+  send_order_test(){
+
+    console.log(this.food_show);
+
+
+     let order_api = {
+         cook_c_status:"1",
+         cook_i_status:"1",
+         order_status:"1",
+         price:20,
+         waiter_status:"1",
+         contains_items:this.food_show
+       }
+       let wrapper = {
+         order:order_api,
+         rest_id:1,
+         user_id:1
+         
+       }
+       console.log(wrapper);
+       
+        this.viewRestaurantsService.createNewOrder(wrapper).subscribe(
+         res=>{
+         //  this.order_with_items = [];
+          // this.fake_key = 0;
+         }
+       );
+
   }
 
   send_order(){
@@ -153,11 +186,11 @@ export class EditWaiterComponent implements OnInit {
 
 
            this.food_show.push({
-              food_name:this.selected_food.food_name,food_price:""+this.selected_food.food_price,
-              food_id:""+this.selected_food.table_id
+              item_name:this.selected_food.food_name,item_price:""+this.selected_food.food_price,
+              table_id:""+this.selected_food.table_id,item_type:"cook"
 
            });
-            console.log(this.food_show);
+         //   console.log(this.food_show);
 
   }
 
@@ -272,7 +305,7 @@ export class EditWaiterComponent implements OnInit {
 
 
            this.food_show.push({
-              food_name:""+this.selected_food.food_name,food_price:""+this.selected_food.food_price,
+              item_name:""+this.selected_food.food_name,item_price:""+this.selected_food.food_price,
               food_id:""+this.selected_food.table_id
 
            });
