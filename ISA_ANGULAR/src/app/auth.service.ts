@@ -2,6 +2,7 @@ import { Injectable }      from '@angular/core';
 import { tokenNotExpired, JwtHelper } from 'angular2-jwt';
 import { myConfig }        from './auth.config';
 import { Router } from '@angular/router';
+
 //import { Auth0 } from 'auth0-lock';
 
 //only for HashLocationStrategy

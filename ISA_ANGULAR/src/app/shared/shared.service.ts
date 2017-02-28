@@ -5,13 +5,18 @@ import { Auth } from '../auth.service';
 @Injectable()
 export class SharedService implements CanActivate {
 
-  constructor(private auth: Auth) {}
+  constructor(private auth: Auth) {
+     this.getUserData();
+  }
 
-   canActivate() {
-    
-    this.userId = "5";
+  canActivate() {
 
     return this.auth.authenticated();
+  }
+
+  getUserData()
+  {
+
   }
 
   //Data about currently logged user
