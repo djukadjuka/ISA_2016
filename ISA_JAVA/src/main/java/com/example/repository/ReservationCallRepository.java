@@ -23,7 +23,7 @@ public interface ReservationCallRepository extends JpaRepository<ReservationCall
 	@Query(value = "SELECT * FROM Reservation_call r WHERE r.recipient_id = :rec_id and r.reservation = :reservation_id ", nativeQuery = true)
     public ReservationCallBean findByRecipientAndReservation(@Param("rec_id") Long recipient, @Param("reservation_id") Long reservation_id);
 	
-	@Query(value = "SELECT * FROM Reservation_call r WHERE r.keygen = :keygen", nativeQuery = true)
+	@Query(value = "SELECT * FROM Reservation_call r WHERE r.keygen = :keygen and r.status = \'PENDING\'", nativeQuery = true)
     public ReservationCallBean findByKeygenAndId(@Param("keygen") Long keygen);
 	
 	@Modifying

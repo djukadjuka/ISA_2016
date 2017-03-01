@@ -118,7 +118,7 @@ public class ReservationCallController {
 		
 		Boolean bb = new Boolean(false);
 		
-		if(callExist != null)
+		if(!callExist.equals(null))
 			return new ResponseEntity<Boolean> (bb, HttpStatus.NOT_FOUND);
 		
 		Random r = new Random();

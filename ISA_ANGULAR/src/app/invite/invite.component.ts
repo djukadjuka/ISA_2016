@@ -51,7 +51,7 @@ export class InviteComponent implements OnInit, OnDestroy {
                                   err => {
                                       this.msgs = [];
                                       this.msgs.push({severity:'error', summary:'Reservation is canceled.'});
-                                      this.message = "We are so sorry! Your friend canceled the reservation."
+                                      this.message = "We are so sorry! Reservation invite is no longer active."
                                   }
                                 );
     });

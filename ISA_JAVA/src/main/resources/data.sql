@@ -4,11 +4,13 @@
 --insert into user(id, email, first_name, last_name, password, profile_picture, username, friends_of_user_id) 
 --values (, '', '', '', '', '', '', '');
 --========================================
-insert into user(id, email, first_name, last_name, password, profile_picture, username)
-values (1, 'john.doe@gmail.com', 'John', 'Doe', 'test', 'NA', 'test1');
+insert into user(id, auth_code, email, first_name, last_name, password, profile_picture, username)
+--values (1, 'john.doe@gmail.com', 'John', 'Doe', 'test', 'NA', 'test1');
+values(1, 'auth0|58b6a6dd9726cd081e6c72bb', 'majasumaruna@gmail.com', 'Maja', 'Sumaruna', NULL, 'https://s.gravatar.com/avatar/c17906f01707a291888b9576a1eaf29a?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fma.png', NULL, 'majasumaruna');
 
-insert into user(id, email, first_name, last_name, password, profile_picture, username) 
-values (2, 'jane.doe@gmail.com', 'Jane', 'Doe', 'test', 'NA', 'test2');
+insert into user(id, auth_code, email, first_name, last_name, password, profile_picture, username) 
+--values (2, 'jane.doe@gmail.com', 'Jane', 'Doe', 'test', 'NA', 'test2');
+values(2, 'auth0|58b5ff28b33c5546787aae7d', 'stkosijer@gmail.com', 'Ste', 'Vandam', NULL, 'https://s.gravatar.com/avatar/fe222883da82d3bbe204b4977ef574b9?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fst.png', NULL, 'stkosijer');
 
 insert into user(id, email, first_name, last_name, password, profile_picture, username) 
 values (3, 'carl_sagan@gmail.com', 'Carl', 'Sagan', 'test', 'NA', 'test3');
@@ -803,6 +805,11 @@ insert into reservation_call(id, food_rate, keygen, make_order_fast, restaurant_
 values('12', '4', NULL, '0', '3', 'ACCEPTED', '4', NULL, NULL, '1', '1', '12');
 insert into reservation_call(id, food_rate, keygen, make_order_fast, restaurant_rate, status, waiter_rate, drink, food, originator_id, recipient_id, reservation)
 values('13', '5', NULL, '0', '3', 'ACCEPTED', '2', NULL, NULL, '1', '1', '13');
+
+insert into reservation_call(id, food_rate, keygen, make_order_fast, restaurant_rate, status, waiter_rate, drink, food, originator_id, recipient_id, reservation)
+values('15', '0', NULL, '0', '0', 'ACCEPTED', '0', NULL, NULL, '1', '2', '13');
+insert into reservation_call(id, food_rate, keygen, make_order_fast, restaurant_rate, status, waiter_rate, drink, food, originator_id, recipient_id, reservation)
+values('14', '0', NULL, '0', '0', 'ACCEPTED', '0', NULL, NULL, '1', '2', '12');
 
 
 --===================================================
