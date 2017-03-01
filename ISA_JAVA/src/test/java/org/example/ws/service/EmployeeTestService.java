@@ -1,7 +1,6 @@
 package org.example.ws.service;
 
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -17,7 +16,7 @@ import com.example.domain.EmployeeBean;
 
 
 @Transactional
-public class EmployeeTestService extends WebServiceTest{
+public class EmployeeTestService extends WebServiceTest {
 
 	@Before
 	public void setUp(){

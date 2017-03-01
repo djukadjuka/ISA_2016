@@ -126,7 +126,7 @@ export class ViewRestaurantsComponent implements OnInit{
     {
       this.viewRestaurantsService.getRestaurantAverageRateAll(1)
                                 .subscribe(
-                                  res => console.log(res)
+                                  res => res
                                 );
       this.allFoodTypes = {"Serbian":{"id":1,"name":"Serbian"},
         "Spanish":{"id":2,"name":"Spanish"},
@@ -321,7 +321,7 @@ export class ViewRestaurantsComponent implements OnInit{
    }
 
    showChange(){
-     console.log(this.selectedCuisines);
+     
    }
 
    //zone functions and params
@@ -445,7 +445,7 @@ export class ViewRestaurantsComponent implements OnInit{
      this.zoneCrudModel.deleted = 1;
      this.viewRestaurantsService.deleteZone(this.zoneCrudModel).subscribe(
        res=>{
-          console.log(res);
+         
           this.restaurantZones = [];
           for(let item of res){
             if(item.deleted == 0){
@@ -614,7 +614,7 @@ export class ViewRestaurantsComponent implements OnInit{
                                     res => 
                                     {
                                       this.reservationTables = res;
-                                      console.log(res);
+                                      
                                       //set the proper background-image for selected restaurant zone
                                       for(let zone of this.restaurantZones)
                                       {
@@ -757,7 +757,7 @@ export class ViewRestaurantsComponent implements OnInit{
               if(this.reservationSelectedTables[i].id == event.target.id)
               {
                   this.reservationSelectedTables[i].selected = true;
-                  console.log(this.reservationSelectedTables[i]);
+                  
                   exists = true;
                   break;
               }
@@ -926,7 +926,7 @@ export class ViewRestaurantsComponent implements OnInit{
      }
 
      selected_a_user_for_work(event){
-       console.log(this.selected_user_for_work);
+      
        this.registering_employee = {};
        this.registering_employee.dateOfBirth = 0;
        this.registering_employee_dob = new Date(0);
@@ -943,7 +943,7 @@ export class ViewRestaurantsComponent implements OnInit{
      fire_employee(worker){
        this.viewRestaurantsService.fireAnEmployee(worker.id).subscribe(
          res=>{
-           console.log(res);
+           
            this.get_employee_information_packed();
          }
        );
@@ -952,10 +952,10 @@ export class ViewRestaurantsComponent implements OnInit{
      close_new_employee_dialog(){
 
        this.registering_employee.date_of_birth = this.registering_employee_dob.getTime();
-       console.log(this.registering_employee);
+     
        this.viewRestaurantsService.registerNewEmployee(this.registering_employee,this.restaurant_23.id).subscribe(
          res=>{
-           console.log(res);
+           
            this.get_employee_information_packed();
          }
        );
@@ -1044,7 +1044,7 @@ export class ViewRestaurantsComponent implements OnInit{
 
      schedule_selected(event){
        this.viewRestaurantsService.getSpecificWorkersSchedules(this.schedule_employee.id).subscribe(res=>{
-         console.log(res);
+         //console.log(res);
          this.all_schedules_for_employee = [];
          for(let item in res){
            let start_time = new Date(res[item].from);
@@ -1251,7 +1251,7 @@ export class ViewRestaurantsComponent implements OnInit{
          rest_id:this.restaurant_23.id,
          user_id:+this._sharedService.userId
        }
-       console.log(order_api);
+       //console.log(order_api);
        this.viewRestaurantsService.sendNewDelivery(wrapper).subscribe(
          res=>{
            this.order_with_items = [];
@@ -1348,7 +1348,7 @@ export class ViewRestaurantsComponent implements OnInit{
       }
 
       accept_bid(bid){
-        console.log(bid);
+       // console.log(bid);
         let payload = {
           bid_id:bid.id,
           order_id:bid.made_for_order.id,
@@ -1445,7 +1445,7 @@ export class ViewRestaurantsComponent implements OnInit{
 
         this.viewRestaurantsService.getAllRestaurantGrades(this.restaurant_23.id).subscribe(
           res=>{
-            console.log(res);
+           // console.log(res);
             this.all_restaurant_reviews = res;
             this.restaurant_avg_grade = 0;
             for(let item in this.all_restaurant_reviews){
@@ -1486,7 +1486,7 @@ export class ViewRestaurantsComponent implements OnInit{
       selected_food_list_item(event){
         this.viewRestaurantsService.getGradesForProductInRestaurant(this.restaurant_23.id,this.selected_23_food_item).subscribe(
           res=>{
-            console.log(res);
+          //  console.log(res);
             this.food_item_reviews = res;
             for(let item in this.food_item_reviews){
                 if(this.food_item_reviews[item].short_description == null){
@@ -1600,7 +1600,7 @@ export class ViewRestaurantsComponent implements OnInit{
         this.revinue_chart = null;
         this.viewRestaurantsService.getRevinueForRestarurant(this.date_day_from_revinue.getTime(),this.date_day_to_revinue.getTime(),this.restaurant_23.id)
         .subscribe(res=>{
-          console.log(res);
+         // console.log(res);
           let labs = [];
           let dta = [];
           

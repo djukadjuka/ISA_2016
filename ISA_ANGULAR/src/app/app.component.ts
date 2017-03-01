@@ -10,7 +10,5 @@ export class AppComponent {
   title = 'app works!';
 
   constructor(private auth: Auth) {
-    console.log("app main");
-    console.log("FROM MAIN " + localStorage.getItem('profile'));
   }
 }
