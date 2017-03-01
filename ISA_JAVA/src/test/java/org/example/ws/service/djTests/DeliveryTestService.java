@@ -1,7 +1,6 @@
 package org.example.ws.service.djTests;
 
 import java.util.Collection;
-import java.util.HashSet;
 
 import org.example.ws.service.WebServiceTest;
 import org.junit.After;
@@ -14,7 +13,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.domain.EmployeeBean;
 import com.example.domain.deliveryBeans.DeliveryOrderBean;
 import com.example.domain.deliveryBeans.DeliveryOrderBid;
 import com.example.domain.deliveryBeans.DeliveryOrderItem;
