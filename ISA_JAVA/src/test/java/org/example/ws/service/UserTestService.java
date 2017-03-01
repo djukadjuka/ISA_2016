@@ -34,7 +34,7 @@ public class UserTestService extends WebServiceTest{
 	// SKOS 2
 	
 	@Test																			
-	public void skosTestCheckAvailableUsername() throws Exception{
+	public void skosTestCheckUsername() throws Exception{
 		MvcResult result = mvc.perform(
 								MockMvcRequestBuilders.get(
 										"/checkUsername/ciganijaaa/1")
