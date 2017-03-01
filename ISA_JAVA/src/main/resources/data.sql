@@ -14,6 +14,13 @@ values(2, 'auth0|58b5ff28b33c5546787aae7d', 'stkosijer@gmail.com', 'Ste', 'Vanda
 
 insert into user 
 values(34, 'google-oauth2|110314511839859925553', 'milanns@live.com', 'djuka', 'djuka', NULL, 'https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg', NULL, 'milanns');
+
+insert into user
+values(35, 'google-oauth2|108029269584602236134', 'internet.softverske.3.user@gmail.com', 'ua', 'account', NULL, 'https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg', NULL, 'internet.softverske.3.user');
+
+insert into user
+values(36, 'google-oauth2|114881230620212881542', 'internet.softverske.1.user@gmail.com', 'ua', 'account', NULL, 'https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg', NULL, 'internet.softverske.1.user');
+
 insert into user(id, email, first_name, last_name, password, profile_picture, username) 
 values (3, 'carl_sagan@gmail.com', 'Carl', 'Sagan', 'test', 'NA', 'test3');
 

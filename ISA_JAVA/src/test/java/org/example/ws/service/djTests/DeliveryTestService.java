@@ -1,7 +1,8 @@
-package org.example.ws.service;
+package org.example.ws.service.djTests;
 
 import java.util.Collection;
 
+import org.example.ws.service.WebServiceTest;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -75,7 +76,7 @@ public class DeliveryTestService extends WebServiceTest{
 		Assert.assertNotNull(content);
 	}
 	
-	@Test
+	@Test																		//(8) DJ
 	public void getAllBidsForDelivery() throws Exception{
 		///delivery_controller/getBidsForDeliveryId/{ord_id}
 		MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/delivery_controller/getBidsForDeliveryId/1").accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();

@@ -77,11 +77,6 @@ export class EditUserComponent implements OnInit {
                                        this._restaurantRegistryService.getUnseenRegistersForAdmin().subscribe(
                                            res=>{
                                                     this.visible_registries_admin = res;
-                                                    //this._restaurantRegistryService.getUnseenRegisterForManager(this._sharedService.userId).subscribe(
-                                                    //    res=>{
-                                                    //        this.visible_registries_manager = res;
-                                                    //    }
-                                                    //);
                                                 }
                                         );
                                 }else if(this._sharedService.isManager){
@@ -587,17 +582,6 @@ export class EditUserComponent implements OnInit {
     =================================================
     */
 
-    
-    
-    /*if(this._sharedService.isAdmin){
-        Observable.timer(0,5000).subscribe(
-            res=>{
-              this.refresh_adminData();
-              this.refresh_managerData(this._sharedService.userId);  
-            } 
-        );
-    }
-*/
 
     //friends notifications
     notification_subscription = null;
@@ -633,13 +617,21 @@ export class EditUserComponent implements OnInit {
                             this.refresh_adminData();  
                         } 
                     );
-                }else{
+                }else if(this._sharedService.isManager){
                     this.registry_subscription = Observable.timer(0,1000).subscribe(
                         res=>  this.refresh_managerData(this._sharedService.userId)
                     );
+                }else if(this._sharedService.isDeliverer){
+                    if(this.delivery_subscription != null){
+                        this.delivery_subscription.unsubscribe();
+                    }
+                    //napravi novi subs
+                        this.delivery_subscription = Observable.timer(0,1000).subscribe(
+                        res=>this.refresh_deliverer_data()
+                    );
                 }
                 break;
-            }
+            }/*
             //tab za porudzbine i stvari
             case 4:{
                 //ako postoji subs onda unsubs
@@ -651,7 +643,7 @@ export class EditUserComponent implements OnInit {
                     res=>this.refresh_deliverer_data()
                 );
                 break;
-            }
+            }*/
         }
     }
 
@@ -671,16 +663,20 @@ export class EditUserComponent implements OnInit {
                     this.registry_subscription.unsubscribe();
                     this.registry_subscription = null;
                 }
-                break;
-            }
-            //tab za porudzbine i stvari
-            case 4:{
                 if(this.delivery_subscription != null){
                     this.delivery_subscription.unsubscribe();
                     this.delivery_subscription = null;
                 }
                 break;
             }
+            //tab za porudzbine i stvari
+            /*case 4:{
+                if(this.delivery_subscription != null){
+                    this.delivery_subscription.unsubscribe();
+                    this.delivery_subscription = null;
+                }
+                break;
+            }*/
         }
     }
 

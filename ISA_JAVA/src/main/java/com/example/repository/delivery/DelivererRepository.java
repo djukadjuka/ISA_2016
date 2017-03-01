@@ -14,7 +14,7 @@ public interface DelivererRepository extends JpaRepository<DelivererBean, Long>{
 
 	@Transactional
 	@Modifying
-	@Query(value="update deliverer set request_status='ACCEPTED', set first_login = null  where user_id = :user_id",nativeQuery=true)
+	@Query(value="update deliverer set request_status='ACCEPTED' where user_id = :user_id",nativeQuery=true)
 	public void deliverer_accepted(@Param("user_id") Long user_id);
 	
 	@Transactional

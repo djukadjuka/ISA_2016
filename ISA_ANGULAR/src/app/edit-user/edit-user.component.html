@@ -18,10 +18,7 @@
     <button *ngIf=" _sharedService.isAdmin == false && _sharedService.isManager == false && _sharedService.isDeliverer == false
                    && _sharedService.isChef == false && _sharedService.isBartender == false && _sharedService.isWaiter == false" 
                    pButton type="button" icon="fa-automobile" label="Request Registry as Deliverer"
-             (click)="register_as_deliverer()"
-            pTooltip="If you wish to register as a deliverer, an existing manager must accept your request.
-                      If you are employed as a worker in a restaurant, your request for deliverer status will be
-                      denied automatically. Once you become a deliverer you cannot be employed in a restaurant.">
+             (click)="register_as_deliverer()">
     </button>
   </div>
 
@@ -86,7 +83,6 @@
             <!--FOR ADMIN TO SEE NEW REGISTRIES-->
             <!--FOR MANAGER TO SEE STATUS ON REGISTRIES -->
           <p-accordionTab *ngIf="_sharedService.isAdmin || _sharedService.isManager" header="Restaurant Registry">
-            
             <!--ADMIN DATA-->
             <p-dataTable *ngIf="_sharedService.isAdmin" [value]="visible_registries_admin" [responsive]="true" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[5,10,15,20,25,30]">
               <p-header>Pending Restaurant Registrations</p-header>
@@ -123,7 +119,7 @@
                   <button *ngIf="registry.status == 'PENDING'" type="button" label="Pending" class="ui-button-warning" pButton pButton style="width: 100%;" icon="fa-hourglass-half"></button>
                   <button *ngIf="registry.status == 'ACCEPTED'" type="button" label="Accepted" class="ui-button-success" pButton pButton style="width: 100%;" icon="fa-check" ></button>
                   <button *ngIf="registry.status == 'DECLINED'" type="button" label="Declined" class="ui-button-danger" pButton pButton style="width: 100%;" icon="fa-close" ></button>
-                  <button *ngIf="registry.status != 'PENDING'" type="button" label="OK" class="ui-button-info" pButton pButton style="width: 100%;" (click)="disband_row(registry.id)"></button>
+                  <!--<button *ngIf="registry.status != 'PENDING'" type="button" label="OK" class="ui-button-info" pButton pButton style="width: 100%;" (click)="disband_row(registry.id)"></button>-->
                 </template>
               </p-column>
             </p-dataTable>
@@ -136,15 +132,15 @@
           <p-accordionTab *ngIf="_sharedService.isDeliverer" header="Deliveries And Orders">
             
             <!--ALL AVAILABLE ORDERS-->
-            <p-dataTable [value]="free_orders_presentation" sortField="belongs_to_order" 
+            <p-dataTable [value]="free_orders_presentation" sortField="item_id" 
                          rowGroupMode="subheader" groupField="belongs_to_order" 
-                         expandableRowGroups="true" [sortableRowGroup]="false"
-                         [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
+                         expandableRowGroups="true" [sortableRowGroup]="false">
               <p-header><h5>Available Orders</h5></p-header>
               <!--EXPANDABLE ROW TAB NAME-->
               <template pTemplate="rowgroupheader" let-rowData>
                 <b>Order Id : </b><i>{{rowData['belongs_to_order']}}</i>, <b>Order Time Period : </b><i>[{{rowData['from']}} - {{rowData['to']}}]</i>
               </template>
+              <p-column field="item_id" header="Item ID"></p-column>
               <p-column field="item_name" header="Item Name"></p-column>
               <p-column field="item_amount" header="Amount of Items"></p-column>
               <template pTemplate="rowgroupfooter" let-item>

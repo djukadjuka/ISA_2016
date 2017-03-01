@@ -1,7 +1,8 @@
-package org.example.ws.service;
+package org.example.ws.service.djTests;
 
 import java.util.HashSet;
 
+import org.example.ws.service.WebServiceTest;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
