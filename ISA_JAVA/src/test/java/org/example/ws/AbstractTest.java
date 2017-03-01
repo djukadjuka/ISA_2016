@@ -12,4 +12,10 @@ import com.example.Isa2016Application;
 public abstract class AbstractTest {
 
 	protected Logger logger = org.slf4j.LoggerFactory.getLogger(this.getClass());
+
+	protected void printSeparator(String printMe,String title){
+		System.out.println("---------------------------"+title+"\n\n\n");
+		System.out.println(printMe);
+		System.out.println("\n\n\n---------------------------");
+	}
 }
