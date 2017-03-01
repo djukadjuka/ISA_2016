@@ -28,10 +28,10 @@
      <div class="form-group" style="float: left">
     <p> Please pick date then press schedule button </p>
    <p><p-calendar [(ngModel)]="reservation.Date" formControlName="Date" inputStyleClass="form-control" [monthNavigator]="true" [yearNavigator]="true" yearRange="2017:2018" [inline]="true"  ></p-calendar></p>
-     </div>
-      <p>
-          <input class="btn btn-primary" value="Schedule" (click)="displaySchedulee()" type="button">
-      </p>
+     
+      
+          <input class="btn btn-primary"  value="Schedule" (click)="displaySchedulee()" type="button">
+      </div>
    </form>
 </p-panel>
 
@@ -67,12 +67,12 @@
    <!--Style of one cell in the datagrid-->
         <div style="padding:3px" class="ui-g-12 ui-md-3">
             <p-panel [header]="tables.id" [style]="{'text-align':'center'}">
-                <img [src]="tables.image" (error)="tables.image = '/assets/pictures/no_image_found.jpg'" width="150" height="150"> 
+                <img [src]="tables.image" (error)="tables.image = '/assets/pictures/1375.jpg'" width="150" height="150"> 
                 
                 
                 <hr class="ui-widget-content" style="border-top:0">
-                <i>{{tables.served_by.user.firstName}}</i><br/>
-                <i>{{tables.served_by.user.lastName}}</i><br/>
+              <!-- <i>{{tables.restaurant_zone_id.restaurant.workers.user[0].firstName}}</i><br/>
+                <i>{{tables.served_by.user.lastName}}</i><br/>-->
                 
                 
                 <button pButton type="button" label="Take order!" (click)=creatingOrder(tables.id) icon="fa-edit" ></button>
@@ -102,14 +102,14 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="col-md-3 control-label">Username:</label>
-        <div class="col-md-8">
+        <label class="col-lg-3 control-label">Username:</label>
+        <div class="col-lg-8">
           <input class="form-control" [(ngModel)]="userUpdate.username" formControlName="username" type="text">
         </div>
       </div>
        <div class="form-group">
-        <label class="col-md-3 control-label">Password:</label>
-        <div class="col-md-8">
+        <label class="col-lg-3 control-label">Password:</label>
+        <div class="col-lg-8">
           <input class="form-control" [(ngModel)]="userUpdate.password" formControlName="password" type="password">
         </div>
       </div>
@@ -139,9 +139,10 @@
     </p-header>
     <div class="ui-g">
         <!--SPECIFY ONE ITEM AND ADD TO LIST-->
-        <div class="ui-g-6">
-            <div class="ui-g-6">
-            <p-dataTable header="Orders" [value]="allFoodProduct" selectionMode="single" [(selection)]="selected_food" >
+        <div class="ui-g-12">
+            <div class="ui-g-12">
+            <p-dataTable header="Orders" [value]="allFoodProduct" width="1000" selectionMode="single" [(selection)]="selected_food" 
+            rows="10"  [paginator]="true" [pageLinks]="5"  [rowsPerPageOptions]="[5,10,20]">
                 <p-column field="food_name" header="Name"></p-column>
                 <p-column field="food_price" header="Amount"></p-column>
                 <p-column field="table_id" header="Table_id"></p-column>

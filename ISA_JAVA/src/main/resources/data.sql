@@ -641,19 +641,19 @@ values (766879200000,'BARTENDER',null,null,15,3);
 --STOLOVI
 --=====================================
 insert into restaurant_table(table_id, max_people,status,restaurant_zone_id,image)
-values (1, 4, 'FREE', 1,'/assets/pictures/restaurant_pictures/10.jpg');
+values (1, 4, 'FREE', 1,'/assets/pictures/1375.jpg');
 
 insert into restaurant_table(table_id, max_people,status,restaurant_zone_id,image)
-values (2, 2, 'FREE', 1,'/assets/pictures/restaurant_pictures/10.jpg');
+values (2, 2, 'FREE', 1,'/assets/pictures/1375.jpg');
 
 insert into restaurant_table(table_id, max_people,status,restaurant_zone_id,image)
-values (3, 6, 'FREE', 1,'/assets/pictures/restaurant_pictures/10.jpg');
+values (3, 6, 'FREE', 1,'/assets/pictures/1375.jpg');
 
 insert into restaurant_table(table_id, max_people,status,restaurant_zone_id,image)
-values (4, 4, 'FREE', 1,'/assets/pictures/restaurant_pictures/10.jpg');
+values (4, 4, 'FREE', 1,'/assets/pictures/1375.jpg');
 
 insert into restaurant_table(table_id, max_people,status,restaurant_zone_id,image)
-values (5, 6, 'FREE', 1,'/assets/pictures/restaurant_pictures/10.jpg');
+values (5, 6, 'FREE', 1,'/assets/pictures/1375.jpg');
 
 --=====================================
 --EMPLOYEE SCHEDZZZ
