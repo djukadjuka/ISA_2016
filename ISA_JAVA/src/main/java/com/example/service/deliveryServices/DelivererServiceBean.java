@@ -51,7 +51,7 @@ public class DelivererServiceBean implements DelivererService{
 
 	@Override
 	public void deliverer_changed_password(Long user_id) {
-		this.deliverer_changed_password(user_id);
+		this.repository.deliverer_changed_password(user_id);
 	}
 
 }

@@ -1354,6 +1354,9 @@ export class ViewRestaurantsComponent implements OnInit{
           order_id:bid.made_for_order.id,
           cash_accepted_id:bid.bidding_price
         };
+        if(this.delivery_bid_subscription != null){
+          this.delivery_bid_subscription.unsubscribe();
+        }
         this.viewRestaurantsService.acceptBid(payload).subscribe(res=>{
           this.viewRestaurantsService.getDeliveryOrdersForRestaurant(this.restaurant_23.id).subscribe(
             res=>{

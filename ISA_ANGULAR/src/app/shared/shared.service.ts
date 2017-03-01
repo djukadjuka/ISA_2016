@@ -118,7 +118,7 @@ export class SharedService implements CanActivate {
 
                     if(res.user_role == "USER")
                     {
-                       this.isAdmin = true;
+                       this.isAdmin = false;
                        this.isChef = false;
                        this.isBartender = false;
                        this.isWaiter = false;
