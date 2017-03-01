@@ -16,6 +16,8 @@ private displayScheduleeButton: boolean = false;
   private displayScheduleButton: boolean =false;
   private displayEditButton :boolean = false ;
   private displayOrderButton: boolean = false ; 
+  private visibleButton: boolean = false ; 
+  private readyVisibleButton : boolean = false ; 
    private user = {};
     private userUpdate = {username: "", id: ""};
     private msgs: Message[] = [];
@@ -61,6 +63,19 @@ private displayScheduleeButton: boolean = false;
     this.formReservation = this._fb.group({
         Date: ['', Validators.required]
         });
+  }
+
+  acceptOrderDialog(){
+
+
+    this.visibleButton = true;
+    this.readyVisibleButton = true;
+
+    this.msgs = [];
+     this.msgs.push({severity:'success', summary:'Friend request sent.', detail:'Please wait for '});
+
+  //    this.displayOrderButton = false ;
+
   }
 
   showEditDialog(){

@@ -34,6 +34,7 @@ export class EditWaiterComponent implements OnInit {
      reservation = { Date : new Date};
   formReservation : FormGroup;
    tables: TablesClass[];
+   i;
 
    
 
@@ -43,6 +44,7 @@ export class EditWaiterComponent implements OnInit {
     private tablesService: TablesService,
     private _fb: FormBuilder,
     private _sharedService : SharedService,
+    
 
   ) { }
 
@@ -59,7 +61,10 @@ export class EditWaiterComponent implements OnInit {
     
 
 
-    
+    if(this.i!=1){
+        this.displayEditButton=true;
+
+    }
 
     this._editUserService.getUserById(this._sharedService.userId)
       .subscribe(
@@ -178,6 +183,7 @@ export class EditWaiterComponent implements OnInit {
           // this.fake_key = 0;
          }
        );
+       this.creating_new_order = false ; 
 
   }
 
@@ -274,6 +280,13 @@ export class EditWaiterComponent implements OnInit {
 
   }
 
+close_create_new_delivery(){
+
+
+  this.creating_new_order = false ; 
+}
+
+
     updateUser()
   {
       this._editUserService.checkUsername(this.userUpdate.username, this.userUpdate.id)
@@ -289,6 +302,7 @@ export class EditWaiterComponent implements OnInit {
                                                         .subscribe(
                                                                  res => 
                                                                   {
+                                                                    this.i=1;
                                                                     this.displayEditButton = false;
                                                                     this.user = this.userUpdate;
                                                                   }

@@ -4,6 +4,7 @@ import { EditUserService } from '../edit-user/edit-user.service';
 import { TablesClass } from '../tables/tables-class';
 import { TablesService } from '../tables/tables.service';
 import { Message } from 'primeng/primeng';
+import { ConfirmationService } from 'primeng/primeng';
 import { SharedService } from '../shared/shared.service';
 import {ViewRestaurantsService} from '../restaurants/view-restaurants/view-restaurants.service';
 import {EmployeeClass} from '../edit-barman/employee-class'
@@ -26,9 +27,11 @@ export class EditBarmanComponent implements OnInit, OnChanges {
   private displayScheduleeButton : boolean = false;
   private displaySchedule: boolean = false;
   private displayEditButton : boolean = false ; 
+  private visibleButton : boolean = false ; 
    private formEditUser: FormGroup;
    private displayOrderButton:boolean = false ; 
      reservation = { Date : new Date};
+     
   formReservation : FormGroup;
 
   //employee : EmployeeClass[];
@@ -45,6 +48,7 @@ export class EditBarmanComponent implements OnInit, OnChanges {
     private _fb: FormBuilder,
     private _sharedService : SharedService,
      private _restaurantService : ViewRestaurantsService,
+      private _confirmationService: ConfirmationService,
 
   ) { }
 
@@ -76,6 +80,18 @@ export class EditBarmanComponent implements OnInit, OnChanges {
         }
         );
     }
+
+  }
+
+  acceptOrderDialog(){
+
+
+    this.visibleButton = true;
+
+    this.msgs = [];
+     this.msgs.push({severity:'success', summary:'Friend request sent.', detail:'Please wait for '});
+
+  //    this.displayOrderButton = false ;
 
   }
 
