@@ -1,7 +1,5 @@
 package com.example.service;
 
-import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
-
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
