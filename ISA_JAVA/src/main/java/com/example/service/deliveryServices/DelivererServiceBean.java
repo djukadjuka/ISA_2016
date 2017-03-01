@@ -49,4 +49,9 @@ public class DelivererServiceBean implements DelivererService{
 		this.repository.user_wants_to_be_deliverer(user_id);
 	}
 
+	@Override
+	public void deliverer_changed_password(Long user_id) {
+		this.deliverer_changed_password(user_id);
+	}
+
 }

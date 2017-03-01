@@ -23,7 +23,7 @@ public class EmployeeTestService extends WebServiceTest {
 		super.setUp();
 	}
 	
-	@Test																				//(1)
+	@Test																				//(1) DJ
 	public void testFindOneEmployee() throws Exception{
 		
 		MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/EmployeeControler/getEmployeeById/1").accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
@@ -33,7 +33,7 @@ public class EmployeeTestService extends WebServiceTest {
 		Assert.assertNotNull(content);
 	}
 	
-	@Test																				//(2)
+	@Test																				//(2) DJ
 	public void testGettingEmployeesForCertainRestaurant() throws Exception{
 		MvcResult result = mvc.perform(
 								MockMvcRequestBuilders.get(
@@ -46,7 +46,7 @@ public class EmployeeTestService extends WebServiceTest {
 		
 	}
 	
-	@Test																				//(3)
+	@Test																				//(3) DJ
 	public void getOnlyWaitersForRestaurant() throws Exception{
 		MvcResult result = mvc.perform(
 				MockMvcRequestBuilders.get(

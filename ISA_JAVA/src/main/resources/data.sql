@@ -6,12 +6,14 @@
 --========================================
 insert into user(id, auth_code, email, first_name, last_name, password, profile_picture, username)
 --values (1, 'john.doe@gmail.com', 'John', 'Doe', 'test', 'NA', 'test1');
-values(1, 'auth0|58b6a6dd9726cd081e6c72bb', 'majasumaruna@gmail.com', 'Maja', 'Sumaruna', NULL, 'https://s.gravatar.com/avatar/c17906f01707a291888b9576a1eaf29a?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fma.png', NULL, 'majasumaruna');
+values(1, 'auth0|58b6a6dd9726cd081e6c72bb', 'majasumaruna@gmail.com', 'Maja', 'Sumaruna', NULL, 'https://s.gravatar.com/avatar/c17906f01707a291888b9576a1eaf29a?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fma.png', 'majasumaruna');
 
 insert into user(id, auth_code, email, first_name, last_name, password, profile_picture, username) 
 --values (2, 'jane.doe@gmail.com', 'Jane', 'Doe', 'test', 'NA', 'test2');
-values(2, 'auth0|58b5ff28b33c5546787aae7d', 'stkosijer@gmail.com', 'Ste', 'Vandam', NULL, 'https://s.gravatar.com/avatar/fe222883da82d3bbe204b4977ef574b9?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fst.png', NULL, 'stkosijer');
+values(2, 'auth0|58b5ff28b33c5546787aae7d', 'stkosijer@gmail.com', 'Ste', 'Vandam', NULL, 'https://s.gravatar.com/avatar/fe222883da82d3bbe204b4977ef574b9?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fst.png', 'stkosijer');
 
+insert into user 
+values(34, 'google-oauth2|110314511839859925553', 'milanns@live.com', 'djuka', 'djuka', NULL, 'https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg', NULL, 'milanns');
 insert into user(id, email, first_name, last_name, password, profile_picture, username) 
 values (3, 'carl_sagan@gmail.com', 'Carl', 'Sagan', 'test', 'NA', 'test3');
 
@@ -102,8 +104,6 @@ values (32, 'josephine.mendoza21@example.com', 'Josephine', 'Mendoza', 'test', '
 insert into user(id, email, first_name, last_name, password, profile_picture, username) 
 values (33, 'mae.henderson84@example.com', 'Mae', 'Henderson', 'test', 'NA', 'jack1');
 
-insert into user values(34, 'google-oauth2|110314511839859925553', 'milanns@live.com', 'djuka', 'djuka', NULL, 'https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg', NULL, 'milanns'
-);
 
 --=============================================
 --FRIENDSHIPS

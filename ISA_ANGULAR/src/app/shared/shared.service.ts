@@ -96,14 +96,14 @@ export class SharedService implements CanActivate {
                        this.isManager = false;
                        this.isDeliverer = false;
                     }
-                    if(res.user_role == "DELIVERER")
-                    {
-                       this.isAdmin = false;
-                       this.isChef = false;
-                       this.isBartender = false;
-                       this.isWaiter = false;
-                       this.isManager = false;
-                       this.isDeliverer = true;
+                    
+                    if(res.user_role == "DELIVERER1" || res.user_role == "DELIVERER0"){
+                        this.isAdmin = false;
+                        this.isChef = false;
+                        this.isBartender = false;
+                        this.isWaiter = false;
+                        this.isManager = false;
+                        this.isDeliverer = true;    
                     }
 
                     if(res.user_role == "ADMIN")
@@ -160,10 +160,11 @@ export class SharedService implements CanActivate {
                     this.setRoles(res);
                     
                     //if res.password = 0, logout uz poruku da promeni pass i saljemo menjanje pass-a
-                    if(res.password == 0 && this.isSocialAccount == false)
+                    if((res.password == 0 && this.isSocialAccount == false) ||  res.user_role == "DELIVERER0")
                     {
                         this.message = "First login. Please change your password!"
                         this.updateUserPassword();
+
                     }
 
                 }
@@ -191,7 +192,7 @@ export class SharedService implements CanActivate {
     request(options, function (error, response, body) {
         
     });
-
+    
     this.auth.logout();
   }
 

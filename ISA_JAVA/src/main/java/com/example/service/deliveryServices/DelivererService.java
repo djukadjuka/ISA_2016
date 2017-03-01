@@ -19,4 +19,5 @@ public interface DelivererService {
 	//custom
 	public void deliverer_accepted(Long user_id);
 	public void user_wants_to_be_deliverer(Long user_id);
+	public void deliverer_changed_password(Long user_id);
 }

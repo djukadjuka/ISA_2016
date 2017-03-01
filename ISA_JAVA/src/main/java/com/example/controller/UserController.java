@@ -294,7 +294,12 @@ public class UserController {
 				if(del == null || del.getRequest_status().equals("PENDING")){
 					wrapper.setUser_role("USER");
 				}else{
-					wrapper.setUser_role("DELIVERER");
+					if(del.getFirst_login() == null){
+						wrapper.setUser_role("DELIVERER0");		
+						this.deliverer_service.deliverer_changed_password(del.getUser().getId());
+					}else{
+						wrapper.setUser_role("DELIVERER1");
+					}
 				}
 				
 			}else{
